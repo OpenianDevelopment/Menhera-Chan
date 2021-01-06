@@ -25,7 +25,7 @@ mongoid = "mongodb://localhost:27017/Menhera";
         console.log('Connection Completed')
     });
 app.use(session({
-    secret: 'dafaqisthat',
+    secret: 'somethingisfishy',
     cookie: {
         maxAge: 60000*60*24
     },
