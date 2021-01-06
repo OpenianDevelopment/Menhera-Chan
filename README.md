@@ -42,7 +42,7 @@
 
 
 
-Menhera Chan is a multi-purpose bot with tons of feature. We build Menhera Chan because we wanted to replace multiple bots with just one bot. We think we were somewhat successful
+Menhera Chan is a multi-purpose discord bot with tons of feature. We build Menhera Chan because we wanted to replace multiple bots with just one bot. We think we were somewhat successful
 
 Feature:
 * Moderation
