@@ -116,9 +116,9 @@ Contributions are what make the open source community such an amazing place to b
 <!-- CONTACT -->
 ## Contact
 
-Rohan Kumar - rohan@openian.dev<br>
-Julio - julio@openian.dev<br>
-Noro - noro@openian.dev
+[Rohan Kumar](https://github.com/rohank05) - rohan@openian.dev<br>
+[Julio](https://github.com/july12123) - julio@openian.dev<br>
+[Noro](https://github.com/NORO3618) - noro@openian.dev
 
 Project Link: [https://github.com/OpenianDevelopement/Menhera-Chan](https://github.com/OpenianDevelopement/Menhera-Chan)
 
