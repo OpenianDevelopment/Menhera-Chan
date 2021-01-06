@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Characters - Menhera Chan</title>
+    <link rel="icon" href="img/bot-avatar.png" type="image/icon type">
+    <meta name="clckd" content="dc615b06ef8268203357fc6ec21ef490" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic">
+    <link rel="stylesheet" href="../fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="../css/Navigation-with-Search.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body id="page-top">
+    <nav class="navbar navbar-light navbar-expand-md navigation-clean-search">
+        <div class="container"><a class="navbar-brand" href="#">Menhera Chan</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse"
+                id="navcol-1">
+                <form class="form-inline mr-auto" target="_self">
+                    
+                </form><a class="btn btn-light action-button" role="button" href="https://dashboard.menhera-chan.in" target="_blank">Dashboard</a></div>
+        </div>
+    </nav>
+    <section>
+        <div class="container wh-list" id="1">
+            <% for (var i = 0; i < characters.length; i++) { %>
+                <div class="card" id="L" style="margin-top: 5px;">
+                    <div class="card-body"><img class="img-thumbnail" src=<%= `${characters[i].image}` %> alt="L"><code>&nbsp;Code: <%= characters[i].id %><br>&nbsp;Name: <%= characters[i].name.toUpperCase() %><br>&nbsp;Gender: <%= characters[i].gender %><br>&nbsp;Cost: <%= characters[i].cost %><br></code></div>
+                </div>
+                <% } %>
+        </div>
+        <nav class="text-center" style="margin-top: 15px;">
+            <% if (pages > 0) { %>
+                <ul class="pagination text-center">
+                    <% if (current == 1) { %>
+                        <li class="page-item text-center disabled"><a class="page-link">First</a></li>
+                    <% } else { %>
+                        <li class="page-item text-center"><a class="page-link" href="/characters/1">First</a></li>
+                    <% } %>
+                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                    <% if (i !== 1) { %>
+                        <li class="page-item text-center disabled"><a class="page-link">...</a></li>
+                    <% } %>
+                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                        <% if (i == current) { %>
+                            <li class="page-item text-center disabled"><a class="page-link"><%= i %></a></li>
+                        <% } else { %>
+                            <li class="page-item text-center"><a class="page-link" href="/characters/<%= i %>"><%= i %></a></li>
+                        <% } %>
+                        <% if (i == Number(current) + 4 && i < pages) { %>
+                            <li class="page-item text-center"><a class="page-link">...</a></li>
+                        <% } %>
+                    <% } %>
+                    <% if (current == pages) { %>
+                        <li class="page-item text-center disabled"><a class="page-link">Last</a></li>
+                    <% } else { %>
+                        <li class="page-item text-center"><a class="page-link" href="/characters/<%= pages %>">Last</a></li>
+                    <% } %>
+                </ul>
+            <% } %>
+        </nav>
+    </section>
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+
+</html>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XYWFR706C8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XYWFR706C8');
+</script>

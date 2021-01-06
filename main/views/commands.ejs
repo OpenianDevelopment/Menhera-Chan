@@ -1,0 +1,793 @@
+<html>
+
+<head>
+	<title>Commands - Menhera Chan</title>
+	<link rel="icon" href="img/bot-avatar.png" type="image/icon type">
+	<meta name="clckd" content="dc615b06ef8268203357fc6ec21ef490" />
+	<meta name="description" content="Menhera Chan is developed with love and javascript. She has more than 30 commands in her arsenal. Like you, we were also tired of using so many bots for a different purpose. So we decided to take matters in our hand and developed her. Menhera Chan can alone do a task for which you will require different bots">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="css/bulma.css">
+	<link rel="stylesheet" href="css/commands.css"> </head>
+
+<body>
+	<nav id="mainNavbar" class="navbar" role="navigation" aria-label="main navigation">
+		<div class="navbar-brand">
+			<a class="navbar-item" href="#"> <img src="img/bot-avatar.png"> </a>
+			<a role="button" id="burger" class="navbar-burger" aria-label="menu" aria-expanded="false"> <span aria-hidden="true"></span> <span aria-hidden="true"></span> <span aria-hidden="true"></span> </a>
+		</div>
+		<div id="navbar" class="navbar-menu">
+			<div class="navbar-item link active"> <a href='/'>Home</a> </div>
+			<div class="navbar-item link"> <a href='/commands'>Command</a> </div>
+			<div class="navbar-item link"> <a href='https://dashboard.menhera-chan.in/'>Dashboard</a> </div>
+			<div class="navbar-item link"> <a href='/support'>Support</a> </div>
+			<div class="navbar-item link"> <a href='/invite'>Invite</a> </div>
+		</div>
+	</nav>
+	<h1>Commands</h1>
+	<div class="container mt-6">
+		<div class='columns'>
+			<div class='column is-one-third'>
+				<button class="button command-link" onclick="openCommand(event, 'General')" id="defaultOpen">General</button>
+				<button class="button command-link" onclick="openCommand(event, 'MyAnimeList')">MyAnimeList</button>
+				<button class="button command-link" onclick="openCommand(event, 'Anilist')">Anilist</button>
+				<button class="button command-link" onclick="openCommand(event, 'Moderation')">Moderation</button>
+				<button class="button command-link" onclick="openCommand(event, 'Music')">Music</button>
+				<button class="button command-link" onclick="openCommand(event, 'Waifu')">Waifu Economy</button>
+				<button class="button command-link" onclick="openCommand(event, 'RolePlay')">Role Play</button>
+				<button class="button command-link" onclick="openCommand(event, 'Image')">Image</button>
+				<button class="button command-link" onclick="openCommand(event, 'Leveling')">Leveling</button>
+				<button class="button command-link" onclick="openCommand(event, 'Fun')">Fun</button>
+				<button class="button command-link" onclick="openCommand(event, 'Info')">Info</button>
+				<button class="button command-link" onclick="openCommand(event, 'Support')">Support</button>
+			
+			</div>
+			<div class='column mt-3 tab-content' id='General'>
+				<div class="columns commands-header-container">
+					<div class="column is-2 commands-header">Command</div>
+					<div class="column is-6 commands-header is-hidden-touch">Description</div>
+					<div class="column is-4 commands-header is-hidden-touch">Usage</div>
+				</div>
+				<div class="commands-container columns is-multiline">
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">avatar</div>
+							<div class="column is-6">Get avatar of user.</div>
+							<div class="column is-4 has-text-grey">mc!avatar [user]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">whois</div>
+							<div class="column is-6">Get user information.</div>
+							<div class="column is-4 has-text-grey">mc!whois [user]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">pin</div>
+							<div class="column is-6">Pin last message of the channel.</div>
+							<div class="column is-4 has-text-grey">mc!pin</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">server</div>
+							<div class="column is-6">Get information about the server.</div>
+							<div class="column is-4 has-text-grey">mc!server</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">menhera</div>
+							<div class="column is-6">Get random Menhera Chan Pics from r/menhera subreddit.</div>
+							<div class="column is-4 has-text-grey">mc!menhera</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">ping</div>
+							<div class="column is-6">Get message ping and Discord Latency.</div>
+							<div class="column is-4 has-text-grey">mc!ping</div>
+						</div>
+					</div>					
+				</div>
+			</div>
+
+			<div class='column mt-3 tab-content' id='MyAnimeList'>
+				<div class="columns commands-header-container">
+					<div class="column is-2 commands-header">Command</div>
+					<div class="column is-6 commands-header is-hidden-touch">Description</div>
+					<div class="column is-4 commands-header is-hidden-touch">Usage</div>
+				</div>
+				<div class="commands-container columns is-multiline">
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">mprofile</div>
+							<div class="column is-6">Get users MAL profile.</div>
+							<div class="column is-4 has-text-grey">mc!mprofile [MAL Username]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">manime</div>
+							<div class="column is-6">Search anime on MAL.</div>
+							<div class="column is-4 has-text-grey">mc!manime [Anime Name]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">recommendations</div>
+							<div class="column is-6">Get anime recommendations based on other anime.</div>
+							<div class="column is-4 has-text-grey">mc!recommendations [Anime MAL ID]</div>
+						</div>
+					</div>			
+				</div>
+			</div>
+
+			<div class='column mt-3 tab-content' id='Anilist'>
+				<div class="columns commands-header-container">
+					<div class="column is-2 commands-header">Command</div>
+					<div class="column is-6 commands-header is-hidden-touch">Description</div>
+					<div class="column is-4 commands-header is-hidden-touch">Usage</div>
+				</div>
+				<div class="commands-container columns is-multiline">
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">anianime</div>
+							<div class="column is-6">Search anime on Anilist.</div>
+							<div class="column is-4 has-text-grey">mc!anianime [Anime Name]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">animanga</div>
+							<div class="column is-6">Search manga on Anilist.</div>
+							<div class="column is-4 has-text-grey">mc!animanga [Manga Name]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">aniuser</div>
+							<div class="column is-6">Get user Anilist profile.</div>
+							<div class="column is-4 has-text-grey">mc!user [Anilist Username]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">aniusers</div>
+							<div class="column is-6">Search users on Anilist.</div>
+							<div class="column is-4 has-text-grey">mc!aniusers [username query]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">anichar</div>
+							<div class="column is-6">Look up characters in Anilist's database.</div>
+							<div class="column is-4 has-text-grey">mc!anichar [character name]</div>
+						</div>
+					</div>					
+				</div>
+			</div>
+
+			<div class='column mt-3 tab-content' id='Moderation'>
+				<div class="columns commands-header-container">
+					<div class="column is-2 commands-header">Command</div>
+					<div class="column is-6 commands-header is-hidden-touch">Description</div>
+					<div class="column is-4 commands-header is-hidden-touch">Usage</div>
+				</div>
+				<div class="commands-container columns is-multiline">
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">purge</div>
+							<div class="column is-6">Delete multiple messages from a channel.</div>
+							<div class="column is-4 has-text-grey">mc!purge [message count]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">slowmode</div>
+							<div class="column is-6">Add slowmode to a channel.</div>
+							<div class="column is-4 has-text-grey">mc!slowmode [time limit]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">warn</div>
+							<div class="column is-6">Warn a user.</div>
+							<div class="column is-4 has-text-grey">mc!warn [user] [reason]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">warnings</div>
+							<div class="column is-6">Get warnings of a user.</div>
+							<div class="column is-4 has-text-grey">mc!warnings [user]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">delwarn</div>
+							<div class="column is-6">Delete warning of a user.</div>
+							<div class="column is-4 has-text-grey">mc!delwarn [warn ID]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">mute</div>
+							<div class="column is-6">mute a user, optional time limit.</div>
+							<div class="column is-4 has-text-grey">mc!mute [user] [time] [reason]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">unmute</div>
+							<div class="column is-6">Unmute a muted user.</div>
+							<div class="column is-4 has-text-grey">mc!unmute [user]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">kick</div>
+							<div class="column is-6">Kick a user.</div>
+							<div class="column is-4 has-text-grey">mc!kick [user] [reason]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">ban</div>
+							<div class="column is-6">Ban a user.</div>
+							<div class="column is-4 has-text-grey">mc!ban [user] [reason]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">tempban</div>
+							<div class="column is-6">Temporarily ban a user.</div>
+							<div class="column is-4 has-text-grey">mc!tempban [user] [time] [reason]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">unban</div>
+							<div class="column is-6">Unban a user.</div>
+							<div class="column is-4 has-text-grey">mc!unban [user]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">moderations</div>
+							<div class="column is-6">Get all active moderations.</div>
+							<div class="column is-4 has-text-grey">mc!moderations</div>
+						</div>
+					</div>		
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">vkick</div>
+							<div class="column is-6">To disconnect a member from the voice channel.</div>
+							<div class="column is-4 has-text-grey">mc!vkick [user]</div>
+						</div>
+					</div>	
+					<div class="commands-line column is-12">
+						<div class="columns"> 
+							<div class="column is-2 blurple">vmove</div>
+							<div class="column is-6">To move users to a different voice channel.</div>
+							<div class="column is-4 has-text-grey">mc!vmove [user] [voice channel]</div>
+						</div>
+					</div>				
+				</div>
+			</div>
+
+			<div class='column mt-3 tab-content' id='Music'>
+				<div class="columns commands-header-container">
+					<div class="column is-2 commands-header">Command</div>
+					<div class="column is-6 commands-header is-hidden-touch">Description</div>
+					<div class="column is-4 commands-header is-hidden-touch">Usage</div>
+				</div>
+				<div class="commands-container columns is-multiline">
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">play</div>
+							<div class="column is-6">Play music or add to the queue.</div>
+							<div class="column is-4 has-text-grey">mc!play [song name]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">stop</div>
+							<div class="column is-6">Stop the music and clear the queue.</div>
+							<div class="column is-4 has-text-grey">mc!stop</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">skip</div>
+							<div class="column is-6">Skip the current playing song.</div>
+							<div class="column is-4 has-text-grey">mc!skip</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">skipto</div>
+							<div class="column is-6">Skip multiple songs.</div>
+							<div class="column is-4 has-text-grey">mc!skipto [Song Queue No.]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">queue</div>
+							<div class="column is-6">List the songs in the queue.</div>
+							<div class="column is-4 has-text-grey">mc!queue</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">np</div>
+							<div class="column is-6">View the current playing song.</div>
+							<div class="column is-4 has-text-grey">mc!np</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">pause</div>
+							<div class="column is-6">Pause the music.</div>
+							<div class="column is-4 has-text-grey">mc!pause</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">resume</div>
+							<div class="column is-6">Resume paused the music.</div>
+							<div class="column is-4 has-text-grey">mc!resume</div>
+						</div>
+					</div>	
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">loop</div>
+							<div class="column is-6">Loop the current playing queue.</div>
+							<div class="column is-4 has-text-grey">mc!loop</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">remove</div>
+							<div class="column is-6">Remove a song from the queue.</div>
+							<div class="column is-4 has-text-grey">mc!remove [Song Queue No.]</div>
+						</div>
+					</div>	
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">lyrics</div>
+							<div class="column is-6">Get the lyrics of current playing song.</div>
+							<div class="column is-4 has-text-grey">mc!lyrics</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">shuffle</div>
+							<div class="column is-6">Shuffle the Queue.</div>
+							<div class="column is-4 has-text-grey">mc!shuffle</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">volume</div>
+							<div class="column is-6">Change the volume.</div>
+							<div class="column is-4 has-text-grey">mc!volume [Volume]</div>
+						</div>
+					</div>	
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">playlist</div>
+							<div class="column is-6">Play a youtube playlist.</div>
+							<div class="column is-4 has-text-grey">mc!playlist [playlist url]</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class='column mt-3 tab-content' id='Waifu'>
+				<div class="columns commands-header-container">
+					<div class="column is-2 commands-header">Command</div>
+					<div class="column is-6 commands-header is-hidden-touch">Description</div>
+					<div class="column is-4 commands-header is-hidden-touch">Usage</div>
+				</div>
+				<div class="commands-container columns is-multiline">
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">search</div>
+							<div class="column is-6">Search characters.</div>
+							<div class="column is-4 has-text-grey">mc!search [character name]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">balance</div>
+							<div class="column is-6">Get a user balance.</div>
+							<div class="column is-4 has-text-grey">mc!balance [User]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">buy</div>
+							<div class="column is-6">Buy a character.</div>
+							<div class="column is-4 has-text-grey">mc!buy [Character ID]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">sell</div>
+							<div class="column is-6">Sell a character.</div>
+							<div class="column is-4 has-text-grey">mc!sell [Character ID]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">inventory</div>
+							<div class="column is-6">Get a user inventory.</div>
+							<div class="column is-4 has-text-grey">mc!inventory [User]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">list</div>
+							<div class="column is-6">Shows a list of waifus(gives a link to website)</div>
+							<div class="column is-4 has-text-grey">mc!list</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">dailycoins</div>
+							<div class="column is-6">Get daily coins</div>
+							<div class="column is-4 has-text-grey">mc!dailycoins</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+			<div class='column mt-3 tab-content' id='RolePlay'>
+				<div class="columns commands-header-container">
+					<div class="column is-2 commands-header">Command</div>
+					<div class="column is-6 commands-header is-hidden-touch">Description</div>
+					<div class="column is-4 commands-header is-hidden-touch">Usage</div>
+				</div>
+				<div class="commands-container columns is-multiline">
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">tsundere</div>
+							<div class="column is-6">Gives a tsundere quote.</div>
+							<div class="column is-4 has-text-grey">mc!tsundere [user]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">Punch</div>
+							<div class="column is-6">Punch a user.</div>
+							<div class="column is-4 has-text-grey">mc!punch [user]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">bite</div>
+							<div class="column is-6">Bite a user.</div>
+							<div class="column is-4 has-text-grey">mc!bite [user]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">bully</div>
+							<div class="column is-6">Bully a user.</div>
+							<div class="column is-4 has-text-grey">mc!bully [user]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">cry</div>
+							<div class="column is-6">Cry.</div>
+							<div class="column is-4 has-text-grey">mc!cry</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">cuddle</div>
+							<div class="column is-6">Cuddle a user.</div>
+							<div class="column is-4 has-text-grey">mc!cuddle [user]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">highfive</div>
+							<div class="column is-6">Highfive a user.</div>
+							<div class="column is-4 has-text-grey">mc!highfive [user]</div>
+						</div>
+					</div><div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">kill</div>
+							<div class="column is-6">Kill a user.</div>
+							<div class="column is-4 has-text-grey">mc!kill [user]</div>
+						</div>
+					</div><div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">kiss</div>
+							<div class="column is-6">Kiss a user.</div>
+							<div class="column is-4 has-text-grey">mc!kiss [user]</div>
+						</div>
+					</div><div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">lick</div>
+							<div class="column is-6">Lick a user.</div>
+							<div class="column is-4 has-text-grey">mc!lick [user]</div>
+						</div>
+					</div><div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">pat</div>
+							<div class="column is-6">Pat a user.</div>
+							<div class="column is-4 has-text-grey">mc!pat [user]</div>
+						</div>
+					</div><div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">peck</div>
+							<div class="column is-6">Peck a user.</div>
+							<div class="column is-4 has-text-grey">mc!peck [user]</div>
+						</div>
+					</div><div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">tickle</div>
+							<div class="column is-6">Tickle a user.</div>
+							<div class="column is-4 has-text-grey">mc!tickle [user]</div>
+						</div>
+					</div><div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">yeet</div>
+							<div class="column is-6">Yeet a user.</div>
+							<div class="column is-4 has-text-grey">mc!yeet [user]</div>
+						</div>
+					</div>			
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">greet</div>
+							<div class="column is-6">To greet a user.</div>
+							<div class="column is-4 has-text-grey">mc!greet [user]</div>
+						</div>
+					</div>		
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">smile</div>
+							<div class="column is-6">To show that you're happy.</div>
+							<div class="column is-4 has-text-grey">mc!smile</div>
+						</div>
+					</div>				
+				</div>
+			</div>
+
+			<div class='column mt-3 tab-content' id='Image'>
+				<div class="columns commands-header-container">
+					<div class="column is-2 commands-header">Command</div>
+					<div class="column is-6 commands-header is-hidden-touch">Description</div>
+					<div class="column is-4 commands-header is-hidden-touch">Usage</div>
+				</div>
+				<div class="commands-container columns is-multiline">
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">rip</div>
+							<div class="column is-6">Make a user rest in peace</div>
+							<div class="column is-4 has-text-grey">mc!rip [user]</div>
+						</div>
+					</div><div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">wanted</div>
+							<div class="column is-6">Come arrest this user</div>
+							<div class="column is-4 has-text-grey">mc!wanted [user]</div>
+						</div>
+					</div>					
+				</div>
+			</div>
+		
+			<div class='column mt-3 tab-content' id='Leveling'>
+				<div class="columns commands-header-container">
+					<div class="column is-2 commands-header">Command</div>
+					<div class="column is-6 commands-header is-hidden-touch">Description</div>
+					<div class="column is-4 commands-header is-hidden-touch">Usage</div>
+				</div>
+				<div class="commands-container columns is-multiline">
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">level</div>
+							<div class="column is-6">Get level card of a user.</div>
+							<div class="column is-4 has-text-grey">mc!level [user]</div>
+						</div>
+					</div>					
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">givexp</div>
+							<div class="column is-6">Add or Remove XP from a user.</div>
+							<div class="column is-4 has-text-grey">mc!givexp [amount]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">givelevel</div>
+							<div class="column is-6">Set level of a user.</div>
+							<div class="column is-4 has-text-grey">mc!givelevel [level]</div>
+						</div>
+					</div>
+								
+				</div>
+			</div>
+		
+			
+
+			<div class='column mt-3 tab-content' id='Fun'>
+				<div class="columns commands-header-container">
+					<div class="column is-2 commands-header">Command</div>
+					<div class="column is-6 commands-header is-hidden-touch">Description</div>
+					<div class="column is-4 commands-header is-hidden-touch">Usage</div>
+				</div>
+				<div class="commands-container columns is-multiline">
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">8ball</div>
+							<div class="column is-6">Ask the magical 8ball a question and await the wisdom.</div>
+							<div class="column is-4 has-text-grey">mc!8ball [Question]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">flip</div>
+							<div class="column is-6">Flip a coin.</div>
+							<div class="column is-4 has-text-grey">mc!flip</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">roll</div>
+							<div class="column is-6">Roll a dice of any number of side.</div>
+							<div class="column is-4 has-text-grey">mc!roll [number of side]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">rps</div>
+							<div class="column is-6">Play "Rock, Paper and Scissor" with another user or the bot.</div>
+							<div class="column is-4 has-text-grey">mc!rps [user]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">random</div>
+							<div class="column is-6">Get a random number in given range.</div>
+							<div class="column is-4 has-text-grey">mc!random [lower limit] [upper limit]</div>
+						</div>
+					</div>					
+				</div>
+			</div>
+
+			<div class='column mt-3 tab-content' id='Info'>
+				<div class="columns commands-header-container">
+					<div class="column is-2 commands-header">Command</div>
+					<div class="column is-6 commands-header is-hidden-touch">Description</div>
+					<div class="column is-4 commands-header is-hidden-touch">Usage</div>
+				</div>
+				<div class="commands-container columns is-multiline">
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">stats</div>
+							<div class="column is-6">Get bot stats and info.</div>
+							<div class="column is-4 has-text-grey">mc!stats</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">command</div>
+							<div class="column is-6">Returns one specific command info.</div>
+							<div class="column is-4 has-text-grey">mc!command [command | alias]</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">help</div>
+							<div class="column is-6">Get Command list.</div>
+							<div class="column is-4 has-text-grey">mc!help</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">invite</div>
+							<div class="column is-6">Get bot invite link.</div>
+							<div class="column is-4 has-text-grey">mc!invite</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">vote</div>
+							<div class="column is-6">Vote for our bot</div>
+							<div class="column is-4 has-text-grey">mc!vote</div>
+						</div>
+					</div>			
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">uptime</div>
+							<div class="column is-6">To get the bot's up-time.</div>
+							<div class="column is-4 has-text-grey">mc!uptime</div>
+						</div>
+					</div>		
+				</div>
+			</div>
+
+			<div class='column mt-3 tab-content' id='Support'>
+				<div class="columns commands-header-container">
+					<div class="column is-2 commands-header">Command</div>
+					<div class="column is-6 commands-header is-hidden-touch">Description</div>
+					<div class="column is-4 commands-header is-hidden-touch">Usage</div>
+				</div>
+				<div class="commands-container columns is-multiline">
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">support</div>
+							<div class="column is-6">To get the support server link.</div>
+							<div class="column is-4 has-text-grey">mc!support</div>
+						</div>
+					</div>
+					<div class="commands-line column is-12">
+						<div class="columns">
+							<div class="column is-2 blurple">bugreport</div>
+							<div class="column is-6">To report an issue within the bot</div>
+							<div class="column is-4 has-text-grey">mc!bugreport</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+
+	<footer class="footer mt-6">
+		<div class="container">
+		  <div class="content has-text-centered">
+			<p>
+			  <strong>Menhera Chan</strong> by <a href="https://discord.gg/xfg8qtb">Class 1A Team</a>
+			</p>
+			<img src="https://top.gg/api/widget/731143954032230453.svg?usernamecolor=7289DA&topcolor=FFFFFF&middlecolor=FFFFFF">
+		  </div>
+		</div>
+	  </footer>
+	  <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+	<script>
+		$(document).ready(function() {
+		// Check for click events on the navbar burger icon
+		$(".navbar-burger").click(function() {
+			// Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+			$(".navbar-burger").toggleClass("is-active");
+			$(".navbar-menu").toggleClass("is-active");
+		});
+		});
+		function openCommand(evt, Category) {
+  			var i, tabcontent, commandlinks;
+  			tabcontent = document.getElementsByClassName("tab-content");
+  			for (i = 0; i < tabcontent.length; i++) {
+    			tabcontent[i].style.display = "none";
+  			}
+  			commandlinks = document.getElementsByClassName("command-link");
+  			for (i = 0; i < commandlinks.length; i++) {
+    			commandlinks[i].className = commandlinks[i].className.replace(" active", "");
+  			}
+  			document.getElementById(Category).style.display = "block";
+  			evt.currentTarget.className += " active";
+		}
+		document.getElementById("defaultOpen").click();
+	</script>
+    </body>
+	
+</html>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XYWFR706C8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XYWFR706C8');
+</script>

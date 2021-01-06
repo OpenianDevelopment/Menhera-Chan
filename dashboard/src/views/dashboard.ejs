@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard</title>
+    <link rel="icon" href="https://cdn.discordapp.com/avatars/731143954032230453/267a49934c0a53b1065410369a034138.webp" type="image/icon type">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="fonts/ionicons.min.css">
+    <link rel="stylesheet" href="fonts/typicons.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+            <div class="container-fluid d-flex flex-column p-0">
+                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="https://menhera-chan.in" style="filter: blur(0px);">
+                    
+                    <div class="sidebar-brand-text mx-3"><span class="bg-white-color">Menhera Chan</span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="https://www.menhera-chan.in/"><i class="fas fa-calendar"></i><span>HOME</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="/"><i class="fas fa-calendar"></i><span>DASHBOARD</span></a></li>
+                    
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="nav navbar-nav flex-nowrap ml-auto">
+                            <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fas fa-search"></i></a>
+                                <div class="dropdown-menu dropdown-menu-right p-3 animated--grow-in" role="menu" aria-labelledby="searchDropdown">
+                                    <form class="form-inline mr-auto navbar-search w-100">
+                                        <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ...">
+                                            <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <div class="d-none d-sm-block topbar-divider"></div>
+                            <li class="nav-item dropdown no-arrow" role="presentation">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false"><span class="d-none d-lg-inline mr-2 text-gray-600 small"><%=user.discordTag%></span><img class="border rounded-circle img-profile" id="avatar" src=<%=`https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatar}.webp`%>></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu"><a class="dropdown-item" role="presentation" href="/logout"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a></div>    
+                    </li>
+                    </ul>
+            </div>
+            </nav>
+            <div class="container-fluid">
+                
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <p class="text-primary m-0 font-weight-bold">Guilds</p>
+                    </div>
+                    <div class="card-body">
+                        
+                        <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                            <table class="table dataTable my-0" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% guild.forEach(g=>{%>
+                                        <tr>
+                                            <% if(g.icon) { %>
+                                            <td><a href=<%= `guild/${g.id}`%>><img class="rounded-circle mr-2" width="30px" height="30px" src=<%= `https://cdn.discordapp.com/icons/${g.id}/${g.icon}.webp` %> style="filter: blur(0px);"><%=g.name%></td></a>  
+                                            <% }else {%>
+                                            <td><a href=<%= `guild/${g.id}`%>><img class="rounded-circle mr-2" width="30px" height="30px" src=<%= `https://cdn.discordapp.com/avatars/687893451534106669/a_fc88dd57c24c0381090e4c3abe46bcb9.webp` %> style="filter: blur(0px);"><%=g.name%></td></a>  
+                                        </tr>
+                                            <%}%>
+                                    <%})%>
+                                </tbody>
+                                <tfoot>
+                                    <tr></tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="bg-white sticky-footer">
+            <div class="container my-auto">
+                <div class="text-center my-auto copyright"><span style="color: rgb(0,0,0);font-size: 16px;"><strong>Menhera Chan </strong>by&nbsp;<a href="https://menhera-chan.in/support">Class 1A Team</a>&nbsp;</span></div>
+            </div>
+        </footer>
+    </div></div>
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/chart.min.js"></script>
+    <script src="js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="js/theme.js"></script>
+</body>
+
+</html>

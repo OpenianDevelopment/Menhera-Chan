@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        
+        <title><%= mutual[0].name %></title>
+        <link rel="icon" href="https://cdn.discordapp.com/avatars/731143954032230453/f219162b2c2736cdbd6c2e0ab4f01eaf.webp" type="image/icon type">
+        <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" integrity="sha512-ARJR74swou2y0Q2V9k0GbzQ/5vJ2RBSoCWokg4zkfM29Fb3vZEQyv0iWBMW/yvKgyHSR/7D64pFMmU8nYmbRkg==" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+        <link rel="stylesheet" href="../fonts/fontawesome-all.min.css">
+        <link rel="stylesheet" href="../fonts/ionicons.min.css">
+        <link rel="stylesheet" href="../fonts/typicons.min.css">
+        <link rel="stylesheet" href="../css/styles.css">
+    </head>
+    <body>
+        <div id="wrapper" class="sidebar-toggles">
+            <nav class="navbar align-items-start sidebar sidebar-dark  bg-gradient-primary p-0">
+                <div class="container-fluid d-flex flex-column p-0">
+                    <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="https://menhera-chan.in/">
+                        <div class="sidebar-brand-text mx-3"><span class="bg-white-color">Menhera Chan</span></div>
+                    </a>
+                    <hr class="sidebar-divider my-0">
+                    <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="https://menhera-chan.in/"><i class="fas fa-home"></i><span>HOME</span></a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link active" href="/"><i class="fas fa-calendar"></i><span>DASHBOARD</span></a></li>
+                        
+                    </ul>
+                </div>
+            </nav>
+            <div class="d-flex flex-column" id="content-wrapper">
+                <div id="content">
+                    <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                        <div class="container-fluid">
+                            <ul class="nav navbar-nav flex-nowrap ml-auto">
+                                <div class="d-none d-sm-block topbar-divider"></div>
+                                <li class="nav-item dropdown no-arrow" role="presentation">
+                                    <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false"><span class="d-none d-lg-inline mr-2 text-gray-600 small"><%=user.discordTag%></span><img class="border rounded-circle img-profile" id="avatar" src=<%=`https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatar}.webp`%>></a>
+                                        <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu"><a class="dropdown-item" role="presentation" href="/logout"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class='container-fluid'>
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0"><%= mutual[0].name %> - Dashboard</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="https://menhera-chan.in/support/"><i class="icon ion-help fa-sm text-white-50"></i>&nbsp;support</a>
+                    </div>
+                    <% if(user.save === true) { %>
+                    <div class="alert alert-success" role="alert">
+                        Settings Updated!
+                      </div>
+                    <% } %>
+                    <form action="/guild/<%=guildSetting.guild%>?_method=PUT" onsubmit="return validateForm()" method="POST">
+                        <div class="card mt-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="text-primary font-weight-bold m-0">General<br></h6>
+                            </div>
+                            <div class="card-body">
+                                <div class='form-row'>
+                                    <div class="form-group col-md-5">
+                                        <label for="prefix">Prefix</label>
+                                        <input type="text" class="form-control" name='prefix' id="prefix" placeholder=<%= `${guildSetting.prefix}` %>>
+                                      </div>
+                                      
+                                      <div class="form-group col-md-3">
+                                        <label for="welcomechannel">Welcome Channel</label>
+                                        <select id="welcomechannel" name='welcomechannel'class="form-control">
+                                            <option value=null>No Option Selected</option>
+                                            <% guildChannel.forEach(channel=>{ %>
+                                                <% if(channel.type===0) { %>
+                                                <% if(channel.id === guildSetting.welcomechannel){ %>
+                                                    <option value=<%= `${channel.id}` %> selected>#<%= channel.name %></option>
+                                                <% } else {%>
+                                                
+                                                    <option value=<%= `${channel.id}` %>>#<%= channel.name %></option>
+                                                <% } %>
+                                                <% } %>
+                                            <%})%>
+                                        </select>
+                                      </div>
+                                      <div class="form-group col-md-2">
+                                        <div class="checkbox">
+                                            
+
+                                              <div class="custom-control custom-switch">
+                                                  <% if(welcome.welcomedm === 1){ %>
+                                                <input type="checkbox" class="custom-control-input" name='dm'id="dm" checked>
+                                                <% } else { %>
+                                                    <input type="checkbox" class="custom-control-input" name='dm'id="dm">
+                                                <% } %>
+                                                <label class="custom-control-label" for="dm">Welcome DM</label>
+                                              </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <div class="checkbox">
+                                            <div class="custom-control custom-switch">
+                                                <% if(welcome.welcomemsg === 1){ %>
+                                                    <input type="checkbox" class="custom-control-input" name='msg'id="msg" checked>
+                                                    <% } else { %>
+                                                        <input type="checkbox" class="custom-control-input" name='msg'id="msg">
+                                                    <% } %>
+                                                <label class="custom-control-label" for="msg">Welcome Message</label>
+                                              </div>
+                                            
+                                        </div>
+                                    </div>
+                                      <div class="form-group col-md-12">
+                                        <label for="welcomemsg">Welcome Message</label>
+                                        <textarea class="form-control" name='welcomemsg' id="welcomemsg" rows="3" placeholder="<%= welcome.msg %>"></textarea>
+                                      </div>
+                                      <div class="form-group col-md-12">
+                                        <label for="welcomedm">Welcome DM</label>
+                                        <textarea class="form-control" name='welcomedm' id="welcomedm" rows="3" placeholder="<%= welcome.dm %>"></textarea>
+                                      </div> 
+                                      <div class="form-group col-md-4">
+                                        <label for="newschannel">News Channel Auto Publish</label>
+                                        <select multiple id="newschannel" name='newschannel' data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="selectpicker form-control w-100">
+                                            <% guildChannel.forEach(channel=>{ %>
+                                                <% if(channel.type===5) { %>
+                                                <% if(news.channels.includes(channel.id)){ %>
+                                                    <option value=<%= `${channel.id}` %> selected>#<%= channel.name %></option>
+                                                <% } else {%>
+                                                
+                                                    <option value=<%= `${channel.id}` %>>#<%= channel.name %></option>
+                                                <% } %>
+                                                <% } %>
+                                            <%})%>
+                                        </select>
+                                      </div>  
+                                      <div class="form-group col-md-4">
+                                        <label for="autoroles">Welcome Roles</label>
+                                        <select multiple id="autoroles" name='autoroles' data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="selectpicker form-control w-100">
+                                            <% guildRole.forEach(r=>{ %>
+                                                
+                                                <% if(autoroles.roles.includes(r.id)){ %>
+                                                    <option value=<%= `${r.id}` %> selected><%= r.name %></option>
+                                                <% } else {%>
+                                                
+                                                    <option value=<%= `${r.id}` %>><%= r.name %></option>
+                                                <% } %>
+                                                
+                                            <%})%>
+                                        </select>
+                                      </div>  
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="text-primary font-weight-bold m-0">Moderation<br></h6>
+                            </div>
+                            <div class="card-body">
+                                <div class='form-row'>
+                                    <div class="form-group col-md-4">
+                                        <label for="modlog">Mod-Logs</label>
+                                        <select id="modlog" name='modlog'class="form-control">
+                                            <option value='null'>No Option Selected</option>
+                                            <% guildChannel.forEach(channel=>{ %>
+                                                <% if(channel.type===0) { %>
+                                                <% if(channel.id === guildSetting.logchannel){ %>
+                                                    <option value=<%= `${channel.id}` %> selected>#<%= channel.name %></option>
+                                                <% } else {%>                                                
+                                                    <option value=<%= `${channel.id}` %>>#<%= channel.name %></option>
+                                                <% } %>
+                                                <% } %>
+                                            <%})%>
+                                        </select>
+                                    </div>
+                                        
+                                    <div class="form-group col-md-4">
+                                        <label for="invitelog">Invite-Logs</label>
+                                        <select id="invitelog" name='invitelog'class="form-control">
+                                            <option value='null'>No Option Selected</option>
+                                            <% guildChannel.forEach(channel=>{ %>
+                                                <% if(channel.type===0) { %>
+                                                <% if(channel.id === guildSetting.invitelog){ %>
+                                                    <option value=<%= `${channel.id}` %> selected>#<%= channel.name %></option>
+                                                <% } else {%>                                                
+                                                    <option value=<%= `${channel.id}` %>>#<%= channel.name %></option>
+                                                <% } %>
+                                                <% } %>
+                                            <%})%>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="muterole">Mute Role</label>
+                                        <select id="muterole" name='muterole'class="form-control">
+                                            <option value='null'>No Option Selected</option>
+                                            <% guildRole.forEach(role=>{ %>
+                                                <% if(role.id === guildSetting.muterole){ %>
+                                                    <option value=<%= `${role.id}` %> selected><%= role.name %></option>
+                                                <% } else {%>                                                
+                                                    <option value=<%= `${role.id}` %>><%= role.name %></option>
+                                                <% } %>
+                                            <%})%>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                        </div>
+                        <div class="card mt-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="text-primary font-weight-bold m-0">Leveling<br></h6>
+                            </div>
+                            <div class="card-body">
+                                
+                                    
+                                
+                                    
+                                <div class='form-row'>
+                                    <div class="form-group col-md-2">
+                                    <div class="checkbox">
+                                        <div class="custom-control custom-switch">
+                                            <% if(guildSetting.xpsystem === 1){ %>
+                                                <input type="checkbox" class="custom-control-input" name='xpsystem'id="xpsystem" checked>
+                                                <% } else { %>
+                                                    <input type="checkbox" class="custom-control-input" name='xpsystem'id="xpsystem">
+                                                <% } %>
+                                            <label class="custom-control-label" for="xpsystem">XP System</label>
+                                          </div>
+                                        
+                                    </div>
+                                </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="xp">XP</label>
+                                        <input type="text" class="form-control" name='xp'id="xp" placeholder=<%= `${guildSetting.xp}` %>>
+                                    </div>
+                                        
+                                        
+                                    <div class="form-group col-md-4">
+                                        <label for="cooldown">XP Cooldown (in seconds)</label>
+                                        <input type="text" class="form-control" name='cooldown'id="cooldown" placeholder=<%= `${guildSetting.xpcooldown/1000}` %>>
+                                    </div>
+            
+                                    <div class="form-group col-md-4">
+                                        <label for="level">Leveling Log</label>
+                                        <select id="level" name='level' class="form-control">
+                                            <option value='null'>No Option Selected</option>
+                                            <% guildChannel.forEach(channel=>{ %>
+                                                <% if(channel.type===0) { %>
+                                            <% if(channel.id === guildSetting.xplog){ %>
+                                            <option value=<%= `${channel.id}` %> selected>#<%= channel.name %></option>
+                                            <% } else {%>
+                                            <option value=<%= `${channel.id}` %> >#<%= channel.name %></option>
+                                            <% } %>
+                                            <% } %>
+                                            <%})%>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="blacklist">Blacklist Channel</label>
+                                        <select multiple id="blacklist" name='blacklist' data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="selectpicker form-control w-100">
+                                            <% guildChannel.forEach(channel=>{ %>    
+                                                <% if(channel.type===0) { %>                                        
+                                            <% if(xpchannel.includes(channel.id)){%>
+                                            <option value=<%= `${channel.id}` %> selected>#<%= channel.name %></option>
+                                            <% } else {%>
+                                            <option value=<%= `${channel.id}` %> >#<%= channel.name %></option>
+                                            <% } %>
+                                            <% } %>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                
+                            </div>
+                        </div>
+
+
+                        <div class="card mt-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="text-primary font-weight-bold m-0">Auto Moderation<br></h6>
+                            </div>
+                            <div class="card-body">
+                                
+                                    
+                                
+                                    
+                                <div class='form-row'>
+                                    <div class="form-group col-md-2">
+                                    <div class="checkbox">
+                                        <div class="custom-control custom-switch">
+                                            <% if(guildSetting.antispam === 1){ %>
+                                                <input type="checkbox" class="custom-control-input" name='antispamSet'id="antispamSet" checked>
+                                                <% } else { %>
+                                                    <input type="checkbox" class="custom-control-input" name='antispamSet'id="antispamSet">
+                                                <% } %>
+                                            <label class="custom-control-label" for="antispamSet">Anti Spam</label>
+                                          </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <div class="checkbox">
+                                        <div class="custom-control custom-switch">
+                                            <% if(antispam.warn === 'on'){ %>
+                                                <input type="checkbox" class="custom-control-input" name='antiwarn'id="antiwarn" checked>
+                                                <% } else { %>
+                                                    <input type="checkbox" class="custom-control-input" name='antiwarn'id="antiwarn">
+                                                <% } %>
+                                            <label class="custom-control-label" for="antiwarn">Warn</label>
+                                          </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <div class="checkbox">
+                                        <div class="custom-control custom-switch">
+                                            <% if(antispam.mute === 'on'){ %>
+                                                <input type="checkbox" class="custom-control-input" name='antimute'id="antimute" checked>
+                                                <% } else { %>
+                                                    <input type="checkbox" class="custom-control-input" name='antimute'id="antimute">
+                                                <% } %>
+                                            <label class="custom-control-label" for="antimute">Mute</label>
+                                          </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <div class="checkbox">
+                                        <div class="custom-control custom-switch">
+                                            <% if(antispam.delete === 'on'){ %>
+                                                <input type="checkbox" class="custom-control-input" name='antidelete'id="antidelete" checked>
+                                                <% } else { %>
+                                                    <input type="checkbox" class="custom-control-input" name='antidelete'id="antidelete">
+                                                <% } %>
+                                            <label class="custom-control-label" for="antidelete">Delete Message</label>
+                                          </div>
+                                        
+                                    </div>
+                                </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="anticount">Message Count</label>
+                                        <input type="text" class="form-control" name='anticount'id="anticount" placeholder=<%= `${antispam.count}` %>>
+                                    </div>
+                                        
+                                        
+                                    <div class="form-group col-md-4">
+                                        <label for="diff">Time Period (in seconds)</label>
+                                        <input type="text" class="form-control" name='diff'id="diff" placeholder=<%= `${antispam.difference/1000}` %>>
+                                    </div>
+            
+                                    
+
+                                    <div class="form-group col-md-4">
+                                        <label for="antichannel">Anti Spam Channels</label>
+                                        <select multiple id="antichannel" name='antichannel' data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="selectpicker form-control w-100">
+                                            <% guildChannel.forEach(channel=>{ %>    
+                                                <% if(channel.type===0) { %>                                        
+                                            <% if(antispam.channels.includes(channel.id)){%>
+                                            <option value=<%= `${channel.id}` %> selected>#<%= channel.name %></option>
+                                            <% } else {%>
+                                            <option value=<%= `${channel.id}` %> >#<%= channel.name %></option>
+                                            <% } %>
+                                            <% } %>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                
+                            </div>
+                        </div>                    
+                            
+                        
+                    
+                </div>
+                <input type="submit" class="btn btn-primary mt-4 col-md-12">
+            </form>
+                <footer class="bg-white sticky-footer mt-4">
+                    <div class="container my-auto">
+                        <div class="text-center my-auto copyright"><span style="color: rgb(0,0,0);font-size: 16px;"><strong>Menhera Chan </strong>by&nbsp;<a href="https://menhera-chan.in/support">Class 1A Team</a>&nbsp;</span></div>
+                    </div>
+                </footer>
+            </div>
+            
+        </div>
+        <script src="../js/jquery.min.js"></script>
+        <script src="../bootstrap/js/bootstrap.min.js"></script>
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+        <script src="../https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg==" crossorigin="anonymous"></script>
+        <script src="../js/theme.js"></script>
+        <script>
+            $(function () {
+                $('.selectpicker').selectpicker();
+            });
+
+            $('#top').click(
+                function(e){
+                    $('html, body').animate({scrollTop: '0px'},800)
+                }
+            )
+        </script>
+        <script>
+           function validateForm(){
+               const xp = document.getElementById('xp').value;
+               const cooldown = document.getElementById('cooldown').value;
+               const antiCount = document.getElementById('anticount').value;
+               const antiDiff = document.getElementById('diff').value;
+
+               if(isNaN(xp) && xp != '' || xp != '' && (xp  < 1 || xp > 100)){
+                   alert('XP can\'t be a letter or has to been in range of 1 to 100')
+                   return false;
+               }
+               if(isNaN(cooldown) && cooldown != '' || cooldown != '' && (cooldown  < 1 || cooldown > 60000*24)){
+                alert('Cooldown can\'t be a letter or has to been in range of 1 seconds to 1 day')
+                   return false;
+               }
+               if(isNaN(antiCount) && antiCount != '' || antiCount != '' && (antiCount  < 2 || antiCount > 100)){
+                alert('Message Count can\'t be a letter or has to been in range of 2 to 100')
+                   return false;
+               }
+               if(isNaN(antiDiff) && antiDiff != '' || antiDiff != '' && (antiDiff  < 3 || antiDiff > 100)){
+                alert('Time Period can\'t be a letter or has to been in range of 3 seconds to 100 seconds')
+                   return false;
+               }
+
+           }
+        </script>
+        
+    </body>
+</html>
