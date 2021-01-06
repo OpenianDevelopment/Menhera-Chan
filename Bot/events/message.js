@@ -95,7 +95,7 @@ module.exports = async (client,message) => {
         }, TheCommandCD.cd * 1000);
         
         if(flag === 1){
-            flag =0
+            flag = 0;
             const embed = new Discord.MessageEmbed()
                                 .setColor('BLUE')
                                 .setDescription(`Please help us grow by voting to us https://top.gg/bot/731143954032230453/vote`)
@@ -104,11 +104,7 @@ module.exports = async (client,message) => {
                 flag = 1
             },1000*60*60*6)
         }
-        if(client.counter.find(element=> element.name == command.name)){
-            client.counter.find(element=> element.name == command.name).count = client.counter.find(element=> element.name == command.name).count +1
-        }else{
-            client.counter.push({name:command.name,count:1})
-        }
+        
     } 
 }
 
