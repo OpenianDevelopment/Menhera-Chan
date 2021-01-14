@@ -120,6 +120,9 @@ Contributions are what make the open source community such an amazing place to b
 [Julio](https://github.com/july12123) - julio@openian.dev<br>
 [Noro](https://github.com/NORO3618) - noro@openian.dev
 
+<br><br>
+[Support Server](https://discord.com/invite/a4zkCjg)
+
 Project Link: [https://github.com/OpenianDevelopement/Menhera-Chan](https://github.com/OpenianDevelopement/Menhera-Chan)
 
 
