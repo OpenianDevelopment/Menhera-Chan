@@ -6,15 +6,22 @@ const Discord = require("discord.js");
 module.exports = {
     name: 'cry', //user: not used
     run: async(client,args,guild)=>{
+        const me = await guild.members.fetch(client.user.id);
+        if(!me.permissionsIn(args.channel_id).has(["SEND_MESSAGES", "EMBED_LINKS"])) return;
+        
         const author = await client.users.fetch(args.member.user.id);
 
         var data = await Rp(`cry`)
         data = data[Math.floor(Math.random() * data.length)]
 
-        let text = `~ ${await args.data.options[0].value}`;
-        if(!args.data.options[0]) text = " ";
-        if(text.length>500) text = "~ Your text is too long";
-
+        var text;
+        if (!args.data.options) {
+            text = " ";
+        } else if (args.data.options[0].length > 500) { 
+            text = "~ Your text is too long" 
+        } else {
+            text = `~ ${await args.data.options[0].value}`;
+        };
         const rtxt = [ 
             `**${author.username} *cries***`,
             `someone give **${author.username}** a hug`,
@@ -26,8 +33,8 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
         .setDescription(`${rtext} ${text}`)
         .setImage(data.get(`img`))
-        .setFooter(`RP id: ${data.get(`_id`)}`);
+        .setFooter(`sadie: ${author.username}, id: ${data.get(`_id`)}`, author.displayAvatarURL());
 
-        interactionMsg(client,args,embed)
+        interactionMsg(client,args,embed,null,[])
     }
 }

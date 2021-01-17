@@ -6,20 +6,28 @@ const Discord = require("discord.js");
 module.exports = {
     name: 'punch', //user: required 
     run: async(client,args,guild)=>{
-        if(!args.data.options[0]) {
-            const embed = new MessageEmbed()
-            .setDescription("You need to provide a user not yourself!")
-            return interactionMsg(client,args,embed)
-        }
+        const me = await guild.members.fetch(client.user.id);
+        if(!me.permissionsIn(args.channel_id).has(["SEND_MESSAGES", "EMBED_LINKS"])) return;
+        
         const author = await client.users.fetch(args.member.user.id);
+        if (!args.data.options[0] || args.data.options[0].value === author.id) {
+            const embed = new MessageEmbed()
+                .setDescription("You need to provide a user not yourself!")
+                return interactionMsg(client, args, embed,`<@${author.id}>`,{users: [author.id]})
+        }
         const member = await guild.members.fetch(args.data.options[0].value);
 
         var data = await Rp(`punch`)
         data = data[Math.floor(Math.random() * data.length)]
 
-        let text = `~ ${await args.data.options[1].value}`;
-        if(!args.data.options[1]) text = " ";
-        if(text.length>500) text = "~ Your text is too long";
+        var text;
+        if (!args.data.options[1]) {
+            text = " ";
+        } else if (args.data.options[1].length > 500) { 
+            text = "~ Your text is too long" 
+        } else {
+            text = `~ ${await args.data.options[1].value}`;
+        };
 
         const rtxt = [ 
             `**${author.username} *punches* ${member.user.username}!**`,
@@ -33,8 +41,8 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
         .setDescription(`${rtext} ${text}`)
         .setImage(data.get(`img`))
-        .setFooter(`RP id: ${data.get(`_id`)}`);
+        .setFooter(`author: ${author.username}, id: ${data.get(`_id`)}`, author.displayAvatarURL());
 
-        interactionMsg(client,args,embed)
+        interactionMsg(client, args, embed,`<@!${member.user.id}>`,{"users": [member.user.id]})
     }
 }

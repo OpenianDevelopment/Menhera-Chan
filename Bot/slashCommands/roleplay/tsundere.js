@@ -5,15 +5,19 @@ const Discord = require("discord.js");
 module.exports = {
     name: 'tsundere', //user: not required 
     run: async(client,args,guild)=>{
+        const me = await guild.members.fetch(client.user.id);
+        if(!me.permissionsIn(args.channel_id).has(["SEND_MESSAGES", "EMBED_LINKS"])) return;
+        
         const author = await client.users.fetch(args.member.user.id);
-        const member = await guild.members.fetch(args.data.options[0].value);
 
-        let blabla = `${author.username}:`
-        if(member) {
+        let blabla = `${author.username}:`;
+        var member;
+        if(args.data.options) {
+            member = await guild.members.fetch(args.data.options[0].value);
             if(member.id === author.id) {
                 const embed = new MessageEmbed()
                 .setDescription(`Wait you can\'t do that`);
-                return interactionMsg(client,args,embed);
+                return interactionMsg(client, args, embed,author,[author.id])
             }
             blabla = `${author.username} to ${member.user.username}:`;
         }
@@ -33,8 +37,11 @@ module.exports = {
 
         const embed = new Discord.MessageEmbed()
         .addField(`${blabla}`, `${rtext.text}`)
-        .setFooter(`<= Tsundere, ID: ${rtext.number}`, message.author.displayAvatarURL());
-
-        interactionMsg(client,args,embed)
+        .setFooter(`<= Tsundere, ID: ${rtext.number}`, author.displayAvatarURL());
+        if(!member) {
+            interactionMsg(client, args, embed,null,[])
+        } else {
+            interactionMsg(client, args, embed,`<@!${member.user.id}>`,{"users": [member.user.id]})
+        }
     }
 }
