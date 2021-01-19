@@ -2,7 +2,7 @@ const {removeGuildSetting, removeXPBlacklist, removeGuildModerations, removeGuil
 const { deleteWelcomeRole, deleteNews, deleteWelcome, deleteAntispam } = require('../function/dbfunctions(2)')
 const discordwh = require("discord-webhook-messages");
 
-const webhook = new discordwh.Webhook("https://discordapp.com/api/webhooks/752795872592527381/I3eBiUR16GHZ5Xx6DFU0bKSnILbwqDvXgGwPCnGWFZxVrb3MrlOYyGsMiTDtSggkzCR1");
+const webhook = new discordwh.Webhook(/*the discord webhook url*/);
 
 module.exports = (client,guilds) => {
     removeGuildSetting(guilds.id);
