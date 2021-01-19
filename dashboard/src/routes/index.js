@@ -44,7 +44,7 @@ router.get('/guild/:id',async (req,res)=>{
     const Mutual = await CheckGuild(req.params.id,UserGuild)
     
     if(!Mutual.length)
-        return res.redirect('http://dashboard.menhera-chan.in/')
+        return res.redirect(process.env.DASHBOARD_URL)
     else{
         const guildSetting = await getGuildSetting(req.params.id);
         const guildChannel = await getGuildChannel(req.params.id);
@@ -170,9 +170,9 @@ router.put('/guild/:id',async (req,res)=>{
     
 })
 router.get('/logout',(req,res)=>{
-    if(!req.user) return res.redirect('www.menhera-chan.in');
+    if(!req.user) return res.redirect(process.env.MAIN_WEBSITE_URL);
     req.logout();
-    res.redirect('https://menhera-chan.in/')
+    res.redirect(process.env.MAIN_WEBSITE_URL)
 })
 
 
