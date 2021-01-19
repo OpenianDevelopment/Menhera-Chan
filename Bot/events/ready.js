@@ -4,11 +4,11 @@ const {reinit} = require('../function/functions')
 const { initWelcomeRole, initWelcome, initNews, initAntispam } = require('../function/dbfunctions(2)')
 const vote = require('../modules/vote')
 const DBL = require("dblapi.js");
-
+const {DBL_TOKEN} = require("../botconfig.json")
 
 
 module.exports = (client)=>{
-    const dbl = new DBL('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjczMTE0Mzk1NDAzMjIzMDQ1MyIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3NDM3NzIzfQ.Je4W0naACdZPsP_yWpHX06yYhKmPxbI9AFYO0MFif5o', client);
+    const dbl = new DBL(DBL_TOKEN, client);
 
     
     //  vote(client)
