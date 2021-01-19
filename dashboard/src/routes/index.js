@@ -44,7 +44,7 @@ router.get('/guild/:id',async (req,res)=>{
     const Mutual = await CheckGuild(req.params.id,UserGuild)
     
     if(!Mutual.length)
-        return res.redirect(process.env.DASHBOARD_URL)
+        return res.redirect(process.env.DISCORD_CALLBACK_URI)
     else{
         const guildSetting = await getGuildSetting(req.params.id);
         const guildChannel = await getGuildChannel(req.params.id);

@@ -46,4 +46,4 @@ app.use('/',routes);
 
 
 
-app.listen(PORT, console.log(`Server Started ar ${PORT}`))
+app.listen(PORT, console.log(`Server Started at ${PORT}`))
