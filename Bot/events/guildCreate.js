@@ -1,7 +1,10 @@
 const {addGuildSetting, initWarn, initXP, initModeration, initXPBlacklist} = require('../function/dbfunctions')
 const { initWelcomeRole, initNews, initWelcome, initAntispam } = require('../function/dbfunctions(2)')
 const discordwh = require("discord-webhook-messages");
-const webhook = new discordwh.Webhook(/*the discord webhook url*/);
+const webhookURL = ""; /*the discord webhook url*/
+if(webhookURL) {
+    const webhook = new discordwh.Webhook(webhookURL);
+}
 
 module.exports = (client,guild) => {
     addGuildSetting(guild.id);
@@ -12,6 +15,6 @@ module.exports = (client,guild) => {
     initWelcomeRole(guild.id);
     initWelcome(guild.id);
     initNews(guild.id);
-    initAntispam(guild.id)
-    webhook.sendMessage(`**[ADD]** ${guild.name}`);
+    initAntispam(guild.id);
+    webhookURL ? webhook.sendMessage(`**[ADD]** ${guild.name}`) : null;
 }
