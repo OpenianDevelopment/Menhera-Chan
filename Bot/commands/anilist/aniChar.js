@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const fetch = require('cross-fetch');
-
+const {embedPage,anidata} = require('../../function/functions')
 module.exports = {
     name: 'anichar',
     description: 'to look up characters',
@@ -54,7 +54,7 @@ var url = 'https://graphql.anilist.co',
         })
     };
 
-var AnimeData = await fetch(url, options)
+var AnimeData = await anidata(url,options)
     .then(handleResponse)
     .catch(handleError);
 
@@ -82,12 +82,4 @@ var AnimeData = await fetch(url, options)
       message.channel.send(data.description,{split: true})
     }
     }
-}
-function handleResponse(response) {
-    return response.json().then(function (json) {
-        return response.ok ? json : Promise.reject(json);
-    });
-}
-function handleError(error) {
-    console.error(error);
 }

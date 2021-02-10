@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
-const axios = require('axios')
+const axios = require('axios');
+const { embedPage } = require('../../function/functions');
 module.exports = {
     name: 'manime',
     description: 'To search anime on MAL',
@@ -11,7 +12,6 @@ module.exports = {
         var query = args.join(' ');
         if(query.length<3) return message.channel.send('Please Search with minimum 3 character')
         var result = []
-        var page = 0;
         
         var response = await axios.get(`https://api.jikan.moe/v3/search/anime?q=${query}`)
         
@@ -51,35 +51,7 @@ module.exports = {
                }
             })
         
-        message.channel.send(result[page]).then(msg=>{
-            msg.react('740904210484166727').then(r=>{
-                msg.react('740904210597543976')
-
-                const backwardsFilter = (reaction,user) => reaction.emoji.name === 'pageup' && user.id === message.author.id;
-                const forwardFilter = (reaction,user) => reaction.emoji.name === 'pagedown' && user.id === message.author.id;                
-                const backwards = msg.createReactionCollector(backwardsFilter, {time: 60000*5});
-                const forward = msg.createReactionCollector(forwardFilter, {time: 60000*5});
-                backwards.on('collect',r=>{
-                    if(page===0) return;
-                    page--;
-                   
-                    msg.edit(result[page]);
-                    r.users.remove(message.author).catch(err=>{
-                        return;
-                    })
-                })
-                forward.on('collect', r=>{
-                    if(page===result.length-1) return;
-                    page++;
-                    
-                    msg.edit(result[page]);
-                    r.users.remove(message.author).catch(err=>{
-                        return;
-                    })
-                })
-
-            })
-        })
+        embedPage(message,result)
        
     }
 }

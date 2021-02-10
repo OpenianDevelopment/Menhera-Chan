@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const fetch = require('cross-fetch');
+const {embedPage,anidata} = require('../../function/functions')
 module.exports = {
     name: 'aniuser',
     description: 'to look up a user',
@@ -51,9 +52,7 @@ module.exports = {
             variables: variables
         })
     };
-   var animedata = await fetch(url, options)
-        .then(handleResponse)
-        .catch(handleError);
+   var animedata = await anidata(url,options)
         if(animedata== undefined)return message.channel.send("User Not Found")
         var data = animedata.data.User
         if(data == undefined)return message.channel.send(`Search Error`)
@@ -85,12 +84,3 @@ module.exports = {
            message.channel.send(embed)
         }
     }
-function handleResponse(response) {
-    return response.json().then(function (json) {
-        return response.ok ? json : Promise.reject(json);
-    });
-}
-function handleError(error) {
-    if(error.errors[0].message == "Not Found.") return
-    console.error(error);
-}

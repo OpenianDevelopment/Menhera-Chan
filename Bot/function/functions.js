@@ -3,6 +3,7 @@ const Discord = require('discord.js')
 const ssn = require('short-string-number');
 const {getModeration, getGuildSetting,removeModeration} = require('./dbfunctions');
 const { getWelcome } = require('./dbfunctions(2)')
+const fetch = require('cross-fetch');
 module.exports = {  
     welcomeMsg: async function(member,guild,guildSet) {
         const welcome = await getWelcome(guild.id)
@@ -252,6 +253,47 @@ module.exports = {
         }
         client.api.interactions(args.id)[args.token].callback().post({data});
         
-    }
+    },
+    embedPage: async(message,result)=>{
+        var page = 0;
+        message.channel.send(result[page]).then(msg=>{
+            msg.react('740904210484166727').then(r=>{
+                msg.react('740904210597543976')
 
+                const backwardsFilter = (reaction,user) => reaction.emoji.name === 'pageup' && user.id === message.author.id;
+                const forwardFilter = (reaction,user) => reaction.emoji.name === 'pagedown' && user.id === message.author.id;                
+                const backwards = msg.createReactionCollector(backwardsFilter, {time: 60000*5});
+                const forward = msg.createReactionCollector(forwardFilter, {time: 60000*5});
+                backwards.on('collect',r=>{
+                    if(page===0) return;
+                    page--;
+                   
+                    msg.edit(result[page]);
+                    r.users.remove(message.author).catch(err=>{
+                        return;
+                    })
+                })
+                forward.on('collect', r=>{
+                    if(page===result.length-1) return;
+                    page++;
+                    
+                    msg.edit(result[page]);
+                    r.users.remove(message.author).catch(err=>{
+                        return;
+                    })
+                })
+
+            })
+        })
+    },
+    anidata: async(url,options)=>{
+       var data = await fetch(url, options).then(function(response){
+           return response.json().then(function (json) {
+        return response.ok ? json : Promise.reject(json);
+        });
+    }).catch(function(error){
+        console.error(error)
+    });
+    return data
+    },
 }
