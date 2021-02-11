@@ -73,10 +73,10 @@ module.exports = {
             var page=0;
             var embeds=[];
             data.forEach(element => {
-                if(element.isAdult == true){
+                if(element.isAdult == true && !message.channel.nsfw){
                     const embed = new Discord.MessageEmbed()
                     .setTitle("Adult Content")
-                    .setDescription("Feature to see 18+ content coming very soon")
+                    .setDescription("This Anime Can be viewed in NFSW Channel. Please move to next Page")
                     embeds.push(embed)
                     return
                 }

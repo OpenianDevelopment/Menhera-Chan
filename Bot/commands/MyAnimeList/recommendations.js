@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const jikan = require('jikanjs')
+const { embedPage } = require('../../function/functions');
 module.exports = {
     name: 'recommendations',
     description: 'To get recommendation based on anime',
@@ -27,33 +28,7 @@ module.exports = {
                 
             })
         })
-        message.channel.send(result[page-1]).then(msg=>{
-            msg.react('740904210484166727').then(r=>{
-                msg.react('740904210597543976')
-
-                const backwardsFilter = (reaction,user) => reaction.emoji.name === 'pageup' && user.id === message.author.id;
-                const forwardFilter = (reaction,user) => reaction.emoji.name === 'pagedown' && user.id === message.author.id;
-                const backwards = msg.createReactionCollector(backwardsFilter, {time: 60000*5});
-                const forward = msg.createReactionCollector(forwardFilter, {time: 60000*5});
-                backwards.on('collect',r=>{
-                    if(page===1) return;
-                    page--;
-                    msg.edit(result[page]);
-                    r.users.remove(message.author).catch(err=>{
-                        return;
-                    })
-                })
-                forward.on('collect', r=>{
-                    if(page===result.length) return;
-                    page++;
-                    msg.edit(result[page]);
-                    r.users.remove(message.author).catch(err=>{
-                        return;
-                    })
-                })
-
-            })
-        })
+        embedPage(message,result)
        
     }
 }

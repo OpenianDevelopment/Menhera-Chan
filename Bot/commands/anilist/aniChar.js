@@ -55,8 +55,6 @@ var url = 'https://graphql.anilist.co',
     };
 
 var AnimeData = await anidata(url,options)
-    .then(handleResponse)
-    .catch(handleError);
 
     if(AnimeData == undefined) return message.channel.send(`Could not find anything`)
     var data = AnimeData.data.Character
