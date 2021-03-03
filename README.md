@@ -109,6 +109,7 @@ Contributions are what make the open source community such an amazing place to b
 5. Open a Pull Request
 
 <!-- LICENSE -->
+## LICENSE
 Important!
 by downloading the following program you agree to the following LICENSE in the LICENSE file.
 
