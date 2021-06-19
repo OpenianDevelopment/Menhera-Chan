@@ -1,8 +1,0 @@
-{
-    "prefix":"!",
-    "token": "",
-    "youtube_api": "",
-    "MAX_PLAYLIST_SIZE": 10,
-    "PRUNING": false,
-    "STAY_TIME": 30
-}
