@@ -1,24 +1,16 @@
-import {
-	guildSettings,
-	LevelXP,
-	moderations,
-	warnings,
-	xpblacklist,
-} from "../schema";
+import { guildSettings, LevelXP, moderations, warnings } from "../schema";
 
 function initGuildSettings(guild: string) {
 	const newGuildSettings = new guildSettings({
 		guild: guild,
 		prefix: "mc!",
 		logchannel: null,
-		welcomechannel: null,
-		invitelog: null,
-		xplog: null,
-		xpsystem: 0,
-		xp: 1,
-		xpcooldown: 8000,
+		welcome: false,
+		invite: false,
+		xpsystem: false,
 		muterole: null,
-		antispam: 0,
+		antispam: false,
+		newspublish: false,
 	});
 	newGuildSettings.save().catch((err: Error) => {});
 }
@@ -27,6 +19,10 @@ function initGuildXP(guild: string) {
 	const newGuildXP = new LevelXP({
 		guild: guild,
 		users: [],
+		channels: [],
+		log: null,
+		xpIncrement: 1,
+		cooldown: 8000,
 	});
 	newGuildXP.save().catch((err: Error) => {});
 }
@@ -47,18 +43,9 @@ function initGuildModerations(guild: string) {
 	newGuildModerations.save().catch((err: Error) => {});
 }
 
-function initGuildXPBlacklists(guild: string) {
-	const newGuildXPBlacklists = new xpblacklist({
-		guild: guild,
-		channels: [],
-	});
-	newGuildXPBlacklists.save().catch((err: Error) => {});
-}
-
 export default function initGuild(guild: string) {
 	initGuildSettings(guild);
 	initGuildXP(guild);
 	initGuildWarnings(guild);
 	initGuildModerations(guild);
-	initGuildXPBlacklists(guild);
 }

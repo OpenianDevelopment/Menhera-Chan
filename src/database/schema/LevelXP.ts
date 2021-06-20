@@ -7,8 +7,6 @@ const userSchema = new Schema({
 	},
 	xp: Number,
 	level: Number,
-	minxp: Number,
-	maxxp: Number,
 });
 
 const xpSchema = new Schema({
@@ -17,6 +15,10 @@ const xpSchema = new Schema({
 		unique: true,
 	},
 	users: [userSchema],
+	channels: [String],
+	log: String,
+	xpIncrement: Number,
+	cooldown: Number,
 });
 
 export const LevelXP = model("LevelXP", xpSchema);

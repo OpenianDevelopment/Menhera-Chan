@@ -7,14 +7,12 @@ const guildSchema = new Schema({
 	},
 	prefix: String,
 	logchannel: String,
-	welcomechannel: String,
-	invitelog: String,
-	xplog: String,
-	xpsystem: Number,
-	xp: Number,
-	xpcooldown: Number,
+	welcome: Boolean,
+	invite: Boolean,
+	xpsystem: Boolean,
 	muterole: String,
-	antispam: Number,
+	antispam: Boolean,
+	newspublish: Boolean,
 });
 
 export const guildSettings = model("guildSettings", guildSchema);
