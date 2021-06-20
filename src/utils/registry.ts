@@ -68,14 +68,12 @@ export async function registerConfig(client: DiscordClient) {
 		const guildSet = {
 			prefix: result.prefix,
 			xpsystem: result.xpsystem,
-			xp: result.xp,
-			xpcooldown: result.xpcooldown,
 			antispam: result.antispam,
 			logchannel: result.logchannel,
-			welcomechannel: result.welcomechannel,
-			invitelog: result.invitelog,
-			xplog: result.xplog,
+			welcome: result.welcome,
+			invitelog: result.invite,
 			muterole: result.muterole,
+			newspublish: result.newspublish,
 		};
 		client.guildConfig.set(guild.id, guildSet);
 	}

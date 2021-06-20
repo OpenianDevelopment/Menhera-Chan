@@ -3,14 +3,12 @@ import { Snowflake } from "discord.js";
 export interface guildConfig {
 	prefix: string;
 	logchannel: string;
-	welcomechannel: string;
-	invitelog: string;
-	xplog: string;
-	xpsystem: number;
-	xp: number;
-	xpcooldown: number;
-	muterole: string;
-	antispam: number;
+	welcome: boolean;
+	invite: boolean;
+	xpsystem: boolean;
+	muterole: boolean;
+	antispam: boolean;
+	newspublish: boolean;
 }
 export interface userXP {
 	CurrXP: number;
@@ -21,4 +19,7 @@ export interface userXP {
 export interface GuildXP {
 	users: Map<Snowflake, userXP>;
 	channels: Array<string>;
+	log: string;
+	xpIncrement: number;
+	cooldown: number;
 }
