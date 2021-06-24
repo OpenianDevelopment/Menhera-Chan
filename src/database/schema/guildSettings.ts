@@ -11,7 +11,7 @@ const guildSchema = new Schema({
 	invite: Boolean,
 	xpsystem: Boolean,
 	muterole: String,
-	antispam: Boolean,
+	autoMod: Boolean,
 	newspublish: Boolean,
 });
 

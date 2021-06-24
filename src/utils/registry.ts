@@ -54,7 +54,7 @@ export async function registerSocketEvents(
 			const { default: Event } = await import(path.join(dir, file));
 			const event = new Event();
 
-			client.socketevents.set(event.getName(), event);
+			client.socket_events.set(event.getName(), event);
 			client.socket.on(event.getName(), event.run.bind(event, client));
 		}
 	}

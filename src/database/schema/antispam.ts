@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 const antispamSchema = new Schema({
 	guild: {
@@ -10,5 +10,7 @@ const antispamSchema = new Schema({
 	count: Number,
 	mute: Boolean,
 	warn: Boolean,
-	delete: Boolean,
+	deleteMsg: Boolean,
 });
+
+export const antispam = model("antispam", antispamSchema);

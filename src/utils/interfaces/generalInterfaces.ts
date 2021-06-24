@@ -23,3 +23,18 @@ export interface GuildXP {
 	xpIncrement: number;
 	cooldown: number;
 }
+
+export interface userSpam {
+	count: number;
+	lasTimestamp: number;
+	message: Array<Snowflake>;
+}
+export interface GuildAntispam {
+	channels: Array<string>;
+	difference: number;
+	count: number;
+	mute: boolean;
+	warn: boolean;
+	deleteMsg: boolean;
+	users: Map<Snowflake, userSpam>
+}
