@@ -20,7 +20,7 @@ const client = new DiscordClient({
 		"GUILD_VOICE_STATES",
 	],
 	allowedMentions: { parse: ["users", "roles"], repliedUser: false },
-});
+})
 
 connect("mongodb://localhost:27017/Menhera", {
 	useFindAndModify: true,
@@ -41,5 +41,5 @@ connect("mongodb://localhost:27017/Menhera", {
 	await registerSocketEvents(client, "../socketEvents");
 	await filterPlugin();
 	await client.login(process.env.TOKEN);
-	await registerConfig(client);
+
 })();

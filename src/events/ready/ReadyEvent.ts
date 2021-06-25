@@ -1,6 +1,7 @@
 import { BaseEvent } from "../../utils/structures";
 import DiscordClient from "../../client/client";
 import initGuild from "../../database/functions/initFunctions";
+import {registerConfig} from "../../utils/registry";
 
 export default class ReadyEvent extends BaseEvent {
 	constructor() {
@@ -11,7 +12,9 @@ export default class ReadyEvent extends BaseEvent {
 		client.manager.init(client.user?.id);
 		const guilds = client.guilds.cache.array();
 		for (const guild of guilds) {
-			initGuild(guild.id);
+			await initGuild(guild.id);
+
 		}
+		await registerConfig(client);
 	}
 }

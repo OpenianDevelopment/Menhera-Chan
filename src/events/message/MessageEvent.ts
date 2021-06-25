@@ -14,7 +14,7 @@ export default class MessageEvent extends BaseEvent {
 
 		const { prefix, xpsystem } = client.guildConfig.get(message.guild?.id);
 
-		if (xpsystem === 1) addXP(client, message);
+		if (xpsystem) addXP(client, message);
 		if (message.content.startsWith(prefix)) {
 			const [cmdName, ...cmdArgs] = message.content
 				.slice(prefix.length)
