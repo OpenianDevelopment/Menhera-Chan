@@ -7,6 +7,10 @@ const userSchema = new Schema({
 	},
 	xp: Number,
 	level: Number,
+	background: String,
+	opacity: Number,
+	trackColor: String,
+	textColor: String
 });
 
 const xpSchema = new Schema({
@@ -18,7 +22,7 @@ const xpSchema = new Schema({
 	channels: [String],
 	log: String,
 	xpIncrement: Number,
-	cooldown: Number,
+	cooldown: Number
 });
 
 export const LevelXP = model("LevelXP", xpSchema);
