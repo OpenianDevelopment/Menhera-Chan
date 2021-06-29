@@ -31,6 +31,7 @@ export default class RankCardCommand extends BaseCommand {
     const UI = GX.users.findIndex((d) => {
       return d.user === UserID;
     });
+    const helpEmbed = HelpEmbed(new MessageEmbed(), client);
 
     if (UI < 0) {
       embed
@@ -41,9 +42,12 @@ export default class RankCardCommand extends BaseCommand {
       message.reply({ embeds: [embed] });
       return;
     }
-
-    if (args[0].toLowerCase() == "bg") {
-      if (args[1].toLowerCase() == "default") {
+    if (!args[0]) {
+      message.reply({ embeds: [helpEmbed] });
+      return;
+    }
+    if (args[0].toLowerCase() === "bg") {
+      if (args[1] !== undefined && args[1].toLowerCase() === "default") {
         updateUserBackground(
           UserID,
           GuildID,
@@ -87,8 +91,8 @@ export default class RankCardCommand extends BaseCommand {
       message.reply({ embeds: [embed] });
       return;
     }
-    if (args[0].toLowerCase() == "opacity") {
-      if (args[1].toLowerCase() == "default") {
+    if (args[0].toLowerCase() === "opacity") {
+      if (args[1] !== undefined && args[1].toLowerCase() === "default") {
         updateUserOpacity(UserID, GuildID, 0.7);
         message.reply("Opacity is back to default: **70%**");
         return;
@@ -102,13 +106,13 @@ export default class RankCardCommand extends BaseCommand {
       message.reply(`Opacity is now **${num}%**`);
       return;
     }
-    if (args[0].toLowerCase() == "trackcolor") {
-      if (args[1].toLowerCase() == "default") {
+    if (args[0].toLowerCase() === "trackcolor") {
+      if (args[1] !== undefined && args[1].toLowerCase() === "default") {
         updateUserTrackColor(UserID, GuildID, "#21cc87");
         message.reply("Track color is back to default: `#21cc87`");
         return;
       }
-      if (isColor(args[1].toLowerCase())) {
+      if (args[1] !== undefined && isColor(args[1])) {
         updateUserTrackColor(UserID, GuildID, args[1].toLowerCase());
         embed
           .setColor(args[1].toLowerCase())
@@ -119,13 +123,13 @@ export default class RankCardCommand extends BaseCommand {
       message.reply("This is not a supported color!");
       return;
     }
-    if (args[0].toLowerCase() == "textcolor") {
-      if (args[1].toLowerCase() == "default") {
+    if (args[0].toLowerCase() === "textcolor") {
+      if (args[1] !== undefined && args[1].toLowerCase() === "default") {
         updateUserTextColor(UserID, GuildID, "#f5deb3");
         message.reply("Text color is back to default: `#f5deb3`");
         return;
       }
-      if (isColor(args[1].toLowerCase())) {
+      if (args[1] !== undefined && isColor(args[1])) {
         updateUserTextColor(UserID, GuildID, args[1].toLowerCase());
         embed
           .setColor(args[1].toLowerCase())
@@ -137,32 +141,7 @@ export default class RankCardCommand extends BaseCommand {
       return;
     }
 
-    embed
-      .setTitle("rank card customization")
-      .setDescription(
-        `TrackColor/TextColor only supports [**Color Names ||aqua||**](https://htmlcolorcodes.com/color-names/) and [**Hex Codes ||#00FFFF||**](https://htmlcolorcodes.com/)
-        Tip: You can use **\`default\`** in the last value to reset it to the default and first value,
-        Ex1: **rc bg default**
-        Ex2: **rc textcolor default**`
-      )
-      .addField(
-        "background",
-        `**Usage:** rc bg <Upload Image>\n**Example:** rc bg [*Upload Image*](https://support.discord.com/hc/articles/211866427)`
-      )
-      .addField(
-        "opacity",
-        `**Usage:** rc opacity <0-100>\n **Example:** rc opacity 70`
-      )
-      .addField(
-        "Track Color",
-        `**Usage:** rc trackcolor <Color>\n **Example:** rc trackcolor #21cc87`
-      )
-      .addField(
-        "Text Color",
-        `**Usage:** rc textcolor <Color>\n **Example:** rc textcolor #554b58`
-      )
-      .setFooter("https://ko-fi.com/rohank05", client.user!.displayAvatarURL());
-    message.reply({ embeds: [embed] });
+    message.reply({ embeds: [helpEmbed] });
     return;
   }
 }
@@ -317,4 +296,33 @@ function isColor(str: string) {
   if (/#[A-F0-9]{6}/i.test(str)) return true;
 
   return false;
+}
+
+function HelpEmbed(embed: MessageEmbed, client: DiscordClient) {
+  embed
+    .setTitle("rank card customization")
+    .setDescription(
+      `TrackColor/TextColor only supports [**Color Names: ||aqua||**](https://htmlcolorcodes.com/color-names/) and [**Hex Codes: ||#00FFFF||**](https://htmlcolorcodes.com/)
+        **Tip:** You can use **\`default\`** in the last value to reset it to the default and first value,
+        **Ex1:** *rc bg default*
+        **Ex2:** *rc textcolor default*`
+    )
+    .addField(
+      "background",
+      `**Usage:** rc bg <Upload Image>\n**Example:** rc bg [*Upload Image*](https://support.discord.com/hc/articles/211866427)`
+    )
+    .addField(
+      "opacity",
+      `**Usage:** rc opacity <0-100>\n **Example:** rc opacity 70`
+    )
+    .addField(
+      "Track Color",
+      `**Usage:** rc trackcolor <Color>\n **Example:** rc trackcolor #21cc87`
+    )
+    .addField(
+      "Text Color",
+      `**Usage:** rc textcolor <Color>\n **Example:** rc textcolor #554b58`
+    )
+    .setFooter("https://ko-fi.com/rohank05", client.user!.displayAvatarURL());
+  return embed;
 }
