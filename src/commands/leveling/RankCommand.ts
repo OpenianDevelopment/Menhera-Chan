@@ -31,7 +31,7 @@ export default class RankCommand extends BaseCommand {
       const embed = new MessageEmbed()
         .setColor("RED")
         .setDescription(
-          "❌ I don't have any data on you at this moment. Kindly gain some XP first"
+          `❌ I don't have **${member.tag}** data on you at this moment. Kindly gain some XP first`
         );
       await message.reply({
         embeds: [embed],
