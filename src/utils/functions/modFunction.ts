@@ -1,43 +1,47 @@
 import {
-	MessageEmbed,
-	Snowflake,
-	TextChannel,
-	User,
-	UserResolvable,
+    MessageEmbed,
+    Snowflake,
+    TextChannel,
+    User,
+    UserResolvable,
 } from "discord.js";
 import DiscordClient from "../../client/client";
 
-export function sendModLogs(
-	client: DiscordClient,
-	title: string,
-	author: User,
-	user: User,
-	reason: string,
-	guildId?: string,
-	time?: number
+export async function sendModLogs(
+    client: DiscordClient,
+    title: string,
+    author: User,
+    user: User,
+    reason: string,
+    guildId: string,
+    time?: number
 ) {
-	const embed = new MessageEmbed()
-		.setColor("#554b58")
-		.setAuthor(
-			`${title} | ${user.tag}`,
-			user.displayAvatarURL({ dynamic: true })
-		)
-		.addField("User:", `<@${user.id}>`, true)
-		.addField("Moderator:", `<@${author.id}>`, true)
-		.setTimestamp()
-		.setFooter(user.id);
+    const embed = new MessageEmbed()
+        .setColor("#554b58")
+        .setAuthor(
+            `${title} | ${user.tag}`,
+            user.displayAvatarURL({ dynamic: true })
+        )
+        .addField("User:", `${user as UserResolvable}`, true)
+        .addField("Moderator:", `${author as UserResolvable}`, true)
+        .setTimestamp()
+        .setFooter(user.id);
 
-	if (reason) {
-		embed.addField("Reason", reason, true);
-	}
-	if (time) {
-		embed.addField("Time:", new Date(time).toISOString().substr(11, 8), true);
-	}
+    if (reason) {
+        embed.addField("Reason", reason, true);
+    }
+    if (time) {
+        embed.addField(
+            "Time:",
+            new Date(time).toISOString().substr(11, 8),
+            true
+        );
+    }
 
-	const { logchannel } = client.guildConfig.get(guildId);
-	if (!logchannel) return;
-	const channel = client.channels.cache.get(
-		logchannel as Snowflake
-	) as TextChannel;
-	channel.send({ embeds: [embed] });
+    const { logchannel } = client.guildConfig.get(guildId);
+    if (!logchannel) return;
+    const channel = client.channels.cache.get(
+        logchannel as Snowflake
+    ) as TextChannel;
+    await channel.send({ embeds: [embed] });
 }
