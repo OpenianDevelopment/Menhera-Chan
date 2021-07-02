@@ -1,7 +1,7 @@
-import { Message, MessageEmbed, Snowflake } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 import DiscordClient from "../../client/client";
 import { BaseCommand } from "../../utils/structures";
-import { sendModLogs } from "../../utils/functions/modFunction";
+import { getMember, sendModLogs } from "../../utils/functions/modFunction";
 export default class KickCommand extends BaseCommand {
     constructor() {
         super(
@@ -19,45 +19,35 @@ export default class KickCommand extends BaseCommand {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription("❌ I don't have `Kick` Permission");
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
         if (!args.length) {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription("❌ Please provide a user to kick");
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
-        const member =
-            message.mentions.members?.first() ||
-            (await message.guild?.members
-                .fetch(
-                    isNaN(parseInt(args[0]))
-                        ? { user: message, query: args[0], limit: 1 }
-                        : (args[0] as Snowflake)
-                )
-                .catch((err) => {
-                    return null;
-                }));
+        const member = await getMember(message, args[0]);
         if (!member) {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription("❌ I can't find this user");
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
         if (!member.kickable) {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription("❌ I am not able to kick this user");
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
         const embed = new MessageEmbed()
             .setColor("#554b58")
             .setDescription(`**${member.user.username} kicked**`);
-        message.reply({ embeds: [embed] });
+        await message.reply({ embeds: [embed] });
 
         const reason = args.slice(1).join(" ") || "No Reason Provided";
         await member
@@ -71,7 +61,7 @@ export default class KickCommand extends BaseCommand {
             });
         member.kick(reason);
 
-        sendModLogs(
+        await sendModLogs(
             client,
             "Kick",
             message.author,

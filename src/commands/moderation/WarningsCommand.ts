@@ -20,7 +20,7 @@ export default class WarnCommand extends BaseCommand {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription("❌ You have to provide me with a user to ban");
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
         const member =
@@ -33,7 +33,7 @@ export default class WarnCommand extends BaseCommand {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription("❌ I can't find this user");
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
         const warnings = await getWarnings(member.id, message.guild?.id);
@@ -46,7 +46,7 @@ export default class WarnCommand extends BaseCommand {
                 .setColor("#554b58")
                 .setTimestamp()
                 .setFooter(member.id);
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
         let string = "";
@@ -61,7 +61,7 @@ export default class WarnCommand extends BaseCommand {
                     .setColor("#554b58")
                     .setTimestamp()
                     .setFooter(member.id);
-                message.reply({ embeds: [embed] });
+                await message.reply({ embeds: [embed] });
                 string = "";
             }
             if (warn.mod.includes("#")) {
@@ -84,6 +84,6 @@ export default class WarnCommand extends BaseCommand {
             .setColor("#554b58")
             .setTimestamp()
             .setFooter(member.id);
-        message.reply({ embeds: [embed] });
+        await message.reply({ embeds: [embed] });
     }
 }

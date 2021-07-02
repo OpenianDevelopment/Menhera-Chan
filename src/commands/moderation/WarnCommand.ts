@@ -1,7 +1,7 @@
-import { Message, MessageEmbed, Snowflake } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 import DiscordClient from "../../client/client";
 import { addWarning } from "../../database/functions/modOperation";
-import { sendModLogs } from "../../utils/functions/modFunction";
+import { getMember, sendModLogs } from "../../utils/functions/modFunction";
 import { BaseCommand } from "../../utils/structures";
 export default class WarnCommand extends BaseCommand {
     constructor() {
@@ -23,25 +23,15 @@ export default class WarnCommand extends BaseCommand {
                 .setDescription(
                     "❌ Please provide a user to warn with reason for the warn"
                 );
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
-        const member =
-            message.mentions.members?.first() ||
-            (await message.guild?.members
-                .fetch(
-                    isNaN(parseInt(args[0]))
-                        ? { user: message, query: args[0], limit: 1 }
-                        : (args[0] as Snowflake)
-                )
-                .catch((err) => {
-                    return null;
-                }));
+        const member = await getMember(message, args[0]);
         if (!member) {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription("❌ I can't find this user");
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
         const reason = args.slice(1).join(" ");
@@ -51,10 +41,10 @@ export default class WarnCommand extends BaseCommand {
                 .setDescription(
                     "❌ Warning reason should not be more than 500 letters"
                 );
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
-        addWarning(
+        await addWarning(
             member.user.id,
             reason,
             message.author.tag,
@@ -63,8 +53,8 @@ export default class WarnCommand extends BaseCommand {
         const embed = new MessageEmbed()
             .setColor("#554b58")
             .setDescription(`**${member.user.tag} warned**`);
-        message.reply({ embeds: [embed] });
-        sendModLogs(
+        await message.reply({ embeds: [embed] });
+        await sendModLogs(
             client,
             "Warn",
             message.author,
@@ -74,7 +64,7 @@ export default class WarnCommand extends BaseCommand {
         );
         member
             .send(`You have warned on ${message.guild!.name} Reason:${reason}`)
-            .catch((err) => {
+            .catch(() => {
                 message.channel.send("❌ Can't dm the user. Warning Logged");
             });
     }

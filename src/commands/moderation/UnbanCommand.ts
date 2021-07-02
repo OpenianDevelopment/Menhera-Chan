@@ -20,14 +20,14 @@ export default class UnbanCommand extends BaseCommand {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription("❌ I don't have `Ban` Permission");
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
         if (!args.length) {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription("❌ Please provide the id of the user");
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
         }
 
         const bannedMember = await message.guild?.bans
@@ -35,7 +35,7 @@ export default class UnbanCommand extends BaseCommand {
                 user: args[0] as Snowflake,
                 cache: false,
             })
-            .catch((err) => {
+            .catch(() => {
                 const embed = new MessageEmbed()
                     .setColor("RED")
                     .setDescription(
@@ -51,16 +51,16 @@ export default class UnbanCommand extends BaseCommand {
                 .setDescription(
                     "❌ I am not able to this user in Banlist. Make sure the provided ID is correct"
                 );
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
         const reason = args.slice(1).join(" ") || "No Reason Provided";
-        message.guild.members.unban(bannedMember.user.id, reason);
+        await message.guild.members.unban(bannedMember.user.id, reason);
         const embed = new MessageEmbed()
             .setColor("#554b58")
             .setDescription(`**${bannedMember.user.username} Unbanned**`);
-        message.reply({ embeds: [embed] });
-        sendModLogs(
+        await message.reply({ embeds: [embed] });
+        await sendModLogs(
             client,
             "Unban",
             message.author,

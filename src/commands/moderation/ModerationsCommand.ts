@@ -25,7 +25,7 @@ export default class ModerationsCommand extends BaseCommand {
                 .setColor("#554b58")
                 .setTitle(`${moderations.length} Moderations`)
                 .setTimestamp();
-            message.channel.send({ embeds: [embed] });
+            await message.channel.send({ embeds: [embed] });
             return;
         }
         let string = "";
@@ -36,7 +36,7 @@ export default class ModerationsCommand extends BaseCommand {
                     .setTitle(`${moderations.length} Moderations`)
                     .setDescription(string)
                     .setTimestamp();
-                message.channel.send({ embeds: [embed] });
+                await message.channel.send({ embeds: [embed] });
                 string = "";
             }
             const time = ms(moderation.time - Date.now());
@@ -57,6 +57,6 @@ export default class ModerationsCommand extends BaseCommand {
         if (string.length > 0) {
             embed.setDescription(string);
         }
-        message.channel.send({ embeds: [embed] });
+        await message.channel.send({ embeds: [embed] });
     }
 }

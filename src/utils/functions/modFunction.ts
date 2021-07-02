@@ -1,4 +1,5 @@
 import {
+    Message,
     MessageEmbed,
     Snowflake,
     TextChannel,
@@ -37,11 +38,45 @@ export async function sendModLogs(
             true
         );
     }
-
-    const { logchannel } = client.guildConfig.get(guildId);
+    await sendlog(client, guildId, embed);
+}
+export async function sendCommandLog(
+    client: DiscordClient,
+    message: Message,
+    command: string
+) {
+    const embed = new MessageEmbed()
+        .setColor("#554b58")
+        .setAuthor(message.author.tag, message.author.displayAvatarURL())
+        .setDescription(
+            `${message.author} used ${command} in ${message.channel}\n**Content:** ${message.content}`
+        );
+    await sendlog(client, message.guild!.id, embed);
+}
+export async function sendlog(
+    client: DiscordClient,
+    guild: string,
+    embed: MessageEmbed
+) {
+    const { logchannel } = client.guildConfig.get(guild);
     if (!logchannel) return;
     const channel = client.channels.cache.get(
         logchannel as Snowflake
     ) as TextChannel;
     await channel.send({ embeds: [embed] });
+}
+
+export async function getMember(message: Message, userQuery: string) {
+    return (
+        message.mentions.members?.first() ||
+        (await message.guild?.members
+            .fetch(
+                isNaN(parseInt(userQuery))
+                    ? { user: message, query: userQuery, limit: 1 }
+                    : (userQuery as Snowflake)
+            )
+            .catch(() => {
+                return null;
+            }))
+    );
 }

@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, Snowflake, TextChannel } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 import DiscordClient from "../../client/client";
 import { BaseCommand } from "../../utils/structures";
 export default class PurgeCommand extends BaseCommand {
@@ -20,7 +20,7 @@ export default class PurgeCommand extends BaseCommand {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription("❌ I don't have `Manage Messages` Permission");
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
         if (!args.length || isNaN(parseInt(args[0]))) {
@@ -29,9 +29,9 @@ export default class PurgeCommand extends BaseCommand {
                 .setDescription(
                     "❌ You need to provide the number of message to delete"
                 );
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
-        message.channel.bulkDelete(parseInt(args[0]), true);
+        await message.channel.bulkDelete(parseInt(args[0]), true);
     }
 }

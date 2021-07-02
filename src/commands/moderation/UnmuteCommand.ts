@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, Snowflake, TextChannel } from "discord.js";
+import { Message, MessageEmbed, Snowflake } from "discord.js";
 import DiscordClient from "../../client/client";
 import { sendModLogs } from "../../utils/functions/modFunction";
 import { BaseCommand } from "../../utils/structures";
@@ -20,14 +20,14 @@ export default class UnmuteCommand extends BaseCommand {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription("❌ I don't have `Manage Messages` Permission");
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
         if (!args.length) {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription("❌ Please provide a user to kick");
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
         const member =
@@ -38,14 +38,14 @@ export default class UnmuteCommand extends BaseCommand {
                         ? { user: message, query: args[0], limit: 1 }
                         : (args[0] as Snowflake)
                 )
-                .catch((err) => {
+                .catch(() => {
                     return null;
                 }));
         if (!member) {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription("❌ I can't find this user");
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
         const { muterole } = client.guildConfig.get(message.guild?.id);
@@ -58,18 +58,18 @@ export default class UnmuteCommand extends BaseCommand {
                 .setDescription(
                     "❌ Mute Role has been not setup for this server. Please visit [Dashboard](https://dashboard.menhera-chan.in/) to set it up"
                 );
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
         if (!member.roles.cache.has(muterole)) {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription(`❌ ${member.user.username} is not muted`);
-            message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
             return;
         }
         const reason = args.slice(1).join(" ") || "No Reason Provided";
-        member.roles.remove(muterole as Snowflake, reason).catch((err) => {
+        member.roles.remove(muterole as Snowflake, reason).catch(() => {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription(
@@ -78,7 +78,7 @@ export default class UnmuteCommand extends BaseCommand {
             message.reply({ embeds: [embed] });
             return;
         });
-        sendModLogs(
+        await sendModLogs(
             client,
             "Unmute",
             message.author,
@@ -89,6 +89,6 @@ export default class UnmuteCommand extends BaseCommand {
         const embed = new MessageEmbed()
             .setColor("#554b58")
             .setDescription(`**${member.user.username} Unmuted**`);
-        message.reply({ embeds: [embed] });
+        await message.reply({ embeds: [embed] });
     }
 }

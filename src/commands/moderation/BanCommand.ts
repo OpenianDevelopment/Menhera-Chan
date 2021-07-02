@@ -30,7 +30,7 @@ export default class BanCommand extends BaseCommand {
             return;
         }
         const member =
-            (await message.mentions.users.first()) ||
+            message.mentions.users.first() ||
             (await client.users.fetch(args[0] as Snowflake).catch(() => {
                 return null;
             }));
