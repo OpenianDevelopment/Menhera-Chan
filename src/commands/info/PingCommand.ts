@@ -4,7 +4,7 @@ import { BaseCommand } from "../../utils/structures";
 
 export default class PingCommand extends BaseCommand {
 	constructor() {
-		super("ping", "Calculate ping", "general", [], "ping", "ping");
+		super("ping", "Calculate ping", "info", [], "ping", "ping");
 	}
 	async run(client: DiscordClient, message: Message, args: Array<String>) {
 		message.reply("Calculating Ping").then((msg) => {

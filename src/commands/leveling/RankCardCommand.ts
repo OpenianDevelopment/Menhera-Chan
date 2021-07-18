@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js";
+import { Message, MessageEmbed, ColorResolvable } from "discord.js";
 import DiscordClient from "../../client/client";
 import {
   getLevel,
@@ -91,13 +91,13 @@ export default class RankCardCommand extends BaseCommand {
       message.reply({ embeds: [embed] });
       return;
     }
-    if (args[0].toLowerCase() === "opacity") {
+    if (["opacity", "op"].includes(args[0].toLowerCase())) {
       if (args[1] !== undefined && args[1].toLowerCase() === "default") {
         updateUserOpacity(UserID, GuildID, 0.7);
         message.reply("Opacity is back to default: **70%**");
         return;
       }
-      const num = parseInt(args[1]);
+      const num = Number(args[1]);
       if (!num || num > 100 || num < 0) {
         message.reply("This is not a number between **0** and **100**!");
         return;
@@ -106,7 +106,7 @@ export default class RankCardCommand extends BaseCommand {
       message.reply(`Opacity is now **${num}%**`);
       return;
     }
-    if (args[0].toLowerCase() === "trackcolor") {
+    if (["trackcolor", "track"].includes(args[0].toLowerCase())) {
       if (args[1] !== undefined && args[1].toLowerCase() === "default") {
         updateUserTrackColor(UserID, GuildID, "#21cc87");
         message.reply("Track color is back to default: `#21cc87`");
@@ -115,7 +115,7 @@ export default class RankCardCommand extends BaseCommand {
       if (args[1] !== undefined && isColor(args[1])) {
         updateUserTrackColor(UserID, GuildID, args[1].toLowerCase());
         embed
-          .setColor(args[1].toLowerCase())
+          .setColor(args[1].toLowerCase() as ColorResolvable)
           .setDescription(`Track color is now **${args[1]}**`);
         message.reply({ embeds: [embed] });
         return;
@@ -123,7 +123,7 @@ export default class RankCardCommand extends BaseCommand {
       message.reply("This is not a supported color!");
       return;
     }
-    if (args[0].toLowerCase() === "textcolor") {
+    if (["textcolor", "text"].includes(args[0].toLowerCase())) {
       if (args[1] !== undefined && args[1].toLowerCase() === "default") {
         updateUserTextColor(UserID, GuildID, "#f5deb3");
         message.reply("Text color is back to default: `#f5deb3`");
@@ -132,7 +132,7 @@ export default class RankCardCommand extends BaseCommand {
       if (args[1] !== undefined && isColor(args[1])) {
         updateUserTextColor(UserID, GuildID, args[1].toLowerCase());
         embed
-          .setColor(args[1].toLowerCase())
+          .setColor(args[1].toLowerCase() as ColorResolvable)
           .setDescription(`Text color is now **${args[1]}**`);
         message.reply({ embeds: [embed] });
         return;

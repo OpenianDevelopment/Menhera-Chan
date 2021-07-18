@@ -71,7 +71,7 @@ export async function getMember(message: Message, userQuery: string) {
         message.mentions.members?.first() ||
         (await message.guild?.members
             .fetch(
-                isNaN(parseInt(userQuery))
+                isNaN(Number(userQuery))
                     ? { user: message, query: userQuery, limit: 1 }
                     : (userQuery as Snowflake)
             )

@@ -23,7 +23,7 @@ export default class PurgeCommand extends BaseCommand {
             await message.reply({ embeds: [embed] });
             return;
         }
-        if (!args.length || isNaN(parseInt(args[0]))) {
+        if (!args.length || isNaN(Number(args[0]))) {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription(
@@ -32,6 +32,6 @@ export default class PurgeCommand extends BaseCommand {
             await message.reply({ embeds: [embed] });
             return;
         }
-        await message.channel.bulkDelete(parseInt(args[0]), true);
+        await message.channel.bulkDelete(Number(args[0]), true);
     }
 }
