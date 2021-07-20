@@ -19,7 +19,7 @@ export default class RemoveCommand extends BaseCommand {
         const { player } = client.queue.get(message.guild?.id);
 
         if (args.length === 2) {
-            if (isNaN(Number(args[0])) || isNaN(Number(args[1]))) {
+            if (isNaN(parseInt(args[0])) || isNaN(parseInt(args[1]))) {
                 const embed = new MessageEmbed()
                     .setColor("RED")
                     .setDescription(
@@ -44,7 +44,7 @@ export default class RemoveCommand extends BaseCommand {
                 .setDescription(`Removed from ${args[0]} to ${args[1]}`);
             await message.reply({ embeds: [embed] });
         } else {
-            if (isNaN(Number(args[0]))) {
+            if (isNaN(parseInt(args[0]))) {
                 await message.reply("Invalid Value");
                 return;
             }

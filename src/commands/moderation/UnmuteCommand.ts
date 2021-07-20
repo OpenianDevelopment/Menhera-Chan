@@ -34,7 +34,7 @@ export default class UnmuteCommand extends BaseCommand {
             message.mentions.members?.first() ||
             (await message.guild?.members
                 .fetch(
-                    isNaN(Number(args[0]))
+                    isNaN(parseInt(args[0]))
                         ? { user: message, query: args[0], limit: 1 }
                         : (args[0] as Snowflake)
                 )

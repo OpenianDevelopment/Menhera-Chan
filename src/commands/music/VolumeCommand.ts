@@ -16,7 +16,7 @@ export default class VolumeCommand extends BaseCommand {
 
     async run(client: DiscordClient, message: Message, args: Array<string>) {
         if (!(await checkMusicPermission(client, message))) return;
-        if (!args.length || isNaN(Number(args[0]))) {
+        if (!args.length || isNaN(parseInt(args[0]))) {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription("❌ Volume should be a number");
