@@ -7,5 +7,10 @@ export default abstract class BaseEvent {
         return this._name;
     }
 
+    /**
+     *
+     * @param client {DiscordClient}
+     * @param args {any}
+     */
     abstract run(client: DiscordClient, ...args: any): void;
 }

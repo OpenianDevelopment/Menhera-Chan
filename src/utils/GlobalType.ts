@@ -4,6 +4,7 @@ export interface GuildFeatureSettings {
     inviteSystem: boolean;
     welcomeSystem: boolean;
 }
+
 export interface ExpSystemSettings {
     increment: number;
     timeDifference: number;

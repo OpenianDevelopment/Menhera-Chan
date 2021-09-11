@@ -1,4 +1,5 @@
 import DiscordClient from "./client/client";
+import { registerCommands, registerEvents } from "./utils/registry";
 require("dotenv").config();
 const client = new DiscordClient({
     intents: [
@@ -12,5 +13,7 @@ const client = new DiscordClient({
 });
 
 (async () => {
+    await registerEvents(client);
+    await registerCommands(client);
     await client.login(process.env.TOKEN);
 })();

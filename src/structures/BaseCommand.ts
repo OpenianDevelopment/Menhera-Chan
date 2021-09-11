@@ -11,5 +11,10 @@ export default abstract class BaseCommand {
         return this._description;
     }
 
+    /**
+     * Since BaseInteraction don't have all property we need it as CommandInteraction
+     * @param client {DiscordClient}
+     * @param interaction {CommandInteraction}
+     */
     abstract run(client: DiscordClient, interaction: CommandInteraction): void;
 }
