@@ -1,6 +1,7 @@
 import DiscordClient from "../client/client";
 import path from "path";
 import { promises as fs } from "fs";
+import { connect } from "mongoose";
 
 /**
  * Registering Events in Client#events
@@ -44,4 +45,9 @@ export async function registerCommands(
             client.commands.set(command.name, command);
         }
     }
+}
+export async function connectDB() {
+    connect("mongodb://localhost:27017")
+        .then(() => console.log("Connected to DB"))
+        .catch(console.error);
 }
