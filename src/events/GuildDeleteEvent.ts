@@ -5,7 +5,7 @@ import { removeGuildSettings } from "../database/functions/GuildSettingsFunction
 
 export default class GuildRemoveEvent extends BaseEvent {
     constructor() {
-        super("guildRemove");
+        super("guildDelete");
     }
     async run(client: DiscordClient, guild: Guild) {
         await removeGuildSettings(guild.id);
