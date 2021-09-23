@@ -46,10 +46,10 @@ export default class interactionCreateEvent extends BaseEvent {
                     }
                     await command.run(client, interaction, args);
                 } catch (err) {
-                    console.log(
+                    console.error(
                         `Failed in ${chalk.redBright(
                             capFirstLetter(command.name) + " Command"
-                        )}`,
+                        )}, args: ${args}\n`,
                         err
                     );
                 }

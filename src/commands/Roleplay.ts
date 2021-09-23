@@ -21,7 +21,6 @@ export default class RolePlayCommand extends BaseCommand {
             );
             return interaction.reply({ embeds: [embed], ephemeral: true });
         }
-        console.log(JSON.stringify(args));
         // Defining the embed
         const embed = new MessageEmbed();
         // Getting the collection and array
