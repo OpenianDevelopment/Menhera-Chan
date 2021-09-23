@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const RolePlaySchema = new Schema({
     type: {
@@ -9,9 +9,3 @@ const RolePlaySchema = new Schema({
 });
 
 export const rolePlay = model("RolePlay", RolePlaySchema);
-
-export interface RolePlay {
-    _id: Types.ObjectId;
-    type: string;
-    images: Array<string>;
-}

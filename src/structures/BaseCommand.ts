@@ -1,5 +1,5 @@
 import DiscordClient from "../client/client";
-import { CommandInteraction } from "discord.js";
+import { CommandInteraction, Message } from "discord.js";
 
 export default abstract class BaseCommand {
     constructor(private _name: string, private _description: string) {}
@@ -16,5 +16,9 @@ export default abstract class BaseCommand {
      * @param client {DiscordClient}
      * @param interaction {CommandInteraction}
      */
-    abstract run(client: DiscordClient, interaction: CommandInteraction): void;
+    abstract run(
+        client: DiscordClient,
+        interaction: CommandInteraction,
+        args?: string[]
+    ): void | Promise<void>;
 }

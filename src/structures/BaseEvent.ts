@@ -8,7 +8,7 @@ export default abstract class BaseEvent {
     }
 
     /**
-     *
+     * # Running Events
      * @param client {DiscordClient}
      * @param args {any}
      */

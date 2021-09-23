@@ -5,8 +5,22 @@ export async function getRolePlayGifs(type: string) {
     return result;
 }
 
-export async function addRolePlayGifs(type: string, img: string) {
-    rolePlay
-        .updateOne({ type }, { $push: { images: img } })
-        .catch(console.error);
+export async function addRolePlayGifs(
+    type: string,
+    img: string | Array<string>
+) {
+    if (Array.isArray(img)) {
+        img.forEach((gif) => {
+            rolePlay
+                .updateOne({ type }, { $push: { images: gif } })
+                .catch(console.error);
+        });
+        return true;
+    } else if (typeof img == "string") {
+        rolePlay
+            .updateOne({ type }, { $push: { images: img } })
+            .catch(console.error);
+        return true;
+    }
+    return false;
 }
