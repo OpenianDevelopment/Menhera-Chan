@@ -6,11 +6,7 @@ export default class PingCommand extends BaseCommand {
     constructor() {
         super("ping", "Returns Ping");
     }
-    async run(
-        client: DiscordClient,
-        interaction: CommandInteraction,
-        args: string[]
-    ) {
-        interaction.reply({ content: "Pong" });
+    async run(client: DiscordClient, interaction: CommandInteraction) {
+        await interaction.followUp({ content: "Pong" });
     }
 }

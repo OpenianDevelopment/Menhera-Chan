@@ -18,7 +18,6 @@ export default abstract class BaseCommand {
      */
     abstract run(
         client: DiscordClient,
-        interaction: CommandInteraction,
-        args?: string[]
+        interaction: CommandInteraction
     ): void | Promise<void>;
 }

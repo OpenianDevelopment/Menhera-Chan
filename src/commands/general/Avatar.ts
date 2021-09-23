@@ -1,27 +1,24 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { CommandInteraction, GuildMember, MessageEmbed } from "discord.js";
 
 export default class AvatarCommand extends BaseCommand {
     constructor() {
         super("avatar", "To get avatar");
     }
-    async run(
-        client: DiscordClient,
-        interaction: CommandInteraction,
-        args: string[]
-    ) {
-        const user = args[0]
-            ? await client.users.fetch(args[0])
-            : interaction.user;
+    async run(client: DiscordClient, interaction: CommandInteraction) {
+        const member =
+            (interaction.options.getMember("user") as GuildMember) ||
+            (interaction.member as GuildMember);
 
         const embed = new MessageEmbed()
-            .setAuthor(user.tag, undefined, "https://ko-fi.com/rohank05")
-            .setImage(user.displayAvatarURL({ dynamic: true, size: 512 }))
+            .setColor(member.displayHexColor)
+            .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
             .setFooter(
-                "https://ko-fi.com/rohank05",
-                client.user?.displayAvatarURL()
-            );
-        return await interaction.reply({ embeds: [embed] });
+                "https://menhera.openian.dev",
+                client.user!.displayAvatarURL({ dynamic: true })
+            )
+            .setTimestamp();
+        await interaction.followUp({ embeds: [embed], ephemeral: false });
     }
 }
