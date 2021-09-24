@@ -2,6 +2,8 @@ import DiscordClient from "../client/client";
 import path from "path";
 import { promises as fs } from "fs";
 import mongoose from "mongoose";
+import { getGuildSettings } from "../database/functions/GuildSettingsFunctions";
+import { Guild } from "discord.js";
 
 /**
  * Registering Events in Client#events
@@ -52,4 +54,20 @@ export async function connectDB() {
         .connect(process.env.MONGO_URI!)
         .then(() => console.log("Connected to DB"))
         .catch(console.error);
+}
+
+export async function cacheGuildSettings(client: DiscordClient) {
+    const guilds = client.guilds.cache.values();
+    for (const guild of guilds) {
+        const guildSettings = await getGuildSettings(guild.id);
+        client.guildSettings.set(guild.id, {
+            modulesSettings: {
+                welcomeModule: guildSettings.welcomeModule,
+                antispamModule: guildSettings.antispamModule,
+                inviteModule: guildSettings.inviteModule,
+                expModule: guildSettings.expModule,
+                newsModule: guildSettings.newsModule,
+            },
+        });
+    }
 }

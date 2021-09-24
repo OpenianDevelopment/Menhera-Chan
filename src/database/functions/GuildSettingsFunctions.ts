@@ -2,7 +2,7 @@ import { guildSettings } from "../schemas";
 
 export async function getGuildSettings(guild_id: string) {
     const result = await guildSettings.findOne({ guild_id });
-    return result;
+    return result as any;
 }
 
 export async function addGuildSettings(guild_id: string) {
@@ -12,6 +12,7 @@ export async function addGuildSettings(guild_id: string) {
         expModule: false,
         newsModule: false,
         welcomeModule: false,
+        inviteModule: false,
     });
 
     newGuild.save().catch(console.error);

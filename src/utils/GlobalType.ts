@@ -8,11 +8,12 @@ import { Types } from "mongoose";
  * @param inviteSystem Whether the invite system is enabled or not.
  * @param welcomeSystem Whether the welcome system is enabled or not.
  */
-export interface GuildFeatureSettings {
-    expSystem: boolean;
-    antispamSystem: boolean;
-    inviteSystem: boolean;
-    welcomeSystem: boolean;
+export interface GuildModules {
+    expModule: boolean;
+    antispamModule: boolean;
+    inviteModule: boolean;
+    welcomeModule: boolean;
+    newsModule: boolean;
 }
 
 /**
@@ -83,7 +84,7 @@ export interface welcomeSystemSettings {
  * @param welcomeSettings {welcomeSystemSettings}
  */
 export interface GuildSettings {
-    featureSettings: GuildFeatureSettings;
+    modulesSettings: GuildModules;
     expSettings?: ExpSystemSettings;
     antispamSettings?: AntispamSystemSettings;
     moderationSettings?: moderationSystemSettings;

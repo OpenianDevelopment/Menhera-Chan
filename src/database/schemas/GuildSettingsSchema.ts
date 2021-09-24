@@ -10,6 +10,7 @@ const guildSettingsSchema = new Schema({
     expModule: Boolean,
     newsModule: Boolean,
     welcomeModule: Boolean,
+    inviteModule: Boolean,
 });
 
 export const guildSettings = model("GuildSettings", guildSettingsSchema);

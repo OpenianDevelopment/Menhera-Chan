@@ -10,5 +10,9 @@ export default class GuildCreateEvent extends BaseEvent {
 
     async run(client: DiscordClient, guild: Guild) {
         await addGuildSettings(guild.id);
+        client.user!.setActivity({
+            name: `${client.guilds.cache.size} Servers`,
+            type: "WATCHING",
+        });
     }
 }
