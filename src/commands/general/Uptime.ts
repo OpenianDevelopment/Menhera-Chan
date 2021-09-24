@@ -2,7 +2,7 @@ import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction, GuildMember, MessageEmbed } from "discord.js";
 
-export default class PingCommand extends BaseCommand {
+export default class UptimeCommand extends BaseCommand {
     constructor() {
         super("uptime", "Return bot's ready Date/timer");
     }

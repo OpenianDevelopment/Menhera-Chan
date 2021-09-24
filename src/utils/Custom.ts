@@ -22,6 +22,11 @@ const _ads = {
             .setFooter(guild.client.user!.tag);
     },
 };
+
+function clean(str: string) {
+    return str = str.replace(/`/g, `\\\`${String.fromCharCode(8203)}`);
+}
+
 /** Returns rp text data */
 function rpTextCollection(author: User, member: GuildMember) {
     const _crp = new Collection<string, string[]>()
@@ -107,4 +112,4 @@ function rpTextCollection(author: User, member: GuildMember) {
     return _crp;
 }
 
-export { capFirstLetter, _ads, rpTextCollection };
+export { capFirstLetter, _ads, rpTextCollection, clean };

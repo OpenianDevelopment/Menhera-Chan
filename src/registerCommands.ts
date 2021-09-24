@@ -28,6 +28,46 @@ const commands: ApplicationCommandData[] = [
         description: "Return bot's ready Date/timer",
     },
     {
+        name: "report",
+        description:
+            "Report a bug/user (user who misused he bot, we're not he server's mods nor discord staff)",
+        type: "CHAT_INPUT",
+        options: [
+            {
+                name: "user",
+                description: "which roleplay to use",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "target",
+                        description: "User to report",
+                        type: "USER",
+                        required: true,
+                    },
+                    {
+                        name: "reason",
+                        description: "User to report",
+                        type: "STRING",
+                        required: true,
+                    },
+                ],
+            },
+            {
+                name: "bug",
+                description: "User to do role play with",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "description",
+                        description: "The bug's description",
+                        type: "STRING",
+                        required: true,
+                    },
+                ],
+            },
+        ],
+    },
+    {
         name: "roleplay",
         description: "Play role play",
         type: "CHAT_INPUT",
