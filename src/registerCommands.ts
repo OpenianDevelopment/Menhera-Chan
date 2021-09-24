@@ -24,12 +24,16 @@ const commands: ApplicationCommandData[] = [
         ],
     },
     {
-        name: "role-play",
+        name: "uptime",
+        description: "Return bot's ready Date/timer",
+    },
+    {
+        name: "roleplay",
         description: "Play role play",
         type: "CHAT_INPUT",
         options: [
             {
-                name: "rp-type",
+                name: "type",
                 description: "which roleplay to use",
                 type: "STRING",
                 choices: [
@@ -38,7 +42,7 @@ const commands: ApplicationCommandData[] = [
                     { name: "Yeet", value: "yeet" },
                     { name: "Cuddle", value: "cuddle" },
                     { name: "Bite", value: "bite" },
-                    { name: " Pat", value: "pat" },
+                    { name: "Pat", value: "pat" },
                     { name: "Bully", value: "bully" },
                     { name: "High-Five", value: "highfive" },
                     { name: "Kill", value: "kill" },
@@ -65,35 +69,67 @@ const commands: ApplicationCommandData[] = [
         ],
     },
 ];
-const guild_id = "";
+const guild_id: string = "712748451108225045",
+    deleteQ: boolean = false;
 
-client.on("ready", () => {
+client.on("ready", async () => {
     try {
-        commands.forEach((command) => {
+        if (deleteQ) {
             if (guild_id.length >= 8) {
-                client.guilds.cache
+                const cmds = await client.guilds.cache
                     .get(guild_id)!
-                    .commands.create(command)
-                    .then((c) =>
-                        console.log(
-                            "Created: " +
-                                c.name +
-                                " | " +
-                                c.id +
-                                " | " +
-                                c.guildId
+                    .commands.fetch();
+                cmds.forEach((cmd) => {
+                    cmd.delete()
+                        .then((c) =>
+                            console.log(
+                                "Deleted: " +
+                                    c.name +
+                                    " | " +
+                                    c.id +
+                                    " | " +
+                                    c.guildId
+                            )
                         )
-                    )
-                    .catch(console.error);
+                        .catch(console.error);
+                });
             } else {
-                client
-                    .application!.commands.create(command)
-                    .then((c) =>
-                        console.log("Created: " + c.name + " | " + c.id)
-                    )
-                    .catch(console.error);
+                const cmds = await client.application!.commands.fetch();
+                cmds.forEach((cmd) => {
+                    cmd.delete()
+                        .then((c) =>
+                            console.log("Deleted: " + c.name + " | " + c.id)
+                        )
+                        .catch(console.error);
+                });
             }
-        });
+        } else {
+            commands.forEach((command) => {
+                if (guild_id.length >= 8) {
+                    client.guilds.cache
+                        .get(guild_id)!
+                        .commands.create(command)
+                        .then((c) =>
+                            console.log(
+                                "Created: " +
+                                    c.name +
+                                    " | " +
+                                    c.id +
+                                    " | " +
+                                    c.guildId
+                            )
+                        )
+                        .catch(console.error);
+                } else {
+                    client
+                        .application!.commands.create(command)
+                        .then((c) =>
+                            console.log("Created: " + c.name + " | " + c.id)
+                        )
+                        .catch(console.error);
+                }
+            });
+        }
     } catch (err) {
         console.error("Error When Registering:", err);
     }

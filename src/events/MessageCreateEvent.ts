@@ -10,7 +10,7 @@ export default class messageCreateEvent extends BaseEvent {
     async run(client: DiscordClient, message: Message) {
         if (message.channel.type == "DM") return;
         if (message.author.bot) return;
-        const mentionRegex = new RegExp(`^<@(!| )${client.user!.id}>`, "ig");
+        const mentionRegex = new RegExp(`^<@(!|)${client.user!.id}>`, "ig");
         if (!mentionRegex.test(message.content)) {
             return;
         }

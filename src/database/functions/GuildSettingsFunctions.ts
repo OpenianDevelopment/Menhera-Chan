@@ -6,6 +6,9 @@ export async function getGuildSettings(guild_id: string) {
 }
 
 export async function addGuildSettings(guild_id: string) {
+    if (await getGuildSettings(guild_id)) {
+        return;
+    }
     const newGuild = new guildSettings({
         guild_id: guild_id,
         antiSpamModule: false,

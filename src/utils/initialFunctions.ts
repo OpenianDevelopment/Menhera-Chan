@@ -49,7 +49,7 @@ export async function registerCommands(
     }
 }
 export async function connectDB() {
-    mongoose.set("debug", { shell: true });
+    // mongoose.set("debug", { shell: true }); //I got a console raid so no
     mongoose
         .connect(process.env.MONGO_URI!)
         .then(() => console.log("Connected to DB"))

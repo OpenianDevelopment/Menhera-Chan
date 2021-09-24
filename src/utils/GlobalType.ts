@@ -1,12 +1,11 @@
-import { Types } from "mongoose";
-
 /**
  * # Guild's Feature Settings
  * (idk wtf is with that title)
- * @param expSystem Whether the xp system is enabled or not.
- * @param antispamSystem Whether the anti-spam system is enabled or not.
- * @param inviteSystem Whether the invite system is enabled or not.
- * @param welcomeSystem Whether the welcome system is enabled or not.
+ * @param expModule {boolean}
+ * @param antispamModule {boolean}
+ * @param inviteModule {boolean}
+ * @param welcomeModule {boolean}
+ * @param newsModule {boolean}
  */
 export interface GuildModules {
     expModule: boolean;
@@ -76,8 +75,9 @@ export interface welcomeSystemSettings {
 
 /**
  * # Guild Settings
- * @param featureSettings The ***Guild's Feature Settings*** that i didn't like.
- * @param expSettings The super cool *one of the first features of menhera* xp (but that is it's settings)
+ * @param modulesSettings The ***Guild's Feature Settings*** that i didn't like.
+ * @param expSettings The super cool *one of the first features of menhera* xp (but that is it's settings).
+ *
  * Uh i'm lazy to continue, You already know what are those from above, if you don't know then `Ctrl + click` on **GuildSettings**
  * @param antispamSettings {AntispamSystemSettings}
  * @param moderationSettings {moderationSystemSettings}

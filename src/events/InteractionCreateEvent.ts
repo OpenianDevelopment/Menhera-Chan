@@ -1,8 +1,8 @@
 import BaseEvent from "../structures/BaseEvent";
 import DiscordClient from "../client/client";
-import {Interaction, MessageEmbed} from "discord.js";
+import { Interaction } from "discord.js";
 import chalk from "chalk";
-import {_ads, capFirstLetter} from "../utils/Custom";
+import { _ads, capFirstLetter } from "../utils/Custom";
 
 export default class interactionCreateEvent extends BaseEvent {
     constructor() {
@@ -25,6 +25,8 @@ export default class interactionCreateEvent extends BaseEvent {
         const command = client.commands.get(interaction.commandName);
         if (!command) return;
         try {
+            await interaction.deferReply({ ephemeral: false });
+            await command.run(client, interaction);
             if (_ads.OnCooldown) {
                 interaction.channel?.send({
                     embeds: [_ads.embed(interaction.guild!)],
@@ -34,8 +36,7 @@ export default class interactionCreateEvent extends BaseEvent {
                     _ads.OnCooldown = true;
                 }, 1000 * 60 * 60 * 6);
             }
-            await interaction.deferReply({ephemeral: true});
-            await command.run(client, interaction);
+            return;
         } catch (err) {
             console.error(
                 `Failed in ${chalk.redBright(
@@ -44,7 +45,5 @@ export default class interactionCreateEvent extends BaseEvent {
                 err
             );
         }
-
     }
-
 }

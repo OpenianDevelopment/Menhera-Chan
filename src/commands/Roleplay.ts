@@ -1,20 +1,21 @@
 import BaseCommand from "../structures/BaseCommand";
 import DiscordClient from "../client/client";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { CommandInteraction, GuildMember, MessageEmbed } from "discord.js";
 import { getRolePlayGifs } from "../database/functions/RolePlayFunctions";
 import { rpTextCollection } from "../utils/Custom";
 
 export default class RolePlayCommand extends BaseCommand {
     constructor() {
-        super("rp", " ");
+        super("roleplay", " ");
     }
-    async run(
-        client: DiscordClient,
-        interaction: CommandInteraction,
-        args: string[]
-    ) {
+    async run(client: DiscordClient, interaction: CommandInteraction) {
         const author = interaction.user;
-        const member = await interaction.guild!.members.fetch(args[1]);
+        const member = interaction.options.getMember(
+            "user",
+            true
+        ) as GuildMember;
+        const subcmd = interaction.options.getString("type", true);
+        var user_msg = interaction.options.getString("message", false);
         if (member.user.id == author.id) {
             const embed = new MessageEmbed().setDescription(
                 "You need to provide another user not yourself!"
@@ -24,35 +25,36 @@ export default class RolePlayCommand extends BaseCommand {
         // Defining the embed
         const embed = new MessageEmbed();
         // Getting the collection and array
-        const textarray = rpTextCollection(author, member).get(args[0])!;
+        const textarray = rpTextCollection(author, member).get(subcmd)!;
         // Choosing text
         const rtxt = textarray[Math.floor(Math.random() * textarray.length)];
         // Writing user's message
-        var text;
-        if (!args[2]) {
-            text = " ";
-        } else if (args[2].length > 500) {
-            text = "||~ Text is too long||";
+        if (!user_msg) {
+            user_msg = " ";
+        } else if (user_msg.length > 500) {
+            user_msg = "||~ Text is too long||";
         } else {
-            text = `~ ${args[2]}`;
+            user_msg = `~ ${user_msg}`;
         }
         var data;
-        if (args[0] == "tsundere") {
+        if (subcmd == "tsundere") {
             embed.setDescription(
                 `<@!${author.id}> to <@!${member.user.id}>:\n**${rtxt}**`
             );
         } else {
             // Getting an img from mongodb
-            data = (await getRolePlayGifs(args[0]))?.get("images");
+            data = (await getRolePlayGifs(subcmd))?.get("images");
             data = data[Math.floor(Math.random() * data.length)];
-            embed.setImage(data).setDescription(`**${rtxt}** ${text}`);
+            embed.setImage(data).setDescription(`**${rtxt}** ${user_msg}`);
         }
         // Finishing the embed
-        embed.setFooter(
-            `https://ko-fi.com/rohank05`,
-            client.user?.displayAvatarURL()
-        );
+        embed
+            .setColor(member.displayColor)
+            .setFooter(
+                "https://menhera.openian.dev",
+                client.user?.displayAvatarURL()
+            );
 
-        return interaction.reply({ embeds: [embed] });
+        await interaction.followUp({ embeds: [embed] });
     }
 }
