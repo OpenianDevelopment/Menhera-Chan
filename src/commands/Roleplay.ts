@@ -20,7 +20,8 @@ export default class RolePlayCommand extends BaseCommand {
             const embed = new MessageEmbed().setDescription(
                 "You need to provide another user not yourself!"
             );
-            return interaction.reply({ embeds: [embed], ephemeral: true });
+            await interaction.followUp({ embeds: [embed], ephemeral: true });
+            return;
         }
         // Defining the embed
         const embed = new MessageEmbed();
