@@ -13,6 +13,11 @@ const commands: ApplicationCommandData[] = [
         description: "🏓",
     },
     {
+        name: "serverinfo",
+        description:
+            "Shows the info of the server where the command is writen in",
+    },
+    {
         name: "avatar",
         description: "See your/user's avatar",
         options: [

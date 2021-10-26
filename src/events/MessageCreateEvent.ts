@@ -1,7 +1,7 @@
 import BaseEvent from "../structures/BaseEvent";
 import DiscordClient from "../client/client";
 import { Message } from "discord.js";
-import { _ads } from "../utils/Custom";
+import { _ads } from "../utils/functions/Custom";
 
 export default class messageCreateEvent extends BaseEvent {
     constructor() {

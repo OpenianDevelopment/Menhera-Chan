@@ -3,7 +3,6 @@ import path from "path";
 import { promises as fs } from "fs";
 import mongoose from "mongoose";
 import { getGuildSettings } from "../database/functions/GuildSettingsFunctions";
-import { Guild } from "discord.js";
 
 /**
  * Registering Events in Client#events

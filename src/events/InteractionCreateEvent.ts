@@ -2,7 +2,7 @@ import BaseEvent from "../structures/BaseEvent";
 import DiscordClient from "../client/client";
 import { Interaction } from "discord.js";
 import chalk from "chalk";
-import { _ads, capFirstLetter } from "../utils/Custom";
+import { _ads, capFirstLetter } from "../utils/functions/Custom";
 
 export default class interactionCreateEvent extends BaseEvent {
     constructor() {
