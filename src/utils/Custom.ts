@@ -1,5 +1,23 @@
 import { MessageEmbed, Guild, Collection, GuildMember, User } from "discord.js";
 
+declare global {
+    type RpTypes =
+        | "bully"
+        | "bite"
+        | "cry"
+        | "cuddle"
+        | "greet"
+        | "highfive"
+        | "kill"
+        | "kiss"
+        | "pat"
+        | "tickle"
+        | "tsundere"
+        | "yeet"
+        | "smile"
+        | "punch"
+        | "lick";
+}
 function capFirstLetter(value: string) {
     return value.charAt(0).toUpperCase() + value.slice(1);
 }
@@ -24,12 +42,12 @@ const _ads = {
 };
 
 function clean(str: string) {
-    return str = str.replace(/`/g, `\\\`${String.fromCharCode(8203)}`);
+    return (str = str.replace(/`/g, `\\\`${String.fromCharCode(8203)}`));
 }
 
 /** Returns rp text data */
 function rpTextCollection(author: User, member: GuildMember) {
-    const _crp = new Collection<string, string[]>()
+    const _crp = new Collection<RpTypes, string[]>()
         .set("bite", [
             `<@!${author.id}> *bites* <@!${member.user.id}>`,
             `Ouch looks like it hurts`,

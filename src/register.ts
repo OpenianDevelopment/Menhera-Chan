@@ -109,67 +109,39 @@ const commands: ApplicationCommandData[] = [
         ],
     },
 ];
-const guild_id: string = "712748451108225045",
-    deleteQ: boolean = false;
+const deleteQ: boolean = false;
 
 client.on("ready", async () => {
     try {
         if (deleteQ) {
-            if (guild_id.length >= 8) {
-                const cmds = await client.guilds.cache
-                    .get(guild_id)!
-                    .commands.fetch();
-                cmds.forEach((cmd) => {
-                    cmd.delete()
-                        .then((c) =>
-                            console.log(
-                                "Deleted: " +
-                                    c.name +
-                                    " | " +
-                                    c.id +
-                                    " | " +
-                                    c.guildId
-                            )
+            const cmds = await client.application!.commands.fetch();
+            cmds.forEach((cmd) => {
+                cmd.delete()
+                    .then((c) =>
+                        console.log(
+                            "Deleted: " +
+                                c.name +
+                                " | " +
+                                c.id +
+                                " | " +
+                                c.guildId
                         )
-                        .catch(console.error);
-                });
-            } else {
-                const cmds = await client.application!.commands.fetch();
-                cmds.forEach((cmd) => {
-                    cmd.delete()
-                        .then((c) =>
-                            console.log("Deleted: " + c.name + " | " + c.id)
-                        )
-                        .catch(console.error);
-                });
-            }
-        } else {
-            commands.forEach((command) => {
-                if (guild_id.length >= 8) {
-                    client.guilds.cache
-                        .get(guild_id)!
-                        .commands.create(command)
-                        .then((c) =>
-                            console.log(
-                                "Created: " +
-                                    c.name +
-                                    " | " +
-                                    c.id +
-                                    " | " +
-                                    c.guildId
-                            )
-                        )
-                        .catch(console.error);
-                } else {
-                    client
-                        .application!.commands.create(command)
-                        .then((c) =>
-                            console.log("Created: " + c.name + " | " + c.id)
-                        )
-                        .catch(console.error);
-                }
+                    )
+                    .catch(console.error);
             });
+            return console.log("\x1b[32m%s\x1b[0m", "I'm Done");
         }
+        commands.forEach((command) => {
+            client
+                .application!.commands.create(command)
+                .then((c) =>
+                    console.log(
+                        "Created: " + c.name + " | " + c.id + " | " + c.guildId
+                    )
+                )
+                .catch(console.error);
+        });
+        return console.log("\x1b[32m%s\x1b[0m", "I'm Done");
     } catch (err) {
         console.error("Error When Registering:", err);
     }

@@ -27,17 +27,17 @@ export default class ReportCommand extends BaseCommand {
                 value: `${author.tag} | ${author.id}`,
             })
             .setTimestamp();
-        var data1, data2;
         if (type == "user") {
-            data1 = interaction.options.getUser("target", true);
-            data2 = interaction.options.getString("reason", true);
+            const user = interaction.options.getUser("target", true);
+            const reason = interaction.options.getString("reason", true);
             embed.addFields(
-                { name: "Target", value: `${data1.tag} | ${data1.id}` },
-                { name: "Reason", value: clean(data2) }
+                { name: "Target", value: `${user.tag} | ${user.id}` },
+                { name: "Reason", value: clean(reason) }
             );
         } else {
-            data1 = interaction.options.getString("description", true);
-            embed.setDescription(clean(data1));
+            embed.setDescription(
+                clean(interaction.options.getString("description", true))
+            );
         }
         await webhook.send({
             content: `${interaction.guild?.name} | ${interaction.guild?.id}`,
