@@ -45,11 +45,11 @@
 [Menhera Chan](https://menhera-chan.in) is a multi-purpose discord bot with tons of feature. We build Menhera Chan because we wanted to replace multiple bots with just one bot. We think we were somewhat successful
 
 Feature:
-* Moderation
+~~* Moderation~~
 * Roleplay
-* Music
-* MyAnimeList and Anilist
-* Economy
+~~* Music~~
+~~* MyAnimeList and Anilist~~
+~~* Economy~~
 
 
 
@@ -71,7 +71,7 @@ Feature:
 ### Prerequisites
 
 
-* npm
+* yarn
   ```sh
   npm install -g yarn
   ```
@@ -117,7 +117,7 @@ by downloading the following program you agree to the following LICENSE in the L
 
 [Rohan Kumar](https://github.com/rohank05) - rohan@openian.dev<br>
 [Julio](https://github.com/july12123) - julio@openian.dev<br>
-[Noro](https://github.com/NORO3618) - noro@openian.dev
+[Noro](https://github.com/NORO95) - noro@openian.dev
 
 <br><br>
 [Support Server](https://discord.com/invite/a4zkCjg)
