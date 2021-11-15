@@ -1,6 +1,7 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction, GuildMember, MessageEmbed } from "discord.js";
+import config from "../../utils/config";
 
 export default class AvatarCommand extends BaseCommand {
     constructor() {
@@ -17,7 +18,7 @@ export default class AvatarCommand extends BaseCommand {
                 member.user.displayAvatarURL({ dynamic: true, size: 1024 })
             )
             .setFooter(
-                "https://menhera.openian.dev",
+                config.links.website,
                 client.user!.displayAvatarURL({ dynamic: true })
             )
             .setTimestamp();

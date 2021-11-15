@@ -113,6 +113,45 @@ const commands: ApplicationCommandData[] = [
             },
         ],
     },
+    {
+        name: "rank",
+        description: "Shows rank card",
+        type: "CHAT_INPUT",
+        options: [
+            {
+                name: "user",
+                description: "Show <this user>'s rank card",
+                type: "USER",
+                required: false,
+            },
+        ],
+    },
+    {
+        name: "rank-options",
+        description: "Edit the rankcard's options",
+        type: "CHAT_INPUT",
+        options: [
+            {
+                name: "option",
+                description: "Option to edit",
+                type: "STRING",
+                choices: [
+                    { name: "How to use this?", value: "help" },
+                    { name: "Background Image", value: "bg" },
+                    { name: "Opacity", value: "op" },
+                    { name: "Track Color", value: "track" },
+                    { name: "Text Color", value: "text" },
+                ],
+                required: true,
+            },
+            {
+                name: "input",
+                description: "Option's input value",
+                type: "STRING",
+                required: false,
+            },
+        ],
+    },
 ];
 const deleteQ: boolean = false;
 
