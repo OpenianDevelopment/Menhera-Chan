@@ -1,4 +1,6 @@
-export default {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = {
     links: {
         donate: "https://ko-fi.com/rohank05",
         website: "https://menhera-chan.in",

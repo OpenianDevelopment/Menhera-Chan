@@ -1,21 +1,29 @@
-import { ApplicationCommandData, Client } from "discord.js";
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const discord_js_1 = require("discord.js");
 require("dotenv").config();
-const client = new Client({
+const client = new discord_js_1.Client({
     intents: [],
 });
-
 client.login(process.env.TOKEN);
-
 // Someone should change the description...
-const commands: ApplicationCommandData[] = [
+const commands = [
     {
         name: "ping",
         description: "🏓",
     },
     {
         name: "serverinfo",
-        description:
-            "Shows the info of the server where the command is writen in",
+        description: "Shows the info of the server where the command is writen in",
     },
     {
         name: "avatar",
@@ -34,8 +42,7 @@ const commands: ApplicationCommandData[] = [
     },
     {
         name: "report",
-        description:
-            "Report a bug/user (user who misused he bot, we're not he server's mods nor discord staff)",
+        description: "Report a bug/user (user who misused he bot, we're not he server's mods nor discord staff)",
         type: "CHAT_INPUT",
         options: [
             {
@@ -170,7 +177,7 @@ const commands: ApplicationCommandData[] = [
         type: "CHAT_INPUT",
         options: [
             {
-                name: "user",
+                name: "users",
                 description: "Look up anilist users",
                 type: "SUB_COMMAND",
                 options: [
@@ -211,40 +218,32 @@ const commands: ApplicationCommandData[] = [
         ],
     },
 ];
-const deleteQ: boolean = false;
-
-client.on("ready", async () => {
+const deleteQ = false;
+client.on("ready", () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (deleteQ) {
-            const cmds = await client.application!.commands.fetch();
+            const cmds = yield client.application.commands.fetch();
             cmds.forEach((cmd) => {
                 cmd.delete()
-                    .then((c) =>
-                        console.log(
-                            "Deleted: " +
-                                c.name +
-                                " | " +
-                                c.id +
-                                " | " +
-                                c.guildId
-                        )
-                    )
+                    .then((c) => console.log("Deleted: " +
+                    c.name +
+                    " | " +
+                    c.id +
+                    " | " +
+                    c.guildId))
                     .catch(console.error);
             });
             return console.log("\x1b[32m%s\x1b[0m", "Started deleting...");
         }
         commands.forEach((command) => {
             client
-                .application!.commands.create(command)
-                .then((c) =>
-                    console.log(
-                        "Created: " + c.name + " | " + c.id + " | " + c.guildId
-                    )
-                )
+                .application.commands.create(command)
+                .then((c) => console.log("Created: " + c.name + " | " + c.id + " | " + c.guildId))
                 .catch(console.error);
         });
         return console.log("\x1b[32m%s\x1b[0m", "Started creating...");
-    } catch (err) {
+    }
+    catch (err) {
         console.error("Error When Registering:", err);
     }
-});
+}));

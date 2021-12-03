@@ -1,4 +1,5 @@
 import { MessageEmbed, Guild, Collection, GuildMember, User } from "discord.js";
+import DiscordClient from "../../client/client";
 
 declare global {
     type RpTypes =
@@ -130,4 +131,16 @@ function rpTextCollection(author: User, member: GuildMember) {
     return _crp;
 }
 
-export { capFirstLetter, _ads, rpTextCollection, clean };
+export default function getSub(
+    client: DiscordClient,
+    command: string,
+    subcmd: string | null
+): string {
+    if (!subcmd) return command;
+    if (command == "mal" || command == "ani") {
+        return client.commands.get(`${command} ${subcmd}`)!.name;
+    }
+    return command;
+}
+
+export { capFirstLetter, _ads, rpTextCollection, clean, getSub };
