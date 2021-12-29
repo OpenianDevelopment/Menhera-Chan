@@ -7,7 +7,7 @@ import {
     Util,
     WebhookClient,
 } from "discord.js";
-import { capFirstLetter, clean } from "../utils/Custom";
+import { capFirstLetter, clean } from "../utils/functions/Custom";
 
 export default class ReportCommand extends BaseCommand {
     constructor() {

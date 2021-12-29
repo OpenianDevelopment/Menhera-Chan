@@ -2,7 +2,8 @@ import BaseCommand from "../structures/BaseCommand";
 import DiscordClient from "../client/client";
 import { CommandInteraction, GuildMember, MessageEmbed } from "discord.js";
 import { getRolePlayGifs } from "../database/functions/RolePlayFunctions";
-import { rpTextCollection } from "../utils/Custom";
+import { rpTextCollection } from "../utils/functions/Custom";
+import config from "../utils/config";
 
 export default class RolePlayCommand extends BaseCommand {
     constructor() {
@@ -50,7 +51,7 @@ export default class RolePlayCommand extends BaseCommand {
         embed
             .setColor(member.displayColor)
             .setFooter(
-                "https://menhera.openian.dev",
+                config.links.website,
                 client.user?.displayAvatarURL()
             );
 

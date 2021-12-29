@@ -13,6 +13,11 @@ const commands: ApplicationCommandData[] = [
         description: "🏓",
     },
     {
+        name: "serverinfo",
+        description:
+            "Shows the info of the server where the command is writen in",
+    },
+    {
         name: "avatar",
         description: "See your/user's avatar",
         options: [
@@ -108,6 +113,103 @@ const commands: ApplicationCommandData[] = [
             },
         ],
     },
+    {
+        name: "rank",
+        description: "Shows rank card",
+        type: "CHAT_INPUT",
+        options: [
+            {
+                name: "user",
+                description: "Show <this user>'s rank card",
+                type: "USER",
+                required: false,
+            },
+        ],
+    },
+    {
+        name: "rank-options",
+        description: "Edit the rankcard's options",
+        type: "CHAT_INPUT",
+        options: [
+            {
+                name: "option",
+                description: "Option to edit",
+                type: "STRING",
+                choices: [
+                    { name: "How to use this?", value: "help" },
+                    { name: "Background Image", value: "bg" },
+                    { name: "Opacity", value: "op" },
+                    { name: "Track Color", value: "track" },
+                    { name: "Text Color", value: "text" },
+                ],
+                required: true,
+            },
+            {
+                name: "input",
+                description: "Option's input value",
+                type: "STRING",
+                required: false,
+            },
+        ],
+    },
+    {
+        name: "mal",
+        description: "Search MyAnimeList's database",
+        type: "CHAT_INPUT",
+        options: [
+            {
+                name: "blabla",
+                description: "blablabla",
+                type: "SUB_COMMAND",
+            },
+        ],
+    },
+    {
+        name: "ani",
+        description: "Search AniList's database",
+        type: "CHAT_INPUT",
+        options: [
+            {
+                name: "user",
+                description: "Look up anilist users",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "name",
+                        description: "Username to look up",
+                        type: "STRING",
+                        required: true,
+                    },
+                ],
+            },
+            {
+                name: "anime",
+                description: "Search anime data on anilist",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "name",
+                        description: "Anime's name",
+                        type: "STRING",
+                        required: true,
+                    },
+                ],
+            },
+            {
+                name: "char",
+                description: "Search for a character on anilist",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "name",
+                        description: "Character's name",
+                        type: "STRING",
+                        required: true,
+                    },
+                ],
+            },
+        ],
+    },
 ];
 const deleteQ: boolean = false;
 
@@ -129,7 +231,7 @@ client.on("ready", async () => {
                     )
                     .catch(console.error);
             });
-            return console.log("\x1b[32m%s\x1b[0m", "I'm Done");
+            return console.log("\x1b[32m%s\x1b[0m", "Started deleting...");
         }
         commands.forEach((command) => {
             client
@@ -141,7 +243,7 @@ client.on("ready", async () => {
                 )
                 .catch(console.error);
         });
-        return console.log("\x1b[32m%s\x1b[0m", "I'm Done");
+        return console.log("\x1b[32m%s\x1b[0m", "Started creating...");
     } catch (err) {
         console.error("Error When Registering:", err);
     }

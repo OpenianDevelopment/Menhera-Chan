@@ -2,7 +2,7 @@ import BaseEvent from "../structures/BaseEvent";
 import DiscordClient from "../client/client";
 import { Interaction } from "discord.js";
 import chalk from "chalk";
-import { _ads, capFirstLetter } from "../utils/Custom";
+import { _ads, capFirstLetter, getSub } from "../utils/functions/Custom";
 
 export default class interactionCreateEvent extends BaseEvent {
     constructor() {
@@ -22,7 +22,8 @@ export default class interactionCreateEvent extends BaseEvent {
         /**
          * Getting commands and executing it.
          */
-        const command = client.commands.get(interaction.commandName);
+        const cmd_name = getSub(client, interaction.commandName, interaction.options.getSubcommand(false))
+        const command = client.commands.get(cmd_name);
         if (!command) return;
         try {
             await interaction.deferReply({ ephemeral: false });
