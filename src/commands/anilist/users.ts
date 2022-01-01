@@ -184,7 +184,11 @@ export default class AniUsersCommand extends BaseCommand {
                 .setDisabled(true)
         );
         const botmsg = (await interaction.followUp({
-            embeds: [embeds[page]],
+            embeds: [embeds[page].setFooter(
+                `Page ${page + 1} of ${embeds.length} || ${
+                    config.links.website
+                }`
+            )],
             components: [navbtn_next],
         })) as Message;
         const filter = (int: any) =>

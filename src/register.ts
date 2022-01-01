@@ -158,9 +158,44 @@ const commands: ApplicationCommandData[] = [
         type: "CHAT_INPUT",
         options: [
             {
-                name: "blabla",
-                description: "blablabla",
+                name: "anime",
+                description: "Search an anime on MyAnimeList",
                 type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "name",
+                        description: "Anime name",
+                        type: "STRING",
+                        required: true,
+                    },
+                ],
+            },
+            {
+                name: "rec",
+                description:
+                    "Get anime recommendations by an ID of anime you like",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "id",
+                        description: "Liked anime's id",
+                        type: "NUMBER",
+                        required: true,
+                    },
+                ],
+            },
+            {
+                name: "user",
+                description: "Search a MyAnimeList user",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "name",
+                        description: "username",
+                        type: "STRING",
+                        required: true,
+                    },
+                ],
             },
         ],
     },
@@ -203,6 +238,19 @@ const commands: ApplicationCommandData[] = [
                     {
                         name: "name",
                         description: "Character's name",
+                        type: "STRING",
+                        required: true,
+                    },
+                ],
+            },
+            {
+                name: "manga",
+                description: "Look up a manga on anilist",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "name",
+                        description: "Manga name",
                         type: "STRING",
                         required: true,
                     },

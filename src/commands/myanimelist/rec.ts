@@ -7,120 +7,61 @@ import {
     MessageActionRow,
     MessageButton,
     MessageEmbed,
+    TextChannel,
 } from "discord.js";
 import fetch from "cross-fetch";
 import config from "../../utils/config";
 
-export default class AniCharCommand extends BaseCommand {
+export default class MalRecCommand extends BaseCommand {
     constructor() {
-        super("ani char", "Search for a character in anilist's database");
+        super("mal rec", "To search an anime on MyAnimeList");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
-        let name = interaction.options.getString("name", true);
-        var query = `query ($id: Int, $page: Int, $perPage: Int, $search: String) {
-            Page(page: $page, perPage: $perPage) {
-              pageInfo {
-                total
-                currentPage
-                lastPage
-                hasNextPage
-                perPage
-              }
-              characters(id: $id, search: $search) {
-                name {
-                  full
-                }
-                image {
-                  large
-                }
-                description
-                gender
-                age
-                anime: media(page: 1, perPage: 5, type: ANIME) {
-                  nodes {
-                    title {
-                      romaji
-                    }
-                  }
-                }
-                manga: media(page: 1, perPage: 5, type: MANGA) {
-                  nodes {
-                    title {
-                      romaji
-                    }
-                  }
-                }
-              }
-            }
-          }`;
-        var variables = {
-            search: name,
-            page: 1,
-            perPage: 25,
-        };
+        let anime_id = interaction.options.getNumber("id", true);
 
-        var url = "https://graphql.anilist.co",
-            options = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-                body: JSON.stringify({
-                    query: query,
-                    variables: variables,
-                }),
-            };
+        const data = await new Request().send([
+            "anime",
+            anime_id,
+            "recommendations",
+        ]);
 
-        var AnimeData = await fetch(url, options)
-            .then(handleResponse)
-            .catch(console.error);
-
-        if (AnimeData == undefined) {
+        if (data == undefined || data.length == 0) {
             interaction.followUp({ content: `Could not find anything` });
             return;
         }
-        var data = AnimeData.data.Page.characters;
+
         var page = 0;
         var embeds: MessageEmbed[] = [];
-        data.forEach((element1: any) => {
-            var anime = "";
-            var manga = "";
-            element1.anime.nodes.forEach((Aelement: any) => {
-                anime = Aelement.title.romaji + ` \n` + anime;
-            });
-            element1.manga.nodes.forEach((Melement: any) => {
-                manga = Melement.title.romaji + ` \n` + manga;
-            });
-            const embed = new MessageEmbed()
-                .setTitle(element1.name.full)
-                .setImage(element1.image.large)
-                .setDescription("No description available.")
-                .addField(
-                    "Gender",
-                    element1.gender == null ? "Not available." : element1.gender
-                )
-                .addField(
-                    "Age",
-                    element1.age == null ? "Not available." : element1.age
-                )
-                .addField("Anime", anime ? anime : "None")
-                .addField("Manga", manga ? manga : "None");
-            if (element1.description != null) {
-                if (element1.description.length < 2000) {
-                    embed.setDescription(element1.description.toString());
-                } else {
-                    embed.setDescription(
-                        (element1.description as string).slice(
-                            0,
-                            2000 - element1.description.length
-                        ) + "..."
+        var embed: MessageEmbed;
+        data.recommendations.forEach((element: any) => {
+            if (
+                element.rated === "Rx" &&
+                !!(interaction.channel as TextChannel).nsfw
+            ) {
+                embed = new MessageEmbed()
+                    .setTitle("NSFW Title")
+                    .setThumbnail(
+                        "https://techcrunch.com/wp-content/uploads/2017/04/tumblr-nsfw.png?w=711"
+                    )
+                    .setDescription(
+                        "This Anime Can be viewed in NFSW Channel. Please move to next Page"
                     );
-                }
+            } else {
+                embed = new MessageEmbed()
+                    .setTitle(element.title)
+                    .setThumbnail(element.image_url)
+                    .addField("MAL ID: ", element.mal_id.toString())
+                    .addField("URL: ", element.url)
+                    .addField(
+                        "Recommendation URL: ",
+                        element.recommendation_url
+                    )
+                    .setFooter(
+                        `Menhera Chan is Kawaii || ${config.links.website}`
+                    );
             }
             embeds.push(embed);
         });
-        console.log(JSON.stringify(embeds, null, "\t"));
         const navbtns = new MessageActionRow().addComponents(
             new MessageButton()
                 .setCustomId("previous")
@@ -154,11 +95,13 @@ export default class AniCharCommand extends BaseCommand {
                 .setDisabled(true)
         );
         const botmsg = (await interaction.followUp({
-            embeds: [embeds[page].setFooter(
-                `Page ${page + 1} of ${embeds.length} || ${
-                    config.links.website
-                }`
-            )],
+            embeds: [
+                embeds[page].setFooter(
+                    `Page ${page + 1} of ${embeds.length} || ${
+                        config.links.website
+                    }`
+                ),
+            ],
             components: [navbtn_next],
         })) as Message;
         const filter = (int: any) =>
@@ -220,7 +163,38 @@ export default class AniCharCommand extends BaseCommand {
     }
 }
 
-async function handleResponse(response: Response) {
-    const json = await response.json();
-    return response.ok ? json : Promise.reject(json);
+/* From https://github.com/zuritor/jikanjs/blob/6a11bcf1d07dfc046e56ddf3ed94adc5db6ac822/lib/util/Request.js */
+class Request {
+    /**
+     * sends a request with the given list of URL parts and the optional list of query parameter
+     * @param {*[]} args           URL Parts
+     * @param {{}} [parameter]     Query Parameter
+     * @returns {Promise<*>} returns the request response or an error
+     */
+    async send(args: any, parameter?: any): Promise<any> {
+        var response = await fetch(this.urlBuilder(args, parameter));
+        var data = await response.json();
+
+        if (response.status !== 200)
+            return Promise.reject(new Error(data.error));
+        return Promise.resolve(data);
+    }
+
+    /**
+     *
+     * @param {*[]} args            URL Parts
+     * @param {{}} [parameter]      Query Parameter
+     * @returns {string}            URL
+     */
+    urlBuilder(args: string[], parameter: any): string {
+        var url = new URL("https://api.jikan.moe/v3");
+
+        url.pathname += "/" + args.filter((x: any) => x).join("/");
+        if (parameter)
+            Object.entries(parameter).forEach(([key, value]) =>
+                url.searchParams.append(key, `${value}`)
+            );
+
+        return url.href;
+    }
 }

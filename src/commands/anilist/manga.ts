@@ -7,18 +7,20 @@ import {
     MessageActionRow,
     MessageButton,
     MessageEmbed,
+    TextChannel,
 } from "discord.js";
 import fetch from "cross-fetch";
 import config from "../../utils/config";
 
-export default class AniCharCommand extends BaseCommand {
+export default class AniMangaCommand extends BaseCommand {
     constructor() {
-        super("ani char", "Search for a character in anilist's database");
+        super("ani manga", "Search for manga in anilist's database");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         let name = interaction.options.getString("name", true);
-        var query = `query ($id: Int, $page: Int, $perPage: Int, $search: String) {
-            Page(page: $page, perPage: $perPage) {
+        var query = `
+        query ($id: Int, $page: Int, $perPage: Int, $search: String) {
+            Page (page: $page, perPage: $perPage) {
               pageInfo {
                 total
                 currentPage
@@ -26,39 +28,37 @@ export default class AniCharCommand extends BaseCommand {
                 hasNextPage
                 perPage
               }
-              characters(id: $id, search: $search) {
-                name {
-                  full
-                }
-                image {
-                  large
+              media (id: $id, search: $search, type: MANGA) {
+                id
+                title {
+                  romaji
+                  english
                 }
                 description
-                gender
-                age
-                anime: media(page: 1, perPage: 5, type: ANIME) {
-                  nodes {
-                    title {
-                      romaji
-                    }
-                  }
+                coverImage{
+                  extraLarge
                 }
-                manga: media(page: 1, perPage: 5, type: MANGA) {
-                  nodes {
-                    title {
-                      romaji
-                    }
-                  }
+                startDate{
+                  year
+                  month
+                  day  
                 }
+                format
+                status
+                chapters
+                volumes
+                isAdult
+                averageScore
+                source
               }
             }
-          }`;
+          }
+        `;
         var variables = {
             search: name,
             page: 1,
             perPage: 25,
         };
-
         var url = "https://graphql.anilist.co",
             options = {
                 method: "POST",
@@ -71,56 +71,91 @@ export default class AniCharCommand extends BaseCommand {
                     variables: variables,
                 }),
             };
-
-        var AnimeData = await fetch(url, options)
+        var animedata = await fetch(url, options)
             .then(handleResponse)
             .catch(console.error);
-
-        if (AnimeData == undefined) {
+        if (animedata == undefined) {
+            interaction.followUp({
+                content: "```If you see this message contact devs```",
+            });
+            return;
+        }
+        var data = animedata.data.Page.media;
+        if (data.length == 0) {
             interaction.followUp({ content: `Could not find anything` });
             return;
         }
-        var data = AnimeData.data.Page.characters;
         var page = 0;
         var embeds: MessageEmbed[] = [];
-        data.forEach((element1: any) => {
-            var anime = "";
-            var manga = "";
-            element1.anime.nodes.forEach((Aelement: any) => {
-                anime = Aelement.title.romaji + ` \n` + anime;
-            });
-            element1.manga.nodes.forEach((Melement: any) => {
-                manga = Melement.title.romaji + ` \n` + manga;
-            });
+        data.forEach((element: any) => {
+            if (
+                element.isAdult == true &&
+                !(interaction.channel as TextChannel).nsfw
+            ) {
+                const embed = new MessageEmbed()
+                    .setTitle("Adult Content")
+                    .setDescription(
+                        "18+ content can only be viewed in nsfw channels"
+                    );
+                embeds.push(embed);
+                return;
+            }
+            var newDescription;
+            if (element.description != null) {
+                newDescription = element.description.replace(
+                    /(<([^>]+)>)/gi,
+                    ""
+                );
+            } else {
+                newDescription = "No Description";
+            }
+            if (element.title.english != null) {
+                newDescription =
+                    element.title.english + `\n` + `\n` + newDescription;
+            }
             const embed = new MessageEmbed()
-                .setTitle(element1.name.full)
-                .setImage(element1.image.large)
-                .setDescription("No description available.")
-                .addField(
-                    "Gender",
-                    element1.gender == null ? "Not available." : element1.gender
-                )
-                .addField(
-                    "Age",
-                    element1.age == null ? "Not available." : element1.age
-                )
-                .addField("Anime", anime ? anime : "None")
-                .addField("Manga", manga ? manga : "None");
-            if (element1.description != null) {
-                if (element1.description.length < 2000) {
-                    embed.setDescription(element1.description.toString());
-                } else {
-                    embed.setDescription(
-                        (element1.description as string).slice(
-                            0,
-                            2000 - element1.description.length
-                        ) + "..."
+                .setTitle(element.title.romaji)
+                .setThumbnail(element.coverImage.extraLarge)
+                .setDescription(newDescription)
+                .addField(`ID:`, element.id.toString(), true);
+            if (element.status != "NOT_YET_RELEASED") {
+                if (element.averageScore != null) {
+                    embed.addField(
+                        `Average Score:`,
+                        element.averageScore + `%`,
+                        true
                     );
                 }
+                embed.addField(
+                    `Aired:`,
+                    `(${element.startDate.day}/${element.startDate.month}/${element.startDate.year})`,
+                    true
+                );
             }
+            embed.addField(
+                `Status:`,
+                element.status.toString().replace(/_/gi, " ").toLowerCase(),
+                true
+            );
+            if (element.status != "NOT_YET_RELEASED") {
+                embed.addField(`Volumes:`, `${element.volumes}`, true);
+                embed.addField(`Chapters:`, `${element.chapters}`, true);
+                embed.addField(`Format:`, element.format.toString(), true);
+                if (element.source == null) {
+                    embed.addField(`Source:`, `Unknown`, true);
+                } else {
+                    embed.addField(`Source:`, element.source.toString(), true);
+                }
+            }
+            embed.addField(`18+:`, element.isAdult.toString(), true);
+            embed.addField(
+                `Link:`,
+                `https://anilist.co/anime/${element.id}/`,
+                true
+            );
             embeds.push(embed);
         });
-        console.log(JSON.stringify(embeds, null, "\t"));
+
         const navbtns = new MessageActionRow().addComponents(
             new MessageButton()
                 .setCustomId("previous")
@@ -154,11 +189,13 @@ export default class AniCharCommand extends BaseCommand {
                 .setDisabled(true)
         );
         const botmsg = (await interaction.followUp({
-            embeds: [embeds[page].setFooter(
-                `Page ${page + 1} of ${embeds.length} || ${
-                    config.links.website
-                }`
-            )],
+            embeds: [
+                embeds[page].setFooter(
+                    `Page ${page + 1} of ${embeds.length} || ${
+                        config.links.website
+                    }`
+                ),
+            ],
             components: [navbtn_next],
         })) as Message;
         const filter = (int: any) =>
