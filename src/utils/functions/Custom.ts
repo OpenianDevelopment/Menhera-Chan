@@ -1,4 +1,5 @@
 import { MessageEmbed, Guild, Collection, GuildMember, User } from "discord.js";
+import fetch from "cross-fetch";
 import DiscordClient from "../../client/client";
 
 declare global {
@@ -131,7 +132,7 @@ function rpTextCollection(author: User, member: GuildMember) {
     return _crp;
 }
 
-export default function getSub(
+function getSub(
     client: DiscordClient,
     command: string,
     subcmd: string | null
@@ -143,4 +144,39 @@ export default function getSub(
     return command;
 }
 
-export { capFirstLetter, _ads, rpTextCollection, clean, getSub };
+/* From https://github.com/zuritor/jikanjs/blob/6a11bcf1d07dfc046e56ddf3ed94adc5db6ac822/lib/util/Request.js */
+class MalRequest {
+    /**
+     * sends a request with the given list of URL parts and the optional list of query parameter
+     * @param {*[]} args           URL Parts
+     * @param {{}} [parameter]     Query Parameter
+     * @returns {Promise<*>} returns the request response or an error
+     */
+    async send(args: any, parameter?: any): Promise<any> {
+        var response = await fetch(this.urlBuilder(args, parameter));
+        var data = await response.json();
+
+        if (response.status !== 200) return null;
+        return Promise.resolve(data);
+    }
+
+    /**
+     *
+     * @param {*[]} args            URL Parts
+     * @param {{}} [parameter]      Query Parameter
+     * @returns {string}            URL
+     */
+    urlBuilder(args: string[], parameter: any): string {
+        var url = new URL("https://api.jikan.moe/v3");
+
+        url.pathname += "/" + args.filter((x: any) => x).join("/");
+        if (parameter)
+            Object.entries(parameter).forEach(([key, value]) =>
+                url.searchParams.append(key, `${value}`)
+            );
+
+        return url.href;
+    }
+}
+
+export { capFirstLetter, _ads, rpTextCollection, clean, getSub, MalRequest };

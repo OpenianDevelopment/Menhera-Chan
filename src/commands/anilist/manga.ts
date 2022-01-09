@@ -191,7 +191,7 @@ export default class AniMangaCommand extends BaseCommand {
         const botmsg = (await interaction.followUp({
             embeds: [
                 embeds[page].setFooter(
-                    `Page ${page + 1} of ${embeds.length} || ${
+                    `Page ${page + 1} of ${embeds.length} | ${
                         config.links.website
                     }`
                 ),
@@ -211,7 +211,7 @@ export default class AniMangaCommand extends BaseCommand {
                 if (page != 0) {
                     page--;
                     embeds[page].setFooter(
-                        `Page ${page + 1} of ${embeds.length} || ${
+                        `Page ${page + 1} of ${embeds.length} | ${
                             config.links.website
                         }`
                     );
@@ -234,7 +234,7 @@ export default class AniMangaCommand extends BaseCommand {
                 if (page < embeds.length - 1) {
                     page++;
                     embeds[page].setFooter(
-                        `Page ${page + 1} of ${embeds.length} || ${
+                        `Page ${page + 1} of ${embeds.length} | ${
                             config.links.website
                         }`
                     );

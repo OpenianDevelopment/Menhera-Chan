@@ -9,8 +9,8 @@ import {
     MessageEmbed,
     TextChannel,
 } from "discord.js";
-import axios from "axios";
 import config from "../../utils/config";
+import { MalRequest } from "../../utils/functions/Custom";
 
 export default class MalAnimeCommand extends BaseCommand {
     constructor() {
@@ -18,32 +18,23 @@ export default class MalAnimeCommand extends BaseCommand {
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         let name = interaction.options.getString("name", true);
-        var response = await axios.get(
-            `https://api.jikan.moe/v3/search/anime?q=${name}`
-        );
+        var data = await new MalRequest().send(["search", "anime"], {
+            q: name,
+        });
 
-        if (response.data.results === null) {
-            interaction.followUp({
-                content: "No Search Result!",
-            });
-            return;
-        }
-        var data = response.data.results;
-        if (data == undefined) {
-            interaction.followUp({ content: `Search Error` });
-            return;
-        }
-        if (data.length == 0) {
+        if (!data) {
             interaction.followUp({ content: `Could not find anything` });
             return;
         }
+        data = data.results;
         var page = 0;
         var embeds: MessageEmbed[] = [];
         var embed: MessageEmbed;
+        console.log(data);
         data.forEach((element: any) => {
             if (
                 element.rated === "Rx" &&
-                !!(interaction.channel as TextChannel).nsfw
+                !(interaction.channel as TextChannel).nsfw
             ) {
                 embed = new MessageEmbed()
                     .setTitle("NSFW Title")
@@ -99,7 +90,7 @@ export default class MalAnimeCommand extends BaseCommand {
         const botmsg = (await interaction.followUp({
             embeds: [
                 embeds[page].setFooter(
-                    `Page ${page + 1} of ${embeds.length} || ${
+                    `Page ${page + 1} of ${embeds.length} | ${
                         config.links.website
                     }`
                 ),
@@ -119,7 +110,7 @@ export default class MalAnimeCommand extends BaseCommand {
                 if (page != 0) {
                     page--;
                     embeds[page].setFooter(
-                        `Page ${page + 1} of ${embeds.length} || ${
+                        `Page ${page + 1} of ${embeds.length} | ${
                             config.links.website
                         }`
                     );
@@ -142,7 +133,7 @@ export default class MalAnimeCommand extends BaseCommand {
                 if (page < embeds.length - 1) {
                     page++;
                     embeds[page].setFooter(
-                        `Page ${page + 1} of ${embeds.length} || ${
+                        `Page ${page + 1} of ${embeds.length} | ${
                             config.links.website
                         }`
                     );

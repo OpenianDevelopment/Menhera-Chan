@@ -1,10 +1,7 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import {
-    CommandInteraction,
-    MessageEmbed,
-} from "discord.js";
-import axios from "axios";
+import { CommandInteraction, MessageEmbed } from "discord.js";
+import { MalRequest } from "../../utils/functions/Custom";
 import config from "../../utils/config";
 
 export default class MalUserCommand extends BaseCommand {
@@ -13,43 +10,45 @@ export default class MalUserCommand extends BaseCommand {
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         let name = interaction.options.getString("name", true);
-        const result = await axios
-            .get(`https://api.jikan.moe/v3/user/${name}`)
-            .catch((err) => {
-                return;
-            });
-        if (!result || result.status != 200) {
+        const data = await new MalRequest().send(["user", name]);
+
+        if (!data) {
             interaction.followUp({ content: `Could not find anything` });
             return;
         }
         const profile = new MessageEmbed()
             .setTitle(`${name}'s Profile`)
-            .setURL(result.data.url)
-            .setThumbnail(result.data.image_url)
+            .setURL(data.url)
+            .setThumbnail(data.image_url)
             .addField(
                 `<:MenheraWave:738775873217495160> Anime`,
-                result.data.anime_stats.total_entries.toString(),
+                data.anime_stats.total_entries.toString(),
                 true
             )
-            .addField(`👀 Watching`, result.data.anime_stats.watching.toString(), true)
-            .addField(`📊 Mean Score`, result.data.anime_stats.mean_score.toString(), true)
+            .addField(`👀 Watching`, data.anime_stats.watching.toString(), true)
+            .addField(
+                `📊 Mean Score`,
+                data.anime_stats.mean_score.toString(),
+                true
+            )
             .addField(
                 `<:KomiBaka:743366396590948444> Manga`,
-                result.data.manga_stats.total_entries.toString(),
+                data.manga_stats.total_entries.toString(),
                 true
             )
-            .addField(`👓 Reading`, result.data.manga_stats.reading.toString(), true)
-            .addField(`📊 Mean Score`, result.data.manga_stats.mean_score.toString(), true)
+            .addField(`👓 Reading`, data.manga_stats.reading.toString(), true)
+            .addField(
+                `📊 Mean Score`,
+                data.manga_stats.mean_score.toString(),
+                true
+            )
             .addField(
                 `🍰 Birthday`,
-                new Date(result.data.birthday).toDateString(),
+                new Date(data.birthday).toDateString(),
                 true
             )
-            .addField(
-                `Joined`,
-                new Date(result.data.joined).toDateString(),
-                true
-            );
+            .addField(`Joined`, new Date(data.joined).toDateString(), true)
+            .setFooter("Menhera Chan is Kawaii |" +config.links.website);
         interaction.followUp({ embeds: [profile] });
         return;
     }

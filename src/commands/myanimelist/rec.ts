@@ -7,10 +7,10 @@ import {
     MessageActionRow,
     MessageButton,
     MessageEmbed,
-    TextChannel,
 } from "discord.js";
-import fetch from "cross-fetch";
 import config from "../../utils/config";
+import { MalRequest } from "../../utils/functions/Custom";
+
 
 export default class MalRecCommand extends BaseCommand {
     constructor() {
@@ -19,13 +19,13 @@ export default class MalRecCommand extends BaseCommand {
     async run(client: DiscordClient, interaction: CommandInteraction) {
         let anime_id = interaction.options.getNumber("id", true);
 
-        const data = await new Request().send([
+        const data = await new MalRequest().send([
             "anime",
             anime_id,
             "recommendations",
         ]);
 
-        if (data == undefined || data.length == 0) {
+        if (!data || data.length == 0) {
             interaction.followUp({ content: `Could not find anything` });
             return;
         }
@@ -34,34 +34,16 @@ export default class MalRecCommand extends BaseCommand {
         var embeds: MessageEmbed[] = [];
         var embed: MessageEmbed;
         data.recommendations.forEach((element: any) => {
-            if (
-                element.rated === "Rx" &&
-                !!(interaction.channel as TextChannel).nsfw
-            ) {
-                embed = new MessageEmbed()
-                    .setTitle("NSFW Title")
-                    .setThumbnail(
-                        "https://techcrunch.com/wp-content/uploads/2017/04/tumblr-nsfw.png?w=711"
-                    )
-                    .setDescription(
-                        "This Anime Can be viewed in NFSW Channel. Please move to next Page"
-                    );
-            } else {
-                embed = new MessageEmbed()
-                    .setTitle(element.title)
-                    .setThumbnail(element.image_url)
-                    .addField("MAL ID: ", element.mal_id.toString())
-                    .addField("URL: ", element.url)
-                    .addField(
-                        "Recommendation URL: ",
-                        element.recommendation_url
-                    )
-                    .setFooter(
-                        `Menhera Chan is Kawaii || ${config.links.website}`
-                    );
-            }
+            embed = new MessageEmbed()
+                .setTitle(element.title)
+                .setThumbnail(element.image_url)
+                .addField("MAL ID: ", element.mal_id.toString())
+                .addField("URL: ", element.url)
+                .addField("Recommendation URL: ", element.recommendation_url)
+                .setFooter(`Menhera Chan is Kawaii | ${config.links.website}`);
             embeds.push(embed);
         });
+
         const navbtns = new MessageActionRow().addComponents(
             new MessageButton()
                 .setCustomId("previous")
@@ -97,7 +79,7 @@ export default class MalRecCommand extends BaseCommand {
         const botmsg = (await interaction.followUp({
             embeds: [
                 embeds[page].setFooter(
-                    `Page ${page + 1} of ${embeds.length} || ${
+                    `Page ${page + 1} of ${embeds.length} | ${
                         config.links.website
                     }`
                 ),
@@ -117,7 +99,7 @@ export default class MalRecCommand extends BaseCommand {
                 if (page != 0) {
                     page--;
                     embeds[page].setFooter(
-                        `Page ${page + 1} of ${embeds.length} || ${
+                        `Page ${page + 1} of ${embeds.length} | ${
                             config.links.website
                         }`
                     );
@@ -140,7 +122,7 @@ export default class MalRecCommand extends BaseCommand {
                 if (page < embeds.length - 1) {
                     page++;
                     embeds[page].setFooter(
-                        `Page ${page + 1} of ${embeds.length} || ${
+                        `Page ${page + 1} of ${embeds.length} | ${
                             config.links.website
                         }`
                     );
@@ -160,41 +142,5 @@ export default class MalRecCommand extends BaseCommand {
                 }
             }
         });
-    }
-}
-
-/* From https://github.com/zuritor/jikanjs/blob/6a11bcf1d07dfc046e56ddf3ed94adc5db6ac822/lib/util/Request.js */
-class Request {
-    /**
-     * sends a request with the given list of URL parts and the optional list of query parameter
-     * @param {*[]} args           URL Parts
-     * @param {{}} [parameter]     Query Parameter
-     * @returns {Promise<*>} returns the request response or an error
-     */
-    async send(args: any, parameter?: any): Promise<any> {
-        var response = await fetch(this.urlBuilder(args, parameter));
-        var data = await response.json();
-
-        if (response.status !== 200)
-            return Promise.reject(new Error(data.error));
-        return Promise.resolve(data);
-    }
-
-    /**
-     *
-     * @param {*[]} args            URL Parts
-     * @param {{}} [parameter]      Query Parameter
-     * @returns {string}            URL
-     */
-    urlBuilder(args: string[], parameter: any): string {
-        var url = new URL("https://api.jikan.moe/v3");
-
-        url.pathname += "/" + args.filter((x: any) => x).join("/");
-        if (parameter)
-            Object.entries(parameter).forEach(([key, value]) =>
-                url.searchParams.append(key, `${value}`)
-            );
-
-        return url.href;
     }
 }

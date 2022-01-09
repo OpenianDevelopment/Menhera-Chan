@@ -205,7 +205,7 @@ const commands: ApplicationCommandData[] = [
         type: "CHAT_INPUT",
         options: [
             {
-                name: "user",
+                name: "users",
                 description: "Look up anilist users",
                 type: "SUB_COMMAND",
                 options: [
