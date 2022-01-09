@@ -170,7 +170,7 @@ const commands: ApplicationCommandData[] = [
         type: "CHAT_INPUT",
         options: [
             {
-                name: "user",
+                name: "users",
                 description: "Look up anilist users",
                 type: "SUB_COMMAND",
                 options: [
@@ -203,6 +203,19 @@ const commands: ApplicationCommandData[] = [
                     {
                         name: "name",
                         description: "Character's name",
+                        type: "STRING",
+                        required: true,
+                    },
+                ],
+            },
+            {
+                name: "manga",
+                description: "Search for manga in anilist's database",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "name",
+                        description: "Manga name",
                         type: "STRING",
                         required: true,
                     },

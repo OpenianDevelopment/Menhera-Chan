@@ -18,7 +18,8 @@
         "dotenv": "^10.0.0",
         "fs": "^0.0.1-security",
         "mongoose": "^6.0.5",
-        "nodemon": "^2.0.15"
+        "nodemon": "^2.0.15",
+        "ts-node": "^10.4.0"
     },
     "scripts": {
         "start": "tsc && node dist/index.js",
