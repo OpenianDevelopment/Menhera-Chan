@@ -5,7 +5,7 @@ import {
     MessageActionRow,
     MessageButton
 } from "discord.js";
-import config from "../../utils/config";
+import config from "../config";
 
 export async function embed (interaction: CommandInteraction,embeds: string | any[],page: number){
     const navbtns = new MessageActionRow().addComponents(

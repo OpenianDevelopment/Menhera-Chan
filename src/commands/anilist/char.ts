@@ -5,7 +5,7 @@ import {
     MessageEmbed
 } from "discord.js";
 import fetch from "cross-fetch";
-import { embed } from "../../utils/functions/anilist";
+import { embed } from "../../utils/functions/embed";
 
 export default class AniCharCommand extends BaseCommand {
     constructor() {

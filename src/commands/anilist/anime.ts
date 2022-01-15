@@ -6,7 +6,7 @@ import {
     TextChannel
 } from "discord.js";
 import fetch from "cross-fetch";
-import { embed } from "../../utils/functions/anilist";
+import { embed } from "../../utils/functions/embed";
 
 export default class AniAnimeCommand extends BaseCommand {
     constructor() {

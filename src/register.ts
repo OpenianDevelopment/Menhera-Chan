@@ -223,8 +223,38 @@ const commands: ApplicationCommandData[] = [
             },
         ],
     },
+    {
+        name: "econ",
+        description: "Economy",
+        type: "CHAT_INPUT",
+        options: [
+            {
+                name: "balance",
+                description: "Shows Balance",
+                type: "SUB_COMMAND"
+            },
+            {
+                name: "search",
+                description: "Search for Waifu",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "name",
+                        description: "name to look up",
+                        type: "STRING",
+                        required: true,
+                    },
+                ],
+            },
+        ],
+    },
+    {
+        name: "test",
+        description: "test",
+        type: "CHAT_INPUT"
+    },
 ];
-const deleteQ: boolean = false;
+const deleteQ: boolean = false ;
 
 client.on("ready", async () => {
     try {

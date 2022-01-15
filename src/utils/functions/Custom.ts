@@ -137,10 +137,7 @@ export default function getSub(
     subcmd: string | null
 ): string {
     if (!subcmd) return command;
-    if (command == "mal" || command == "ani") {
-        return client.commands.get(`${command} ${subcmd}`)!.name;
-    }
-    return command;
+    return client.commands.get(`${command} ${subcmd}`)!.name;
 }
 
 export { capFirstLetter, _ads, rpTextCollection, clean, getSub };

@@ -3,6 +3,7 @@ import DiscordClient from "../client/client";
 import { Interaction } from "discord.js";
 import chalk from "chalk";
 import { _ads, capFirstLetter, getSub } from "../utils/functions/Custom";
+import { econ } from "../utils/functions/econ";
 
 export default class interactionCreateEvent extends BaseEvent {
     constructor() {
@@ -25,6 +26,9 @@ export default class interactionCreateEvent extends BaseEvent {
         const cmd_name = getSub(client, interaction.commandName, interaction.options.getSubcommand(false))
         const command = client.commands.get(cmd_name);
         if (!command) return;
+        //econ stuff here
+        econ(interaction);
+        //econ end here
         try {
             await interaction.deferReply({ ephemeral: false });
             await command.run(client, interaction);
