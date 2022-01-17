@@ -246,6 +246,24 @@ const commands: ApplicationCommandData[] = [
                     },
                 ],
             },
+            {
+                name: "sell",
+                description: "Sell Waifu",
+                type:"SUB_COMMAND",
+                options:[
+                    {
+                        name:"id",
+                        description:"ID of Waifu",
+                        type:"INTEGER",
+                        required:true,
+                    }
+                ]
+            },
+            {
+                name: "inventory",
+                description: "Shows Collection of Waifus",
+                type:"SUB_COMMAND"
+            },
         ],
     },
     {

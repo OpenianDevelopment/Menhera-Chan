@@ -12,8 +12,18 @@ export async function initEcoUser(user:string){
     }
 }
 
-export async function getBalance(id:string) {
+export async function getUser(id:string) {
     return await economyUser.findOne({user:id}).exec()
+}
+
+export async function getUserWaifus(id:string) {
+    var data = await economyUser.findOne({user:id}).exec()
+    return data.characters
+}
+
+export async function getBalance(id:string) {
+    var data = await economyUser.findOne({user:id}).exec()
+    return data.balance
 }
 
 export async function addBalance(user:string,balance:number) {
@@ -21,6 +31,12 @@ export async function addBalance(user:string,balance:number) {
     if(!profile){return initEcoUser(user)}
     var newbal = balance+profile.balance
     await economyUser.findOneAndUpdate({user:user},{balance:newbal})
+}
+export async function sellWaifu(user:string,id:string) {
+    var data = await economyUser.findOne({user:user}).exec()
+    var index = data.characters.indexOf(id)
+    data.characters.splice(index,1)
+    await economyUser.findOneAndUpdate({user:user},{characters:data.characters})
 }
 
 export async function updateBalance(user:string,balance:number) {
@@ -31,6 +47,13 @@ export async function getWaifu(name:string) {
     return await waifu.find({
         name:{$regex: name, $options: 'i'} 
     });
+}
+
+export async function getWaifuByID(ID:string) {
+    return await waifu.findOne({id:ID});
+}
+export async function getWaifuByIDArray(array:Array<string>) {
+    return await waifu.find({id:{$in:array}}).exec()
 }
 
 export async function getProduct(id:string){

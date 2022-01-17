@@ -19,7 +19,7 @@ export default class EconBalanceCommand extends BaseCommand {
         var balance = await getBalance(interaction.member?.user.id!)
         var embed = new MessageEmbed()
         .setTitle(`${interaction.member?.user.username}'s Balance`)
-        .setDescription(`Coins:\n${balance.balance}`)
+        .setDescription(`Coins:\n${balance}`)
         
         await interaction.followUp({embeds:[embed]})
     }
