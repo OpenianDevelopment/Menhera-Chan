@@ -5,11 +5,7 @@ import { getWaifu } from "../../database/functions/EconFunctions";
 
 import {
     CommandInteraction,
-    Message,
-    MessageEmbed,
-    Util,
-    GuildMember,
-    WebhookClient,
+    MessageEmbed
 } from "discord.js";
 
 export default class EconSearchCommand extends BaseCommand {

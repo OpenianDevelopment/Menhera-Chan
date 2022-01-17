@@ -28,6 +28,7 @@
         "build": "tsc"
     },
     "devDependencies": {
+        "dbl-api": "^1.2.1",
         "prettier": "^2.3.2"
     },
     "bugs": {

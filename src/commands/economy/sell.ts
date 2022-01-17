@@ -3,16 +3,6 @@ import DiscordClient from "../../client/client";
 import { addBalance, getUserWaifus, getWaifuByID, sellWaifu } from "../../database/functions/EconFunctions";
 import BaseCommand from "../../structures/BaseCommand";
 
-interface Waifu {
-    id: number,
-    name: string,
-    image: string,
-    gender: string,
-    anime: string,
-    cost: string,
-    wish: number
-}
-
 export default class EconSellCommand extends BaseCommand {
     constructor() {
         super("econ sell", "Sell Waifu");

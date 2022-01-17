@@ -1,6 +1,6 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import { getUserWaifus, getWaifuByID, getWaifuByIDArray } from "../../database/functions/EconFunctions";
+import { getUserWaifus, getWaifuByIDArray } from "../../database/functions/EconFunctions";
 
 import {
     CommandInteraction,
@@ -40,7 +40,6 @@ export default class EconBalanceCommand extends BaseCommand {
             .setImage(x.image)
             await embeds.push(embed)
         })
-        console.log(embeds)
         embed(interaction,embeds,0)
     }
 }

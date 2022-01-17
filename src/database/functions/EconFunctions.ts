@@ -32,6 +32,16 @@ export async function addBalance(user:string,balance:number) {
     var newbal = balance+profile.balance
     await economyUser.findOneAndUpdate({user:user},{balance:newbal})
 }
+export async function removeBalance(user:string,balance:number) {
+    var profile = await economyUser.findOne({user:user})
+    var newbal = profile.balance-balance
+    await economyUser.findOneAndUpdate({user:user},{balance:newbal})
+}
+export async function buyWaifu(user:string,id:string) {
+    var data = await economyUser.findOne({user:user}).exec()
+    data.characters.push({characterId:id})
+    await economyUser.findOneAndUpdate({user:user},{characters:data.characters})
+}
 export async function sellWaifu(user:string,id:string) {
     var data = await economyUser.findOne({user:user}).exec()
     var index = data.characters.indexOf(id)

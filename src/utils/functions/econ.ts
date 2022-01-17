@@ -1,6 +1,4 @@
 import { Interaction } from "discord.js";
-import { initEcoUser } from "../../database/functions/EconFunctions";
-import { updateBalance } from "../../database/functions/EconFunctions";
 import { addBalance } from "../../database/functions/EconFunctions";
 const ecoMap = new Map();
 const cooldown = 15000

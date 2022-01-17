@@ -2,6 +2,7 @@ import BaseEvent from "../structures/BaseEvent";
 import DiscordClient from "../client/client";
 import chalk from "chalk";
 import { cacheGuildSettings } from "../utils/initialFunctions";
+import { server } from "../utils/functions/vote";
 
 export default class ReadyEvent extends BaseEvent {
     constructor() {
@@ -14,5 +15,6 @@ export default class ReadyEvent extends BaseEvent {
             name: `${client.guilds.cache.size} Servers`,
             type: "WATCHING",
         });
+        server(client)
     }
 }
