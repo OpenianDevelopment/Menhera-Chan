@@ -25,6 +25,28 @@
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ]
-        }
+        },
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "Register",
+            "preLaunchTask": {
+                "type": "typescript",
+                "tsconfig": "tsconfig.json",
+                "problemMatcher": [
+                    "$tsc"
+                ],
+                "group": "build",
+                "label": "tsc: build - tsconfig.json"
+            },
+            "outputCapture": "std",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\dist\\register.js",
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ]
+        },
     ]
 }

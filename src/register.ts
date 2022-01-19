@@ -282,6 +282,11 @@ const commands: ApplicationCommandData[] = [
                 description: "List of wiafu/husbando",
                 type:"SUB_COMMAND"
             },
+            {
+                name:"beg",
+                description: "Beg for money",
+                type:"SUB_COMMAND"
+            }
         ],
     },
     {
@@ -312,15 +317,16 @@ client.on("ready", async () => {
             });
             return console.log("\x1b[32m%s\x1b[0m", "Started deleting...");
         }
-        commands.forEach((command) => {
-            client
-                .application!.commands.create(command)
-                .then((c) =>
-                    console.log(
-                        "Created: " + c.name + " | " + c.id + " | " + c.guildId
-                    )
+        var val = 0
+        commands.forEach(async(command) => {
+            var data = await client.application!.commands.create(command)
+                console.log(
+                    "Created: " + data.name + " | " + data.id + " | " + data.guildId
                 )
-                .catch(console.error);
+                val++
+                if(val == commands.length){
+                    process.exit(0)
+                }
         });
         return console.log("\x1b[32m%s\x1b[0m", "Started creating...");
     } catch (err) {
