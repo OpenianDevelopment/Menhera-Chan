@@ -16,7 +16,7 @@ export default class EconSellCommand extends BaseCommand {
             return
         }
         var user = interaction.member?.user.id!
-        var waifu:Array<string> = await getUserWaifus(user)
+        var waifu = await getUserWaifus(user)
         if(!waifu.find((x:any) => x.characterId == ID.toString())){
             interaction.followUp({content:`You don't have Waifu ID: **${ID}**`})
             return

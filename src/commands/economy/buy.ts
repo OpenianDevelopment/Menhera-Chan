@@ -18,14 +18,20 @@ export default class EconBalanceCommand extends BaseCommand {
             return
         }
         var user = interaction.member?.user.id!
-        var waifu:Array<string> = await getUserWaifus(user)
-        if(waifu.find((x:any) => x.characterId == ID.toString())){
+        var waifu = await getUserWaifus(user)
+        if(waifu.find((x) => x.characterId == ID.toString())){
             interaction.followUp({content:`You already have Waifu ID: **${ID}**`})
             return
         }
-        var waifuData:any = await getWaifuByID(ID.toString())
-        removeBalance(user,waifuData.cost)
-        buyWaifu(user,waifuData.id)
+        var waifuData = await getWaifuByID(ID.toString())
+        if(waifuData == null){
+            interaction.followUp({
+                content:"Invalid ID"
+            })
+            return
+        }
+        removeBalance(user,parseInt(waifuData.cost))
+        buyWaifu(user,waifuData.id.toString())
         interaction.followUp({
             content:`**${waifuData.name}** was Bought for **${waifuData.cost}**`
         })
