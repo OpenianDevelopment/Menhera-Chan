@@ -4,3 +4,6 @@
 # folders
 node_modules
 dist
+package-lock.json
+yarn-error.log
+yarn.lock

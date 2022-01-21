@@ -138,10 +138,7 @@ function getSub(
     subcmd: string | null
 ): string {
     if (!subcmd) return command;
-    if (command == "mal" || command == "ani") {
-        return client.commands.get(`${command} ${subcmd}`)!.name;
-    }
-    return command;
+    return client.commands.get(`${command} ${subcmd}`)!.name;
 }
 
 /* From https://github.com/zuritor/jikanjs/blob/6a11bcf1d07dfc046e56ddf3ed94adc5db6ac822/lib/util/Request.js */

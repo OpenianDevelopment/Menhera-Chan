@@ -14,11 +14,12 @@
         "canvas": "^2.8.0",
         "chalk": "^4.1.2",
         "cross-fetch": "^3.1.4",
-        "discord.js": "^13.1.0",
+        "discord.js": "^13.5.1",
         "dotenv": "^10.0.0",
         "fs": "^0.0.1-security",
-        "mongoose": "^6.0.5",
-        "nodemon": "^2.0.15"
+        "mongoose": "^6.1.6",
+        "nodemon": "^2.0.15",
+        "ts-node": "^10.4.0"
     },
     "scripts": {
         "start": "tsc && node dist/index.js",
@@ -27,6 +28,7 @@
         "build": "tsc"
     },
     "devDependencies": {
+        "dbl-api": "^1.2.1",
         "prettier": "^2.3.2"
     },
     "bugs": {

@@ -245,7 +245,7 @@ const commands: ApplicationCommandData[] = [
             },
             {
                 name: "manga",
-                description: "Look up a manga on anilist",
+                description: "Search for manga in anilist's database",
                 type: "SUB_COMMAND",
                 options: [
                     {
@@ -258,8 +258,79 @@ const commands: ApplicationCommandData[] = [
             },
         ],
     },
+    {
+        name: "econ",
+        description: "Economy",
+        type: "CHAT_INPUT",
+        options: [
+            {
+                name: "balance",
+                description: "Shows Balance",
+                type: "SUB_COMMAND"
+            },
+            {
+                name: "search",
+                description: "Search for Waifu",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "name",
+                        description: "name to look up",
+                        type: "STRING",
+                        required: true,
+                    },
+                ],
+            },
+            {
+                name: "sell",
+                description: "Sell Waifu",
+                type:"SUB_COMMAND",
+                options:[
+                    {
+                        name:"id",
+                        description:"ID of Waifu",
+                        type:"INTEGER",
+                        required:true,
+                    }
+                ]
+            },
+            {
+                name: "buy",
+                description: "Buy Waifu",
+                type:"SUB_COMMAND",
+                options:[
+                    {
+                        name:"id",
+                        description:"ID of Waifu",
+                        type:"INTEGER",
+                        required:true,
+                    }
+                ]
+            },
+            {
+                name: "inventory",
+                description: "Shows Collection of Waifus",
+                type:"SUB_COMMAND"
+            },
+            {
+                name: "list",
+                description: "List of wiafu/husbando",
+                type:"SUB_COMMAND"
+            },
+            {
+                name:"beg",
+                description: "Beg for money",
+                type:"SUB_COMMAND"
+            }
+        ],
+    },
+    {
+        name: "test",
+        description: "test",
+        type: "CHAT_INPUT"
+    },
 ];
-const deleteQ: boolean = false;
+const deleteQ: boolean = false ;
 
 client.on("ready", async () => {
     try {
@@ -281,15 +352,16 @@ client.on("ready", async () => {
             });
             return console.log("\x1b[32m%s\x1b[0m", "Started deleting...");
         }
-        commands.forEach((command) => {
-            client
-                .application!.commands.create(command)
-                .then((c) =>
-                    console.log(
-                        "Created: " + c.name + " | " + c.id + " | " + c.guildId
-                    )
+        var val = 0
+        commands.forEach(async(command) => {
+            var data = await client.application!.commands.create(command)
+                console.log(
+                    "Created: " + data.name + " | " + data.id + " | " + data.guildId
                 )
-                .catch(console.error);
+                val++
+                if(val == commands.length){
+                    process.exit(0)
+                }
         });
         return console.log("\x1b[32m%s\x1b[0m", "Started creating...");
     } catch (err) {
