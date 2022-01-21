@@ -7,7 +7,7 @@ import {
 } from "discord.js";
 import config from "../config";
 
-export async function embed (interaction: CommandInteraction,embeds: string | any[],page: number){
+export async function embedMaker (interaction: CommandInteraction,embeds: string | any[],page: number){
     const navbtns = new MessageActionRow().addComponents(
         new MessageButton()
             .setCustomId("previous")

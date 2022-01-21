@@ -1,6 +1,6 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import { embed } from "../../utils/functions/embed";
+import { embedMaker } from "../../utils/functions/embed";
 import { getWaifu } from "../../database/functions/EconFunctions";
 
 import {
@@ -34,6 +34,6 @@ export default class EconSearchCommand extends BaseCommand {
             .setImage(element.image)
             embeds.push(embed)
         });
-        await embed(interaction,embeds,0);
+        await embedMaker(interaction,embeds,0);
     }
 }

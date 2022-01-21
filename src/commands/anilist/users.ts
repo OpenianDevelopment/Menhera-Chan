@@ -5,7 +5,7 @@ import {
     MessageEmbed
 } from "discord.js";
 import fetch from "cross-fetch";
-import { embed } from "../../utils/functions/embed";
+import { embedMaker } from "../../utils/functions/embed";
 
 export default class AniUsersCommand extends BaseCommand {
     constructor() {
@@ -147,7 +147,7 @@ export default class AniUsersCommand extends BaseCommand {
             embed.addField(`URL:`, element.siteUrl.toString(), true);
             embeds.push(embed);
         });
-        await embed(interaction,embeds,page);
+        await embedMaker(interaction,embeds,page);
     }
 }
 

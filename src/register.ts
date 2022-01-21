@@ -325,6 +325,11 @@ const commands: ApplicationCommandData[] = [
         ],
     },
     {
+        name: "flip",
+        description: "Flips a coin",
+        type: "CHAT_INPUT"
+    },
+    {
         name: "test",
         description: "test",
         type: "CHAT_INPUT"
@@ -359,7 +364,8 @@ client.on("ready", async () => {
                     "Created: " + data.name + " | " + data.id + " | " + data.guildId
                 )
                 val++
-                if(val == commands.length){
+                if(val >= commands.length){
+                    console.log("Completed Registering \nExiting Now")
                     process.exit(0)
                 }
         });
