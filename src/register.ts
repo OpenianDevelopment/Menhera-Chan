@@ -323,6 +323,55 @@ const commands: ApplicationCommandData[] = [
                 type:"SUB_COMMAND"
             }
         ],
+    },{
+        name: "mod",
+        description: "Moderation",
+        type: "CHAT_INPUT",
+        options: [
+            {
+                name: "purge",
+                description: "Remove chat messages",
+                type: "SUB_COMMAND",
+                options:[
+                    {
+                    name:"ammount",
+                    description:"How many messages to remove",
+                    type:"INTEGER",
+                    required:true,
+                    }
+                ]
+            },{
+                name:"kick",
+                description:"Kicks a user",
+                type:"SUB_COMMAND",
+                options:[
+                    {
+                        name:"user",
+                        description:"user to kick",
+                        type:"USER",
+                        required:true
+                    },
+                    {
+                        name:"reason",
+                        description:"reason to kick user",
+                        type:"STRING",
+                        required:false
+                    }
+                ]
+            },{
+                name: "slowmode",
+                description: "To set the slowmode of the channel the command is written in",
+                type: "SUB_COMMAND",
+                options:[
+                    {
+                    name:"seconds",
+                    description:"Time per user to send a message",
+                    type:"INTEGER",
+                    required:true,
+                    }
+                ]
+            }
+        ]
     },
     {
         name: "flip",

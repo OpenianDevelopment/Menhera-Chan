@@ -13,14 +13,15 @@ export default class EconBalanceCommand extends BaseCommand {
         let ID = interaction.options.getInteger("id",true)
         if(ID<0){
             interaction.followUp({
-                content:"Invalid ID"
+                content:"Invalid ID",
+                ephemeral: true
             })
             return
         }
         var user = interaction.member?.user.id!
         var waifu = await getUserWaifus(user)
         if(waifu.find((x) => x.characterId == ID.toString())){
-            interaction.followUp({content:`You already have Waifu ID: **${ID}**`})
+            interaction.followUp({content:`You already have Waifu ID: **${ID}**`,ephemeral: true})
             return
         }
         var waifuData = await getWaifuByID(ID.toString())

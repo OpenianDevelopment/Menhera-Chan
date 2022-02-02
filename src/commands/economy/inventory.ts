@@ -18,7 +18,8 @@ export default class EconBalanceCommand extends BaseCommand {
         var data = await getUserWaifus(user)
         if(data.length < 1){
             interaction.followUp({
-                content:"You don't have anything in your inventory."
+                content:"You don't have anything in your inventory.",
+                ephemeral: true
             })
             return
         }
