@@ -11,8 +11,7 @@ export default class EconSellCommand extends BaseCommand {
         let ID = interaction.options.getInteger("id",true)
         if(ID<0){
             interaction.followUp({
-                content:"Invalid ID",
-                ephemeral: true
+                content:"Invalid ID"
             })
             return
         }

@@ -1,6 +1,6 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import {CheckPerms,CheckPermsBoth} from "../../utils/functions/mod"
+import {CheckPermsBoth} from "../../utils/functions/mod"
 import {
     CommandInteraction,
     NewsChannel,
@@ -15,18 +15,22 @@ export default class PingCommand extends BaseCommand {
     async run(client: DiscordClient, interaction: CommandInteraction) {
         if(!await CheckPermsBoth(interaction,"MANAGE_CHANNELS")){return}
         let seconds = interaction.options.getInteger("seconds",true)
+        let SChannel = interaction.options.getChannel("channel",false)
         if(seconds >100 ||seconds <0){
             interaction.followUp({
-                content:"Invalid Time\nTime should be between 0 and 100",
-                ephemeral:true
+                content:"Invalid Time\nTime should be between 0 and 100"
             })
             return
         }
-        const channel = interaction.channel as TextChannel|NewsChannel|ThreadChannel;
+        let channel;
+        if(!SChannel){
+            channel = interaction.channel as TextChannel|NewsChannel|ThreadChannel;
+        }else{
+            channel = SChannel as TextChannel|NewsChannel|ThreadChannel;
+        }
         channel.edit({rateLimitPerUser: seconds})
         interaction.followUp({
-            content:`The channel is now in slowmode with ${seconds} seconds`,
-            ephemeral:true
+            content:`The channel is now in slowmode with ${seconds} seconds`
         })
     }
 }

@@ -17,10 +17,10 @@ export default class AvatarCommand extends BaseCommand {
             .setImage(
                 member.user.displayAvatarURL({ dynamic: true, size: 1024 })
             )
-            .setFooter(
-                config.links.website,
-                client.user!.displayAvatarURL({ dynamic: true })
-            )
+            .setFooter({
+                iconURL:client.user!.displayAvatarURL({ dynamic: true }),
+                text:config.links.website
+            })
             .setTimestamp();
         await interaction.followUp({ embeds: [embed] });
     }

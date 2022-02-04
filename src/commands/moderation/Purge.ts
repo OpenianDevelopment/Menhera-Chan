@@ -1,5 +1,6 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
+import { CheckPermsBoth } from "../../utils/functions/mod";
 import {
     CommandInteraction,
     NewsChannel,
@@ -12,12 +13,14 @@ export default class PingCommand extends BaseCommand {
         super("mod purge", "Remove chat messages");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
-        if(!await CheckPermsBoth()){return}
+        console.log(1)
+        if(!await CheckPermsBoth(interaction,"MANAGE_MESSAGES")){return}
+        console.log(2)
         let ammount = interaction.options.getInteger("ammount", true);
+        let SChannel = interaction.options.getChannel("channel",false)
         if(ammount < 1 || ammount > 100){
             interaction.followUp({
-                content:"Invaild Ammount\n Please Provide a number Between 1 to 100",
-                ephemeral: true
+                content:"Invaild Ammount\n Please Provide a number Between 1 to 100"
             })
             return
         }
@@ -28,7 +31,16 @@ export default class PingCommand extends BaseCommand {
             })
             return
         }
-        const channel = interaction.channel as TextChannel|NewsChannel|ThreadChannel;
-        channel.bulkDelete(ammount)
+        console.log(3)
+        let channel;
+        if(!SChannel){
+            channel = interaction.channel as TextChannel|NewsChannel|ThreadChannel;
+        }else{
+            channel = SChannel as TextChannel|NewsChannel|ThreadChannel;
+        }
+        await channel.bulkDelete(ammount)
+        interaction.followUp({
+            content:`Purged ${ammount} messages`
+        })
     }
 }

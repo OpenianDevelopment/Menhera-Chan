@@ -1,5 +1,3 @@
-import BaseCommand from "../../structures/BaseCommand";
-import DiscordClient from "../../client/client";
 import { PermissionResolvable } from "discord.js";
 import {
     CommandInteraction,
@@ -19,16 +17,15 @@ export async function CheckPermsBoth(interaction:CommandInteraction,perms:Permis
     let bot = await interaction.guild?.members.fetch(interaction.client.user!.id)
     if(!member?.permissions.has(perms)){
         interaction.followUp({
-            content:`You don't have permission todo this, you need:`,
-            ephemeral:true
+            content:`You don't have permission todo this, you need:`
         })
         return false
     }
-    if(!bot?.permissions.has(perms)){
+    if(! bot?.permissions.has(perms)){
         interaction.followUp({
-            content:`Permission required to do this:\n${perms}`,
-            ephemeral:true
+            content:`Permission required to do this:\n${perms}`
         })
         return false
     }
+    return true
 }

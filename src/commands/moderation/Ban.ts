@@ -13,10 +13,11 @@ export default class PingCommand extends BaseCommand {
         if(!await CheckPermsBoth(interaction,"KICK_MEMBERS")){return}
         let data = interaction.options.getUser("user",true)
         let reason = interaction.options.getString("reason",false)
+        let day = interaction.options.getInteger("days",false)
         if(reason == null){reason = "No reason given"}
         if(data.id == client.user?.id){
             interaction.followUp({
-                content:"I can't kick myself"
+                content:"I can't ban myself"
             })
             return
         }
@@ -27,15 +28,22 @@ export default class PingCommand extends BaseCommand {
             })
             return
         }
-        if(!member.kickable){
+        if(!member.bannable){
             interaction.followUp({
                 content:"Cannot kick user"
             })
             return
         }
-        await member.kick(reason)
+        if(day != null){
+            await member.ban({reason:reason,days:day})
+            interaction.followUp({
+                content:`User ${member} was Banned for ${day} days}`
+            })
+            return
+        }
+        await member.ban({reason:reason})
         interaction.followUp({
-            content:`User ${member.user.username} was Kicked}`
+            content:`User ${member} was Banned}`
         })
     }
 }

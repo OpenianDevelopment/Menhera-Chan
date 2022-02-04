@@ -334,10 +334,15 @@ const commands: ApplicationCommandData[] = [
                 type: "SUB_COMMAND",
                 options:[
                     {
-                    name:"ammount",
-                    description:"How many messages to remove",
-                    type:"INTEGER",
-                    required:true,
+                        name:"ammount",
+                        description:"How many messages to remove",
+                        type:"INTEGER",
+                        required:true,
+                    },{
+                        name:"channel",
+                        description:"channel to purge",
+                        type:"CHANNEL",
+                        required:false
                     }
                 ]
             },{
@@ -360,7 +365,7 @@ const commands: ApplicationCommandData[] = [
                 ]
             },{
                 name: "slowmode",
-                description: "To set the slowmode of the channel the command is written in",
+                description: "To set the slowmode of the channel",
                 type: "SUB_COMMAND",
                 options:[
                     {
@@ -368,6 +373,68 @@ const commands: ApplicationCommandData[] = [
                     description:"Time per user to send a message",
                     type:"INTEGER",
                     required:true,
+                    },{
+                        name:"channel",
+                        description:"channel to purge",
+                        type:"CHANNEL",
+                        required:false
+                    }
+                ]
+            },{
+                name: "mute",
+                description: "Mute a user",
+                type: "SUB_COMMAND",
+                options:[
+                    {
+                        name:"user",
+                        description:"user to kick",
+                        type:"USER",
+                        required:true
+                    },{
+                        name:"time",
+                        description:"time to mute",
+                        type:"STRING",
+                        required:true
+                    },{
+                        name:"reason",
+                        description:"reason to kick user",
+                        type:"STRING",
+                        required:false
+                    }
+                ] 
+            },{
+                name: "unmute",
+                description: "Mute a user",
+                type: "SUB_COMMAND",
+                options:[
+                    {
+                        name:"user",
+                        description:"user to kick",
+                        type:"USER",
+                        required:true
+                    }
+                ] 
+            },{
+                name:"ban",
+                description:"Bans a user",
+                type:"SUB_COMMAND",
+                options:[
+                    {
+                        name:"user",
+                        description:"user to ban",
+                        type:"USER",
+                        required:true
+                    },
+                    {
+                        name:"reason",
+                        description:"reason to ban user",
+                        type:"STRING",
+                        required:false
+                    },{
+                        name:"days",
+                        description:"how long to ban user",
+                        type:"INTEGER",
+                        required:false
                     }
                 ]
             }

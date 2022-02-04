@@ -7,16 +7,14 @@ import {
 
 export default class PingCommand extends BaseCommand {
     constructor() {
-        super("mod kick", "Kicks a user");
+        super("mod unmute", "Unmutes a user");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
-        if(!await CheckPermsBoth(interaction,"KICK_MEMBERS")){return}
+        if(!await CheckPermsBoth(interaction,"MODERATE_MEMBERS")){return}
         let data = interaction.options.getUser("user",true)
-        let reason = interaction.options.getString("reason",false)
-        if(reason == null){reason = "No reason given"}
         if(data.id == client.user?.id){
             interaction.followUp({
-                content:"I can't kick myself"
+                content:"I can't mute myself"
             })
             return
         }
@@ -27,15 +25,21 @@ export default class PingCommand extends BaseCommand {
             })
             return
         }
-        if(!member.kickable){
+        if(!member.moderatable){
             interaction.followUp({
-                content:"Cannot kick user"
+                content:"Cannot mute user"
             })
             return
         }
-        await member.kick(reason)
+        try{
+            member.timeout(0,"")
+        }catch{
+            interaction.followUp({
+                content:`Failed to unmute member ${member}`
+            })
+        }
         interaction.followUp({
-            content:`User ${member.user.username} was Kicked}`
+            content:`${member} was unmuted`
         })
     }
 }
