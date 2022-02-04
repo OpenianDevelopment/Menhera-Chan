@@ -30,7 +30,7 @@ export default class PingCommand extends BaseCommand {
         }
         channel.edit({rateLimitPerUser: seconds})
         interaction.followUp({
-            content:`The channel is now in slowmode with ${seconds} seconds`
+            content:`${channel} is now in slowmode with ${seconds} seconds`
         })
     }
 }

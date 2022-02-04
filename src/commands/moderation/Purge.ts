@@ -13,9 +13,7 @@ export default class PingCommand extends BaseCommand {
         super("mod purge", "Remove chat messages");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
-        console.log(1)
         if(!await CheckPermsBoth(interaction,"MANAGE_MESSAGES")){return}
-        console.log(2)
         let ammount = interaction.options.getInteger("ammount", true);
         let SChannel = interaction.options.getChannel("channel",false)
         if(ammount < 1 || ammount > 100){
@@ -31,7 +29,6 @@ export default class PingCommand extends BaseCommand {
             })
             return
         }
-        console.log(3)
         let channel;
         if(!SChannel){
             channel = interaction.channel as TextChannel|NewsChannel|ThreadChannel;
@@ -40,7 +37,7 @@ export default class PingCommand extends BaseCommand {
         }
         await channel.bulkDelete(ammount)
         interaction.followUp({
-            content:`Purged ${ammount} messages`
+            content:`Purged ${ammount} messages in ${channel}`
         })
     }
 }
