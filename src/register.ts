@@ -10,12 +10,12 @@ client.login(process.env.TOKEN);
 const commands: ApplicationCommandData[] = [
     {
         name: "ping",
-        description: "🏓",
+        description: "🏓 reply with bot's ping and shard id",
     },
     {
         name: "serverinfo",
         description:
-            "Shows the info of the server where the command is writen in",
+            "Shows the info of the server",
     },
     {
         name: "avatar",
@@ -23,14 +23,14 @@ const commands: ApplicationCommandData[] = [
         options: [
             {
                 name: "user",
-                description: "wanted avatar's owner",
+                description: "wanted user's avatar",
                 type: "USER",
             },
         ],
     },
     {
         name: "uptime",
-        description: "Return bot's ready Date/timer",
+        description: "Return bot's ready Date/time",
     },
     {
         name: "report",
@@ -40,7 +40,7 @@ const commands: ApplicationCommandData[] = [
         options: [
             {
                 name: "user",
-                description: "which roleplay to use",
+                description: "Report a user who is misusing the bot",
                 type: "SUB_COMMAND",
                 options: [
                     {
@@ -51,7 +51,7 @@ const commands: ApplicationCommandData[] = [
                     },
                     {
                         name: "reason",
-                        description: "User to report",
+                        description: "Reason for reporting",
                         type: "STRING",
                         required: true,
                     },
@@ -59,12 +59,12 @@ const commands: ApplicationCommandData[] = [
             },
             {
                 name: "bug",
-                description: "User to do role play with",
+                description: "Report a bug within the bog",
                 type: "SUB_COMMAND",
                 options: [
                     {
                         name: "description",
-                        description: "The bug's description",
+                        description: "bug's description",
                         type: "STRING",
                         required: true,
                     },
@@ -178,7 +178,7 @@ const commands: ApplicationCommandData[] = [
                 options: [
                     {
                         name: "id",
-                        description: "Liked anime's id",
+                        description: "Anime's id",
                         type: "NUMBER",
                         required: true,
                     },
