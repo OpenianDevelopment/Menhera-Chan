@@ -1,4 +1,4 @@
-import { ApplicationCommandData, Client } from "discord.js";
+import { ApplicationCommandData, ApplicationCommandPermissionData, Client } from "discord.js";
 require("dotenv").config();
 const client = new Client({
     intents: [],
@@ -14,8 +14,7 @@ const commands: ApplicationCommandData[] = [
     },
     {
         name: "serverinfo",
-        description:
-            "Shows the info of the server",
+        description: "Shows the info of the server",
     },
     {
         name: "avatar",
@@ -266,7 +265,7 @@ const commands: ApplicationCommandData[] = [
             {
                 name: "balance",
                 description: "Shows Balance",
-                type: "SUB_COMMAND"
+                type: "SUB_COMMAND",
             },
             {
                 name: "search",
@@ -284,46 +283,47 @@ const commands: ApplicationCommandData[] = [
             {
                 name: "sell",
                 description: "Sell Waifu",
-                type:"SUB_COMMAND",
-                options:[
+                type: "SUB_COMMAND",
+                options: [
                     {
-                        name:"id",
-                        description:"ID of Waifu",
-                        type:"INTEGER",
-                        required:true,
-                    }
-                ]
+                        name: "id",
+                        description: "ID of Waifu",
+                        type: "INTEGER",
+                        required: true,
+                    },
+                ],
             },
             {
                 name: "buy",
                 description: "Buy Waifu",
-                type:"SUB_COMMAND",
-                options:[
+                type: "SUB_COMMAND",
+                options: [
                     {
-                        name:"id",
-                        description:"ID of Waifu",
-                        type:"INTEGER",
-                        required:true,
-                    }
-                ]
+                        name: "id",
+                        description: "ID of Waifu",
+                        type: "INTEGER",
+                        required: true,
+                    },
+                ],
             },
             {
                 name: "inventory",
                 description: "Shows Collection of Waifus",
-                type:"SUB_COMMAND"
+                type: "SUB_COMMAND",
             },
             {
                 name: "list",
                 description: "List of wiafu/husbando",
-                type:"SUB_COMMAND"
+                type: "SUB_COMMAND",
             },
             {
-                name:"beg",
+                name: "beg",
                 description: "Beg for money",
-                type:"SUB_COMMAND"
-            }
+                type: "SUB_COMMAND",
+            },
         ],
-    },{
+    },
+    {
         name: "mod",
         description: "Moderation",
         type: "CHAT_INPUT",
@@ -332,127 +332,154 @@ const commands: ApplicationCommandData[] = [
                 name: "purge",
                 description: "Remove chat messages",
                 type: "SUB_COMMAND",
-                options:[
+                options: [
                     {
-                        name:"ammount",
-                        description:"How many messages to remove",
-                        type:"INTEGER",
-                        required:true,
-                    },{
-                        name:"channel",
-                        description:"channel to purge",
-                        type:"CHANNEL",
-                        required:false
-                    }
-                ]
-            },{
-                name:"kick",
-                description:"Kicks a user",
-                type:"SUB_COMMAND",
-                options:[
-                    {
-                        name:"user",
-                        description:"user to kick",
-                        type:"USER",
-                        required:true
+                        name: "ammount",
+                        description: "How many messages to remove",
+                        type: "INTEGER",
+                        required: true,
                     },
                     {
-                        name:"reason",
-                        description:"reason to kick user",
-                        type:"STRING",
-                        required:false
-                    }
-                ]
-            },{
+                        name: "channel",
+                        description: "channel to purge",
+                        type: "CHANNEL",
+                        required: false,
+                    },
+                ],
+            },
+            {
+                name: "kick",
+                description: "Kicks a user",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "user",
+                        description: "user to kick",
+                        type: "USER",
+                        required: true,
+                    },
+                    {
+                        name: "reason",
+                        description: "reason to kick user",
+                        type: "STRING",
+                        required: false,
+                    },
+                ],
+            },
+            {
                 name: "slowmode",
                 description: "To set the slowmode of the channel",
                 type: "SUB_COMMAND",
-                options:[
+                options: [
                     {
-                    name:"seconds",
-                    description:"Time per user to send a message",
-                    type:"INTEGER",
-                    required:true,
-                    },{
-                        name:"channel",
-                        description:"channel to purge",
-                        type:"CHANNEL",
-                        required:false
-                    }
-                ]
-            },{
+                        name: "seconds",
+                        description: "Time per user to send a message",
+                        type: "INTEGER",
+                        required: true,
+                    },
+                    {
+                        name: "channel",
+                        description: "channel to purge",
+                        type: "CHANNEL",
+                        required: false,
+                    },
+                ],
+            },
+            {
                 name: "mute",
                 description: "Mute a user",
                 type: "SUB_COMMAND",
-                options:[
+                options: [
                     {
-                        name:"user",
-                        description:"user to kick",
-                        type:"USER",
-                        required:true
-                    },{
-                        name:"time",
-                        description:"time to mute",
-                        type:"STRING",
-                        required:true
-                    },{
-                        name:"reason",
-                        description:"reason to kick user",
-                        type:"STRING",
-                        required:false
-                    }
-                ] 
-            },{
+                        name: "user",
+                        description: "user to kick",
+                        type: "USER",
+                        required: true,
+                    },
+                    {
+                        name: "time",
+                        description: "time to mute",
+                        type: "STRING",
+                        required: true,
+                    },
+                    {
+                        name: "reason",
+                        description: "reason to kick user",
+                        type: "STRING",
+                        required: false,
+                    },
+                ],
+            },
+            {
                 name: "unmute",
                 description: "Mute a user",
                 type: "SUB_COMMAND",
-                options:[
+                options: [
                     {
-                        name:"user",
-                        description:"user to kick",
-                        type:"USER",
-                        required:true
-                    }
-                ] 
-            },{
-                name:"ban",
-                description:"Bans a user",
-                type:"SUB_COMMAND",
-                options:[
+                        name: "user",
+                        description: "user to kick",
+                        type: "USER",
+                        required: true,
+                    },
+                ],
+            },
+            {
+                name: "ban",
+                description: "Bans a user",
+                type: "SUB_COMMAND",
+                options: [
                     {
-                        name:"user",
-                        description:"user to ban",
-                        type:"USER",
-                        required:true
+                        name: "user",
+                        description: "user to ban",
+                        type: "USER",
+                        required: true,
                     },
                     {
-                        name:"reason",
-                        description:"reason to ban user",
-                        type:"STRING",
-                        required:false
-                    },{
-                        name:"days",
-                        description:"how long to ban user",
-                        type:"INTEGER",
-                        required:false
-                    }
-                ]
-            }
-        ]
+                        name: "reason",
+                        description: "reason to ban user",
+                        type: "STRING",
+                        required: false,
+                    },
+                    {
+                        name: "days",
+                        description: "how long to ban user",
+                        type: "INTEGER",
+                        required: false,
+                    },
+                ],
+            },
+        ],
     },
     {
         name: "flip",
         description: "Flips a coin",
-        type: "CHAT_INPUT"
+        type: "CHAT_INPUT",
     },
     {
         name: "test",
         description: "test",
-        type: "CHAT_INPUT"
+        type: "CHAT_INPUT",
+    },
+    {
+        name: "eval",
+        description: "Evaluate a peice of code",
+        options: [
+            {
+                type: "STRING",
+                name: "code",
+                description: 'The "peice of code"',
+                required: true,
+            },
+        ],
     },
 ];
-const deleteQ: boolean = false ;
+const deleteQ: boolean = false;
 
+const devPerms: ApplicationCommandPermissionData[] = [
+    { id: "534783899331461123", type: "USER", permission: true },
+    { id: "687893451534106669", type: "USER", permission: true },
+    { id: "180485886184521728", type: "USER", permission: true },
+];
 client.on("ready", async () => {
     try {
         if (deleteQ) {
@@ -473,17 +500,17 @@ client.on("ready", async () => {
             });
             return console.log("\x1b[32m%s\x1b[0m", "Started deleting...");
         }
-        var val = 0
-        commands.forEach(async(command) => {
-            var data = await client.application!.commands.create(command)
-                console.log(
-                    "Created: " + data.name + " | " + data.id + " | " + data.guildId
-                )
-                val++
-                if(val >= commands.length){
-                    console.log("Completed Registering \nExiting Now")
-                    process.exit(0)
-                }
+        var val = 0;
+        commands.forEach(async (command) => {
+            const data = await client.application!.commands.create(command);
+            console.log(
+                "Created: " + data.name + " | " + data.id + " | " + data.guildId
+            );
+            val++;
+            if (val >= commands.length) {
+                console.log("Completed Registering \nExiting Now");
+                process.exit(0);
+            }
         });
         return console.log("\x1b[32m%s\x1b[0m", "Started creating...");
     } catch (err) {
