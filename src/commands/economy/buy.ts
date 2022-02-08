@@ -1,6 +1,6 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import { buyWaifu, getUserWaifus, getWaifuByID, removeBalance, updateBalance } from "../../database/functions/EconFunctions";
+import { buyWaifu, getBalance, getUserWaifus, getWaifuByID, removeBalance, updateBalance } from "../../database/functions/EconFunctions";
 import {
     CommandInteraction,
 } from "discord.js";
@@ -29,6 +29,12 @@ export default class EconBalanceCommand extends BaseCommand {
                 content:"Invalid ID"
             })
             return
+        }
+        var bal = await getBalance(user)
+        if(bal<parseInt(waifuData.cost)){
+            interaction.followUp({
+                content:`You don't have enought to purchase ${waifuData.name}\nyou need ${parseInt(waifuData.cost)-bal}`
+            })
         }
         removeBalance(user,parseInt(waifuData.cost))
         buyWaifu(user,waifuData.id.toString())

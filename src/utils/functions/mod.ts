@@ -17,7 +17,7 @@ export async function CheckPermsBoth(interaction:CommandInteraction,perms:Permis
     let bot = await interaction.guild?.members.fetch(interaction.client.user!.id)
     if(!member?.permissions.has(perms)){
         interaction.followUp({
-            content:`You don't have permission to do this, you need: ${perms instanceof Array ? perms.map(d=>d.toString()).join(", ").replace(/_/g, " ").toLowerCase() : perms.toString().replace(/_/g, " ").toLowerCase()}`
+            content:`You don't have permission todo this, you need:\n${perms}`
         })
         return false
     }

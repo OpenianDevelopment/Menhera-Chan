@@ -56,11 +56,9 @@ export async function embedMaker (interaction: CommandInteraction,embeds: string
         if (int.customId == `previous`) {
             if (page != 0) {
                 page--;
-                embeds[page].setFooter(
-                    `Page ${page + 1} of ${embeds.length} | ${
-                        config.links.website
-                    }`
-                );
+                embeds[page].setFooter({
+                    text:`Page ${page + 1} of ${embeds.length} | ${config.links.website}`
+                });
                 if (page == 0) {
                     await int.editReply({
                         embeds: [embeds[page]],
@@ -79,11 +77,9 @@ export async function embedMaker (interaction: CommandInteraction,embeds: string
         if (int.customId == `next`) {
             if (page < embeds.length - 1) {
                 page++;
-                embeds[page].setFooter(
-                    `Page ${page + 1} of ${embeds.length} | ${
-                        config.links.website
-                    }`
-                );
+                embeds[page].setFooter({
+                    text:`Page ${page + 1} of ${embeds.length} | ${config.links.website}`
+                });
                 if (page === embeds.length - 1) {
                     await int.editReply({
                         embeds: [embeds[page]],

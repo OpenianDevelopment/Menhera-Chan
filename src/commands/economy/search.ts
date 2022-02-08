@@ -14,23 +14,18 @@ export default class EconSearchCommand extends BaseCommand {
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         let name = interaction.options.getString("name", true);
-        await interaction.followUp({content: ``})
         var data = await getWaifu(name)
         var embeds: MessageEmbed[] = [];
-        data.forEach((element: { 
-                name: string;
-                id:number;
-                cost:string;
-                anime:string;
-                image:string;
-            }) => {
+        if(data.length<1){
+            interaction.followUp({
+                content:"Not Found"
+            })
+            return
+        }
+        data.forEach(element => {
             const embed = new MessageEmbed()
             .setTitle(`Name: ${element.name}`)
-            .setDescription(`
-            **ID**: ${element.id}
-            **Price**: ${element.cost}
-            **Anime**: ${element.anime}
-            `)
+            .setDescription(`**ID**: ${element.id}\n**Price**: ${element.cost}\n**Anime**: ${element.anime}`)
             .setImage(element.image)
             embeds.push(embed)
         });

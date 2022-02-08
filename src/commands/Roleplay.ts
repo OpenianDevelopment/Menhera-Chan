@@ -44,16 +44,22 @@ export default class RolePlayCommand extends BaseCommand {
         } else {
             // Getting an img from mongodb
             var data = (await getRolePlayGifs(subcmd))?.get("images");
+            if(data == null||undefined){
+                interaction.followUp({
+                    content:"This interation is not working currently"
+                })
+                return
+            }
             data = data[Math.floor(Math.random() * data.length)];
             embed.setImage(data).setDescription(`**${rtxt}** ${user_msg}`);
         }
         // Finishing the embed
         embed
             .setColor(member.displayColor)
-            .setFooter(
-                config.links.website,
-                client.user?.displayAvatarURL()
-            );
+            .setFooter({
+                iconURL:client.user?.displayAvatarURL(),
+                text:config.links.website
+            });
 
         await interaction.followUp({ embeds: [embed] });
     }

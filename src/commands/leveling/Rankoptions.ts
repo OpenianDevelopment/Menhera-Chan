@@ -17,6 +17,14 @@ export default class RankOptionCommand extends BaseCommand {
 
     async run(client: DiscordClient, interaction: CommandInteraction) {
         if (!interaction.guild) return;
+        //remove
+        if(interaction.client){
+            interaction.followUp({
+                content:"Command is disabled"
+            })
+            return
+        }
+        // remove
         const GuildID = interaction.guild!.id;
         const UserID = interaction.user.id;
         const embed = new MessageEmbed();
