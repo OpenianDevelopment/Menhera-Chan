@@ -12,8 +12,15 @@ export default class RankCommand extends BaseCommand {
 
     async run(client: DiscordClient, interaction: CommandInteraction) {
         if (!interaction.guild) return;
-        const member =
-            interaction.options.getUser("user", false) || interaction.user!;
+        //remove
+        if(interaction.client){
+            interaction.followUp({
+                content:"Command is disabled"
+            })
+            return
+        }
+        // remove
+        const member = interaction.options.getUser("user", false) || interaction.user!;
         const GuildUsersXP = await getLevel(interaction.guild.id);
         const usersXP = GuildUsersXP.users.sort(
             (a: userXP, b: userXP) => b.xp - a.xp
@@ -25,7 +32,7 @@ export default class RankCommand extends BaseCommand {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription(
-                    `❌ I don't have any data for **${member.tag}** at this moment. Kindly gain some XP first`
+                    `❌ I don't have any data for **${member.tag}**`
                 );
             await interaction.followUp({
                 embeds: [embed],

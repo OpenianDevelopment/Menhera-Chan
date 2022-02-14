@@ -6,7 +6,7 @@ import {
     CommandInteraction,
     MessageEmbed,
 } from "discord.js";
-import { embed } from "../../utils/functions/embed";
+import { embedMaker } from "../../utils/functions/embed";
 
 export default class EconBalanceCommand extends BaseCommand {
     constructor() {
@@ -40,6 +40,6 @@ export default class EconBalanceCommand extends BaseCommand {
             .setImage(x.image)
             await embeds.push(embed)
         })
-        embed(interaction,embeds,0)
+        embedMaker(interaction,embeds,0)
     }
 }

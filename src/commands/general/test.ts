@@ -1,10 +1,7 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import {
-    CommandInteraction,
-    GuildMember,
-    Message,
-    MessageEmbed,
+    CommandInteraction
 } from "discord.js";
 
 export default class PingCommand extends BaseCommand {
@@ -12,9 +9,11 @@ export default class PingCommand extends BaseCommand {
         super("test", "test");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
-        const msg = (await interaction.followUp({
-            content: `test`,
-        }))
-        interaction.deleteReply()
+        interaction.followUp({
+            content: `test`
+        })
+        setTimeout(()=>{
+            interaction.deleteReply()
+        },5000)
     }
 }

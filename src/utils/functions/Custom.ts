@@ -28,18 +28,18 @@ const _ads = {
     OnCooldown: true,
     embed: function (guild: Guild) {
         return new MessageEmbed()
-            .setAuthor(
-                "Donate",
-                guild.client.user?.displayAvatarURL(),
-                "https://ko-fi.com/rohank05"
-            )
+            .setAuthor({
+                name:"Donate",
+                iconURL:guild.client.user?.displayAvatarURL(),
+                url:"https://ko-fi.com/rohank05"
+            })
             .setDescription(
                 `You can also **[vote for us on top.gg](https://top.gg/bot/${
                     guild.client.user!.id
                 }/vote)** to support us!`
             )
             .setColor(guild.me!.displayColor)
-            .setFooter(guild.client.user!.tag);
+            .setFooter({text:guild.client.user!.tag});
     },
 };
 

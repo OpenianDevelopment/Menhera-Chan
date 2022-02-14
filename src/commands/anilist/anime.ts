@@ -6,7 +6,7 @@ import {
     TextChannel
 } from "discord.js";
 import fetch from "cross-fetch";
-import { embed } from "../../utils/functions/embed";
+import { embedMaker } from "../../utils/functions/embed";
 
 export default class AniAnimeCommand extends BaseCommand {
     constructor() {
@@ -179,7 +179,7 @@ export default class AniAnimeCommand extends BaseCommand {
             );
             embeds.push(embed);
         });
-        await embed(interaction,embeds,page);
+        await embedMaker(interaction,embeds,page);
     }
 }
 

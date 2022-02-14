@@ -7,7 +7,7 @@ import {
 } from "discord.js";
 import config from "../config";
 
-export async function embed (interaction: CommandInteraction,embeds: string | any[],page: number){
+export async function embedMaker (interaction: CommandInteraction,embeds: string | any[],page: number){
     const navbtns = new MessageActionRow().addComponents(
         new MessageButton()
             .setCustomId("previous")
@@ -56,11 +56,9 @@ export async function embed (interaction: CommandInteraction,embeds: string | an
         if (int.customId == `previous`) {
             if (page != 0) {
                 page--;
-                embeds[page].setFooter(
-                    `Page ${page + 1} of ${embeds.length} | ${
-                        config.links.website
-                    }`
-                );
+                embeds[page].setFooter({
+                    text:`Page ${page + 1} of ${embeds.length} | ${config.links.website}`
+                });
                 if (page == 0) {
                     await int.editReply({
                         embeds: [embeds[page]],
@@ -79,11 +77,9 @@ export async function embed (interaction: CommandInteraction,embeds: string | an
         if (int.customId == `next`) {
             if (page < embeds.length - 1) {
                 page++;
-                embeds[page].setFooter(
-                    `Page ${page + 1} of ${embeds.length} | ${
-                        config.links.website
-                    }`
-                );
+                embeds[page].setFooter({
+                    text:`Page ${page + 1} of ${embeds.length} | ${config.links.website}`
+                });
                 if (page === embeds.length - 1) {
                     await int.editReply({
                         embeds: [embeds[page]],

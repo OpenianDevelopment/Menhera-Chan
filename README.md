@@ -48,8 +48,8 @@ Feature:
 * ~~Moderation~~
 * Roleplay
 * ~~Music~~
-* ~~MyAnimeList and Anilist~~
-* ~~Economy~~
+* MyAnimeList and Anilist
+* Economy
 
 
 
