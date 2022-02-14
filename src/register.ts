@@ -1,4 +1,7 @@
-import { ApplicationCommandData, ApplicationCommandPermissionData, Client } from "discord.js";
+import {
+    ApplicationCommandData,
+    Client,
+} from "discord.js";
 require("dotenv").config();
 const client = new Client({
     intents: [],
@@ -14,7 +17,6 @@ const commands: ApplicationCommandData[] = [
     },
     {
         name: "serverinfo",
-
         description: "Shows the info of the server",
     },
     {
@@ -476,11 +478,6 @@ const commands: ApplicationCommandData[] = [
 ];
 const deleteQ: boolean = false;
 
-const devPerms: ApplicationCommandPermissionData[] = [
-    { id: "534783899331461123", type: "USER", permission: true },
-    { id: "687893451534106669", type: "USER", permission: true },
-    { id: "180485886184521728", type: "USER", permission: true },
-];
 client.on("ready", async () => {
     try {
         if (deleteQ) {
