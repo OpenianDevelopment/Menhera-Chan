@@ -14,6 +14,7 @@ const commands: ApplicationCommandData[] = [
     },
     {
         name: "serverinfo",
+
         description: "Shows the info of the server",
     },
     {
