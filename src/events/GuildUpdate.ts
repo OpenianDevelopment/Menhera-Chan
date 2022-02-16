@@ -7,6 +7,6 @@ export default class Event extends BaseEvent {
         super("guildUpdate");
     }
     async run(client: DiscordClient,oldGuild:Guild,newGuild:Guild) {
-        
+        //figure this out aswell
     }
 }

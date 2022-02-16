@@ -32,11 +32,24 @@ export async function CheckPermsBoth(interaction:CommandInteraction,perms:Permis
 }
 export async function ModLog(client:DiscordClient,guildID:string,embed:MessageEmbed){
     var guildOption = client.guildSettings.get(guildID)
-    //if(!guildOption?.moderationSettings?.modLogChannel)return
+    if(!guildOption?.moderationSettings?.modLogChannel)return
     var guild = await client.guilds.fetch(guildID)
     guild.fetchAuditLogs()
-    //var Modchannel = await guild.channels.fetch(guildOption?.moderationSettings?.modLogChannel) as TextChannel
-    var Modchannel = await guild.channels.fetch("939145837626396682") as TextChannel
+    var Modchannel = await guild.channels.fetch(guildOption?.moderationSettings?.modLogChannel) as TextChannel
     if(!Modchannel)return
     Modchannel.send({embeds:[embed]})
+}
+export async function getAudituser(value:any) {
+    var data;
+    try{
+        var user = (await value.guild.fetchAuditLogs({type:12})).entries.first()?.executor
+        if(user){
+            data = {name:"By User",value:`\`${user.username}(${user.id})\``}
+        }else{
+            data = {name:"By User",value:`Something went wrong`}
+        }
+    }catch{
+        data = {name:"By User",value:"audit log perm is required to veiw this"}
+    }
+    return data
 }

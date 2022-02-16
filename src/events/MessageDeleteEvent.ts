@@ -7,6 +7,6 @@ export default class Event extends BaseEvent {
         super("messageDelete");
     }
     async run(client: DiscordClient,message:Message) {
-        
+        //needs to check if deleted by mod
     }
 }
