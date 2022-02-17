@@ -9,12 +9,7 @@ export default class Event extends BaseEvent {
     }
     async run(client: DiscordClient,ban:GuildBan) {
         var data = await getAudituser(ban)
-        var reason;
-        if(ban.reason){
-            reason = ban.reason
-        }else{
-            reason = "None Given"
-        }
+        const reason = ban.reason ? ban.reason : "No Reason Provided"
         var embed = new MessageEmbed()
         .setTitle("Banned")
         .setColor("RANDOM")

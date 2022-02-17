@@ -34,9 +34,9 @@ export async function ModLog(client:DiscordClient,guildID:string,embed:MessageEm
     var guildOption = client.guildSettings.get(guildID)
     if(!guildOption?.moderationSettings?.modLogChannel)return
     var guild = await client.guilds.fetch(guildID)
-    guild.fetchAuditLogs()
     var Modchannel = await guild.channels.fetch(guildOption?.moderationSettings?.modLogChannel) as TextChannel
     if(!Modchannel)return
+    embed.setTimestamp()
     Modchannel.send({embeds:[embed]})
 }
 export async function getAudituser(value:any) {
