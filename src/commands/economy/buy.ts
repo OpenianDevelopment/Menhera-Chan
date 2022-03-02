@@ -46,6 +46,14 @@ export default class EconBalanceCommand extends BaseCommand {
                 }\nyou need ${parseInt(waifuData.cost) - bal}`,
             });
         }
+        var bal = await getBalance(user);
+        if (bal < parseInt(waifuData.cost)) {
+            interaction.followUp({
+                content: `You don't have enought to purchase ${
+                    waifuData.name
+                }\nyou need ${parseInt(waifuData.cost) - bal}`,
+            });
+        }
         removeBalance(user, parseInt(waifuData.cost));
         buyWaifu(user, waifuData.id.toString());
         interaction.followUp({

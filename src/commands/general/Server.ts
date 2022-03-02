@@ -20,7 +20,7 @@ export default class ServerCommand extends BaseCommand {
             "<t:" + createdAt.substring(0, createdAt.length - 3) + ":d>";
         var embed = new MessageEmbed()
             .setThumbnail(interaction.guild!.iconURL({ dynamic: true })!)
-            .setAuthor(interaction.guild.name)
+            .setAuthor({ name: interaction.guild.name })
             .setColor(`#800080`)
             .addFields(
                 {

@@ -31,12 +31,7 @@ export default class EconBalanceCommand extends BaseCommand {
             const embed = new MessageEmbed()
                 .setTitle(`${interaction.member?.user.username}'s Collection`)
                 .setDescription(
-                    `
-            **Name: ${x.name}**\n
-            ID: ${x.id}\n
-            Anime: ${x.anime}\n
-            Price: ${x.cost}
-            `
+                    `**Name: ${x.name}**\nID: ${x.id}\nAnime: ${x.anime}\nPrice: ${x.cost}`
                 )
                 .setImage(x.image);
             await embeds.push(embed);
