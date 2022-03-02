@@ -1,9 +1,15 @@
 import BaseEvent from "../structures/BaseEvent";
 import DiscordClient from "../client/client";
-import { Interaction } from "discord.js";
+import { CommandInteraction, Interaction } from "discord.js";
 import chalk from "chalk";
-import { _ads, capFirstLetter, getSub } from "../utils/functions/Custom";
+import {
+    _ads,
+    capFirstLetter,
+    getSub,
+    CustomEmbed,
+} from "../utils/functions/Custom";
 import { econ } from "../utils/functions/econ";
+import config from "../utils/config";
 
 export default class interactionCreateEvent extends BaseEvent {
     constructor() {
@@ -15,7 +21,17 @@ export default class interactionCreateEvent extends BaseEvent {
          * Since all the commands are server based
          * we are filtering unwanted interaction
          */
-        if (!interaction.inGuild()) return;
+        if (!interaction.inGuild()) {
+            const int = interaction as CommandInteraction;
+            int.reply({
+                embeds: [
+                    new CustomEmbed(int).setDescription(
+                        `You can't use interactions in DMs.\nThough you can come at [my support server](${config.links.server}) to use me!`
+                    ),
+                ],
+            });
+            return;
+        }
 
         // Filtering the command type
         if (!interaction.isCommand()) return;
@@ -23,7 +39,11 @@ export default class interactionCreateEvent extends BaseEvent {
         /**
          * Getting commands and executing it.
          */
-        const cmd_name = getSub(client, interaction.commandName, interaction.options.getSubcommand(false))
+        const cmd_name = getSub(
+            client,
+            interaction.commandName,
+            interaction.options.getSubcommand(false)
+        );
         const command = client.commands.get(cmd_name);
         if (!command) return;
         //econ stuff here
@@ -34,7 +54,7 @@ export default class interactionCreateEvent extends BaseEvent {
             await command.run(client, interaction);
             if (_ads.OnCooldown) {
                 interaction.channel?.send({
-                    embeds: [_ads.embed(interaction.guild!)],
+                    embeds: [_ads.embed(interaction)],
                 });
                 _ads.OnCooldown = false;
                 setTimeout(function () {

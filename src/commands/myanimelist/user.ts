@@ -48,7 +48,9 @@ export default class MalUserCommand extends BaseCommand {
                 true
             )
             .addField(`Joined`, new Date(data.joined).toDateString(), true)
-            .setFooter("Menhera Chan is Kawaii |" +config.links.website);
+            .setFooter({
+                text: "Menhera Chan is Kawaii |" + config.links.website,
+            });
         interaction.followUp({ embeds: [profile] });
         return;
     }

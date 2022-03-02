@@ -6,7 +6,5 @@ export default class Event extends BaseEvent {
     constructor() {
         super("messageDelete");
     }
-    async run(client: DiscordClient,message:Message) {
-        
-    }
+    async run(client: DiscordClient, message: Message) {}
 }

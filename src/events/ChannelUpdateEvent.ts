@@ -6,7 +6,9 @@ export default class Event extends BaseEvent {
     constructor() {
         super("channelUpdate");
     }
-    async run(client: DiscordClient,oldChannel:GuildChannel,newChannel:GuildChannel) {
-        
-    }
+    async run(
+        client: DiscordClient,
+        oldChannel: GuildChannel,
+        newChannel: GuildChannel
+    ) {}
 }

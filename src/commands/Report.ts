@@ -14,10 +14,11 @@ export default class ReportCommand extends BaseCommand {
         super("report", "Report a bug/user");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
-        try{
+        try {
             const webhook = new WebhookClient({ url: process.env.REPORT_WH! });
             const wm = await interaction.followUp({
-                content: "You will get blacklisted if it's not a serious report",
+                content:
+                    "You will get blacklisted if it's not a serious report",
             });
             const type = interaction.options.getSubcommand(true);
             const author = interaction.user;
@@ -40,15 +41,19 @@ export default class ReportCommand extends BaseCommand {
                     clean(interaction.options.getString("description", true))
                 );
             }
-            await webhook.send({
-                content: `${interaction.guild?.name} | ${interaction.guild?.id}`,
-                embeds: [embed],
-            }).then(e=> (wm as Message).edit({ content: `Thanks for Reporting.` }))
-        }catch{
-            console.error
+            await webhook
+                .send({
+                    content: `${interaction.guild?.name} | ${interaction.guild?.id}`,
+                    embeds: [embed],
+                })
+                .then((e) =>
+                    (wm as Message).edit({ content: `Thanks for Reporting.` })
+                );
+        } catch {
+            console.error;
             interaction.followUp({
-                content:"An error has occued while reporing."
-            })
+                content: "An error has occued while reporing.",
+            });
         }
     }
 }

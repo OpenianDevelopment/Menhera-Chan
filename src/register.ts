@@ -1,7 +1,4 @@
-import {
-    ApplicationCommandData,
-    Client,
-} from "discord.js";
+import { ApplicationCommandData, Client } from "discord.js";
 require("dotenv").config();
 const client = new Client({
     intents: [],
@@ -122,9 +119,8 @@ const commands: ApplicationCommandData[] = [
         options: [
             {
                 name: "user",
-                description: "Show <this user>'s rank card",
+                description: "Show this user's rank card",
                 type: "USER",
-                required: false,
             },
         ],
     },
@@ -134,23 +130,30 @@ const commands: ApplicationCommandData[] = [
         type: "CHAT_INPUT",
         options: [
             {
-                name: "option",
-                description: "Option to edit",
-                type: "STRING",
-                choices: [
-                    { name: "How to use this?", value: "help" },
-                    { name: "Background Image", value: "bg" },
-                    { name: "Opacity", value: "op" },
-                    { name: "Track Color", value: "track" },
-                    { name: "Text Color", value: "text" },
-                ],
-                required: true,
+                name: "help",
+                description: "How to use this!??",
+                type: "SUB_COMMAND",
             },
             {
-                name: "input",
-                description: "Option's input value",
+                name: "bg",
+                description:
+                    'The background image of the rankcard ("default" for default image)',
                 type: "STRING",
-                required: false,
+            },
+            {
+                name: "opacity",
+                description: "Percentage of opacity (70 is the default)",
+                type: "INTEGER",
+            },
+            {
+                name: "track",
+                description: "Sets the xp track color",
+                type: "STRING",
+            },
+            {
+                name: "text",
+                description: "Sets text color",
+                type: "STRING",
             },
         ],
     },

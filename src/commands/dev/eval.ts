@@ -48,10 +48,10 @@ async function evaluate(
         const stop = process.hrtime(start);
         const evmbed = new MessageEmbed()
             .setColor("#00FF00")
-            .setFooter(
-                `Time Taken: ${(stop[0] * 1e9 + stop[1]) / 1e6}ms`,
-                client!.user!.displayAvatarURL()
-            )
+            .setFooter({
+                text: `Time Taken: ${(stop[0] * 1e9 + stop[1]) / 1e6}ms`,
+                iconURL: client!.user!.displayAvatarURL()
+            })
             .setTitle("Eval")
             .addField(
                 `**Output:**`,
@@ -83,10 +83,10 @@ async function evaluate(
             .setTitle(`ERROR`)
             .setDescription(`\`\`\`xl\n${clean(err.toString())}\n\`\`\``)
             .setTimestamp()
-            .setFooter(
-                client!.user!.username,
-                client!.user!.displayAvatarURL()
-            );
+            .setFooter({
+                text: client!.user!.username,
+                iconURL: client!.user!.displayAvatarURL()
+            });
         botmsg = (await interaction.followUp({
             embeds: [errevmbed],
             components: [XBtn],

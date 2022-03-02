@@ -14,5 +14,11 @@ export default class ReadyEvent extends BaseEvent {
             name: `${client.guilds.cache.size} Servers`,
             type: "WATCHING",
         });
+        setInterval(() => {
+            client.user!.setActivity({
+                name: `${client.guilds.cache.size} Servers`,
+                type: "WATCHING",
+            });
+        }, 10 * 60 * 1000); //every 10 mins
     }
 }

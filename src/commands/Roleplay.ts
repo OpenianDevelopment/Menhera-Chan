@@ -2,7 +2,7 @@ import BaseCommand from "../structures/BaseCommand";
 import DiscordClient from "../client/client";
 import { CommandInteraction, GuildMember, MessageEmbed } from "discord.js";
 import { getRolePlayGifs } from "../database/functions/RolePlayFunctions";
-import { rpTextCollection } from "../utils/functions/Custom";
+import { CustomEmbed, rpTextCollection } from "../utils/functions/Custom";
 import config from "../utils/config";
 
 export default class RolePlayCommand extends BaseCommand {
@@ -30,7 +30,7 @@ export default class RolePlayCommand extends BaseCommand {
             return;
         }
         // Defining the embed
-        const embed = new MessageEmbed();
+        const embed = new CustomEmbed(interaction);
         // Getting the collection and array
         const textarray = rpTextCollection(author, member).get(
             subcmd as RpTypes
@@ -44,22 +44,15 @@ export default class RolePlayCommand extends BaseCommand {
         } else {
             // Getting an img from mongodb
             var data = (await getRolePlayGifs(subcmd))?.get("images");
-            if(data == null||undefined){
+            if (data == null || undefined) {
                 interaction.followUp({
-                    content:"This interation is not working currently"
-                })
-                return
+                    content: "This interation is not working currently",
+                });
+                return;
             }
             data = data[Math.floor(Math.random() * data.length)];
             embed.setImage(data).setDescription(`**${rtxt}** ${user_msg}`);
         }
-        // Finishing the embed
-        embed
-            .setColor(member.displayColor)
-            .setFooter({
-                iconURL:client.user?.displayAvatarURL(),
-                text:config.links.website
-            });
 
         await interaction.followUp({ embeds: [embed] });
     }

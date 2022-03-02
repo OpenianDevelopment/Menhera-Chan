@@ -1,10 +1,6 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import {
-    CommandInteraction,
-    MessageEmbed,
-    TextChannel
-} from "discord.js";
+import { CommandInteraction, MessageEmbed, TextChannel } from "discord.js";
 import fetch from "cross-fetch";
 import { embedMaker } from "../../utils/functions/embed";
 
@@ -179,7 +175,7 @@ export default class AniAnimeCommand extends BaseCommand {
             );
             embeds.push(embed);
         });
-        await embedMaker(interaction,embeds,page);
+        await embedMaker(interaction, embeds, page);
     }
 }
 

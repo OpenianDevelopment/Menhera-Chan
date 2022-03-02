@@ -20,7 +20,7 @@ export default class ServerCommand extends BaseCommand {
             "<t:" + createdAt.substring(0, createdAt.length - 3) + ":d>";
         var embed = new MessageEmbed()
             .setThumbnail(interaction.guild!.iconURL({ dynamic: true })!)
-            .setAuthor({name:interaction.guild.name})
+            .setAuthor(interaction.guild.name)
             .setColor(`#800080`)
             .addFields(
                 {
@@ -52,9 +52,9 @@ export default class ServerCommand extends BaseCommand {
             )
             .setTimestamp()
             .setFooter({
-                text:interaction.user.tag,
-                iconURL:interaction.user.displayAvatarURL({ dynamic: true })}
-            );
+                text: interaction.user.tag,
+                iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
+            });
         checks(interaction, embed);
         interaction.followUp({ embeds: [embed] });
     }

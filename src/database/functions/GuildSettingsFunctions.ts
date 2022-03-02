@@ -2,7 +2,7 @@ import { guildSettings } from "../schemas";
 
 export async function getGuildSettings(guild_id: string) {
     const result = await guildSettings.findOne({ guild_id });
-    if(!result){
+    if (!result) {
         const newGuild = new guildSettings({
             guild_id: guild_id,
             antiSpamModule: false,
@@ -11,7 +11,7 @@ export async function getGuildSettings(guild_id: string) {
             welcomeModule: false,
             inviteModule: false,
         });
-    
+
         newGuild.save().catch(console.error);
         return newGuild as any;
     }

@@ -6,7 +6,5 @@ export default class Event extends BaseEvent {
     constructor() {
         super("emojiDelete");
     }
-    async run(client: DiscordClient,emoji:GuildEmoji) {
-        
-    }
+    async run(client: DiscordClient, emoji: GuildEmoji) {}
 }

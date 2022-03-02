@@ -49,17 +49,17 @@ export default class messageCreateEvent extends BaseEvent {
         return message.reply({
             embeds: [
                 _ads
-                    .embed(message.guild!)
+                    .embed(message)
                     .setDescription(
                         `**${client.user?.tag}** doesn't support normal commands ||*yet?*||`
                     )
-                    .setFooter(
-                        weirdCuteEmoticons[
+                    .setFooter({
+                        text: weirdCuteEmoticons[
                             Math.floor(
                                 Math.random() * weirdCuteEmoticons.length
                             )
-                        ]
-                    ),
+                        ],
+                    }),
             ],
         });
     }

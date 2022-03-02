@@ -1,6 +1,16 @@
-import { MessageEmbed, Guild, Collection, GuildMember, User } from "discord.js";
+import {
+    MessageEmbed,
+    Guild,
+    Collection,
+    GuildMember,
+    User,
+    ColorResolvable,
+    CommandInteraction,
+    Message,
+} from "discord.js";
 import fetch from "cross-fetch";
 import DiscordClient from "../../client/client";
+import config from "../config";
 
 declare global {
     type RpTypes =
@@ -26,20 +36,12 @@ function capFirstLetter(value: string) {
 
 const _ads = {
     OnCooldown: true,
-    embed: function (guild: Guild) {
-        return new MessageEmbed()
-            .setAuthor({
-                name:"Donate",
-                iconURL:guild.client.user?.displayAvatarURL(),
-                url:"https://ko-fi.com/rohank05"
-            })
-            .setDescription(
-                `You can also **[vote for us on top.gg](https://top.gg/bot/${
-                    guild.client.user!.id
-                }/vote)** to support us!`
-            )
-            .setColor(guild.me!.displayColor)
-            .setFooter({text:guild.client.user!.tag});
+    embed: function (data: CommandInteraction | Message) {
+        return new CustomEmbed(data).setDescription(
+            `You can also **[vote for us on top.gg](https://top.gg/bot/${
+                data.guild!.client.user!.id
+            }/vote)** to support us!`
+        );
     },
 };
 
@@ -176,4 +178,28 @@ class MalRequest {
     }
 }
 
-export { capFirstLetter, _ads, rpTextCollection, clean, getSub, MalRequest };
+class CustomEmbed extends MessageEmbed {
+    public constructor(d: CommandInteraction | Message) {
+        super();
+        this.author = {
+            name: "Donate",
+            iconURL: d.client.user?.displayAvatarURL(),
+            url: "https://ko-fi.com/rohank05",
+        };
+        this.color = d.guild ? d.guild.me!.displayColor : null;
+        this.footer = {
+            text: config.links.website,
+            iconURL: (d.member as GuildMember | null)?.displayAvatarURL(),
+        };
+    }
+}
+
+export {
+    capFirstLetter,
+    _ads,
+    rpTextCollection,
+    clean,
+    getSub,
+    MalRequest,
+    CustomEmbed,
+};

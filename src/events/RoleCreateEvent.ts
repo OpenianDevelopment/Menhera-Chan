@@ -6,7 +6,5 @@ export default class Event extends BaseEvent {
     constructor() {
         super("roleCreate");
     }
-    async run(client: DiscordClient,role:Role) {
-        
-    }
+    async run(client: DiscordClient, role: Role) {}
 }

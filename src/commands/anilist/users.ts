@@ -1,9 +1,6 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import {
-    CommandInteraction,
-    MessageEmbed
-} from "discord.js";
+import { CommandInteraction, MessageEmbed } from "discord.js";
 import fetch from "cross-fetch";
 import { embedMaker } from "../../utils/functions/embed";
 
@@ -147,7 +144,7 @@ export default class AniUsersCommand extends BaseCommand {
             embed.addField(`URL:`, element.siteUrl.toString(), true);
             embeds.push(embed);
         });
-        await embedMaker(interaction,embeds,page);
+        await embedMaker(interaction, embeds, page);
     }
 }
 

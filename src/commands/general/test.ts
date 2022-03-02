@@ -1,8 +1,6 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import {
-    CommandInteraction
-} from "discord.js";
+import { CommandInteraction } from "discord.js";
 
 export default class PingCommand extends BaseCommand {
     constructor() {
@@ -10,10 +8,10 @@ export default class PingCommand extends BaseCommand {
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         interaction.followUp({
-            content: `test`
-        })
-        setTimeout(()=>{
-            interaction.deleteReply()
-        },5000)
+            content: `test`,
+        });
+        setTimeout(() => {
+            interaction.deleteReply();
+        }, 5000);
     }
 }

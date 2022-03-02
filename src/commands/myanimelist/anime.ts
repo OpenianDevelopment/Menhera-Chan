@@ -89,11 +89,11 @@ export default class MalAnimeCommand extends BaseCommand {
         );
         const botmsg = (await interaction.followUp({
             embeds: [
-                embeds[page].setFooter(
-                    `Page ${page + 1} of ${embeds.length} | ${
+                embeds[page].setFooter({
+                    text: `Page ${page + 1} of ${embeds.length} | ${
                         config.links.website
-                    }`
-                ),
+                    }`,
+                }),
             ],
             components: [navbtn_next],
         })) as Message;
@@ -109,11 +109,11 @@ export default class MalAnimeCommand extends BaseCommand {
             if (int.customId == `previous`) {
                 if (page != 0) {
                     page--;
-                    embeds[page].setFooter(
-                        `Page ${page + 1} of ${embeds.length} | ${
+                    embeds[page].setFooter({
+                        text: `Page ${page + 1} of ${embeds.length} | ${
                             config.links.website
-                        }`
-                    );
+                        }`,
+                    });
                     if (page == 0) {
                         await int.editReply({
                             embeds: [embeds[page]],
@@ -132,11 +132,11 @@ export default class MalAnimeCommand extends BaseCommand {
             if (int.customId == `next`) {
                 if (page < embeds.length - 1) {
                     page++;
-                    embeds[page].setFooter(
-                        `Page ${page + 1} of ${embeds.length} | ${
+                    embeds[page].setFooter({
+                        text: `Page ${page + 1} of ${embeds.length} | ${
                             config.links.website
-                        }`
-                    );
+                        }`,
+                    });
                     if (page === embeds.length - 1) {
                         await int.editReply({
                             embeds: [embeds[page]],
