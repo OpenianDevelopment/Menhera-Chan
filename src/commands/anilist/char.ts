@@ -3,6 +3,7 @@ import DiscordClient from "../../client/client";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import fetch from "cross-fetch";
 import { embedMaker } from "../../utils/functions/embed";
+import { CustomEmbed } from "../../utils/functions/Custom";
 
 export default class AniCharCommand extends BaseCommand {
     constructor() {
@@ -85,7 +86,7 @@ export default class AniCharCommand extends BaseCommand {
             element1.manga.nodes.forEach((Melement: any) => {
                 manga = Melement.title.romaji + ` \n` + manga;
             });
-            const embed = new MessageEmbed()
+            const embed = new CustomEmbed(interaction, false)
                 .setTitle(element1.name.full)
                 .setImage(element1.image.large)
                 .setDescription("No description available.")

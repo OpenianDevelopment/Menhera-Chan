@@ -3,6 +3,7 @@ import DiscordClient from "../../client/client";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import fetch from "cross-fetch";
 import { embedMaker } from "../../utils/functions/embed";
+import { CustomEmbed } from "../../utils/functions/Custom";
 
 export default class AniUsersCommand extends BaseCommand {
     constructor() {
@@ -86,7 +87,7 @@ export default class AniUsersCommand extends BaseCommand {
         var embeds: MessageEmbed[] = [];
         data.forEach((element: any) => {
             const time = new Date(element.updatedAt * 1000);
-            const embed = new MessageEmbed()
+            const embed = new CustomEmbed(interaction, false)
                 .setTitle(element.name)
                 .setThumbnail(element.avatar.large)
                 .addField("ID:", element.id.toString(), true)

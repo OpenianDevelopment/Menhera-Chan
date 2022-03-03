@@ -3,7 +3,7 @@ import DiscordClient from "../../client/client";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { embedMaker } from "../../utils/functions/embed";
 import config from "../../utils/config";
-import { MalRequest } from "../../utils/functions/Custom";
+import { CustomEmbed, MalRequest } from "../../utils/functions/Custom";
 
 export default class MalRecCommand extends BaseCommand {
     constructor() {
@@ -27,7 +27,7 @@ export default class MalRecCommand extends BaseCommand {
         var embeds: MessageEmbed[] = [];
         var embed: MessageEmbed;
         data.recommendations.forEach((element: any) => {
-            embed = new MessageEmbed()
+            embed = new CustomEmbed(interaction, false)
                 .setTitle(element.title)
                 .setThumbnail(element.image_url)
                 .addField("MAL ID: ", element.mal_id.toString())

@@ -1,6 +1,7 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { CommandInteraction } from "discord.js";
+import { CustomEmbed } from "../../utils/functions/Custom";
 
 export default class PingCommand extends BaseCommand {
     constructor() {
@@ -13,7 +14,7 @@ export default class PingCommand extends BaseCommand {
         } else {
             num = "tails";
         }
-        const embed = new MessageEmbed()
+        const embed = new CustomEmbed(interaction, false)
             .setTitle("Coin Flip")
             .setThumbnail(
                 `https://cdn.discordapp.com/attachments/715192953957515346/731653756109979648/5291f56897d748b1ca0a10c90023588d.gif`

@@ -4,6 +4,7 @@ import { embedMaker } from "../../utils/functions/embed";
 import { getWaifu } from "../../database/functions/EconFunctions";
 
 import { CommandInteraction, MessageEmbed } from "discord.js";
+import { CustomEmbed } from "../../utils/functions/Custom";
 
 export default class EconSearchCommand extends BaseCommand {
     constructor() {
@@ -20,7 +21,7 @@ export default class EconSearchCommand extends BaseCommand {
             return;
         }
         data.forEach((element) => {
-            const embed = new MessageEmbed()
+            const embed = new CustomEmbed(interaction, false)
                 .setTitle(`Name: ${element.name}`)
                 .setDescription(
                     `**ID**: ${element.id}\n**Price**: ${element.cost}\n**Anime**: ${element.anime}`

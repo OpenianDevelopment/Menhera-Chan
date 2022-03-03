@@ -5,8 +5,9 @@ import {
     getWaifuByIDArray,
 } from "../../database/functions/EconFunctions";
 
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { CommandInteraction } from "discord.js";
 import { embedMaker } from "../../utils/functions/embed";
+import { CustomEmbed } from "../../utils/functions/Custom";
 
 export default class EconBalanceCommand extends BaseCommand {
     constructor() {
@@ -28,7 +29,7 @@ export default class EconBalanceCommand extends BaseCommand {
         var waifu = await getWaifuByIDArray(WaifuId);
         var embeds: any = [];
         waifu.forEach(async (x) => {
-            const embed = new MessageEmbed()
+            const embed = new CustomEmbed(interaction, false)
                 .setTitle(`${interaction.member?.user.username}'s Collection`)
                 .setDescription(
                     `**Name: ${x.name}**\nID: ${x.id}\nAnime: ${x.anime}\nPrice: ${x.cost}`

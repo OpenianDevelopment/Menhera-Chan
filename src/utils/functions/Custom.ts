@@ -40,7 +40,7 @@ const _ads = {
         return new CustomEmbed(data).setDescription(
             `You can also **[vote for us on top.gg](https://top.gg/bot/${
                 data.guild!.client.user!.id
-            }/vote)** to support us!`
+            }/vote)** to support the bot's growth!`
         );
     },
 };
@@ -179,13 +179,15 @@ class MalRequest {
 }
 
 class CustomEmbed extends MessageEmbed {
-    public constructor(d: CommandInteraction | Message) {
+    public constructor(d: CommandInteraction | Message, ad?: boolean) {
         super();
-        this.author = {
-            name: "Donate",
-            iconURL: d.client.user?.displayAvatarURL(),
-            url: "https://ko-fi.com/rohank05",
-        };
+        if (ad) {
+            this.author = {
+                name: "Donate",
+                iconURL: d.client.user?.displayAvatarURL(),
+                url: config.links.donate,
+            };
+        }
         this.color = d.guild ? d.guild.me!.displayColor : null;
         this.footer = {
             text: config.links.website,

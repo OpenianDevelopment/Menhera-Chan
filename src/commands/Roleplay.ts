@@ -1,9 +1,8 @@
 import BaseCommand from "../structures/BaseCommand";
 import DiscordClient from "../client/client";
-import { CommandInteraction, GuildMember, MessageEmbed } from "discord.js";
+import { CommandInteraction, GuildMember } from "discord.js";
 import { getRolePlayGifs } from "../database/functions/RolePlayFunctions";
 import { CustomEmbed, rpTextCollection } from "../utils/functions/Custom";
-import config from "../utils/config";
 
 export default class RolePlayCommand extends BaseCommand {
     constructor() {
@@ -23,7 +22,7 @@ export default class RolePlayCommand extends BaseCommand {
             user_msg = "||~ Text is too long ||";
         }
         if (member.user.id == author.id) {
-            const embed = new MessageEmbed().setDescription(
+            const embed = new CustomEmbed(interaction, false).setDescription(
                 "You need to provide another user not yourself!"
             );
             await interaction.followUp({ embeds: [embed], ephemeral: true });

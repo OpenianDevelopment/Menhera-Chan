@@ -10,7 +10,7 @@ import {
     TextChannel,
 } from "discord.js";
 import config from "../../utils/config";
-import { MalRequest } from "../../utils/functions/Custom";
+import { CustomEmbed, MalRequest } from "../../utils/functions/Custom";
 
 export default class MalAnimeCommand extends BaseCommand {
     constructor() {
@@ -36,7 +36,7 @@ export default class MalAnimeCommand extends BaseCommand {
                 element.rated === "Rx" &&
                 !(interaction.channel as TextChannel).nsfw
             ) {
-                embed = new MessageEmbed()
+                embed = new CustomEmbed(interaction, false)
                     .setTitle("NSFW Title")
                     .setThumbnail(
                         "https://techcrunch.com/wp-content/uploads/2017/04/tumblr-nsfw.png?w=711"
@@ -45,7 +45,7 @@ export default class MalAnimeCommand extends BaseCommand {
                         "This Anime Can be viewed in NFSW Channel. Please move to next Page"
                     );
             } else {
-                embed = new MessageEmbed()
+                embed = new CustomEmbed(interaction, false)
                     .setTitle(element.title)
                     .setThumbnail(element.image_url)
                     .addField("Episodes: ", element.episodes.toString())
