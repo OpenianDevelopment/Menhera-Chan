@@ -2,7 +2,12 @@ import { guildXP,userXP } from "../../utils/interfaces/leveling";
 import { levelXp } from "../schemas";
 
 export async function getLevel(guildID: string) {
-    return await levelXp.findOne({ guild:guildID }) as guildXP;
+    var guildData = await levelXp.findOne({ guild:guildID })
+    if(!guildData){
+        await initXP(guildID)
+        return await levelXp.findOne({ guild:guildID }) as guildXP
+    }
+    return guildData as guildXP;
 }
 
 export async function getUserLevel(guildID:string,userID:string) {
@@ -31,7 +36,20 @@ export async function getUserLevel(guildID:string,userID:string) {
             textColor: "#f5deb3"
         } as userXP
     }
-    return guild.users.find((e:userXP) => e.user == userID) as userXP
+    var userdata = await guild.users.find((e:userXP) => e.user == userID)
+    if(!userdata){
+        await initUserXP(userID,guildID)
+        return {
+            user: userID,
+            xp: 0,
+            level: 0,
+            background:"https://cdn.discordapp.com/attachments/791301593391562752/856879146175954954/rankcard2.png",
+            opacity: 0.7,
+            trackColor: "#21cc87",
+            textColor: "#f5deb3"
+        } as userXP
+    }
+    return userdata as userXP
 }
 
 export function updateUserXP(
@@ -116,26 +134,33 @@ export function updateUserTextColor(
         )
         .catch((err: Error) => console.log(err));
 }
-export function initUserXP(user: string, guild?: string) {
-    levelXp
-        .updateOne(
-            { guild },
-            {
-                $push: {
-                    users: {
-                        user: user,
-                        xp: 0,
-                        level: 0,
-                        background:
-                            "https://cdn.discordapp.com/attachments/791301593391562752/856879146175954954/rankcard2.png",
-                        opacity: 0.7,
-                        trackColor: "#21cc87",
-                        textColor: "#f5deb3",
-                    },
+export async function initUserXP(user: string, guildID?: string) {
+    await levelXp.updateOne(
+        { guild:guildID },
+        {
+            $push: {
+                users: {
+                    user: user,
+                    xp: 0,
+                    level: 0,
+                    background:
+                        "https://cdn.discordapp.com/attachments/791301593391562752/856879146175954954/rankcard2.png",
+                    opacity: 0.7,
+                    trackColor: "#21cc87",
+                    textColor: "#f5deb3",
                 },
-            }
-        )
-        .catch((err: Error) => {
-            throw err;
-        });
+            },
+        }
+    )
+    .catch((err: Error) => {
+        throw err;
+    });
+}
+
+export async function initXP(guild?: string) {
+    var newGuild = new levelXp({
+        guild:guild,
+        users:[]
+    })
+    await newGuild.save().catch(console.error);
 }

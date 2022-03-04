@@ -1,10 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const userSchema = new Schema({
-	user: {
-		type: String,
-		unique: true,
-	},
+	user: String,
 	xp: Number,
 	level: Number,
 	background: String,
