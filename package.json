@@ -31,6 +31,7 @@
         "build": "tsc"
     },
     "devDependencies": {
+        "@types/ms": "^0.7.31",
         "dbl-api": "^1.2.1",
         "prettier": "^2.3.2"
     },

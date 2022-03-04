@@ -343,7 +343,7 @@ const commands: ApplicationCommandData[] = [
                 type: "SUB_COMMAND",
                 options: [
                     {
-                        name: "ammount",
+                        name: "amount",
                         description: "How many messages to remove",
                         type: "INTEGER",
                         required: true,
@@ -352,25 +352,6 @@ const commands: ApplicationCommandData[] = [
                         name: "channel",
                         description: "channel to purge",
                         type: "CHANNEL",
-                        required: false,
-                    },
-                ],
-            },
-            {
-                name: "kick",
-                description: "Kicks a user",
-                type: "SUB_COMMAND",
-                options: [
-                    {
-                        name: "user",
-                        description: "user to kick",
-                        type: "USER",
-                        required: true,
-                    },
-                    {
-                        name: "reason",
-                        description: "reason to kick user",
-                        type: "STRING",
                         required: false,
                     },
                 ],
@@ -433,26 +414,20 @@ const commands: ApplicationCommandData[] = [
                 ],
             },
             {
-                name: "ban",
-                description: "Bans a user",
+                name: "unban",
+                description: "Unbans a user",
                 type: "SUB_COMMAND",
                 options: [
                     {
                         name: "user",
-                        description: "user to ban",
+                        description: "Banned user",
                         type: "USER",
                         required: true,
                     },
                     {
                         name: "reason",
-                        description: "reason to ban user",
+                        description: "reason for the unban",
                         type: "STRING",
-                        required: false,
-                    },
-                    {
-                        name: "days",
-                        description: "how long to ban user",
-                        type: "INTEGER",
                         required: false,
                     },
                 ],

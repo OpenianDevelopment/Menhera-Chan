@@ -56,7 +56,8 @@ export default class ServerCommand extends BaseCommand {
                 iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
             });
         checks(interaction, embed);
-        interaction.followUp({ embeds: [embed] });
+        await interaction.followUp({ embeds: [embed] });
+        return;
     }
 }
 function checks(interaction: CommandInteraction, embed: MessageEmbed) {

@@ -8,7 +8,7 @@ import {
     ThreadChannel,
 } from "discord.js";
 
-export default class PingCommand extends BaseCommand {
+export default class PurgeCommand extends BaseCommand {
     constructor() {
         super("mod purge", "Remove chat messages");
     }
@@ -16,17 +16,17 @@ export default class PingCommand extends BaseCommand {
         if (!(await CheckPermsBoth(interaction, "MANAGE_MESSAGES"))) {
             return;
         }
-        let ammount = interaction.options.getInteger("ammount", true);
+        let amount = interaction.options.getInteger("amount", true);
         let SChannel = interaction.options.getChannel("channel", false);
-        if (ammount < 1 || ammount > 100) {
-            interaction.followUp({
+        if (amount < 1 || amount > 100) {
+            await interaction.followUp({
                 content:
-                    "Invaild Ammount\n Please Provide a number Between 1 to 100",
+                    "Invaild Amount\n Please Provide a number Between 1 to 100",
             });
             return;
         }
         if (interaction.channel?.type == "DM") {
-            interaction.followUp({
+            await interaction.followUp({
                 content: "Cannot Purge DM",
             });
             return;
@@ -40,9 +40,10 @@ export default class PingCommand extends BaseCommand {
         } else {
             channel = SChannel as TextChannel | NewsChannel | ThreadChannel;
         }
-        await channel.bulkDelete(ammount);
-        interaction.followUp({
-            content: `Purged ${ammount} messages in ${channel}`,
+        await channel.bulkDelete(amount);
+        await interaction.followUp({
+            content: `Purged ${amount} messages in ${channel}`,
         });
+        return;
     }
 }

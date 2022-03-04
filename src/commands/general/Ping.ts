@@ -20,7 +20,7 @@ export default class PingCommand extends BaseCommand {
             .setDescription(
                 `**Shard:** ${
                     interaction.guild?.shardId
-                }\n**Socket:** ${client.ws.ping.toFixed(2)}ms\n**Client:** ${(
+                }\n**Socket:** ${client.ws.ping.toFixed(2)}ms\n**Latency:** ${(
                     msg.createdTimestamp - interaction.createdTimestamp
                 ).toFixed(2)}ms`
             )
@@ -29,5 +29,6 @@ export default class PingCommand extends BaseCommand {
             content: null,
             embeds: [embed],
         });
+        return;
     }
 }

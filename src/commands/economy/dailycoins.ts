@@ -5,7 +5,7 @@ const DBL = require("dbl-api");
 import { CommandInteraction } from "discord.js";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class EconBalanceCommand extends BaseCommand {
+export default class EconDailycoinsCommand extends BaseCommand {
     constructor() {
         super("econ dailycoins", "get daility coins");
     }

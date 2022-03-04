@@ -5,7 +5,7 @@ import { CommandInteraction } from "discord.js";
 import config from "../../utils/config";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class EconBalanceCommand extends BaseCommand {
+export default class EconListCommand extends BaseCommand {
     constructor() {
         super("econ list", "List of wiafu/husbando");
     }

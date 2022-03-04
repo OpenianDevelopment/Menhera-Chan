@@ -61,5 +61,6 @@ export default class RankCommand extends BaseCommand {
         await interaction.followUp({
             files: [rank_card],
         });
+        return;
     }
 }

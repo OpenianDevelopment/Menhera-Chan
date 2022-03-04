@@ -8,7 +8,7 @@ import { CommandInteraction, MessageEmbed } from "discord.js";
 import { embedMaker } from "../../utils/functions/embed";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class EconBalanceCommand extends BaseCommand {
+export default class EconInvCommand extends BaseCommand {
     constructor() {
         super("econ inventory", "Shows Collection of Waifus");
     }

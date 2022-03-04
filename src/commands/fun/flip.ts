@@ -3,7 +3,7 @@ import DiscordClient from "../../client/client";
 import { CommandInteraction } from "discord.js";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class PingCommand extends BaseCommand {
+export default class FlipCommand extends BaseCommand {
     constructor() {
         super("flip", "Flips a coin");
     }

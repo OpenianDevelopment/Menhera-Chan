@@ -52,19 +52,19 @@ export default class interactionCreateEvent extends BaseEvent {
         try {
             await interaction.deferReply({ ephemeral: false });
             await command.run(client, interaction);
-            if (_ads.OnCooldown) {
+            if (_ads.OnCooldown && !cmd_name.startsWith("mod")) {
                 interaction.channel?.send({
                     embeds: [_ads.embed(interaction)],
                 });
                 _ads.OnCooldown = false;
                 setTimeout(function () {
                     _ads.OnCooldown = true;
-                }, 1000 * 60 * 60 * 6);
+                }, 1000 * 60 * 60 * 6); // 6 hours
             }
             return;
         } catch (err) {
             console.error(
-                `Failed in ${chalk.redBright(
+                `Error in ${chalk.redBright(
                     capFirstLetter(command.name) + " Command"
                 )}`,
                 err

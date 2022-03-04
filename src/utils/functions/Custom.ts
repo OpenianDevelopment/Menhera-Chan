@@ -1,10 +1,8 @@
 import {
     MessageEmbed,
-    Guild,
     Collection,
     GuildMember,
     User,
-    ColorResolvable,
     CommandInteraction,
     Message,
 } from "discord.js";
@@ -30,11 +28,12 @@ declare global {
         | "punch"
         | "lick";
 }
-function capFirstLetter(value: string) {
+
+export function capFirstLetter(value: string) {
     return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-const _ads = {
+export const _ads = {
     OnCooldown: true,
     embed: function (data: CommandInteraction | Message) {
         return new CustomEmbed(data).setDescription(
@@ -45,12 +44,19 @@ const _ads = {
     },
 };
 
-function clean(str: string) {
-    return (str = str.replace(/`/g, `\\\`${String.fromCharCode(8203)}`));
+export function clean(str: string | null | undefined) {
+    if (!str) return null;
+    return (str = str
+        .replace(/`/g, `\\\`${String.fromCharCode(8203)}`)
+        .replace(/\*/g, `\\\*${String.fromCharCode(8203)}`)
+        .replace(/~/g, `\\\~${String.fromCharCode(8203)}`)
+        .replace(/_/g, `\\\_${String.fromCharCode(8203)}`)
+        .replace(/\|/g, `\\\|${String.fromCharCode(8203)}`)
+        .replace(/@/g, `\\\@${String.fromCharCode(8203)}`));
 }
 
 /** Returns rp text data */
-function rpTextCollection(author: User, member: GuildMember) {
+export function rpTextCollection(author: User, member: GuildMember) {
     const _crp = new Collection<RpTypes, string[]>()
         .set("bite", [
             `<@!${author.id}> *bites* <@!${member.user.id}>`,
@@ -134,7 +140,7 @@ function rpTextCollection(author: User, member: GuildMember) {
     return _crp;
 }
 
-function getSub(
+export function getSub(
     client: DiscordClient,
     command: string,
     subcmd: string | null
@@ -144,7 +150,7 @@ function getSub(
 }
 
 /* From https://github.com/zuritor/jikanjs/blob/6a11bcf1d07dfc046e56ddf3ed94adc5db6ac822/lib/util/Request.js */
-class MalRequest {
+export class MalRequest {
     /**
      * sends a request with the given list of URL parts and the optional list of query parameter
      * @param {*[]} args           URL Parts
@@ -180,15 +186,15 @@ class MalRequest {
 
 /**
  * @Noro Use it with commands, use normal { MessageEmbed } with most of the events
- * 
- * 
+ *
+ *
  * @param {CommandInteraction | Message} d the interaction or the message object
  * @param {boolean | undefined} ad whether to set the author (with the donate link) or not
  * @returns {MessageEmbed} a normal MessageEmbed
- * 
+ *
  * *p.s.* Setting a new color/footer data will overwrite the old ones
  */
-class CustomEmbed extends MessageEmbed {
+export class CustomEmbed extends MessageEmbed {
     public constructor(d: CommandInteraction | Message, ad?: boolean) {
         super();
         if (ad) {
@@ -205,13 +211,3 @@ class CustomEmbed extends MessageEmbed {
         };
     }
 }
-
-export {
-    capFirstLetter,
-    _ads,
-    rpTextCollection,
-    clean,
-    getSub,
-    MalRequest,
-    CustomEmbed,
-};

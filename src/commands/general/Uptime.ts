@@ -19,5 +19,6 @@ export default class UptimeCommand extends BaseCommand {
         await interaction.followUp({
             embeds: [embed],
         });
+        return;
     }
 }

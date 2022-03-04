@@ -8,7 +8,7 @@ import {
     ThreadChannel,
 } from "discord.js";
 
-export default class PingCommand extends BaseCommand {
+export default class SlowmodeCommand extends BaseCommand {
     constructor() {
         super(
             "mod slowmode",
@@ -37,8 +37,9 @@ export default class PingCommand extends BaseCommand {
             channel = SChannel as TextChannel | NewsChannel | ThreadChannel;
         }
         channel.edit({ rateLimitPerUser: seconds });
-        interaction.followUp({
+        await interaction.followUp({
             content: `${channel} is now in slowmode with ${seconds} seconds`,
         });
+        return;
     }
 }

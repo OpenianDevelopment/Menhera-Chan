@@ -13,5 +13,6 @@ export default class PingCommand extends BaseCommand {
         setTimeout(() => {
             interaction.deleteReply();
         }, 5000);
+        return;
     }
 }

@@ -10,7 +10,7 @@ import {
 } from "../../database/functions/EconFunctions";
 import { CommandInteraction } from "discord.js";
 
-export default class EconBalanceCommand extends BaseCommand {
+export default class EconBuyCommand extends BaseCommand {
     constructor() {
         super("econ buy", "To buy a charcters");
     }

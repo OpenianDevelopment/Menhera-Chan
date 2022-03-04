@@ -20,7 +20,7 @@ let ResponsesArray: Array<string> = [
     "Sorry sweety",
 ];
 
-export default class EconBalanceCommand extends BaseCommand {
+export default class EconBegCommand extends BaseCommand {
     constructor() {
         super("econ beg", "Beg for money");
     }

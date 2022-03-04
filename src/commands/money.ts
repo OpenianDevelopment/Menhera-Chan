@@ -3,7 +3,7 @@ import DiscordClient from "../client/client";
 import { addBalance } from "../database/functions/EconFunctions";
 import { CommandInteraction } from "discord.js";
 
-export default class PingCommand extends BaseCommand {
+export default class MoneyCommand extends BaseCommand {
     constructor() {
         super("money", "developer debug to give money");
     }
