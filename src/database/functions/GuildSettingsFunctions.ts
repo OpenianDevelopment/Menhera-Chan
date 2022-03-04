@@ -39,7 +39,6 @@ export async function getGuildSettings(guild_id: string) {
     if(!result){
         const newGuild = GuildScheme(guild_id)
         newGuild.save().catch(console.error);
-        console.log(newGuild)
         return newGuild as rawGuildSettings;
     }
     return result as rawGuildSettings;

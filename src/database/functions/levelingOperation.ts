@@ -2,7 +2,7 @@ import { guildXP,userXP } from "../../utils/interfaces/leveling";
 import { levelXp } from "../schemas";
 
 export async function getLevel(guildID: string) {
-    var guildData = await levelXp.findOne({ guild:guildID })
+    let guildData = await levelXp.findOne({ guild:guildID })
     if(!guildData){
         await initXP(guildID)
         return await levelXp.findOne({ guild:guildID }) as guildXP

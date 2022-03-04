@@ -13,7 +13,7 @@ export default class RankCommand extends BaseCommand {
     async run(client: DiscordClient, interaction: CommandInteraction) {
         if (!interaction.guildId){
             interaction.followUp({
-                content:"something went wrong"
+                content:"This is a server only command"
             })
         }
         if(!client.guildSettings.get(interaction.guildId!)?.expSettings?.enable){
