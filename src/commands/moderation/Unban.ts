@@ -3,8 +3,6 @@ import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
 import {
     CommandInteraction,
-    GuildMember,
-    GuildMemberRoleManager,
     MessageEmbed,
 } from "discord.js";
 import { clean, CustomEmbed } from "../../utils/functions/Custom";
