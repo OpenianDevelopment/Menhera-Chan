@@ -1,8 +1,37 @@
+import { guildXP,userXP } from "../../utils/interfaces/leveling";
 import { levelXp } from "../schemas";
 
-export async function getLevel(guild?: string) {
-    const guildXP = await levelXp.findOne({ guild });
-    return guildXP as any;
+export async function getLevel(guildID: string) {
+    return await levelXp.findOne({ guild:guildID }) as guildXP;
+}
+
+export async function getUserLevel(guildID:string,userID:string) {
+    var guild = await levelXp.findOne({ guild:guildID })
+    if(!guild){
+        var newGuild = new levelXp({
+            guild:guildID,
+            users:[{
+                user: userID,
+                xp: 0,
+                level: 0,
+                background:"https://cdn.discordapp.com/attachments/791301593391562752/856879146175954954/rankcard2.png",
+                opacity: 0.7,
+                trackColor: "#21cc87",
+                textColor: "#f5deb3"
+            }]
+        })
+        await newGuild.save().catch(console.error);
+        return {
+            user: userID,
+            xp: 0,
+            level: 0,
+            background:"https://cdn.discordapp.com/attachments/791301593391562752/856879146175954954/rankcard2.png",
+            opacity: 0.7,
+            trackColor: "#21cc87",
+            textColor: "#f5deb3"
+        } as userXP
+    }
+    return guild.users.find((e:userXP) => e.user == userID) as userXP
 }
 
 export function updateUserXP(

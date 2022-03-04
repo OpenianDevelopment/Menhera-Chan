@@ -16,8 +16,8 @@ export function econ(data:Interaction){
         const difference = data.createdTimestamp - userData;
         if(difference>=cooldown){
             addBalance(user,balance)
+            ecoMap.set(user,data.createdTimestamp);
         }
-        ecoMap.set(user,data.createdTimestamp);
     }else{
         ecoMap.set(user,data.createdTimestamp)
     }

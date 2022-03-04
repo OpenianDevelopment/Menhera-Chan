@@ -1,35 +1,56 @@
+import { rawGuildSettings } from "../../utils/interfaces/GlobalType";
 import { guildSettings } from "../schemas";
+function GuildScheme(guildID: string){
+    return new guildSettings({
+        guild_id: guildID,
+        expSettings:{
+            enable:false,
+            increment: 1,
+            timeDifference: 8000,
+            blacklistChannel: [],
+            expLogChannel: ""
+        },
+        antiSpamSettings:{
+            enable:false,
+            messageCount: 0,
+            timeDifference: 3000,
+            antispamChannel: [],
+            warnUser: false,
+            muteUser: false,
+            deleteMessage: false,
+        },
+        moderationSettings:{
+            enable:false,
+            modLogChannel: ""
+        },
+        welcomeSettings:{
+            enable:false,
+            welcomeDM: false,
+            welcomeChannelMessage: false,
+            welcomeChannel: "",
+            welcomeMessage: "",
+            welcomeRoles: [],
+        }
+    })
+}
 
 export async function getGuildSettings(guild_id: string) {
     const result = await guildSettings.findOne({ guild_id });
     if(!result){
-        const newGuild = new guildSettings({
-            guild_id: guild_id,
-            antiSpamModule: false,
-            expModule: false,
-            newsModule: false,
-            welcomeModule: false,
-            inviteModule: false,
-        });
-    
+        const newGuild = GuildScheme(guild_id)
         newGuild.save().catch(console.error);
-        return newGuild as any;
+        console.log(newGuild)
+        return newGuild as rawGuildSettings;
     }
-    return result as any;
+    return result as rawGuildSettings;
 }
 
+
 export async function addGuildSettings(guild_id: string) {
-    if (await getGuildSettings(guild_id)) {
+    if (await guildSettings.findOne({ guild_id })) {
         return;
     }
-    const newGuild = new guildSettings({
-        guild_id: guild_id,
-        antiSpamModule: false,
-        expModule: false,
-        newsModule: false,
-        welcomeModule: false,
-        inviteModule: false,
-    });
+    const newGuild = GuildScheme(guild_id)
 
     newGuild.save().catch(console.error);
 }

@@ -12,14 +12,6 @@ export default class RankCommand extends BaseCommand {
 
     async run(client: DiscordClient, interaction: CommandInteraction) {
         if (!interaction.guild) return;
-        //remove
-        if(interaction.client){
-            interaction.followUp({
-                content:"Command is disabled"
-            })
-            return
-        }
-        // remove
         const member = interaction.options.getUser("user", false) || interaction.user!;
         const GuildUsersXP = await getLevel(interaction.guild.id);
         const usersXP = GuildUsersXP.users.sort(
