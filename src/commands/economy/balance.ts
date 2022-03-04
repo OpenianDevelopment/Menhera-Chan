@@ -10,8 +10,8 @@ export default class EconBalanceCommand extends BaseCommand {
         super("econ balance", "Shows Balance");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
-        var balance = await getBalance(interaction.member?.user.id!);
-        var embed = new CustomEmbed(interaction, false)
+        const balance = await getBalance(interaction.member?.user.id!);
+        const embed = new CustomEmbed(interaction, false)
             .setTitle(`${interaction.member?.user.username}'s Balance`)
             .setDescription(`Coins:\n${balance}`);
 

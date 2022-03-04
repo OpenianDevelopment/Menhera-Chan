@@ -11,7 +11,7 @@ export default class AniCharCommand extends BaseCommand {
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         let name = interaction.options.getString("name", true);
-        var query = `query ($id: Int, $page: Int, $perPage: Int, $search: String) {
+        const query = `query ($id: Int, $page: Int, $perPage: Int, $search: String) {
             Page(page: $page, perPage: $perPage) {
               pageInfo {
                 total
@@ -47,13 +47,13 @@ export default class AniCharCommand extends BaseCommand {
               }
             }
           }`;
-        var variables = {
+        const variables = {
             search: name,
             page: 1,
             perPage: 25,
         };
 
-        var url = "https://graphql.anilist.co",
+        const url = "https://graphql.anilist.co",
             options = {
                 method: "POST",
                 headers: {
@@ -66,7 +66,7 @@ export default class AniCharCommand extends BaseCommand {
                 }),
             };
 
-        var AnimeData = await fetch(url, options)
+        const AnimeData = await fetch(url, options)
             .then(handleResponse)
             .catch(console.error);
 
@@ -74,12 +74,12 @@ export default class AniCharCommand extends BaseCommand {
             interaction.followUp({ content: `Could not find anything` });
             return;
         }
-        var data = AnimeData.data.Page.characters;
-        var page = 0;
-        var embeds: MessageEmbed[] = [];
+        const data = AnimeData.data.Page.characters;
+        let page = 0;
+        const embeds: MessageEmbed[] = [];
         data.forEach((element1: any) => {
-            var anime = "";
-            var manga = "";
+            let anime = "";
+            let manga = "";
             element1.anime.nodes.forEach((Aelement: any) => {
                 anime = Aelement.title.romaji + ` \n` + anime;
             });

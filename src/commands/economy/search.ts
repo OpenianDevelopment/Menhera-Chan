@@ -12,8 +12,8 @@ export default class EconSearchCommand extends BaseCommand {
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         let name = interaction.options.getString("name", true);
-        var data = await getWaifu(name);
-        var embeds: MessageEmbed[] = [];
+        const data = await getWaifu(name);
+        const embeds: MessageEmbed[] = [];
         if (data.length < 1) {
             interaction.followUp({
                 content: "Not Found",

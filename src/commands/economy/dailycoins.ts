@@ -10,7 +10,7 @@ export default class EconBalanceCommand extends BaseCommand {
         super("econ dailycoins", "get daility coins");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
-        var DBL_TOKEN = process.env.DBL_TOKEN;
+        const DBL_TOKEN = process.env.DBL_TOKEN;
         if (DBL_TOKEN == ("" || undefined)) {
             interaction.followUp({
                 content: "Command not set up.",

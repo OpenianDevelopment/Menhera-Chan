@@ -20,8 +20,8 @@ export default class EconSellCommand extends BaseCommand {
             });
             return;
         }
-        var user = interaction.member?.user.id!;
-        var waifu = await getUserWaifus(user);
+        const user = interaction.member?.user.id!;
+        const waifu = await getUserWaifus(user);
         if (!waifu.find((x: any) => x.characterId == ID.toString())) {
             interaction.followUp({
                 content: `You don't have Waifu ID: **${ID}**`,
@@ -29,7 +29,7 @@ export default class EconSellCommand extends BaseCommand {
             });
             return;
         }
-        var waifuData: any = await getWaifuByID(ID.toString());
+        const waifuData: any = await getWaifuByID(ID.toString());
         addBalance(user, parseInt(waifuData.cost));
         sellWaifu(user, ID.toString());
         interaction.followUp({

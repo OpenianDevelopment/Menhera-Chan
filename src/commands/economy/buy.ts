@@ -22,8 +22,8 @@ export default class EconBalanceCommand extends BaseCommand {
             });
             return;
         }
-        var user = interaction.member?.user.id!;
-        var waifu = await getUserWaifus(user);
+        const user = interaction.member?.user.id!;
+        const waifu = await getUserWaifus(user);
         if (waifu.find((x) => x.characterId == ID.toString())) {
             interaction.followUp({
                 content: `You already have Waifu ID: **${ID}**`,
@@ -31,22 +31,14 @@ export default class EconBalanceCommand extends BaseCommand {
             });
             return;
         }
-        var waifuData = await getWaifuByID(ID.toString());
+        const waifuData = await getWaifuByID(ID.toString());
         if (waifuData == null) {
             interaction.followUp({
                 content: "Invalid ID",
             });
             return;
         }
-        var bal = await getBalance(user);
-        if (bal < parseInt(waifuData.cost)) {
-            interaction.followUp({
-                content: `You don't have enought to purchase ${
-                    waifuData.name
-                }\nyou need ${parseInt(waifuData.cost) - bal}`,
-            });
-        }
-        var bal = await getBalance(user);
+        const bal = await getBalance(user);
         if (bal < parseInt(waifuData.cost)) {
             interaction.followUp({
                 content: `You don't have enought to purchase ${

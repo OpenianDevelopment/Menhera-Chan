@@ -44,10 +44,10 @@ export async function ModLog(
     guildID: string,
     embed: MessageEmbed
 ) {
-    var guildOption = client.guildSettings.get(guildID);
+    const guildOption = client.guildSettings.get(guildID);
     if (!guildOption?.moderationSettings?.modLogChannel) return;
-    var guild = await client.guilds.fetch(guildID);
-    var Modchannel = (await guild.channels.fetch(
+    const guild = await client.guilds.fetch(guildID);
+    const Modchannel = (await guild.channels.fetch(
         guildOption?.moderationSettings?.modLogChannel
     )) as TextChannel;
     if (!Modchannel) return;
@@ -55,9 +55,9 @@ export async function ModLog(
     Modchannel.send({ embeds: [embed] });
 }
 export async function getAudituser(value: any) {
-    var data;
+    let data;
     try {
-        var user = (
+        const user = (
             await value.guild.fetchAuditLogs({ type: 12 })
         ).entries.first()?.executor;
         if (user) {

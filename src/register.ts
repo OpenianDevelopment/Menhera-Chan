@@ -504,7 +504,7 @@ client.on("ready", async () => {
             });
             return console.log("\x1b[32m%s\x1b[0m", "Started deleting...");
         }
-        var val = 0;
+        let val = 0;
         commands.forEach(async (command) => {
             const data = await client.application!.commands.create(command);
             console.log(

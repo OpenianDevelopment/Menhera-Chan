@@ -8,8 +8,8 @@ export default class Event extends BaseEvent {
         super("channelCreate");
     }
     async run(client: DiscordClient, channel: GuildChannel) {
-        var data = await getAudituser(channel);
-        var embed = new MessageEmbed()
+        const data = await getAudituser(channel);
+        const embed = new MessageEmbed()
             .setTitle("Channel Created")
             .setColor("RANDOM")
             .addFields(

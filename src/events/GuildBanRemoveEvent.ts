@@ -8,14 +8,14 @@ export default class Event extends BaseEvent {
         super("guildBanRemove");
     }
     async run(client: DiscordClient, ban: GuildBan) {
-        var data = await getAudituser(ban);
-        var reason;
+        const data = await getAudituser(ban);
+        let reason;
         if (ban.reason) {
             reason = ban.reason;
         } else {
             reason = "None Given";
         }
-        var embed = new MessageEmbed()
+        const embed = new MessageEmbed()
             .setTitle("Unbanned")
             .setColor("RANDOM")
             .addFields(

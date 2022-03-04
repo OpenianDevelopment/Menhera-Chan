@@ -152,8 +152,8 @@ class MalRequest {
      * @returns {Promise<*>} returns the request response or an error
      */
     async send(args: any, parameter?: any): Promise<any> {
-        var response = await fetch(this.urlBuilder(args, parameter));
-        var data = await response.json();
+        const response = await fetch(this.urlBuilder(args, parameter));
+        const data = await response.json();
 
         if (response.status !== 200) return null;
         return Promise.resolve(data);
@@ -166,7 +166,7 @@ class MalRequest {
      * @returns {string}            URL
      */
     urlBuilder(args: string[], parameter: any): string {
-        var url = new URL("https://api.jikan.moe/v3");
+        const url = new URL("https://api.jikan.moe/v3");
 
         url.pathname += "/" + args.filter((x: any) => x).join("/");
         if (parameter)
@@ -178,6 +178,16 @@ class MalRequest {
     }
 }
 
+/**
+ * @Noro Use it with commands, use normal { MessageEmbed } with most of the events
+ * 
+ * 
+ * @param {CommandInteraction | Message} d the interaction or the message object
+ * @param {boolean | undefined} ad whether to set the author (with the donate link) or not
+ * @returns {MessageEmbed} a normal MessageEmbed
+ * 
+ * *p.s.* Setting a new color/footer data will overwrite the old ones
+ */
 class CustomEmbed extends MessageEmbed {
     public constructor(d: CommandInteraction | Message, ad?: boolean) {
         super();

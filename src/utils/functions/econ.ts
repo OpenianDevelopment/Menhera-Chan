@@ -5,7 +5,7 @@ const cooldown = 15000;
 
 export function econ(data: Interaction) {
     const user = data.member?.user.id!;
-    var balance = Math.floor(Math.random() * 9) + 1;
+    let balance = Math.floor(Math.random() * 9) + 1;
     if (balance > 1) {
         balance =
             Math.floor(balance / (Math.floor(Math.random() * 9) + 1)) * 10;

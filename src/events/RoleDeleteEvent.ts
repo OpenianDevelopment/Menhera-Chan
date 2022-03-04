@@ -8,8 +8,8 @@ export default class Event extends BaseEvent {
         super("roleDelete");
     }
     async run(client: DiscordClient, role: Role) {
-        var data = await getAudituser(role);
-        var embed = new MessageEmbed()
+        const data = await getAudituser(role);
+        const embed = new MessageEmbed()
             .setTitle("Role Deleted")
             .setColor("RANDOM")
             .addFields({ name: "Role Name:", value: `\`${role.name}\`` }, data);

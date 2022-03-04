@@ -23,9 +23,9 @@ export default class MalRecCommand extends BaseCommand {
             return;
         }
 
-        var page = 0;
-        var embeds: MessageEmbed[] = [];
-        var embed: MessageEmbed;
+        let page = 0;
+        const embeds: MessageEmbed[] = [];
+        let embed: MessageEmbed;
         data.recommendations.forEach((element: any) => {
             embed = new CustomEmbed(interaction, false)
                 .setTitle(element.title)

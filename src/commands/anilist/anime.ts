@@ -11,7 +11,7 @@ export default class AniAnimeCommand extends BaseCommand {
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         let name = interaction.options.getString("name", true);
-        var query = `query ($id: Int, $page: Int, $perPage: Int, $search: String) {
+        const query = `query ($id: Int, $page: Int, $perPage: Int, $search: String) {
             Page(page: $page, perPage: $perPage) {
               pageInfo {
                 total
@@ -50,12 +50,12 @@ export default class AniAnimeCommand extends BaseCommand {
             }
           }
           `;
-        var variables = {
+        const variables = {
             search: name,
             page: 1,
             perPage: 25,
         };
-        var url = "https://graphql.anilist.co",
+        const url = "https://graphql.anilist.co",
             options = {
                 method: "POST",
                 headers: {
@@ -67,7 +67,7 @@ export default class AniAnimeCommand extends BaseCommand {
                     variables: variables,
                 }),
             };
-        var animedata = await fetch(url, options)
+        const animedata = await fetch(url, options)
             .then(handleResponse)
             .catch(console.error);
         if (animedata == undefined) {
@@ -76,13 +76,13 @@ export default class AniAnimeCommand extends BaseCommand {
             });
             return;
         }
-        var data = animedata.data.Page.media;
+        const data = animedata.data.Page.media;
         if (data.length == 0) {
             interaction.followUp({ content: `Could not find anything` });
             return;
         }
-        var page = 0;
-        var embeds: MessageEmbed[] = [];
+        let page = 0;
+        const embeds: MessageEmbed[] = [];
         data.forEach((element: any) => {
             if (
                 element.isAdult == true &&
@@ -96,7 +96,7 @@ export default class AniAnimeCommand extends BaseCommand {
                 embeds.push(embed);
                 return;
             }
-            var newDescription;
+            let newDescription;
             if (element.description != null) {
                 newDescription = element.description.replace(
                     /(<([^>]+)>)/gi,

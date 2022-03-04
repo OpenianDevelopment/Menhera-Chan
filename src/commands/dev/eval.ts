@@ -38,10 +38,10 @@ async function evaluate(
             .setStyle("PRIMARY")
             .setEmoji("❌")
     );
-    var botmsg: Message;
+    let botmsg: Message;
     try {
         const start = process.hrtime();
-        var evaled = eval(code);
+        let evaled = eval(code);
         if (evaled instanceof Promise) {
             evaled = await evaled;
         }

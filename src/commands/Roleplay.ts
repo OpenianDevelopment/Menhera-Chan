@@ -16,7 +16,7 @@ export default class RolePlayCommand extends BaseCommand {
         ) as GuildMember;
         const subcmd = interaction.options.getString("type", true);
         // Writing user's message
-        var user_msg = interaction.options.getString("message", false);
+        let user_msg = interaction.options.getString("message", false);
         user_msg ? (user_msg = `~ ` + user_msg) : (user_msg = " ");
         if (user_msg && user_msg.length > 500) {
             user_msg = "||~ Text is too long ||";
@@ -42,7 +42,7 @@ export default class RolePlayCommand extends BaseCommand {
             );
         } else {
             // Getting an img from mongodb
-            var data = (await getRolePlayGifs(subcmd))?.get("images");
+            let data = (await getRolePlayGifs(subcmd))?.get("images");
             if (data == null || undefined) {
                 interaction.followUp({
                     content: "This interation is not working currently",

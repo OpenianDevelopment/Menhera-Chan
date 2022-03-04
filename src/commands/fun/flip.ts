@@ -8,7 +8,7 @@ export default class PingCommand extends BaseCommand {
         super("flip", "Flips a coin");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
-        var num: number | string = Math.floor(Math.random() * 3);
+        let num: number | string = Math.floor(Math.random() * 3);
         if (num > 1) {
             num = "head";
         } else {

@@ -164,7 +164,7 @@ export default class RankOptionCommand extends BaseCommand {
 }
 
 function isColor(str: string) {
-    var colors = [
+    const colors = [
         //Don't touch my color names!
         "aliceblue",
         "antiquewhite",

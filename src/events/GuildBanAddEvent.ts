@@ -8,9 +8,9 @@ export default class Event extends BaseEvent {
         super("guildBanAdd");
     }
     async run(client: DiscordClient, ban: GuildBan) {
-        var data = await getAudituser(ban);
+        const data = await getAudituser(ban);
         const reason = ban.reason ? ban.reason : "No Reason Provided";
-        var embed = new MessageEmbed()
+        const embed = new MessageEmbed()
             .setTitle("Banned")
             .setColor("RANDOM")
             .addFields(

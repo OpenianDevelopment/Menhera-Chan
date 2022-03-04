@@ -33,7 +33,7 @@ export default class EconBalanceCommand extends BaseCommand {
             character = {};
             character.name = "Random";
         }
-        var math = Math.floor(Math.random() * (ResponsesArray.length + 4));
+        const math = Math.floor(Math.random() * (ResponsesArray.length + 4));
         if (math > ResponsesArray.length) {
             let TheCoins = Math.floor(Math.random() * 150) + 2;
             addBalance(user, TheCoins);

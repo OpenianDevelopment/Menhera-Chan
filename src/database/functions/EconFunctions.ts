@@ -17,30 +17,30 @@ export async function getUser(id: string) {
 }
 
 export async function getUserWaifus(id: string) {
-    var data: EconomyUserDB = await economyUser.findOne({ user: id }).exec();
+    const data: EconomyUserDB = await economyUser.findOne({ user: id }).exec();
     return data.characters;
 }
 
 export async function getBalance(id: string) {
-    var data: EconomyUserDB = await economyUser.findOne({ user: id }).exec();
+    const data: EconomyUserDB = await economyUser.findOne({ user: id }).exec();
     return data.balance;
 }
 
 export async function addBalance(user: string, balance: number) {
-    var profile: EconomyUserDB = await economyUser.findOne({ user: user });
+    const profile: EconomyUserDB = await economyUser.findOne({ user: user });
     if (!profile) {
         return initEcoUser(user);
     }
-    var newbal = balance + profile.balance;
+    const newbal = balance + profile.balance;
     await economyUser.findOneAndUpdate({ user: user }, { balance: newbal });
 }
 export async function removeBalance(user: string, balance: number) {
-    var profile = await economyUser.findOne({ user: user });
-    var newbal = profile.balance - balance;
+    const profile = await economyUser.findOne({ user: user });
+    const newbal = profile.balance - balance;
     await economyUser.findOneAndUpdate({ user: user }, { balance: newbal });
 }
 export async function buyWaifu(user: string, id: string) {
-    var data = await economyUser.findOne({ user: user }).exec();
+    const data = await economyUser.findOne({ user: user }).exec();
     data.characters.push({ characterId: id });
     await economyUser.findOneAndUpdate(
         { user: user },
@@ -48,8 +48,8 @@ export async function buyWaifu(user: string, id: string) {
     );
 }
 export async function sellWaifu(user: string, id: string) {
-    var data = await economyUser.findOne({ user: user }).exec();
-    var index = data.characters.indexOf(id);
+    const data = await economyUser.findOne({ user: user }).exec();
+    const index = data.characters.indexOf(id);
     data.characters.splice(index, 1);
     await economyUser.findOneAndUpdate(
         { user: user },
@@ -62,18 +62,18 @@ export async function updateBalance(user: string, balance: number) {
 }
 
 export async function getWaifu(name: string) {
-    var data: Array<WaifuDB> = await waifu.find({
+    const data: Array<WaifuDB> = await waifu.find({
         name: { $regex: name, $options: "i" },
     });
     return data;
 }
 
 export async function getWaifuByID(ID: string) {
-    var data: WaifuDB = await waifu.findOne({ id: ID });
+    const data: WaifuDB = await waifu.findOne({ id: ID });
     return data;
 }
 export async function getWaifuByIDArray(array: Array<string>) {
-    var data: Array<WaifuDB> = await waifu.find({ id: { $in: array } }).exec();
+    const data: Array<WaifuDB> = await waifu.find({ id: { $in: array } }).exec();
     return data;
 }
 
@@ -85,7 +85,7 @@ export async function updateWaifu(
     A: string,
     C: string
 ) {
-    var data: WaifuDB = await waifu.findOne({ id: ID });
+    const data: WaifuDB = await waifu.findOne({ id: ID });
     if (data == null) return false;
     if (N == null) {
         N = data.name;

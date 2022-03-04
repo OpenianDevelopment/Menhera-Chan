@@ -17,8 +17,8 @@ export default class MalAnimeCommand extends BaseCommand {
         super("mal anime", "To search an anime on MyAnimeList");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
-        let name = interaction.options.getString("name", true);
-        var data = await new MalRequest().send(["search", "anime"], {
+        const name = interaction.options.getString("name", true);
+        let data = await new MalRequest().send(["search", "anime"], {
             q: name,
         });
 
@@ -27,9 +27,9 @@ export default class MalAnimeCommand extends BaseCommand {
             return;
         }
         data = data.results;
-        var page = 0;
-        var embeds: MessageEmbed[] = [];
-        var embed: MessageEmbed;
+        let page = 0;
+        const embeds: MessageEmbed[] = [];
+        let embed: MessageEmbed;
         console.log(data);
         data.forEach((element: any) => {
             if (
