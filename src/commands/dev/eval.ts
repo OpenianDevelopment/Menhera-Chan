@@ -8,9 +8,9 @@ import {
     MessageActionRow,
     MessageAttachment,
     MessageButton,
-    MessageEmbed,
 } from "discord.js";
 import config from "../../utils/config";
+import { CustomEmbed } from "../../utils/functions/Custom";
 
 export default class EvalCommand extends BaseCommand {
     constructor() {
@@ -38,20 +38,20 @@ async function evaluate(
             .setStyle("PRIMARY")
             .setEmoji("❌")
     );
-    var botmsg: Message;
+    let botmsg: Message;
     try {
         const start = process.hrtime();
-        var evaled = eval(code);
+        let evaled = eval(code);
         if (evaled instanceof Promise) {
             evaled = await evaled;
         }
         const stop = process.hrtime(start);
-        const evmbed = new MessageEmbed()
+        const evmbed = new CustomEmbed(interaction, false)
             .setColor("#00FF00")
-            .setFooter(
-                `Time Taken: ${(stop[0] * 1e9 + stop[1]) / 1e6}ms`,
-                client!.user!.displayAvatarURL()
-            )
+            .setFooter({
+                text: `Time Taken: ${(stop[0] * 1e9 + stop[1]) / 1e6}ms`,
+                iconURL: client!.user!.displayAvatarURL()
+            })
             .setTitle("Eval")
             .addField(
                 `**Output:**`,
@@ -78,15 +78,15 @@ async function evaluate(
             await interaction.user!.send({ files: [output] });
         }
     } catch (err: any) {
-        const errevmbed = new MessageEmbed()
+        const errevmbed = new CustomEmbed(interaction, false)
             .setColor("#FF0000")
             .setTitle(`ERROR`)
             .setDescription(`\`\`\`xl\n${clean(err.toString())}\n\`\`\``)
             .setTimestamp()
-            .setFooter(
-                client!.user!.username,
-                client!.user!.displayAvatarURL()
-            );
+            .setFooter({
+                text: client!.user!.username,
+                iconURL: client!.user!.displayAvatarURL()
+            });
         botmsg = (await interaction.followUp({
             embeds: [errevmbed],
             components: [XBtn],
@@ -111,8 +111,8 @@ async function evaluate(
                 new RegExp(client!.token!, "gi"),
                 `NrzaMyOTI4MnU1NT3oDA1rTk4.pPizb1g.hELpb6PAi1Pewp3wAwVseI72Eo`
             )
-            .replace(/interaction.reply/g, "channel.send")
-            .replace(/int./g, "interaction.");
+            .replace(/^interaction.reply/g, "channel.send")
+            .replace(/^int/g, "interaction.");
         return text;
     }
 }

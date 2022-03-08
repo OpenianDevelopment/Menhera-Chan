@@ -1,7 +1,7 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import { CommandInteraction, MessageEmbed } from "discord.js";
-import { MalRequest } from "../../utils/functions/Custom";
+import { CommandInteraction } from "discord.js";
+import { CustomEmbed, MalRequest } from "../../utils/functions/Custom";
 import config from "../../utils/config";
 
 export default class MalUserCommand extends BaseCommand {
@@ -16,7 +16,7 @@ export default class MalUserCommand extends BaseCommand {
             interaction.followUp({ content: `Could not find anything` });
             return;
         }
-        const profile = new MessageEmbed()
+        const profile = new CustomEmbed(interaction, false)
             .setTitle(`${name}'s Profile`)
             .setURL(data.url)
             .setThumbnail(data.image_url)
@@ -48,7 +48,9 @@ export default class MalUserCommand extends BaseCommand {
                 true
             )
             .addField(`Joined`, new Date(data.joined).toDateString(), true)
-            .setFooter("Menhera Chan is Kawaii |" +config.links.website);
+            .setFooter({
+                text: "Menhera Chan is Kawaii |" + config.links.website,
+            });
         interaction.followUp({ embeds: [profile] });
         return;
     }

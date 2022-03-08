@@ -1,4 +1,8 @@
-import { CommandInteraction, MessageEmbed, ColorResolvable } from "discord.js";
+import {
+    CommandInteraction,
+    MessageEmbed,
+    ColorResolvable,
+} from "discord.js";
 import DiscordClient from "../../client/client";
 import {
     getLevel,
@@ -7,8 +11,8 @@ import {
     updateUserTrackColor,
     updateUserTextColor,
 } from "../../database/functions/levelingOperation";
-import config from "../../utils/config";
 import BaseCommand from "../../structures/BaseCommand";
+import { CustomEmbed } from "../../utils/functions/Custom";
 
 export default class RankOptionCommand extends BaseCommand {
     constructor() {
@@ -33,11 +37,6 @@ export default class RankOptionCommand extends BaseCommand {
         const UI = GX.users.findIndex((d: any) => {
             return d.user === UserID;
         });
-        const choice = interaction.options
-            .getString("option", true)
-            .toLowerCase();
-        const input = interaction.options.getString("input", false);
-
         if (UI < 0) {
             embed
                 .setColor("RED")
@@ -47,104 +46,125 @@ export default class RankOptionCommand extends BaseCommand {
             interaction.followUp({ embeds: [embed] });
             return;
         }
-        if (["help"].includes(choice)) {
-            interaction.followUp({
-                embeds: [HelpEmbed(embed, client)],
-            });
-            return;
-        }
-        if (["bg"].includes(choice)) {
-            if (!input) {
-                updateUserBackground(
-                    UserID,
-                    GuildID,
-                    "https://cdn.discordapp.com/attachments/791301593391562752/856879146175954954/rankcard2.png"
-                );
-                embed
-                    .setDescription(
-                        `The background is back to default: [Image](https://cdn.discordapp.com/attachments/791301593391562752/856879146175954954/rankcard2.png)`
-                    )
-                    .setImage(
+        const choice = interaction.options.data[0];
+        const input = choice.value?.toString();
+
+        switch (choice.name) {
+            case "help": {
+                interaction.followUp({
+                    embeds: [HelpEmbed(interaction, client)],
+                });
+                return;
+            }
+            case "bg": {
+                //to avoid weird inputs
+                if (input?.toLowerCase().startsWith("default")) {
+                    updateUserBackground(
+                        UserID,
+                        GuildID,
                         "https://cdn.discordapp.com/attachments/791301593391562752/856879146175954954/rankcard2.png"
                     );
-                interaction.followUp({ embeds: [embed] });
-                return;
-            }
-            if (
-                !input.startsWith("https://i.imgur.com") ||
-                !input.startsWith("https://cdn.discord.com")
-            ) {
+                    embed
+                        .setDescription(
+                            `The background is back to default: [Image](https://cdn.discordapp.com/attachments/791301593391562752/856879146175954954/rankcard2.png)`
+                        )
+                        .setImage(
+                            "https://cdn.discordapp.com/attachments/791301593391562752/856879146175954954/rankcard2.png"
+                        );
+                    interaction.followUp({ embeds: [embed] });
+                    return;
+                }
+                if (
+                    !input?.startsWith("https://i.imgur.com") ||
+                    !input?.startsWith("https://cdn.discord.com")
+                ) {
+                    interaction.followUp({
+                        content: `We only support https://i.imgur.com and https://cdn.discord.com links only`,
+                    });
+                    return;
+                }
+                updateUserBackground(UserID, GuildID, input);
                 interaction.followUp({
-                    content: `We only support https://i.imgur.com and https://cdn.discord.com links only`,
+                    embeds: [
+                        new MessageEmbed()
+                            .setDescription("Background image set to:")
+                            .setImage(input),
+                    ],
                 });
                 return;
             }
+            case "opacity": {
+                const num = Number(input);
+                if (num <= 0) {
+                    updateUserOpacity(UserID, GuildID, 0.7);
+                    interaction.followUp({
+                        content: "Opacity is back to default: **70%**",
+                    });
+                    return;
+                }
+                if (!num || num > 100 || num < 0) {
+                    interaction.followUp({
+                        content:
+                            "This is not a number between **0** and **100**!",
+                    });
+                    return;
+                }
+                updateUserOpacity(UserID, GuildID, num / 100);
+                interaction.followUp({ content: `Opacity is now **${num}%**` });
+                return;
+            }
+            case "track": {
+                if (input?.startsWith("default")) {
+                    updateUserTrackColor(UserID, GuildID, "#21cc87");
+                    interaction.followUp({
+                        content: "Track color is back to default: `#21cc87`",
+                    });
+                    return;
+                }
+                if (input && isColor(input)) {
+                    updateUserTrackColor(UserID, GuildID, input);
+                    embed
+                        .setColor(input as ColorResolvable)
+                        .setDescription(`Track color is now **${input}**`);
+                    interaction.followUp({ embeds: [embed] });
+                    return;
+                }
+                interaction.followUp({
+                    content: "This is not a supported color!",
+                });
+                return;
+            }
+            case "text": {
+                if (input?.startsWith("default")) {
+                    updateUserTextColor(UserID, GuildID, "#f5deb3");
+                    interaction.followUp({
+                        content: "Text color is back to default: `#f5deb3`",
+                    });
+                    return;
+                }
+                if (input && isColor(input)) {
+                    updateUserTextColor(UserID, GuildID, input);
+                    embed
+                        .setColor(input as ColorResolvable)
+                        .setDescription(
+                            `Text color is now colored with **${input}**`
+                        );
+                    interaction.followUp({ embeds: [embed] });
+                    return;
+                }
+                interaction.followUp({
+                    content: "This is not a supported color!",
+                });
+                return;
+            }
+            default:
+                return;
         }
-        if (["op"].includes(choice)) {
-            if (!input) {
-                updateUserOpacity(UserID, GuildID, 0.7);
-                interaction.followUp({
-                    content: "Opacity is back to default: **70%**",
-                });
-                return;
-            }
-            const num = Number(input);
-            if (!num || num > 100 || num < 0) {
-                interaction.followUp({
-                    content: "This is not a number between **0** and **100**!",
-                });
-                return;
-            }
-            updateUserOpacity(UserID, GuildID, num / 100);
-            interaction.followUp({ content: `Opacity is now **${num}%**` });
-            return;
-        }
-        if (["track"].includes(choice)) {
-            if (!input) {
-                updateUserTrackColor(UserID, GuildID, "#21cc87");
-                interaction.followUp({
-                    content: "Track color is back to default: `#21cc87`",
-                });
-                return;
-            }
-            if (isColor(input)) {
-                updateUserTrackColor(UserID, GuildID, input);
-                embed
-                    .setColor(input as ColorResolvable)
-                    .setDescription(`Track color is now **${input}**`);
-                interaction.followUp({ embeds: [embed] });
-                return;
-            }
-            interaction.followUp({ content: "This is not a supported color!" });
-            return;
-        }
-        if (["text"].includes(choice)) {
-            if (!input) {
-                updateUserTextColor(UserID, GuildID, "#f5deb3");
-                interaction.followUp({
-                    content: "Text color is back to default: `#f5deb3`",
-                });
-                return;
-            }
-            if (isColor(input)) {
-                updateUserTextColor(UserID, GuildID, input);
-                embed
-                    .setColor(input as ColorResolvable)
-                    .setDescription(
-                        `Text color is now colored with **${input}**`
-                    );
-                interaction.followUp({ embeds: [embed] });
-                return;
-            }
-            interaction.followUp({ content: "This is not a supported color!" });
-            return;
-        }
-        return;
     }
 }
 
 function isColor(str: string) {
-    var colors = [
+    const colors = [
         //Don't touch my color names!
         "aliceblue",
         "antiquewhite",
@@ -290,36 +310,34 @@ function isColor(str: string) {
     ];
     if (colors.includes(str.toLowerCase())) return true;
     if (/^#[A-F0-9]{6}$/i.test(str)) return true;
-
     return false;
 }
-/** # RC help function
- * a useless function that i keep to reemember the usage
+/**
+ * @HelpEmbed
+ * a useless function that i keep to remember the usage
  * @Noro
  */
-function HelpEmbed(embed: MessageEmbed, client: DiscordClient) {
-    embed
+function HelpEmbed(int: CommandInteraction, client: DiscordClient) {
+    return new CustomEmbed(int)
         .setTitle("rank card customization")
         .setDescription(
             `TrackColor/TextColor only supports [**Color Names**](https://htmlcolorcodes.com/color-names/) and [**Hex Codes**](https://htmlcolorcodes.com/)
-        **Tip:** You can leave \`input\` empty to reset it to the default value`
+            **Tip:** *\`default\` in bg, track and text will reset it to default, \`0\` in opacity will also return it to the default value* `
         )
         .addField(
             "background",
-            `**Usage:** \`option: bg\`, \`input: <Imgur or cdn.discord image link>\`\n**Example:** \`option: bg\`, \`input: https://cdn.discordapp.com/attachments/791301593391562752/856879146175954954/rankcard2.png\``
+            `**Usage:** \`bg: <Imgur or cdn.discord image link>\`\n**Example:** \`bg: https://cdn.discordapp.com/attachments/791301593391562752/856879146175954954/rankcard2.png\``
         )
         .addField(
             "opacity",
-            `**Usage:** \`options: op\`, \`input: <0-100>\`\n **Example:** \`options: op\`, \`input: 70\``
+            `**Usage:** \`opacity: <0-100>\`\n **Example:** \`opacity: 70\``
         )
         .addField(
             "Track Color",
-            `**Usage:** \`options: track\` \`input: <Color>\`\n **Example:** \`options: track\` \`input: #21cc87\``
+            `**Usage:** \`track: <Color>\`\n **Example:** \`track: #21cc87\``
         )
         .addField(
             "Text Color",
-            `**Usage:** rc textcolor <Color>\n **Example:** rc textcolor #554b58`
-        )
-        .setFooter(config.links.donate, client.user!.displayAvatarURL());
-    return embed;
+            `**Usage:** \`text: <Color>\`\n **Example:** \`text: #554b58\``
+        );
 }

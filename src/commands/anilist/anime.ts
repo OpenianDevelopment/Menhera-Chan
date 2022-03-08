@@ -1,12 +1,9 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import {
-    CommandInteraction,
-    MessageEmbed,
-    TextChannel
-} from "discord.js";
+import { CommandInteraction, MessageEmbed, TextChannel } from "discord.js";
 import fetch from "cross-fetch";
 import { embedMaker } from "../../utils/functions/embed";
+import { CustomEmbed } from "../../utils/functions/Custom";
 
 export default class AniAnimeCommand extends BaseCommand {
     constructor() {
@@ -14,7 +11,7 @@ export default class AniAnimeCommand extends BaseCommand {
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         let name = interaction.options.getString("name", true);
-        var query = `query ($id: Int, $page: Int, $perPage: Int, $search: String) {
+        const query = `query ($id: Int, $page: Int, $perPage: Int, $search: String) {
             Page(page: $page, perPage: $perPage) {
               pageInfo {
                 total
@@ -53,12 +50,12 @@ export default class AniAnimeCommand extends BaseCommand {
             }
           }
           `;
-        var variables = {
+        const variables = {
             search: name,
             page: 1,
             perPage: 25,
         };
-        var url = "https://graphql.anilist.co",
+        const url = "https://graphql.anilist.co",
             options = {
                 method: "POST",
                 headers: {
@@ -70,7 +67,7 @@ export default class AniAnimeCommand extends BaseCommand {
                     variables: variables,
                 }),
             };
-        var animedata = await fetch(url, options)
+        const animedata = await fetch(url, options)
             .then(handleResponse)
             .catch(console.error);
         if (animedata == undefined) {
@@ -79,19 +76,19 @@ export default class AniAnimeCommand extends BaseCommand {
             });
             return;
         }
-        var data = animedata.data.Page.media;
+        const data = animedata.data.Page.media;
         if (data.length == 0) {
             interaction.followUp({ content: `Could not find anything` });
             return;
         }
-        var page = 0;
-        var embeds: MessageEmbed[] = [];
+        let page = 0;
+        const embeds: MessageEmbed[] = [];
         data.forEach((element: any) => {
             if (
                 element.isAdult == true &&
                 !(interaction.channel as TextChannel).nsfw
             ) {
-                const embed = new MessageEmbed()
+                const embed = new CustomEmbed(interaction, false)
                     .setTitle("Adult Content")
                     .setDescription(
                         "18+ content can only be viewed in nsfw channels"
@@ -99,7 +96,7 @@ export default class AniAnimeCommand extends BaseCommand {
                 embeds.push(embed);
                 return;
             }
-            var newDescription;
+            let newDescription;
             if (element.description != null) {
                 newDescription = element.description.replace(
                     /(<([^>]+)>)/gi,
@@ -112,7 +109,7 @@ export default class AniAnimeCommand extends BaseCommand {
                 newDescription =
                     element.title.english + `\n` + `\n` + newDescription;
             }
-            const embed = new MessageEmbed()
+            const embed = new CustomEmbed(interaction, false)
                 .setTitle(element.title.romaji)
                 .setThumbnail(element.coverImage.extraLarge)
                 .setDescription(newDescription)
@@ -179,7 +176,7 @@ export default class AniAnimeCommand extends BaseCommand {
             );
             embeds.push(embed);
         });
-        await embedMaker(interaction,embeds,page);
+        await embedMaker(interaction, embeds, page);
     }
 }
 

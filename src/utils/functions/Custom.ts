@@ -1,6 +1,14 @@
-import { MessageEmbed, Guild, Collection, GuildMember, User } from "discord.js";
+import {
+    MessageEmbed,
+    Collection,
+    GuildMember,
+    User,
+    CommandInteraction,
+    Message,
+} from "discord.js";
 import fetch from "cross-fetch";
 import DiscordClient from "../../client/client";
+import config from "../config";
 
 declare global {
     type RpTypes =
@@ -20,35 +28,35 @@ declare global {
         | "punch"
         | "lick";
 }
-function capFirstLetter(value: string) {
+
+export function capFirstLetter(value: string) {
     return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-const _ads = {
+export const _ads = {
     OnCooldown: true,
-    embed: function (guild: Guild) {
-        return new MessageEmbed()
-            .setAuthor({
-                name:"Donate",
-                iconURL:guild.client.user?.displayAvatarURL(),
-                url:"https://ko-fi.com/rohank05"
-            })
-            .setDescription(
-                `You can also **[vote for us on top.gg](https://top.gg/bot/${
-                    guild.client.user!.id
-                }/vote)** to support us!`
-            )
-            .setColor(guild.me!.displayColor)
-            .setFooter({text:guild.client.user!.tag});
+    embed: function (data: CommandInteraction | Message) {
+        return new CustomEmbed(data).setDescription(
+            `You can also **[vote for us on top.gg](https://top.gg/bot/${
+                data.guild!.client.user!.id
+            }/vote)** to support the bot's growth!`
+        );
     },
 };
 
-function clean(str: string) {
-    return (str = str.replace(/`/g, `\\\`${String.fromCharCode(8203)}`));
+export function clean(str: string | null | undefined) {
+    if (!str) return null;
+    return (str = str
+        .replace(/`/g, `\\\`${String.fromCharCode(8203)}`)
+        .replace(/\*/g, `\\\*${String.fromCharCode(8203)}`)
+        .replace(/~/g, `\\\~${String.fromCharCode(8203)}`)
+        .replace(/_/g, `\\\_${String.fromCharCode(8203)}`)
+        .replace(/\|/g, `\\\|${String.fromCharCode(8203)}`)
+        .replace(/@/g, `\\\@${String.fromCharCode(8203)}`));
 }
 
 /** Returns rp text data */
-function rpTextCollection(author: User, member: GuildMember) {
+export function rpTextCollection(author: User, member: GuildMember) {
     const _crp = new Collection<RpTypes, string[]>()
         .set("bite", [
             `<@!${author.id}> *bites* <@!${member.user.id}>`,
@@ -132,7 +140,7 @@ function rpTextCollection(author: User, member: GuildMember) {
     return _crp;
 }
 
-function getSub(
+export function getSub(
     client: DiscordClient,
     command: string,
     subcmd: string | null
@@ -142,7 +150,7 @@ function getSub(
 }
 
 /* From https://github.com/zuritor/jikanjs/blob/6a11bcf1d07dfc046e56ddf3ed94adc5db6ac822/lib/util/Request.js */
-class MalRequest {
+export class MalRequest {
     /**
      * sends a request with the given list of URL parts and the optional list of query parameter
      * @param {*[]} args           URL Parts
@@ -150,8 +158,8 @@ class MalRequest {
      * @returns {Promise<*>} returns the request response or an error
      */
     async send(args: any, parameter?: any): Promise<any> {
-        var response = await fetch(this.urlBuilder(args, parameter));
-        var data = await response.json();
+        const response = await fetch(this.urlBuilder(args, parameter));
+        const data = await response.json();
 
         if (response.status !== 200) return null;
         return Promise.resolve(data);
@@ -164,7 +172,7 @@ class MalRequest {
      * @returns {string}            URL
      */
     urlBuilder(args: string[], parameter: any): string {
-        var url = new URL("https://api.jikan.moe/v3");
+        const url = new URL("https://api.jikan.moe/v3");
 
         url.pathname += "/" + args.filter((x: any) => x).join("/");
         if (parameter)
@@ -176,4 +184,30 @@ class MalRequest {
     }
 }
 
-export { capFirstLetter, _ads, rpTextCollection, clean, getSub, MalRequest };
+/**
+ * @Noro Use it with commands, use normal { MessageEmbed } with most of the events
+ *
+ *
+ * @param {CommandInteraction | Message} d the interaction or the message object
+ * @param {boolean | undefined} ad whether to set the author (with the donate link) or not
+ * @returns {MessageEmbed} a normal MessageEmbed
+ *
+ * *p.s.* Setting a new color/footer data will overwrite the old ones
+ */
+export class CustomEmbed extends MessageEmbed {
+    public constructor(d: CommandInteraction | Message, ad?: boolean) {
+        super();
+        if (ad) {
+            this.author = {
+                name: "Donate",
+                iconURL: d.client.user?.displayAvatarURL(),
+                url: config.links.donate,
+            };
+        }
+        this.color = d.guild ? d.guild.me!.displayColor : null;
+        this.footer = {
+            text: config.links.website,
+            iconURL: (d.member as GuildMember | null)?.displayAvatarURL(),
+        };
+    }
+}

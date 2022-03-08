@@ -7,11 +7,14 @@ export default class Event extends BaseEvent {
     constructor() {
         super("channelCreate");
     }
-    async run(client: DiscordClient,channel:GuildChannel) {
+    async run(client: DiscordClient, channel: GuildChannel) {
         var embed = new MessageEmbed()
-        .setTitle("Channel Created")
-        .setColor("RANDOM")
-        .addFields({name:"Channel Name:",value:`\`${channel.name}\``},{name:"Channel ID:",value:`\`${channel.id}\``})
-        ModLog(client,channel.guildId,embed)
+            .setTitle("Channel Created")
+            .setColor("RANDOM")
+            .addFields(
+                { name: "Channel Name:", value: `\`${channel.name}\`` },
+                { name: "Channel ID:", value: `\`${channel.id}\`` }
+            );
+        ModLog(client, channel.guildId, embed);
     }
 }

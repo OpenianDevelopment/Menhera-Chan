@@ -10,15 +10,15 @@ import {
     TextChannel,
 } from "discord.js";
 import config from "../../utils/config";
-import { MalRequest } from "../../utils/functions/Custom";
+import { CustomEmbed, MalRequest } from "../../utils/functions/Custom";
 
 export default class MalAnimeCommand extends BaseCommand {
     constructor() {
         super("mal anime", "To search an anime on MyAnimeList");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
-        let name = interaction.options.getString("name", true);
-        var data = await new MalRequest().send(["search", "anime"], {
+        const name = interaction.options.getString("name", true);
+        let data = await new MalRequest().send(["search", "anime"], {
             q: name,
         });
 
@@ -27,16 +27,16 @@ export default class MalAnimeCommand extends BaseCommand {
             return;
         }
         data = data.results;
-        var page = 0;
-        var embeds: MessageEmbed[] = [];
-        var embed: MessageEmbed;
+        let page = 0;
+        const embeds: MessageEmbed[] = [];
+        let embed: MessageEmbed;
         console.log(data);
         data.forEach((element: any) => {
             if (
                 element.rated === "Rx" &&
                 !(interaction.channel as TextChannel).nsfw
             ) {
-                embed = new MessageEmbed()
+                embed = new CustomEmbed(interaction, false)
                     .setTitle("NSFW Title")
                     .setThumbnail(
                         "https://techcrunch.com/wp-content/uploads/2017/04/tumblr-nsfw.png?w=711"
@@ -45,7 +45,7 @@ export default class MalAnimeCommand extends BaseCommand {
                         "This Anime Can be viewed in NFSW Channel. Please move to next Page"
                     );
             } else {
-                embed = new MessageEmbed()
+                embed = new CustomEmbed(interaction, false)
                     .setTitle(element.title)
                     .setThumbnail(element.image_url)
                     .addField("Episodes: ", element.episodes.toString())
@@ -89,11 +89,11 @@ export default class MalAnimeCommand extends BaseCommand {
         );
         const botmsg = (await interaction.followUp({
             embeds: [
-                embeds[page].setFooter(
-                    `Page ${page + 1} of ${embeds.length} | ${
+                embeds[page].setFooter({
+                    text: `Page ${page + 1} of ${embeds.length} | ${
                         config.links.website
-                    }`
-                ),
+                    }`,
+                }),
             ],
             components: [navbtn_next],
         })) as Message;
@@ -109,11 +109,11 @@ export default class MalAnimeCommand extends BaseCommand {
             if (int.customId == `previous`) {
                 if (page != 0) {
                     page--;
-                    embeds[page].setFooter(
-                        `Page ${page + 1} of ${embeds.length} | ${
+                    embeds[page].setFooter({
+                        text: `Page ${page + 1} of ${embeds.length} | ${
                             config.links.website
-                        }`
-                    );
+                        }`,
+                    });
                     if (page == 0) {
                         await int.editReply({
                             embeds: [embeds[page]],
@@ -132,11 +132,11 @@ export default class MalAnimeCommand extends BaseCommand {
             if (int.customId == `next`) {
                 if (page < embeds.length - 1) {
                     page++;
-                    embeds[page].setFooter(
-                        `Page ${page + 1} of ${embeds.length} | ${
+                    embeds[page].setFooter({
+                        text: `Page ${page + 1} of ${embeds.length} | ${
                             config.links.website
-                        }`
-                    );
+                        }`,
+                    });
                     if (page === embeds.length - 1) {
                         await int.editReply({
                             embeds: [embeds[page]],

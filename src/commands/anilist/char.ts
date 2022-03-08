@@ -1,11 +1,9 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import {
-    CommandInteraction,
-    MessageEmbed
-} from "discord.js";
+import { CommandInteraction, MessageEmbed } from "discord.js";
 import fetch from "cross-fetch";
 import { embedMaker } from "../../utils/functions/embed";
+import { CustomEmbed } from "../../utils/functions/Custom";
 
 export default class AniCharCommand extends BaseCommand {
     constructor() {
@@ -13,7 +11,7 @@ export default class AniCharCommand extends BaseCommand {
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         let name = interaction.options.getString("name", true);
-        var query = `query ($id: Int, $page: Int, $perPage: Int, $search: String) {
+        const query = `query ($id: Int, $page: Int, $perPage: Int, $search: String) {
             Page(page: $page, perPage: $perPage) {
               pageInfo {
                 total
@@ -49,13 +47,13 @@ export default class AniCharCommand extends BaseCommand {
               }
             }
           }`;
-        var variables = {
+        const variables = {
             search: name,
             page: 1,
             perPage: 25,
         };
 
-        var url = "https://graphql.anilist.co",
+        const url = "https://graphql.anilist.co",
             options = {
                 method: "POST",
                 headers: {
@@ -68,7 +66,7 @@ export default class AniCharCommand extends BaseCommand {
                 }),
             };
 
-        var AnimeData = await fetch(url, options)
+        const AnimeData = await fetch(url, options)
             .then(handleResponse)
             .catch(console.error);
 
@@ -76,19 +74,19 @@ export default class AniCharCommand extends BaseCommand {
             interaction.followUp({ content: `Could not find anything` });
             return;
         }
-        var data = AnimeData.data.Page.characters;
-        var page = 0;
-        var embeds: MessageEmbed[] = [];
+        const data = AnimeData.data.Page.characters;
+        let page = 0;
+        const embeds: MessageEmbed[] = [];
         data.forEach((element1: any) => {
-            var anime = "";
-            var manga = "";
+            let anime = "";
+            let manga = "";
             element1.anime.nodes.forEach((Aelement: any) => {
                 anime = Aelement.title.romaji + ` \n` + anime;
             });
             element1.manga.nodes.forEach((Melement: any) => {
                 manga = Melement.title.romaji + ` \n` + manga;
             });
-            const embed = new MessageEmbed()
+            const embed = new CustomEmbed(interaction, false)
                 .setTitle(element1.name.full)
                 .setImage(element1.image.large)
                 .setDescription("No description available.")
@@ -116,7 +114,7 @@ export default class AniCharCommand extends BaseCommand {
             }
             embeds.push(embed);
         });
-        await embedMaker(interaction,embeds,page);
+        await embedMaker(interaction, embeds, page);
     }
 }
 

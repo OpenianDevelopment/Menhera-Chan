@@ -3,11 +3,15 @@ import {
     CommandInteraction,
     Message,
     MessageActionRow,
-    MessageButton
+    MessageButton,
 } from "discord.js";
 import config from "../config";
 
-export async function embedMaker (interaction: CommandInteraction,embeds: string | any[],page: number){
+export async function embedMaker(
+    interaction: CommandInteraction,
+    embeds: string | any[],
+    page: number
+) {
     const navbtns = new MessageActionRow().addComponents(
         new MessageButton()
             .setCustomId("previous")
@@ -57,7 +61,9 @@ export async function embedMaker (interaction: CommandInteraction,embeds: string
             if (page != 0) {
                 page--;
                 embeds[page].setFooter({
-                    text:`Page ${page + 1} of ${embeds.length} | ${config.links.website}`
+                    text: `Page ${page + 1} of ${embeds.length} | ${
+                        config.links.website
+                    }`,
                 });
                 if (page == 0) {
                     await int.editReply({
@@ -78,7 +84,9 @@ export async function embedMaker (interaction: CommandInteraction,embeds: string
             if (page < embeds.length - 1) {
                 page++;
                 embeds[page].setFooter({
-                    text:`Page ${page + 1} of ${embeds.length} | ${config.links.website}`
+                    text: `Page ${page + 1} of ${embeds.length} | ${
+                        config.links.website
+                    }`,
                 });
                 if (page === embeds.length - 1) {
                     await int.editReply({

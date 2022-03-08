@@ -11,18 +11,21 @@ export default class RankCommand extends BaseCommand {
     }
 
     async run(client: DiscordClient, interaction: CommandInteraction) {
-        if (!interaction.guildId){
+        if (!interaction.guildId) {
             interaction.followUp({
-                content:"This is a server only command"
-            })
+                content: "This is a server only command",
+            });
         }
-        if(!client.guildSettings.get(interaction.guildId!)?.expSettings?.enable){
+        if (
+            !client.guildSettings.get(interaction.guildId!)?.expSettings?.enable
+        ) {
             interaction.followUp({
-                content:"Rank is not enabled on this server"
-            })
-            return
+                content: "Rank is not enabled on this server",
+            });
+            return;
         }
-        const member = interaction.options.getUser("user", false) || interaction.user!;
+        const member =
+            interaction.options.getUser("user", false) || interaction.user!;
         const GuildUsersXP = await getLevel(interaction.guildId!);
         const usersXP = GuildUsersXP.users.sort(
             (a: userXP, b: userXP) => b.xp - a.xp
@@ -62,5 +65,6 @@ export default class RankCommand extends BaseCommand {
         await interaction.followUp({
             files: [rank_card],
         });
+        return;
     }
 }

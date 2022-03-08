@@ -7,14 +7,18 @@ export default class Event extends BaseEvent {
     constructor() {
         super("guildBanAdd");
     }
-    async run(client: DiscordClient,ban:GuildBan) {
-        const reason = ban.reason ? ban.reason : "No Reason Provided"
+    async run(client: DiscordClient, ban: GuildBan) {
+        const reason = ban.reason ? ban.reason : "No Reason Provided";
         var embed = new MessageEmbed()
-        .setTitle("Banned")
-        .setColor("RANDOM")
-        .addFields(
-            {name:"user:",value:`\`${ban.user.username}(${ban.user.id})\``},
-            {name:"Reason",value:reason})
-        ModLog(client,ban.guild.id,embed)
+            .setTitle("Banned")
+            .setColor("RANDOM")
+            .addFields(
+                {
+                    name: "user:",
+                    value: `\`${ban.user.username}(${ban.user.id})\``,
+                },
+                { name: "Reason", value: reason }
+            );
+        ModLog(client, ban.guild.id, embed);
     }
 }

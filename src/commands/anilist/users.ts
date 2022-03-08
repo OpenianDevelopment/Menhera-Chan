@@ -1,11 +1,9 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import {
-    CommandInteraction,
-    MessageEmbed
-} from "discord.js";
+import { CommandInteraction, MessageEmbed } from "discord.js";
 import fetch from "cross-fetch";
 import { embedMaker } from "../../utils/functions/embed";
+import { CustomEmbed } from "../../utils/functions/Custom";
 
 export default class AniUsersCommand extends BaseCommand {
     constructor() {
@@ -13,7 +11,7 @@ export default class AniUsersCommand extends BaseCommand {
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         let name = interaction.options.getString("name", true);
-        var query = `query ($id: Int, $page: Int, $perPage: Int, $search: String, $sort: [UserSort]) {
+        const query = `query ($id: Int, $page: Int, $perPage: Int, $search: String, $sort: [UserSort]) {
             Page(page: $page, perPage: $perPage) {
               pageInfo {
                 total
@@ -49,13 +47,13 @@ export default class AniUsersCommand extends BaseCommand {
             }
           }
           `;
-        var variables = {
+        const variables = {
             search: name,
             sort: "SEARCH_MATCH",
             page: 1,
             perPage: 25,
         };
-        var url = "https://graphql.anilist.co",
+        const url = "https://graphql.anilist.co",
             options = {
                 method: "POST",
                 headers: {
@@ -67,7 +65,7 @@ export default class AniUsersCommand extends BaseCommand {
                     variables: variables,
                 }),
             };
-        var animedata = await fetch(url, options)
+        const animedata = await fetch(url, options)
             .then(handleResponse)
             .catch(console.error);
         if (animedata == undefined) {
@@ -76,7 +74,7 @@ export default class AniUsersCommand extends BaseCommand {
             });
             return;
         }
-        var data = animedata.data.Page.users;
+        const data = animedata.data.Page.users;
         if (data == undefined) {
             interaction.followUp({ content: `Search Error` });
             return;
@@ -85,11 +83,11 @@ export default class AniUsersCommand extends BaseCommand {
             interaction.followUp({ content: `Could not find anything` });
             return;
         }
-        var page = 0;
-        var embeds: MessageEmbed[] = [];
+        let page = 0;
+        const embeds: MessageEmbed[] = [];
         data.forEach((element: any) => {
             const time = new Date(element.updatedAt * 1000);
-            const embed = new MessageEmbed()
+            const embed = new CustomEmbed(interaction, false)
                 .setTitle(element.name)
                 .setThumbnail(element.avatar.large)
                 .addField("ID:", element.id.toString(), true)
@@ -147,7 +145,7 @@ export default class AniUsersCommand extends BaseCommand {
             embed.addField(`URL:`, element.siteUrl.toString(), true);
             embeds.push(embed);
         });
-        await embedMaker(interaction,embeds,page);
+        await embedMaker(interaction, embeds, page);
     }
 }
 

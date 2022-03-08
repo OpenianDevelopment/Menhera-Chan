@@ -1,17 +1,24 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
-import { CommandInteraction, GuildMember, GuildMemberRoleManager } from "discord.js";
+import {
+    CommandInteraction,
+    GuildMember,
+    GuildMemberRoleManager,
+} from "discord.js";
+import ms from "ms";
 
-export default class UnmuteCommand extends BaseCommand {
+export default class muteCommand extends BaseCommand {
     constructor() {
-        super("mod unmute", "Unmutes a user");
+        super("mod mute", "mutes a user");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         if (!(await CheckPermsBoth(interaction, "MODERATE_MEMBERS"))) {
             return;
         }
         let data = interaction.options.getMember("user", true) as GuildMember;
+        const time = ms(interaction.options.getString("time", true));
+        const reason = interaction.options.getString("reason", false);
         if (data.id == client.user?.id) {
             await interaction.followUp({
                 content: "I can't moderate myself",
@@ -37,14 +44,19 @@ export default class UnmuteCommand extends BaseCommand {
             return;
         }
         try {
-            await member.timeout(0, `Unmuted by ${interaction.user.tag}`);
+            await member.timeout(
+                time,
+                `Muted by ${interaction.user.tag}\nreason: ${
+                    reason ? reason : "No Reason"
+                }`
+            );
         } catch {
             await interaction.followUp({
-                content: `Failed to unmute member ${member}`,
+                content: `Failed to mute member ${member}`,
             });
         }
         await interaction.followUp({
-            content: `${member} was unmuted`,
+            content: `${member} was muted`,
         });
         return;
     }

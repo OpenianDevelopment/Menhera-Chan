@@ -122,9 +122,8 @@ const commands: ApplicationCommandData[] = [
         options: [
             {
                 name: "user",
-                description: "Show <this user>'s rank card",
+                description: "Show this user's rank card",
                 type: "USER",
-                required: false,
             },
         ],
     },
@@ -134,23 +133,30 @@ const commands: ApplicationCommandData[] = [
         type: "CHAT_INPUT",
         options: [
             {
-                name: "option",
-                description: "Option to edit",
-                type: "STRING",
-                choices: [
-                    { name: "How to use this?", value: "help" },
-                    { name: "Background Image", value: "bg" },
-                    { name: "Opacity", value: "op" },
-                    { name: "Track Color", value: "track" },
-                    { name: "Text Color", value: "text" },
-                ],
-                required: true,
+                name: "help",
+                description: "How to use this!??",
+                type: "SUB_COMMAND",
             },
             {
-                name: "input",
-                description: "Option's input value",
+                name: "bg",
+                description:
+                    'The background image of the rankcard ("default" for default image)',
                 type: "STRING",
-                required: false,
+            },
+            {
+                name: "opacity",
+                description: "Percentage of opacity (70 is the default)",
+                type: "INTEGER",
+            },
+            {
+                name: "track",
+                description: "Sets the xp track color",
+                type: "STRING",
+            },
+            {
+                name: "text",
+                description: "Sets text color",
+                type: "STRING",
             },
         ],
     },
@@ -337,7 +343,7 @@ const commands: ApplicationCommandData[] = [
                 type: "SUB_COMMAND",
                 options: [
                     {
-                        name: "ammount",
+                        name: "amount",
                         description: "How many messages to remove",
                         type: "INTEGER",
                         required: true,
@@ -346,25 +352,6 @@ const commands: ApplicationCommandData[] = [
                         name: "channel",
                         description: "channel to purge",
                         type: "CHANNEL",
-                        required: false,
-                    },
-                ],
-            },
-            {
-                name: "kick",
-                description: "Kicks a user",
-                type: "SUB_COMMAND",
-                options: [
-                    {
-                        name: "user",
-                        description: "user to kick",
-                        type: "USER",
-                        required: true,
-                    },
-                    {
-                        name: "reason",
-                        description: "reason to kick user",
-                        type: "STRING",
                         required: false,
                     },
                 ],
@@ -427,26 +414,20 @@ const commands: ApplicationCommandData[] = [
                 ],
             },
             {
-                name: "ban",
-                description: "Bans a user",
+                name: "unban",
+                description: "Unbans a user",
                 type: "SUB_COMMAND",
                 options: [
                     {
                         name: "user",
-                        description: "user to ban",
+                        description: "Banned user",
                         type: "USER",
                         required: true,
                     },
                     {
                         name: "reason",
-                        description: "reason to ban user",
+                        description: "reason for the unban",
                         type: "STRING",
-                        required: false,
-                    },
-                    {
-                        name: "days",
-                        description: "how long to ban user",
-                        type: "INTEGER",
                         required: false,
                     },
                 ],
@@ -498,7 +479,7 @@ client.on("ready", async () => {
             });
             return console.log("\x1b[32m%s\x1b[0m", "Started deleting...");
         }
-        var val = 0;
+        let val = 0;
         commands.forEach(async (command) => {
             const data = await client.application!.commands.create(command);
             console.log(

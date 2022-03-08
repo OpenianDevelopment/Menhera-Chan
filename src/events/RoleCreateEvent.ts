@@ -7,11 +7,11 @@ export default class Event extends BaseEvent {
     constructor() {
         super("roleCreate");
     }
-    async run(client: DiscordClient,role:Role) {
+    async run(client: DiscordClient, role: Role) {
         var embed = new MessageEmbed()
-        .setTitle("Role Created")
-        .setColor("RANDOM")
-        .addFields({name:"Role Name:",value:`\`${role.name}\``})
-        ModLog(client,role.guild.id,embed)
+            .setTitle("Role Created")
+            .setColor("RANDOM")
+            .addFields({ name: "Role Name:", value: `\`${role.name}\`` });
+        ModLog(client, role.guild.id, embed);
     }
 }

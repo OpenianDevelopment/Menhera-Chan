@@ -7,7 +7,7 @@ const Waifu = new Schema({
     gender: String,
     anime: String,
     cost: String,
-    wish: Number
-})
+    wish: Number,
+});
 
-export const waifu = model('waifu',Waifu)
+export const waifu = model("waifu", Waifu);

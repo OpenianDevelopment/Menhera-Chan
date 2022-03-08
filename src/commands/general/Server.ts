@@ -12,15 +12,15 @@ export default class ServerCommand extends BaseCommand {
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         if (!interaction.guild) return;
-        var GuildOwner =
+        const GuildOwner =
             `<@${interaction.guild.ownerId}>` ||
             "not in cache <:sorry:762202529756872704>";
-        var createdAt = interaction.guild!.createdTimestamp.toString()!;
+        let createdAt = interaction.guild!.createdTimestamp.toString()!;
         createdAt =
             "<t:" + createdAt.substring(0, createdAt.length - 3) + ":d>";
-        var embed = new MessageEmbed()
+        const embed = new MessageEmbed()
             .setThumbnail(interaction.guild!.iconURL({ dynamic: true })!)
-            .setAuthor({name:interaction.guild.name})
+            .setAuthor({ name: interaction.guild.name })
             .setColor(`#800080`)
             .addFields(
                 {
@@ -52,11 +52,12 @@ export default class ServerCommand extends BaseCommand {
             )
             .setTimestamp()
             .setFooter({
-                text:interaction.user.tag,
-                iconURL:interaction.user.displayAvatarURL({ dynamic: true })}
-            );
+                text: interaction.user.tag,
+                iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
+            });
         checks(interaction, embed);
-        interaction.followUp({ embeds: [embed] });
+        await interaction.followUp({ embeds: [embed] });
+        return;
     }
 }
 function checks(interaction: CommandInteraction, embed: MessageEmbed) {
@@ -106,9 +107,9 @@ function checks(interaction: CommandInteraction, embed: MessageEmbed) {
         embed.addField(`Is partnered?`, "Yes!", true);
     }
     if (interaction.guild.features) {
-        var features = interaction.guild.features
+        const features = interaction.guild.features
             .map((f) => {
-                var capedf = capFirstLetter(
+                const capedf = capFirstLetter(
                     f.toString().toLowerCase().replace(/_/g, " ")
                 );
                 return `**` + capedf + `**`;
