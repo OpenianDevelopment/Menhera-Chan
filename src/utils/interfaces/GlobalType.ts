@@ -7,13 +7,6 @@
  * @param welcomeModule {boolean}
  * @param newsModule {boolean}
  */
-export interface GuildModules {
-    expModule: boolean;
-    antispamModule: boolean;
-    inviteModule: boolean;
-    welcomeModule: boolean;
-    newsModule: boolean;
-}
 
 /**
  * # Exp Settings
@@ -23,6 +16,7 @@ export interface GuildModules {
  * @param expLogChannel The "Congratulations on leveling up!" channel.
  */
 export interface ExpSystemSettings {
+    enable:boolean,
     increment: number;
     timeDifference: number;
     blacklistChannel: Array<string>;
@@ -39,6 +33,7 @@ export interface ExpSystemSettings {
  * @param deleteMessage Whether to delete the spam messages or not.
  */
 export interface AntispamSystemSettings {
+    enable:boolean,
     messageCount: number;
     timeDifference: number;
     antispamChannel: Array<string>;
@@ -50,11 +45,10 @@ export interface AntispamSystemSettings {
 /**
  * # *Moderation Settings!*
  * @param modLogChannel Channel to log the moderation commands used by menhera.
- * @param muteRole The *mute role!* Obvious right?
  */
 export interface moderationSystemSettings {
+    enable:boolean,
     modLogChannel?: string;
-    muteRole?: string;
 }
 
 /**
@@ -66,6 +60,7 @@ export interface moderationSystemSettings {
  * @param welcomeRoles Array of roles to give new users.
  */
 export interface welcomeSystemSettings {
+    enable:boolean,
     welcomeDM: boolean;
     welcomeChannelMessage: boolean;
     welcomeChannel: string;
@@ -84,9 +79,41 @@ export interface welcomeSystemSettings {
  * @param welcomeSettings {welcomeSystemSettings}
  */
 export interface GuildSettings {
-    modulesSettings: GuildModules;
     expSettings?: ExpSystemSettings;
     antispamSettings?: AntispamSystemSettings;
     moderationSettings?: moderationSystemSettings;
     welcomeSettings?: welcomeSystemSettings;
+}
+
+//raw setting 
+export interface rawGuildSettings {
+    guild_id:string,
+    expSettings:{
+        enable:boolean,
+        increment:number,
+        timeDifference: number,
+        blacklistChannel: Array<string>,
+        expLogChannel: string
+    },
+    antiSpamSettings:{
+        enable:boolean,
+        messageCount: number,
+        timeDifference: number,
+        antispamChannel: Array<string>,
+        warnUser: boolean,
+        muteUser: boolean,
+        deleteMessage: boolean,
+    },
+    moderationSettings:{
+        enable:boolean,
+        modLogChannel: string
+    },
+    welcomeSettings:{
+        enable:boolean,
+        welcomeDM: boolean,
+        welcomeChannelMessage: boolean,
+        welcomeChannel: string,
+        welcomeMessage: string,
+        welcomeRoles: Array<string>,
+    }
 }

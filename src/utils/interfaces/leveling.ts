@@ -11,10 +11,6 @@ export interface userXP {
 export interface guildXP {
     guild: string;
     users: Array<userXP>;
-    channels: Array<string>;
-    log: string;
-    xpIncrement: number;
-    cooldown: number;
 }
 
 export interface rankcardData {

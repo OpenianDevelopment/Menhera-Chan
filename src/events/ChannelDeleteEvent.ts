@@ -1,21 +1,19 @@
 import BaseEvent from "../structures/BaseEvent";
 import DiscordClient from "../client/client";
 import { GuildChannel, MessageEmbed } from "discord.js";
-import { getAudituser, ModLog } from "../utils/functions/mod";
+import { ModLog } from "../utils/functions/mod";
 
 export default class Event extends BaseEvent {
     constructor() {
         super("channelDelete");
     }
     async run(client: DiscordClient, channel: GuildChannel) {
-        const data = await getAudituser(channel);
-        const embed = new MessageEmbed()
+        var embed = new MessageEmbed()
             .setTitle("Channel Deleted")
             .setColor("RANDOM")
             .addFields(
                 { name: "Channel Name:", value: `\`${channel.name}\`` },
-                { name: "Channel ID:", value: `\`${channel.id}\`` },
-                data
+                { name: "Channel ID:", value: `\`${channel.id}\`` }
             );
         ModLog(client, channel.guildId, embed);
     }

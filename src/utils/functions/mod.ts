@@ -45,6 +45,7 @@ export async function ModLog(
     embed: MessageEmbed
 ) {
     const guildOption = client.guildSettings.get(guildID);
+    if (!guildOption?.moderationSettings?.enable) return;
     if (!guildOption?.moderationSettings?.modLogChannel) return;
     const guild = await client.guilds.fetch(guildID);
     const Modchannel = (await guild.channels.fetch(
@@ -53,26 +54,4 @@ export async function ModLog(
     if (!Modchannel) return;
     embed.setTimestamp();
     Modchannel.send({ embeds: [embed] });
-}
-export async function getAudituser(value: any) {
-    let data;
-    try {
-        const user = (
-            await value.guild.fetchAuditLogs({ type: 12 })
-        ).entries.first()?.executor;
-        if (user) {
-            data = {
-                name: "By User",
-                value: `\`${user.username}(${user.id})\``,
-            };
-        } else {
-            data = { name: "By User", value: `Something went wrong` };
-        }
-    } catch {
-        data = {
-            name: "By User",
-            value: "audit log perm is required to veiw this",
-        };
-    }
-    return data;
 }

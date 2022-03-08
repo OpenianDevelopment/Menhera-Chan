@@ -1,10 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const userSchema = new Schema({
-    user: {
-        type: String,
-        unique: true,
-    },
+    user: String,
     xp: Number,
     level: Number,
     background: String,
@@ -19,10 +16,6 @@ const xpSchema = new Schema({
         unique: true,
     },
     users: [userSchema],
-    channels: [String],
-    log: String,
-    xpIncrement: Number,
-    cooldown: Number,
 });
 
 export const levelXp = model("LevelXP", xpSchema);

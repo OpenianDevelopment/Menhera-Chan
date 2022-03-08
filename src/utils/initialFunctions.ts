@@ -60,13 +60,10 @@ export async function cacheGuildSettings(client: DiscordClient) {
     for (const guild of guilds) {
         const guildSettings = await getGuildSettings(guild.id);
         client.guildSettings.set(guild.id, {
-            modulesSettings: {
-                welcomeModule: guildSettings.welcomeModule,
-                antispamModule: guildSettings.antispamModule,
-                inviteModule: guildSettings.inviteModule,
-                expModule: guildSettings.expModule,
-                newsModule: guildSettings.newsModule,
-            },
+            expSettings: guildSettings.expSettings,
+            antispamSettings: guildSettings.antiSpamSettings,
+            moderationSettings: guildSettings.moderationSettings,
+            welcomeSettings: guildSettings.welcomeSettings,
         });
     }
 }
