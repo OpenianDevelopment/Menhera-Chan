@@ -49,6 +49,9 @@ export interface AntispamSystemSettings {
 export interface moderationSystemSettings {
     enable:boolean,
     modLogChannel?: string;
+    modBlackList:Array<string>,
+    urlBlock:boolean,
+    urlWhiteList:Array<string>
 }
 
 /**
@@ -106,7 +109,10 @@ export interface rawGuildSettings {
     },
     moderationSettings:{
         enable:boolean,
-        modLogChannel: string
+        modLogChannel: string,
+        modBlackList:Array<string>,
+        urlBlock:boolean,
+        urlWhiteList:Array<string>
     },
     welcomeSettings:{
         enable:boolean,

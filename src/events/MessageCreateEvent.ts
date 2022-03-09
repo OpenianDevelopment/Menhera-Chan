@@ -3,6 +3,7 @@ import DiscordClient from "../client/client";
 import { Message } from "discord.js";
 import { _ads } from "../utils/functions/Custom";
 import { exp } from "../utils/functions/exp";
+import { UrlRemove } from "../utils/functions/UrlRemove";
 
 export default class messageCreateEvent extends BaseEvent {
     constructor() {
@@ -11,6 +12,7 @@ export default class messageCreateEvent extends BaseEvent {
     async run(client: DiscordClient, message: Message) {
         if (message.channel.type == "DM") return;
         if (message.author.bot) return;
+        if(await UrlRemove(client,message))return
         exp(client,message)
         const mentionRegex = new RegExp(`^<@(!|)${client.user!.id}>`, "ig");
         if (!mentionRegex.test(message.content)) {

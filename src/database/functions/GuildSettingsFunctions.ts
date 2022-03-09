@@ -22,6 +22,9 @@ function GuildScheme(guildID: string) {
         moderationSettings: {
             enable: false,
             modLogChannel: "",
+            modBlackList:[],
+            urlBlock:false,
+            urlWhiteList:[]
         },
         welcomeSettings: {
             enable: false,

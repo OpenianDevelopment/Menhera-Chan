@@ -45,7 +45,7 @@ export const _ads = {
 };
 
 export function clean(str: string | null | undefined) {
-    if (!str) return null;
+    if (!str) return "";
     return (str = str
         .replace(/`/g, `\\\`${String.fromCharCode(8203)}`)
         .replace(/\*/g, `\\\*${String.fromCharCode(8203)}`)

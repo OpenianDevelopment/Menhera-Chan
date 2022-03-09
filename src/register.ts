@@ -481,10 +481,14 @@ client.on("ready", async () => {
         }
         let val = 0;
         commands.forEach(async (command) => {
-            const data = await client.application!.commands.create(command);
-            console.log(
-                "Created: " + data.name + " | " + data.id + " | " + data.guildId
-            );
+            try{
+                const data = await client.application!.commands.create(command);
+                console.log(
+                    `✅Created:   ${data.name}   |   ${data.id}   |   ${data.guildId}`
+                );
+            }catch{
+                console.log(`❎Failed:   ${command.name}`)
+            }
             val++;
             if (val >= commands.length) {
                 console.log("Completed Registering \nExiting Now");
