@@ -29,9 +29,10 @@ function GuildScheme(guildID: string) {
         welcomeSettings: {
             enable: false,
             welcomeDM: false,
-            welcomeChannelMessage: false,
-            welcomeChannel: "",
-            welcomeMessage: "",
+            welcomeChannel: false,
+            welcomeChannelID: "",
+            channelMessage: "",
+            dmMessage:"",
             welcomeRoles: [],
         },
     });

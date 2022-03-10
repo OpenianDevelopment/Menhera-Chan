@@ -63,12 +63,13 @@ export interface moderationSystemSettings {
  * @param welcomeRoles Array of roles to give new users.
  */
 export interface welcomeSystemSettings {
-    enable:boolean,
-    welcomeDM: boolean;
-    welcomeChannelMessage: boolean;
-    welcomeChannel: string;
-    welcomeMessage: string;
-    welcomeRoles: Array<string>;
+    enable:Boolean,
+    welcomeDM: Boolean,
+    welcomeChannel: Boolean,
+    welcomeChannelID: String,
+    channelMessage: String,
+    dmMessage: String,
+    welcomeRoles: Array<string>
 }
 
 /**
@@ -115,11 +116,12 @@ export interface rawGuildSettings {
         urlWhiteList:Array<string>
     },
     welcomeSettings:{
-        enable:boolean,
-        welcomeDM: boolean,
-        welcomeChannelMessage: boolean,
-        welcomeChannel: string,
-        welcomeMessage: string,
-        welcomeRoles: Array<string>,
+        enable:Boolean,
+        welcomeDM: Boolean,
+        welcomeChannel: Boolean,
+        welcomeChannelID: String,
+        channelMessage: String,
+        dmMessage: String,
+        welcomeRoles: Array<string>
     }
 }

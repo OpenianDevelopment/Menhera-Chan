@@ -32,9 +32,10 @@ const guildSettingsSchema = new Schema({
     welcomeSettings:{
         enable:Boolean,
         welcomeDM: Boolean,
-        welcomeChannelMessage: Boolean,
-        welcomeChannel: String,
-        welcomeMessage: String,
+        welcomeChannel: Boolean,
+        welcomeChannelID: String,
+        channelMessage: String,
+        dmMessage: String,
         welcomeRoles: Array,
     }
 });
