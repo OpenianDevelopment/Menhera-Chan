@@ -29,7 +29,7 @@ const guildSettingsSchema = new Schema({
     welcomeSettings:{
         enable:Boolean,
         welcomeDM: Boolean,
-        welcomeChannelMessage: Boolean,
+        welcomeChannelMessage: String,
         welcomeChannel: String,
         welcomeMessage: String,
         welcomeRoles: Array,
