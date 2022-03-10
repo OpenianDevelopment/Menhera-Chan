@@ -49,6 +49,9 @@ export interface AntispamSystemSettings {
 export interface moderationSystemSettings {
     enable:boolean,
     modLogChannel?: string;
+    modBlackList:Array<string>,
+    urlBlock:boolean,
+    urlWhiteList:Array<string>
 }
 
 /**
@@ -60,12 +63,13 @@ export interface moderationSystemSettings {
  * @param welcomeRoles Array of roles to give new users.
  */
 export interface welcomeSystemSettings {
-    enable:boolean,
-    welcomeDM: boolean;
-    welcomeChannelMessage: boolean;
-    welcomeChannel: string;
-    welcomeMessage: string;
-    welcomeRoles: Array<string>;
+    enable:Boolean,
+    welcomeDM: Boolean,
+    welcomeChannel: Boolean,
+    welcomeChannelID: String,
+    channelMessage: String,
+    dmMessage: String,
+    welcomeRoles: Array<string>
 }
 
 /**
@@ -79,10 +83,10 @@ export interface welcomeSystemSettings {
  * @param welcomeSettings {welcomeSystemSettings}
  */
 export interface GuildSettings {
-    expSettings?: ExpSystemSettings;
-    antispamSettings?: AntispamSystemSettings;
-    moderationSettings?: moderationSystemSettings;
-    welcomeSettings?: welcomeSystemSettings;
+    expSettings: ExpSystemSettings;
+    antispamSettings: AntispamSystemSettings;
+    moderationSettings: moderationSystemSettings;
+    welcomeSettings: welcomeSystemSettings;
 }
 
 //raw setting 
@@ -106,14 +110,18 @@ export interface rawGuildSettings {
     },
     moderationSettings:{
         enable:boolean,
-        modLogChannel: string
+        modLogChannel: string,
+        modBlackList:Array<string>,
+        urlBlock:boolean,
+        urlWhiteList:Array<string>
     },
     welcomeSettings:{
-        enable:boolean,
-        welcomeDM: boolean,
-        welcomeChannelMessage: boolean,
-        welcomeChannel: string,
-        welcomeMessage: string,
-        welcomeRoles: Array<string>,
+        enable:Boolean,
+        welcomeDM: Boolean,
+        welcomeChannel: Boolean,
+        welcomeChannelID: String,
+        channelMessage: String,
+        dmMessage: String,
+        welcomeRoles: Array<string>
     }
 }

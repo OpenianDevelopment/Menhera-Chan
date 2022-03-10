@@ -24,14 +24,18 @@ const guildSettingsSchema = new Schema({
     },
     moderationSettings:{
         enable:Boolean,
-        modLogChannel: String
+        modLogChannel: String,
+        modBlackList:Array,
+        urlBlock:Boolean,
+        urlWhiteList:Array
     },
     welcomeSettings:{
         enable:Boolean,
         welcomeDM: Boolean,
-        welcomeChannelMessage: Boolean,
-        welcomeChannel: String,
-        welcomeMessage: String,
+        welcomeChannel: Boolean,
+        welcomeChannelID: String,
+        channelMessage: String,
+        dmMessage: String,
         welcomeRoles: Array,
     }
 });

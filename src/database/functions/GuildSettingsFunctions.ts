@@ -22,13 +22,17 @@ function GuildScheme(guildID: string) {
         moderationSettings: {
             enable: false,
             modLogChannel: "",
+            modBlackList:[],
+            urlBlock:false,
+            urlWhiteList:[]
         },
         welcomeSettings: {
             enable: false,
             welcomeDM: false,
-            welcomeChannelMessage: false,
-            welcomeChannel: "",
-            welcomeMessage: "",
+            welcomeChannel: false,
+            welcomeChannelID: "",
+            channelMessage: "",
+            dmMessage:"",
             welcomeRoles: [],
         },
     });
