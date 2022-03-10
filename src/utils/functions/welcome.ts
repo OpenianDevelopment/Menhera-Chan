@@ -83,7 +83,7 @@ export async function welcomeMsg(
         "welcome-image.png"
     );
 
-    var channel = (await member.guild.channels.fetch(
+    const channel = (await member.guild.channels.fetch(
         guildSet.welcomeChannel
     )) as TextChannel;
     try {

@@ -19,7 +19,7 @@ export default class GuildRemoveEvent extends BaseEvent {
         welcomeRoles.forEach(async (r) => {
             member.roles.add(r).catch(async (e) => {
                 if (guildSet.welcomeChannel === null) return;
-                var channel = (await member.guild.channels.fetch(
+                const channel = (await member.guild.channels.fetch(
                     guildSet.welcomeChannel
                 )) as TextChannel;
                 if (
