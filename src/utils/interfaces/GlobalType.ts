@@ -83,10 +83,10 @@ export interface welcomeSystemSettings {
  * @param welcomeSettings {welcomeSystemSettings}
  */
 export interface GuildSettings {
-    expSettings?: ExpSystemSettings;
-    antispamSettings?: AntispamSystemSettings;
-    moderationSettings?: moderationSystemSettings;
-    welcomeSettings?: welcomeSystemSettings;
+    expSettings: ExpSystemSettings;
+    antispamSettings: AntispamSystemSettings;
+    moderationSettings: moderationSystemSettings;
+    welcomeSettings: welcomeSystemSettings;
 }
 
 //raw setting 
