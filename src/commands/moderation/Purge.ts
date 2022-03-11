@@ -13,6 +13,12 @@ export default class PurgeCommand extends BaseCommand {
         super("mod purge", "Remove chat messages");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
+        if(!interaction.guildId){
+            interaction.followUp({
+                content:"This command can only be used in guilds"
+            })
+            return
+        }
         if (!(await CheckPermsBoth(interaction, "MANAGE_MESSAGES"))) {
             return;
         }

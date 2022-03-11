@@ -435,6 +435,52 @@ const commands: ApplicationCommandData[] = [
         ],
     },
     {
+        name:"settings",
+        description:"to set settings",
+        type:"CHAT_INPUT",
+        options:[
+            {
+                name:"view",
+                description:"to view settings",
+                type:"SUB_COMMAND"
+            },
+            {
+                name:"enable-disable",
+                description:"to enable a service",
+                type:"SUB_COMMAND",
+                options:[
+                    {
+                        name:"enable-disable",
+                        description: "enable or disable(true or false)",
+                        type:"BOOLEAN",
+                        required:true
+                    },
+                    {
+                        name: "service",
+                        description: "service to enable or disable",
+                        type: "STRING",
+                        required: true,
+                        choices: [
+                            { name: "welcomemessage", value: "welcomemessage" },
+                            { name: "urlblock", value: "urlblock" },
+                            { name: "modlog", value: "modlog" },
+                            { name: "antispam", value: "antispam" },
+                            { name: "experience", value: "experience" }
+                        ]
+                    }
+                ]
+            },
+            {
+                name:"welcomemessage",
+                description:"settings for welcomemessage",
+                type: "SUB_COMMAND",
+                options:[
+                    
+                ]
+            }
+        ]
+    },
+    {
         name: "flip",
         description: "Flips a coin",
         type: "CHAT_INPUT",

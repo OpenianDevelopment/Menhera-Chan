@@ -116,12 +116,12 @@ export interface rawGuildSettings {
         urlWhiteList:Array<string>
     },
     welcomeSettings:{
-        enable:Boolean,
-        welcomeDM: Boolean,
-        welcomeChannel: Boolean,
-        welcomeChannelID: String,
-        channelMessage: String,
-        dmMessage: String,
+        enable:boolean,
+        welcomeDM: boolean,
+        welcomeChannel: boolean,
+        welcomeChannelID: string,
+        channelMessage: string,
+        dmMessage: string,
         welcomeRoles: Array<string>
     }
 }
