@@ -32,8 +32,8 @@ function GuildScheme(guildID: string) {
             welcomeDM: false,
             welcomeChannel: false,
             welcomeChannelID: "",
-            channelMessage: "",
-            dmMessage:"",
+            channelMessage: "Welcome {member} to {server}!",
+            dmMessage:"Welcome {member} to {server}!",
             welcomeRoles: [],
         },
     });

@@ -12,7 +12,7 @@ import { updateCacheGuildSettings } from "../../utils/initialFunctions";
 
 export default class enableDisableCommand extends BaseCommand {
     constructor() {
-        super("settings enable-disable", "Returns Ping");
+        super("settings enable-disable", "enables or disables a command");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         if(!interaction.guildId){
@@ -42,7 +42,7 @@ export default class enableDisableCommand extends BaseCommand {
             case "experience":
                 await UpdateExp(interaction.guildId,{enable:option})
         }
-        updateCacheGuildSettings(client,interaction.guildId)
+        await updateCacheGuildSettings(client,interaction.guildId)
         let ed:string
         if(option){
             ed = "Enabled"

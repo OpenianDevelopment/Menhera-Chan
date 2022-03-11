@@ -473,8 +473,70 @@ const commands: ApplicationCommandData[] = [
             {
                 name:"welcomemessage",
                 description:"settings for welcomemessage",
-                type: "SUB_COMMAND",
+                type: "SUB_COMMAND_GROUP",
                 options:[
+                    {
+                        name:"channel-message",
+                        description:"channel welcome message",
+                        type:"SUB_COMMAND",
+                        options:[
+                            {
+                                name:"message",
+                                description:"message for channel use `{server} {member}`",
+                                type:"STRING",
+                                required:true
+                            }
+                        ]
+                    },
+                    {
+                        name:"welcome-channel",
+                        description:"set welcome channel",
+                        type:"SUB_COMMAND",
+                        options:[
+                            {
+                                name:"channel",
+                                description:"channel",
+                                type:"CHANNEL",
+                                required:true
+                            }
+                        ]
+                    },
+                    {
+                        name:"dm-message",
+                        description:"dm welcome message",
+                        type:"SUB_COMMAND",
+                        options:[
+                            {
+                                name:"message",
+                                description:"message for dm use `{server} {member}`",
+                                type:"STRING",
+                                required:true
+                            }
+                        ]
+                    },
+                    {
+                        name:"enable-disable",
+                        description:"to enable a service",
+                        type:"SUB_COMMAND",
+                        options:[
+                            {
+                                name:"enable-disable",
+                                description: "enable or disable(true or false)",
+                                type:"BOOLEAN",
+                                required:true
+                            },
+                            {
+                                name: "service",
+                                description: "service to enable or disable",
+                                type: "STRING",
+                                required: true,
+                                choices: [
+                                    { name: "dm message", value: "dmmessage" },
+                                    { name: "channel message", value: "channelmessage" }
+                                ]
+                            }
+                        ]
+                    }
                     
                 ]
             }
