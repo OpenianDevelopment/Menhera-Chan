@@ -16,7 +16,7 @@
  * @param expLogChannel The "Congratulations on leveling up!" channel.
  */
 export interface ExpSystemSettings {
-    enable:boolean,
+    enable: boolean;
     increment: number;
     timeDifference: number;
     blacklistChannel: Array<string>;
@@ -33,7 +33,7 @@ export interface ExpSystemSettings {
  * @param deleteMessage Whether to delete the spam messages or not.
  */
 export interface AntispamSystemSettings {
-    enable:boolean,
+    enable: boolean;
     messageCount: number;
     timeDifference: number;
     antispamChannel: Array<string>;
@@ -47,7 +47,7 @@ export interface AntispamSystemSettings {
  * @param modLogChannel Channel to log the moderation commands used by menhera.
  */
 export interface moderationSystemSettings {
-    enable:boolean,
+    enable: boolean;
     modLogChannel?: string;
     modBlackList:Array<string>,
     urlBlock:boolean,
@@ -56,20 +56,19 @@ export interface moderationSystemSettings {
 
 /**
  * # Welcome System
- * @param welcomeDM Get a welcome message in dm? no? ok.
- * @param welcomeChannelMessage Message to send in the welcome channel. *I think...*
- * @param welcomeChannel Channel to welcome new users ***yay!***.
- * @param welcomeMessage *Uh* maybe this is the message that will be sent in dms?
+ * @param welcomeDM Get a welcome message in dm or not
+ * @param welcomeMessage Message that would be sent in dms
+ * @param welcomeChannel Channel to welcome new users.
+ * @param welcomeChannelMessage Message to send to the set channel when user join.
  * @param welcomeRoles Array of roles to give new users.
  */
 export interface welcomeSystemSettings {
-    enable:Boolean,
-    welcomeDM: Boolean,
-    welcomeChannel: Boolean,
-    welcomeChannelID: String,
-    channelMessage: String,
-    dmMessage: String,
-    welcomeRoles: Array<string>
+    enable: boolean;
+    welcomeDM: boolean;
+    welcomeMessage: string;
+    welcomeChannelMessage: string;
+    welcomeChannel: string;
+    welcomeRoles: Array<string>;
 }
 
 /**
@@ -89,39 +88,36 @@ export interface GuildSettings {
     welcomeSettings: welcomeSystemSettings;
 }
 
-//raw setting 
+//raw setting
 export interface rawGuildSettings {
-    guild_id:string,
-    expSettings:{
-        enable:boolean,
-        increment:number,
-        timeDifference: number,
-        blacklistChannel: Array<string>,
-        expLogChannel: string
-    },
-    antiSpamSettings:{
-        enable:boolean,
-        messageCount: number,
-        timeDifference: number,
-        antispamChannel: Array<string>,
-        warnUser: boolean,
-        muteUser: boolean,
-        deleteMessage: boolean,
-    },
-    moderationSettings:{
-        enable:boolean,
-        modLogChannel: string,
-        modBlackList:Array<string>,
-        urlBlock:boolean,
-        urlWhiteList:Array<string>
-    },
-    welcomeSettings:{
-        enable:boolean,
-        welcomeDM: boolean,
-        welcomeChannel: boolean,
-        welcomeChannelID: string,
-        channelMessage: string,
-        dmMessage: string,
-        welcomeRoles: Array<string>
-    }
+    guild_id: string;
+    expSettings: {
+        enable: boolean;
+        increment: number;
+        timeDifference: number;
+        blacklistChannel: Array<string>;
+        expLogChannel: string;
+    };
+    antiSpamSettings: {
+        enable: boolean;
+        messageCount: number;
+        timeDifference: number;
+        antispamChannel: Array<string>;
+        warnUser: boolean;
+        muteUser: boolean;
+        deleteMessage: boolean;
+    };
+    moderationSettings: {
+        enable: boolean;
+        modLogChannel: string;
+    };
+    welcomeSettings: {
+        enable: boolean;
+        welcomeDM: boolean;
+        welcomeMessage: string;
+        welcomeChannelMessage: string;
+        welcomeChannel: string;
+        welcomeRoles: Array<string>;
+    };
 }
+

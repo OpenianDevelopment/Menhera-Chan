@@ -1,7 +1,4 @@
-import {
-    ApplicationCommandData,
-    Client,
-} from "discord.js";
+import { ApplicationCommandData, Client } from "discord.js";
 require("dotenv").config();
 const client = new Client({
     intents: [],
@@ -569,25 +566,22 @@ const deleteQ: boolean = false;
 
 client.on("ready", async () => {
     try {
+        let val = 0;
         if (deleteQ) {
             const cmds = await client.application!.commands.fetch();
-            cmds.forEach((cmd) => {
-                cmd.delete()
-                    .then((c) =>
-                        console.log(
-                            "Deleted: " +
-                                c.name +
-                                " | " +
-                                c.id +
-                                " | " +
-                                c.guildId
-                        )
-                    )
-                    .catch(console.error);
+            cmds.forEach(async (cmd) => {
+                const d = await cmd.delete();
+                console.log(
+                    "Deleted: " + d.name + " | " + d.id + " | " + d.guildId
+                );
+                val++;
+                if (val >= commands.length) {
+                    console.log("Deleted all global commands\nExiting Now");
+                    process.exit(0);
+                }
             });
             return console.log("\x1b[32m%s\x1b[0m", "Started deleting...");
         }
-        let val = 0;
         commands.forEach(async (command) => {
             try{
                 const data = await client.application!.commands.create(command);
@@ -599,7 +593,7 @@ client.on("ready", async () => {
             }
             val++;
             if (val >= commands.length) {
-                console.log("Completed Registering \nExiting Now");
+                console.log("Completed Registering\nExiting Now");
                 process.exit(0);
             }
         });
