@@ -93,3 +93,4 @@ export interface rawGuildSettings {
     moderationSettings: moderationSystemSettings;
     welcomeSettings: welcomeSystemSettings;
 }
+

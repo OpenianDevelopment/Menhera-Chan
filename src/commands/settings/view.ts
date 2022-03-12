@@ -1,5 +1,6 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
+
 import { CommandInteraction } from "discord.js";
 import { getGuildSettings } from "../../database/functions/GuildSettingsFunctions";
 import { CheckPermsBoth } from "../../utils/functions/mod";
