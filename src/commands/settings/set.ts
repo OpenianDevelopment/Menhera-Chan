@@ -24,19 +24,19 @@ export default class enableDisableCommand extends BaseCommand {
         let service = interaction.options.getString("service", true);
         let option = interaction.options.getBoolean("enable", true);
         switch (service) {
-            case "welcomemessage":
+            case "welcome":
                 await UpdateWelcome(interaction.guildId, { enable: option });
                 break;
-            case "urlblock":
+            case "url-block":
                 await UpdateModeration(interaction.guildId, {
                     enable: option,
                     urlBlock: option,
                 });
                 break;
-            case "modlog":
+            case "mod-log":
                 await UpdateModeration(interaction.guildId, { enable: option });
                 break;
-            case "antispam":
+            case "anti-spam":
                 await UpdateAntispam(interaction.guildId, { enable: option });
                 break;
             case "experience":

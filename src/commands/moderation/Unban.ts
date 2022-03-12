@@ -1,10 +1,7 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
-import {
-    CommandInteraction,
-    MessageEmbed,
-} from "discord.js";
+import { CommandInteraction, MessageEmbed } from "discord.js";
 import { clean, CustomEmbed } from "../../utils/functions/Custom";
 
 export default class BanCommand extends BaseCommand {
@@ -12,13 +9,10 @@ export default class BanCommand extends BaseCommand {
         super("mod unban", "unbans a member");
     }
 
-    async run(client: DiscordClient, interaction: CommandInteraction) {
-        if(!interaction.guildId){
-            interaction.followUp({
-                content:"This command can only be used in guilds"
-            })
-            return
-        }
+    async run(
+        client: DiscordClient,
+        interaction: CommandInteraction<"cached">
+    ) {
         if (!(await CheckPermsBoth(interaction, "BAN_MEMBERS"))) {
             return;
         }

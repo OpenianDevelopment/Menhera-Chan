@@ -162,8 +162,8 @@ export default class viewCommand extends BaseCommand {
                 },
                 {
                     name: "Welcome Channel Message",
-                    value: welcome.welcomeChannelMessage
-                        ? "`" + clean(welcome.welcomeChannelMessage) + "`"
+                    value: welcome.channelMessage
+                        ? "`" + clean(welcome.channelMessage) + "`"
                         : "No Message Set",
                 },
                 {

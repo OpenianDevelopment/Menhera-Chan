@@ -10,13 +10,13 @@ export async function welcomeMsg(
     guildSet: welcomeSystemSettings
 ) {
     let DM_WelcomeMsg = guildSet.dmMessage;
-    let CH_WelcomeMsg = guildSet.welcomeChannelMessage;
+    let CH_WelcomeMsg = guildSet.channelMessage;
     if (guildSet.welcomeDM) {
         DM_WelcomeMsg = DM_WelcomeMsg.replace(
             /{member}/g,
-            "<@!" + member.user.id + ">"
+            `<@!${member.user.id}>`
         )
-            .replace(/{server}/g, "**" + clean(guild.name) + "**")
+            .replace(/{server}/g, `**${clean(guild.name)}**`)
             .replace(/\\new/gi, "\n");
         await member.user.send({ content: DM_WelcomeMsg }).catch(console.error);
     }
@@ -25,9 +25,9 @@ export async function welcomeMsg(
     if (CH_WelcomeMsg) {
         CH_WelcomeMsg = CH_WelcomeMsg.replace(
             /{member}/g,
-            "<@!" + member.user.id + ">"
+            `<@!${member.user.id}>`
         )
-            .replace(/{server}/g, "**" + clean(guild.name) + "**")
+            .replace(/{server}/g, `**${clean(guild.name)}**`)
             .replace(/\\new/gi, "\n");
     }
 

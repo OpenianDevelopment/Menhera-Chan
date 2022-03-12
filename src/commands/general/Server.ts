@@ -10,8 +10,10 @@ export default class ServerCommand extends BaseCommand {
             "Shows the info of the server where the command is writen in"
         );
     }
-    async run(client: DiscordClient, interaction: CommandInteraction) {
-        if (!interaction.guild) return;
+    async run(
+        client: DiscordClient,
+        interaction: CommandInteraction<"cached">
+    ) {
         const GuildOwner =
             `<@${interaction.guild.ownerId}>` ||
             "not in cache <:sorry:762202529756872704>";

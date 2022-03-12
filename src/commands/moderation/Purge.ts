@@ -12,13 +12,10 @@ export default class PurgeCommand extends BaseCommand {
     constructor() {
         super("mod purge", "Remove chat messages");
     }
-    async run(client: DiscordClient, interaction: CommandInteraction) {
-        if(!interaction.guildId){
-            interaction.followUp({
-                content:"This command can only be used in guilds"
-            })
-            return
-        }
+    async run(
+        client: DiscordClient,
+        interaction: CommandInteraction<"cached">
+    ) {
         if (!(await CheckPermsBoth(interaction, "MANAGE_MESSAGES"))) {
             return;
         }
@@ -28,12 +25,6 @@ export default class PurgeCommand extends BaseCommand {
             await interaction.followUp({
                 content:
                     "Invaild Amount\n Please Provide a number Between 1 to 100",
-            });
-            return;
-        }
-        if (interaction.channel?.type == "DM") {
-            await interaction.followUp({
-                content: "Cannot Purge DM",
             });
             return;
         }

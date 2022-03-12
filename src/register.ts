@@ -33,41 +33,14 @@ const commands: ApplicationCommandData[] = [
     },
     {
         name: "report",
-        description:
-            "Report a bug/user (user who misused he bot, we're not he server's mods nor discord staff)",
+        description: "Report a bug",
         type: "CHAT_INPUT",
         options: [
             {
-                name: "user",
-                description: "Report a user who is misusing the bot",
-                type: "SUB_COMMAND",
-                options: [
-                    {
-                        name: "target",
-                        description: "User to report",
-                        type: "USER",
-                        required: true,
-                    },
-                    {
-                        name: "reason",
-                        description: "Reason for reporting",
-                        type: "STRING",
-                        required: true,
-                    },
-                ],
-            },
-            {
-                name: "bug",
-                description: "Report a bug within the bog",
-                type: "SUB_COMMAND",
-                options: [
-                    {
-                        name: "description",
-                        description: "bug's description",
-                        type: "STRING",
-                        required: true,
-                    },
-                ],
+                name: "description",
+                description: "bug's description",
+                type: "STRING",
+                required: true,
             },
         ],
     },
@@ -452,10 +425,10 @@ const commands: ApplicationCommandData[] = [
                         type: "STRING",
                         required: true,
                         choices: [
-                            { name: "welcome messages", value: "welcomemessage" },
-                            { name: "urls block", value: "urlblock" },
-                            { name: "mod-log", value: "modlog" },
-                            { name: "anti-spam", value: "antispam" },
+                            { name: "welcome messages", value: "welcome" },
+                            { name: "urls block", value: "url-block" },
+                            { name: "mod-log", value: "mod-log" },
+                            { name: "anti-spam", value: "anti-spam" },
                             { name: "experience", value: "experience" },
                         ],
                     },
@@ -517,10 +490,10 @@ const commands: ApplicationCommandData[] = [
                                 type: "STRING",
                                 required: true,
                                 choices: [
-                                    { name: "dm message", value: "dmmessage" },
+                                    { name: "dm message", value: "dm-message" },
                                     {
                                         name: "channel message",
-                                        value: "channelmessage",
+                                        value: "channel-message",
                                     },
                                 ],
                             },

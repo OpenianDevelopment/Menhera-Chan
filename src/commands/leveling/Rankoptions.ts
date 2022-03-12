@@ -1,8 +1,4 @@
-import {
-    CommandInteraction,
-    MessageEmbed,
-    ColorResolvable,
-} from "discord.js";
+import { CommandInteraction, MessageEmbed, ColorResolvable } from "discord.js";
 import DiscordClient from "../../client/client";
 import {
     getLevel,
@@ -19,16 +15,10 @@ export default class RankOptionCommand extends BaseCommand {
         super("rank-options", "Edit the rank card's data");
     }
 
-    async run(client: DiscordClient, interaction: CommandInteraction) {
-        if (!interaction.guild) return;
-        //remove
-        if(interaction.client){
-            interaction.followUp({
-                content:"Command is disabled"
-            })
-            return
-        }
-        // remove
+    async run(
+        client: DiscordClient,
+        interaction: CommandInteraction<"cached">
+    ) {
         const GuildID = interaction.guild!.id;
         const UserID = interaction.user.id;
         const embed = new MessageEmbed();

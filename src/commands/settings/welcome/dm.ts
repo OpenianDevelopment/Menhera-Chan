@@ -20,8 +20,8 @@ export default class dmMessageCommand extends BaseCommand {
         let message = interaction.options.getString("message", true);
         await UpdateWelcome(interaction.guildId, { dmMessage: message });
         let test = message
-            .replace(/{member}/g, "<@!" + interaction.user.id + ">")
-            .replace(/{server}/g, "**" + clean(interaction.guild?.name) + "**")
+            .replace(/{member}/g, `<@!${interaction.user.id}>`)
+            .replace(/{server}/g, `**${clean(interaction.guild?.name)}**`)
             .replace(/\\new/gi, "\n");
         await updateCacheGuildSettings(client, interaction.guildId);
         const embed = new CustomEmbed(interaction)

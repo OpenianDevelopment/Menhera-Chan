@@ -70,7 +70,7 @@ export async function UpdateWelcome(
         welcomeDM?: boolean;
         welcomeChannel?: boolean;
         welcomeChannelID?: string;
-        welcomeChannelMessage?: string;
+        channelMessage?: string;
         dmMessage?: string;
         welcomeRoles?: Array<string>;
         CustomWelcomeBackground?: string;
@@ -93,8 +93,8 @@ export async function UpdateWelcome(
     if (data.welcomeChannelID == undefined) {
         data.welcomeChannelID = Settings.welcomeChannelID;
     }
-    if (data.welcomeChannelMessage == undefined) {
-        data.welcomeChannelMessage = Settings.welcomeChannelMessage;
+    if (data.channelMessage == undefined) {
+        data.channelMessage = Settings.channelMessage;
     }
     if (data.dmMessage == undefined) {
         data.dmMessage = Settings.dmMessage;

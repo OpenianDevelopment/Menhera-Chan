@@ -20,12 +20,12 @@ export default class welcomeChannelCommand extends BaseCommand {
         let channel = interaction.options.getChannel("channel", true);
         let message = interaction.options.getString("message", true);
         await UpdateWelcome(interaction.guildId, {
-            welcomeChannelMessage: message,
+            channelMessage: message,
             welcomeChannelID: channel.id,
         });
         let test = message
-            .replace(/{member}/g, "<@!" + interaction.user.id + ">")
-            .replace(/{server}/g, "**" + clean(interaction.guild?.name) + "**")
+            .replace(/{member}/g, `<@!${interaction.user.id}>`)
+            .replace(/{server}/g, `**${clean(interaction.guild?.name)}**`)
             .replace(/\\new/gi, "\n");
         await updateCacheGuildSettings(client, interaction.guildId);
         const embed = new CustomEmbed(interaction)

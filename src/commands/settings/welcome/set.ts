@@ -19,10 +19,10 @@ export default class SetCommand extends BaseCommand {
         let option = interaction.options.getBoolean("enable", true);
         let service = interaction.options.getString("service", true);
         switch (service) {
-            case "dmmessage":
+            case "dm-message":
                 await UpdateWelcome(interaction.guildId, { welcomeDM: option });
                 break;
-            case "channelmessage":
+            case "channel-message":
                 await UpdateWelcome(interaction.guildId, {
                     welcomeChannel: option,
                 });
