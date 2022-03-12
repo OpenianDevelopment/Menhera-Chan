@@ -11,9 +11,9 @@ export async function getLevel(guildID: string) {
 }
 
 export async function getUserLevel(guildID:string,userID:string) {
-    var guild = await levelXp.findOne({ guild:guildID })
+    const guild = await levelXp.findOne({ guild:guildID })
     if(!guild){
-        var newGuild = new levelXp({
+        const newGuild = new levelXp({
             guild:guildID,
             users:[{
                 user: userID,
@@ -36,7 +36,7 @@ export async function getUserLevel(guildID:string,userID:string) {
             textColor: "#f5deb3"
         } as userXP
     }
-    var userdata = await guild.users.find((e:userXP) => e.user == userID)
+    const userdata = await guild.users.find((e:userXP) => e.user == userID)
     if(!userdata){
         await initUserXP(userID,guildID)
         return {
@@ -158,7 +158,7 @@ export async function initUserXP(user: string, guildID?: string) {
 }
 
 export async function initXP(guild?: string) {
-    var newGuild = new levelXp({
+    const newGuild = new levelXp({
         guild:guild,
         users:[]
     })
