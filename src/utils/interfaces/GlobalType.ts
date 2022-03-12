@@ -90,34 +90,37 @@ export interface GuildSettings {
 
 //raw setting
 export interface rawGuildSettings {
-    guild_id: string;
-    expSettings: {
-        enable: boolean;
-        increment: number;
-        timeDifference: number;
-        blacklistChannel: Array<string>;
-        expLogChannel: string;
-    };
-    antiSpamSettings: {
-        enable: boolean;
-        messageCount: number;
-        timeDifference: number;
-        antispamChannel: Array<string>;
-        warnUser: boolean;
-        muteUser: boolean;
-        deleteMessage: boolean;
-    };
-    moderationSettings: {
-        enable: boolean;
-        modLogChannel: string;
-    };
-    welcomeSettings: {
-        enable: boolean;
-        welcomeDM: boolean;
-        welcomeMessage: string;
-        welcomeChannelMessage: string;
-        welcomeChannel: string;
-        welcomeRoles: Array<string>;
-    };
+    guild_id:string,
+    expSettings:{
+        enable:boolean,
+        increment:number,
+        timeDifference: number,
+        blacklistChannel: Array<string>,
+        expLogChannel: string
+    },
+    antiSpamSettings:{
+        enable:boolean,
+        messageCount: number,
+        timeDifference: number,
+        antispamChannel: Array<string>,
+        warnUser: boolean,
+        muteUser: boolean,
+        deleteMessage: boolean,
+    },
+    moderationSettings:{
+        enable:boolean,
+        modLogChannel: string,
+        modBlackList:Array<string>,
+        urlBlock:boolean,
+        urlWhiteList:Array<string>
+    },
+    welcomeSettings:{
+        enable:boolean,
+        welcomeDM: boolean,
+        welcomeChannel: boolean,
+        welcomeChannelID: string,
+        channelMessage: string,
+        dmMessage: string,
+        welcomeRoles: Array<string>
+    }
 }
-
