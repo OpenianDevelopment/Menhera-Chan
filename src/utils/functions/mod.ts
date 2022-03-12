@@ -1,11 +1,12 @@
 import DiscordClient from "../../client/client";
-import { MessageEmbed, PermissionResolvable, TextChannel } from "discord.js";
+import { MessageEmbed, PermissionString, TextChannel } from "discord.js";
 import { CommandInteraction } from "discord.js";
+import { clean } from "./Custom";
 
 export async function CheckPerms(
     interaction: CommandInteraction,
     userID: string | undefined,
-    perms: PermissionResolvable | Array<PermissionResolvable>
+    perms: PermissionString | Array<PermissionString>
 ) {
     if (userID == undefined || null) {
         return false;
@@ -19,7 +20,7 @@ export async function CheckPerms(
 }
 export async function CheckPermsBoth(
     interaction: CommandInteraction,
-    perms: PermissionResolvable | Array<PermissionResolvable>
+    perms: PermissionString | Array<PermissionString>
 ) {
     let member = await interaction.guild?.members.fetch(interaction.user.id);
     let bot = await interaction.guild?.members.fetch(
@@ -27,13 +28,16 @@ export async function CheckPermsBoth(
     );
     if (!member?.permissions.has(perms)) {
         interaction.followUp({
-            content: `You don't have permission todo this, you need:\n${perms}`,
+            content: `You don't have permission to do this, you need:\
+            \n${clean(perms)}`,
         });
         return false;
     }
     if (!bot?.permissions.has(perms)) {
         interaction.followUp({
-            content: `Permission required to do this:\n${perms}`,
+            content: `I don't have the permission required to do this:\n${clean(
+                perms
+            )}`,
         });
         return false;
     }

@@ -432,112 +432,109 @@ const commands: ApplicationCommandData[] = [
         ],
     },
     {
-        name:"settings",
-        description:"to set settings",
-        type:"CHAT_INPUT",
-        options:[
+        name: "settings",
+        description: "to set settings",
+        type: "CHAT_INPUT",
+        options: [
             {
-                name:"view",
-                description:"to view settings",
-                type:"SUB_COMMAND"
+                name: "view",
+                description: "to view settings",
+                type: "SUB_COMMAND",
             },
             {
-                name:"enable-disable",
-                description:"to enable a service",
-                type:"SUB_COMMAND",
-                options:[
-                    {
-                        name:"enable-disable",
-                        description: "enable or disable(true or false)",
-                        type:"BOOLEAN",
-                        required:true
-                    },
+                name: "set",
+                description: "to enable/disable a service",
+                type: "SUB_COMMAND",
+                options: [
                     {
                         name: "service",
-                        description: "service to enable or disable",
+                        description: "service to enable/disable",
                         type: "STRING",
                         required: true,
                         choices: [
-                            { name: "welcomemessage", value: "welcomemessage" },
-                            { name: "urlblock", value: "urlblock" },
-                            { name: "modlog", value: "modlog" },
-                            { name: "antispam", value: "antispam" },
-                            { name: "experience", value: "experience" }
-                        ]
-                    }
-                ]
+                            { name: "welcome messages", value: "welcomemessage" },
+                            { name: "urls block", value: "urlblock" },
+                            { name: "mod-log", value: "modlog" },
+                            { name: "anti-spam", value: "antispam" },
+                            { name: "experience", value: "experience" },
+                        ],
+                    },
+                    {
+                        name: "enable",
+                        description: "enable (true) or disable (false)",
+                        type: "BOOLEAN",
+                        required: true,
+                    },
+                ],
             },
             {
-                name:"welcomemessage",
-                description:"settings for welcomemessage",
+                name: "welcome",
+                description: "settings for the welcome feature",
                 type: "SUB_COMMAND_GROUP",
-                options:[
+                options: [
                     {
-                        name:"channel-message",
-                        description:"channel welcome message",
-                        type:"SUB_COMMAND",
-                        options:[
+                        name: "channel",
+                        description: "Change welcome channel's settings",
+                        type: "SUB_COMMAND",
+                        options: [
                             {
-                                name:"message",
-                                description:"message for channel use `{server} {member}`",
-                                type:"STRING",
-                                required:true
-                            }
-                        ]
-                    },
-                    {
-                        name:"welcome-channel",
-                        description:"set welcome channel",
-                        type:"SUB_COMMAND",
-                        options:[
-                            {
-                                name:"channel",
-                                description:"channel",
-                                type:"CHANNEL",
-                                required:true
-                            }
-                        ]
-                    },
-                    {
-                        name:"dm-message",
-                        description:"dm welcome message",
-                        type:"SUB_COMMAND",
-                        options:[
-                            {
-                                name:"message",
-                                description:"message for dm use `{server} {member}`",
-                                type:"STRING",
-                                required:true
-                            }
-                        ]
-                    },
-                    {
-                        name:"enable-disable",
-                        description:"to enable a service",
-                        type:"SUB_COMMAND",
-                        options:[
-                            {
-                                name:"enable-disable",
-                                description: "enable or disable(true or false)",
-                                type:"BOOLEAN",
-                                required:true
+                                name: "channel",
+                                description: "channel",
+                                type: "CHANNEL",
+                                required: true,
                             },
                             {
+                                name: "message",
+                                description:
+                                    "message for channel, use `{server} {member}` (\\new for a new line)",
+                                type: "STRING",
+                                required: true,
+                            },
+                        ],
+                    },
+                    {
+                        name: "dm",
+                        description: "Change welcome DM's settings",
+                        type: "SUB_COMMAND",
+                        options: [
+                            {
+                                name: "message",
+                                description:
+                                    "message for dm, use `{server} {member}` (\\new for a new line)",
+                                type: "STRING",
+                                required: true,
+                            },
+                        ],
+                    },
+                    {
+                        name: "set",
+                        description: "to enable/disable a service",
+                        type: "SUB_COMMAND",
+                        options: [
+                            {
                                 name: "service",
-                                description: "service to enable or disable",
+                                description: "service to enable/disable",
                                 type: "STRING",
                                 required: true,
                                 choices: [
                                     { name: "dm message", value: "dmmessage" },
-                                    { name: "channel message", value: "channelmessage" }
-                                ]
-                            }
-                        ]
-                    }
-                    
-                ]
-            }
-        ]
+                                    {
+                                        name: "channel message",
+                                        value: "channelmessage",
+                                    },
+                                ],
+                            },
+                            {
+                                name: "enable",
+                                description: "enable (true) or disable (false)",
+                                type: "BOOLEAN",
+                                required: true,
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
     },
     {
         name: "flip",
@@ -574,22 +571,17 @@ client.on("ready", async () => {
                 console.log(
                     "Deleted: " + d.name + " | " + d.id + " | " + d.guildId
                 );
-                val++;
-                if (val >= commands.length) {
-                    console.log("Deleted all global commands\nExiting Now");
-                    process.exit(0);
-                }
             });
             return console.log("\x1b[32m%s\x1b[0m", "Started deleting...");
         }
         commands.forEach(async (command) => {
-            try{
+            try {
                 const data = await client.application!.commands.create(command);
                 console.log(
-                    `✅Created:   ${data.name}   |   ${data.id}   |   ${data.guildId}`
+                    `✅ Created:\t${data.name}\t|\t${data.id}\t|\t${data.guildId}`
                 );
-            }catch{
-                console.log(`❎Failed:   ${command.name}`)
+            } catch {
+                console.log(`❎ Failed:\t${command.name}`);
             }
             val++;
             if (val >= commands.length) {

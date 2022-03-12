@@ -4,11 +4,14 @@ import { GuildMember, MessageEmbed, TextChannel } from "discord.js";
 import { getGuildSettings } from "../database/functions/GuildSettingsFunctions";
 import { welcomeMsg } from "../utils/functions/welcome";
 
-export default class GuildRemoveEvent extends BaseEvent {
+export default class GuildMemberAddEvent extends BaseEvent {
     constructor() {
-        super("guildDelete");
+        super("guildMemberAdd");
     }
     async run(client: DiscordClient, member: GuildMember) {
+        if (member.user.bot) return;
+        if (member.pending) return;
+
         const guildSet = (await getGuildSettings(member.guild.id))
             .welcomeSettings;
         if (!guildSet.enable) return;
@@ -18,9 +21,9 @@ export default class GuildRemoveEvent extends BaseEvent {
         if (!welcomeRoles) return;
         welcomeRoles.forEach(async (r) => {
             member.roles.add(r).catch(async (e) => {
-                if (guildSet.welcomeChannel === null) return;
+                if (guildSet.welcomeChannelID === null) return;
                 const channel = (await member.guild.channels.fetch(
-                    guildSet.welcomeChannel
+                    guildSet.welcomeChannelID
                 )) as TextChannel;
                 if (
                     !channel

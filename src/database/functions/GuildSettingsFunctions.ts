@@ -23,18 +23,19 @@ function GuildScheme(guildID: string) {
         moderationSettings: {
             enable: false,
             modLogChannel: "",
-            modBlackList:[],
-            urlBlock:false,
-            urlWhiteList:[]
+            modBlackList: [],
+            urlBlock: false,
+            urlWhiteList: [],
         },
         welcomeSettings: {
             enable: false,
             welcomeDM: false,
             welcomeChannel: false,
             welcomeChannelID: "",
-            channelMessage: "Welcome {member} to {server}!",
-            dmMessage:"Welcome {member} to {server}!",
+            welcomeChannelMessage: "Welcome {member} to {server}!",
+            dmMessage: "Welcome {member} to {server}!",
             welcomeRoles: [],
+            CustomWelcomeBackground: ""
         },
     });
 }
@@ -63,90 +64,165 @@ export async function removeGuildSettings(guild_id: string) {
 }
 
 export async function UpdateWelcome(
-    guildID:string,
-    data:{
-        enable?:boolean,
-        welcomeDM?: boolean,
-        welcomeChannel?: boolean,
-        welcomeChannelID?: string,
-        channelMessage?: string,
-        dmMessage?: string,
-        welcomeRoles?: Array<string>,
-    }){
-        let guildData:rawGuildSettings | null = await guildSettings.findOne({guild_id:guildID})
-        if(!guildData)return
-        let Settings = guildData?.welcomeSettings
-        if(data.enable == undefined){data.enable = Settings.enable}
-        if(data.welcomeDM == undefined){data.welcomeDM = Settings.welcomeDM}
-        if(data.welcomeChannel == undefined){data.welcomeChannel = Settings.welcomeChannel}
-        if(data.welcomeChannelID == undefined){data.welcomeChannelID = Settings.welcomeChannelID}
-        if(data.channelMessage == undefined){data.channelMessage = Settings.channelMessage}
-        if(data.dmMessage == undefined){data.dmMessage = Settings.dmMessage}
-        if(data.welcomeRoles == undefined){data.welcomeRoles = Settings.welcomeRoles}
-
-        await guildSettings.updateOne({guild_id:guildID},{welcomeSettings:data})
+    guildID: string,
+    data: {
+        enable?: boolean;
+        welcomeDM?: boolean;
+        welcomeChannel?: boolean;
+        welcomeChannelID?: string;
+        welcomeChannelMessage?: string;
+        dmMessage?: string;
+        welcomeRoles?: Array<string>;
+        CustomWelcomeBackground?: string;
+    }
+) {
+    let guildData: rawGuildSettings | null = await guildSettings.findOne({
+        guild_id: guildID,
+    });
+    if (!guildData) return;
+    let Settings = guildData?.welcomeSettings;
+    if (data.enable == undefined) {
+        data.enable = Settings.enable;
+    }
+    if (data.welcomeDM == undefined) {
+        data.welcomeDM = Settings.welcomeDM;
+    }
+    if (data.welcomeChannel == undefined) {
+        data.welcomeChannel = Settings.welcomeChannel;
+    }
+    if (data.welcomeChannelID == undefined) {
+        data.welcomeChannelID = Settings.welcomeChannelID;
+    }
+    if (data.welcomeChannelMessage == undefined) {
+        data.welcomeChannelMessage = Settings.welcomeChannelMessage;
+    }
+    if (data.dmMessage == undefined) {
+        data.dmMessage = Settings.dmMessage;
+    }
+    if (data.welcomeRoles == undefined) {
+        data.welcomeRoles = Settings.welcomeRoles;
+    }
+    if (data.CustomWelcomeBackground == undefined) {
+        data.CustomWelcomeBackground = Settings.CustomWelcomeBackground;
+    }
+    await guildSettings.updateOne(
+        { guild_id: guildID },
+        { welcomeSettings: data }
+    );
 }
 export async function UpdateAntispam(
-    guildID:string,
-    data:{
-        enable?:boolean,
-        messageCount?: number,
-        timeDifference?: number,
-        antispamChannel?: Array<string>,
-        warnUser?: boolean,
-        muteUser?: boolean,
-        deleteMessage?: boolean,
-    }) {
-        let guildData:rawGuildSettings | null = await guildSettings.findOne({guild_id:guildID})
-        if(!guildData)return
-        let Settings = guildData.antiSpamSettings
-        if(data.enable == undefined){data.enable = Settings.enable}
-        if(data.messageCount == undefined){data.messageCount = Settings.messageCount}
-        if(data.timeDifference == undefined){data.timeDifference = Settings.timeDifference}
-        if(data.antispamChannel == undefined){data.antispamChannel = Settings.antispamChannel}
-        if(data.warnUser == undefined){data.warnUser = Settings.warnUser}
-        if(data.muteUser == undefined){data.muteUser = Settings.muteUser}
-        if(data.deleteMessage == undefined){data.deleteMessage = Settings.deleteMessage}
+    guildID: string,
+    data: {
+        enable?: boolean;
+        messageCount?: number;
+        timeDifference?: number;
+        antispamChannel?: Array<string>;
+        warnUser?: boolean;
+        muteUser?: boolean;
+        deleteMessage?: boolean;
+    }
+) {
+    let guildData: rawGuildSettings | null = await guildSettings.findOne({
+        guild_id: guildID,
+    });
+    if (!guildData) return;
+    let Settings = guildData.antiSpamSettings;
+    if (data.enable == undefined) {
+        data.enable = Settings.enable;
+    }
+    if (data.messageCount == undefined) {
+        data.messageCount = Settings.messageCount;
+    }
+    if (data.timeDifference == undefined) {
+        data.timeDifference = Settings.timeDifference;
+    }
+    if (data.antispamChannel == undefined) {
+        data.antispamChannel = Settings.antispamChannel;
+    }
+    if (data.warnUser == undefined) {
+        data.warnUser = Settings.warnUser;
+    }
+    if (data.muteUser == undefined) {
+        data.muteUser = Settings.muteUser;
+    }
+    if (data.deleteMessage == undefined) {
+        data.deleteMessage = Settings.deleteMessage;
+    }
 
-        await guildSettings.findOneAndUpdate({guild_id:guildID},{antiSpamSettings:data})
+    await guildSettings.findOneAndUpdate(
+        { guild_id: guildID },
+        { antiSpamSettings: data }
+    );
 }
 export async function UpdateModeration(
-    guildID:String,
-    data:{
-        enable?:boolean,
-        modLogChannel?: string,
-        modBlackList?:Array<string>,
-        urlBlock?:boolean,
-        urlWhiteList?:Array<string>
-    }) {
-        let guildData:rawGuildSettings | null = await guildSettings.findOne({guild_id:guildID})
-        if(!guildData)return
-        let Settings = guildData.moderationSettings
-        if(data.enable == undefined){data.enable = Settings.enable}
-        if(data.modLogChannel == undefined){data.modLogChannel = Settings.modLogChannel}
-        if(data.modBlackList == undefined){data.modBlackList = Settings.modBlackList}
-        if(data.urlBlock == undefined){data.urlBlock = Settings.urlBlock}
-        if(data.urlWhiteList == undefined){data.urlWhiteList = Settings.urlWhiteList}
+    guildID: String,
+    data: {
+        enable?: boolean;
+        modLogChannel?: string;
+        modBlackList?: Array<string>;
+        urlBlock?: boolean;
+        urlWhiteList?: Array<string>;
+    }
+) {
+    let guildData: rawGuildSettings | null = await guildSettings.findOne({
+        guild_id: guildID,
+    });
+    if (!guildData) return;
+    let Settings = guildData.moderationSettings;
+    if (data.enable == undefined) {
+        data.enable = Settings.enable;
+    }
+    if (data.modLogChannel == undefined) {
+        data.modLogChannel = Settings.modLogChannel;
+    }
+    if (data.modBlackList == undefined) {
+        data.modBlackList = Settings.modBlackList;
+    }
+    if (data.urlBlock == undefined) {
+        data.urlBlock = Settings.urlBlock;
+    }
+    if (data.urlWhiteList == undefined) {
+        data.urlWhiteList = Settings.urlWhiteList;
+    }
 
-        await guildSettings.findOneAndUpdate({guild_id:guildID},{moderationSettings:data})
+    await guildSettings.findOneAndUpdate(
+        { guild_id: guildID },
+        { moderationSettings: data }
+    );
 }
 export async function UpdateExp(
-    guildID:string,
-    data:{
-        enable?:boolean,
-        increment?:number,
-        timeDifference?: number,
-        blacklistChannel?: Array<string>,
-        expLogChannel?: string
-    }) {
-        let guildData:rawGuildSettings | null = await guildSettings.findOne({guild_id:guildID})
-        if(!guildData)return
-        let Settings = guildData.expSettings
-        if(data.enable == undefined){data.enable = Settings.enable}
-        if(data.increment == undefined){data.increment = Settings.increment}
-        if(data.timeDifference == undefined){data.timeDifference = Settings.timeDifference}
-        if(data.blacklistChannel == undefined){data.blacklistChannel = Settings.blacklistChannel}
-        if(data.expLogChannel == undefined){data.expLogChannel = Settings.expLogChannel}
-        
-        await guildSettings.findOneAndUpdate({guild_id:guildID},{expSettings:data})
+    guildID: string,
+    data: {
+        enable?: boolean;
+        increment?: number;
+        timeDifference?: number;
+        blacklistChannel?: Array<string>;
+        expLogChannel?: string;
+    }
+) {
+    let guildData: rawGuildSettings | null = await guildSettings.findOne({
+        guild_id: guildID,
+    });
+    if (!guildData) return;
+    let Settings = guildData.expSettings;
+    if (data.enable == undefined) {
+        data.enable = Settings.enable;
+    }
+    if (data.increment == undefined) {
+        data.increment = Settings.increment;
+    }
+    if (data.timeDifference == undefined) {
+        data.timeDifference = Settings.timeDifference;
+    }
+    if (data.blacklistChannel == undefined) {
+        data.blacklistChannel = Settings.blacklistChannel;
+    }
+    if (data.expLogChannel == undefined) {
+        data.expLogChannel = Settings.expLogChannel;
+    }
+
+    await guildSettings.findOneAndUpdate(
+        { guild_id: guildID },
+        { expSettings: data }
+    );
 }
