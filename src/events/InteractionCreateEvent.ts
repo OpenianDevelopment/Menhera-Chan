@@ -42,7 +42,8 @@ export default class interactionCreateEvent extends BaseEvent {
         const cmd_name = getSub(
             client,
             interaction.commandName,
-            interaction.options.getSubcommand(false)
+            interaction.options.getSubcommand(false),
+            interaction.options.getSubcommandGroup(false)
         );
         const command = client.commands.get(cmd_name);
         if (!command) return;

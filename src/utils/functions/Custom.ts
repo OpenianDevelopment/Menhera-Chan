@@ -44,6 +44,7 @@ export const _ads = {
     },
 };
 
+
 export function clean(str: string | undefined): string {
     if (!str) return "";
     return (str = str
@@ -143,10 +144,12 @@ export function rpTextCollection(author: User, member: GuildMember) {
 export function getSub(
     client: DiscordClient,
     command: string,
-    subcmd: string | null
-): string {
+    subcmd: string | null,
+    cmdgroup: string | null
+):string{
     if (!subcmd) return command;
-    return client.commands.get(`${command} ${subcmd}`)!.name;
+    if (cmdgroup) return client.commands.get(`${command} ${cmdgroup} ${subcmd}`)!.name;
+    return client.commands.get(`${command} ${subcmd}`)!.name; 
 }
 
 /* From https://github.com/zuritor/jikanjs/blob/6a11bcf1d07dfc046e56ddf3ed94adc5db6ac822/lib/util/Request.js */

@@ -49,6 +49,9 @@ export interface AntispamSystemSettings {
 export interface moderationSystemSettings {
     enable: boolean;
     modLogChannel?: string;
+    modBlackList:Array<string>,
+    urlBlock:boolean,
+    urlWhiteList:Array<string>
 }
 
 /**
@@ -79,10 +82,10 @@ export interface welcomeSystemSettings {
  * @param welcomeSettings {welcomeSystemSettings}
  */
 export interface GuildSettings {
-    expSettings?: ExpSystemSettings;
-    antispamSettings?: AntispamSystemSettings;
-    moderationSettings?: moderationSystemSettings;
-    welcomeSettings?: welcomeSystemSettings;
+    expSettings: ExpSystemSettings;
+    antispamSettings: AntispamSystemSettings;
+    moderationSettings: moderationSystemSettings;
+    welcomeSettings: welcomeSystemSettings;
 }
 
 //raw setting
@@ -117,3 +120,4 @@ export interface rawGuildSettings {
         welcomeRoles: Array<string>;
     };
 }
+
