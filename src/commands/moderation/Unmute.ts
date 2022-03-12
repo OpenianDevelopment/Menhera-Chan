@@ -8,6 +8,12 @@ export default class UnmuteCommand extends BaseCommand {
         super("mod unmute", "Unmutes a user");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
+        if(!interaction.guildId){
+            interaction.followUp({
+                content:"This command can only be used in guilds"
+            })
+            return
+        }
         if (!(await CheckPermsBoth(interaction, "MODERATE_MEMBERS"))) {
             return;
         }

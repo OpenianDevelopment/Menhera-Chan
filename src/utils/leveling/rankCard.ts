@@ -2,7 +2,7 @@ import { rankcardData } from "../interfaces/leveling";
 import {
     createCanvas,
     loadImage,
-    NodeCanvasRenderingContext2D,
+    CanvasRenderingContext2D,
     registerFont,
 } from "canvas";
 import { MessageAttachment } from "discord.js";
@@ -259,7 +259,7 @@ function shorten(text: string, len: number) {
 }
 
 function roundRect(
-    ctx: NodeCanvasRenderingContext2D,
+    ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
     width: number,

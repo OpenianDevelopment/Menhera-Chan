@@ -27,7 +27,7 @@ export async function getBalance(id: string) {
 }
 
 export async function addBalance(user: string, balance: number) {
-    const profile: EconomyUserDB = await economyUser.findOne({ user: user });
+    const profile: EconomyUserDB |null = await economyUser.findOne({ user: user });
     if (!profile) {
         return initEcoUser(user);
     }
@@ -69,7 +69,7 @@ export async function getWaifu(name: string) {
 }
 
 export async function getWaifuByID(ID: string) {
-    const data: WaifuDB = await waifu.findOne({ id: ID });
+    const data: WaifuDB |null = await waifu.findOne({ id: ID });
     return data;
 }
 export async function getWaifuByIDArray(array: Array<string>) {
@@ -85,7 +85,7 @@ export async function updateWaifu(
     A: string,
     C: string
 ) {
-    const data: WaifuDB = await waifu.findOne({ id: ID });
+    const data: WaifuDB |null= await waifu.findOne({ id: ID });
     if (data == null) return false;
     if (N == null) {
         N = data.name;
