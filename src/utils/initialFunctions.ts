@@ -3,7 +3,6 @@ import path from "path";
 import { promises as fs } from "fs";
 import mongoose from "mongoose";
 import { getGuildSettings } from "../database/functions/GuildSettingsFunctions";
-import { Guild } from "discord.js";
 
 /**
  * Registering Events in Client#events
@@ -62,7 +61,7 @@ export async function cacheGuildSettings(client: DiscordClient) {
         const guildSettings = await getGuildSettings(guild.id);
         client.guildSettings.set(guild.id, {
             expSettings: guildSettings.expSettings,
-            antispamSettings: guildSettings.antiSpamSettings,
+            antiSpamSettings: guildSettings.antiSpamSettings,
             moderationSettings: guildSettings.moderationSettings,
             welcomeSettings: guildSettings.welcomeSettings,
         });
@@ -73,7 +72,7 @@ export async function updateCacheGuildSettings(client:DiscordClient,guildID:stri
     let guildSettings = await getGuildSettings(guildID);
     client.guildSettings.set(guildID,{
         expSettings: guildSettings.expSettings,
-        antispamSettings: guildSettings.antiSpamSettings,
+        antiSpamSettings: guildSettings.antiSpamSettings,
         moderationSettings: guildSettings.moderationSettings,
         welcomeSettings: guildSettings.welcomeSettings,
     });

@@ -11,7 +11,7 @@ export async function welcomeMsg(
 ) {
     let DM_WelcomeMsg = guildSet.dmMessage;
     let CH_WelcomeMsg = guildSet.channelMessage;
-    if (guildSet.welcomeDM) {
+    if (guildSet.welcomeDM && DM_WelcomeMsg) {
         DM_WelcomeMsg = DM_WelcomeMsg.replace(
             /{member}/g,
             `<@!${member.user.id}>`
@@ -22,7 +22,7 @@ export async function welcomeMsg(
     }
 
     if (guildSet.welcomeChannelID == null) return;
-    if (CH_WelcomeMsg) {
+    if (guildSet.welcomeDM && CH_WelcomeMsg) {
         CH_WelcomeMsg = CH_WelcomeMsg.replace(
             /{member}/g,
             `<@!${member.user.id}>`

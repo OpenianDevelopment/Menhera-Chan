@@ -36,7 +36,7 @@ const guildSettingsSchema = new Schema({
         welcomeChannelID: String,
         channelMessage: String,
         dmMessage: String,
-        welcomeRoles: Array<String>,
+        welcomeRoles: Array,
         CustomWelcomeBackground: String,
     },
 });
