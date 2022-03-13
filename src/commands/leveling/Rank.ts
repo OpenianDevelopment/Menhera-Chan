@@ -10,12 +10,10 @@ export default class RankCommand extends BaseCommand {
         super("rank", "Get user Rank Card");
     }
 
-    async run(client: DiscordClient, interaction: CommandInteraction) {
-        if (!interaction.guildId) {
-            interaction.followUp({
-                content: "This is a server only command",
-            });
-        }
+    async run(
+        client: DiscordClient,
+        interaction: CommandInteraction<"cached">
+    ) {
         if (
             !client.guildSettings.get(interaction.guildId!)?.expSettings?.enable
         ) {

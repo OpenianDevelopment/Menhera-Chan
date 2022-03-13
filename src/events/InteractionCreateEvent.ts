@@ -50,10 +50,11 @@ export default class interactionCreateEvent extends BaseEvent {
         //econ stuff here
         econ(interaction);
         //econ end here
+        const ExtraAdsCommands: string[] = ["settings view", "mod"];
         try {
             await interaction.deferReply({ ephemeral: false });
             await command.run(client, interaction);
-            if (_ads.OnCooldown && !cmd_name.startsWith("mod")) {
+            if (_ads.OnCooldown && ExtraAdsCommands.includes(cmd_name)) {
                 interaction.channel?.send({
                     embeds: [_ads.embed(interaction)],
                 });
@@ -66,8 +67,8 @@ export default class interactionCreateEvent extends BaseEvent {
         } catch (err) {
             console.error(
                 `Error in ${chalk.redBright(
-                    capFirstLetter(command.name) + " Command"
-                )}`,
+                    capFirstLetter(command.name)
+                )} Command`,
                 err
             );
         }

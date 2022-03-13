@@ -15,13 +15,10 @@ export default class SlowmodeCommand extends BaseCommand {
             "To set the slowmode of the channel the command is written in"
         );
     }
-    async run(client: DiscordClient, interaction: CommandInteraction) {
-        if(!interaction.guildId){
-            interaction.followUp({
-                content:"This command can only be used in guilds"
-            })
-            return
-        }
+    async run(
+        client: DiscordClient,
+        interaction: CommandInteraction<"cached">
+    ) {
         if (!(await CheckPermsBoth(interaction, "MANAGE_CHANNELS"))) {
             return;
         }

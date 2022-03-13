@@ -44,16 +44,28 @@ export const _ads = {
     },
 };
 
-
-export function clean(str: string | undefined): string {
+export function clean(
+    str: string | Array<string> | undefined,
+    join?: { start: string; end: string },
+    newline?: boolean
+): string {
     if (!str) return "";
-    return (str = str
+
+    return (
+        Array.isArray(str)
+            ? str
+                  .map((str) => (join ? `${join.start}${str}${join.end}` : str))
+                  .join(newline ? "\n" : ", ")
+            : join
+            ? `${join.start}${str}${join.end}`
+            : str
+    )
         .replace(/`/g, `\\\`${String.fromCharCode(8203)}`)
         .replace(/\*/g, `\\\*${String.fromCharCode(8203)}`)
         .replace(/~/g, `\\\~${String.fromCharCode(8203)}`)
         .replace(/_/g, `\\\_${String.fromCharCode(8203)}`)
         .replace(/\|/g, `\\\|${String.fromCharCode(8203)}`)
-        .replace(/@/g, `\\\@${String.fromCharCode(8203)}`));
+        .replace(/@/g, `\\\@${String.fromCharCode(8203)}`);
 }
 
 /** Returns rp text data */
@@ -146,10 +158,11 @@ export function getSub(
     command: string,
     subcmd: string | null,
     cmdgroup: string | null
-):string{
+): string {
     if (!subcmd) return command;
-    if (cmdgroup) return client.commands.get(`${command} ${cmdgroup} ${subcmd}`)!.name;
-    return client.commands.get(`${command} ${subcmd}`)!.name; 
+    if (cmdgroup)
+        return client.commands.get(`${command} ${cmdgroup} ${subcmd}`)!.name;
+    return client.commands.get(`${command} ${subcmd}`)!.name;
 }
 
 /* From https://github.com/zuritor/jikanjs/blob/6a11bcf1d07dfc046e56ddf3ed94adc5db6ac822/lib/util/Request.js */
@@ -198,7 +211,11 @@ export class MalRequest {
  * *p.s.* Setting a new color/footer data will overwrite the old ones
  */
 export class CustomEmbed extends MessageEmbed {
-    public constructor(d: CommandInteraction | Message, ad?: boolean) {
+    public constructor(
+        d: CommandInteraction | Message,
+        ad?: boolean,
+        footer?: boolean
+    ) {
         super();
         if (ad) {
             this.author = {
@@ -208,9 +225,11 @@ export class CustomEmbed extends MessageEmbed {
             };
         }
         this.color = d.guild ? d.guild.me!.displayColor : null;
-        this.footer = {
-            text: config.links.website,
-            iconURL: (d.member as GuildMember | null)?.displayAvatarURL(),
-        };
+        if (footer) {
+            this.footer = {
+                text: config.links.website,
+                iconURL: (d.member as GuildMember | null)?.displayAvatarURL(),
+            };
+        }
     }
 }

@@ -2,19 +2,19 @@ import { Schema, model } from "mongoose";
 
 const guildSettingsSchema = new Schema({
     guild_id: {
-        type:String,
+        type: String,
         unique: true,
         required: true,
     },
-    expSettings:{
-        enable:Boolean,
-        increment:Number,
+    expSettings: {
+        enable: Boolean,
+        increment: Number,
         timeDifference: Number,
         blacklistChannel: Array,
-        expLogChannel: String
+        expLogChannel: String,
     },
-    antiSpamSettings:{
-        enable:Boolean,
+    antiSpamSettings: {
+        enable: Boolean,
         messageCount: Number,
         timeDifference: Number,
         antispamChannel: Array,
@@ -22,21 +22,23 @@ const guildSettingsSchema = new Schema({
         muteUser: Boolean,
         deleteMessage: Boolean,
     },
-    moderationSettings:{
-        enable:Boolean,
+    moderationSettings: {
+        enable: Boolean,
         modLogChannel: String,
-        modBlackList:Array,
-        urlBlock:Boolean,
-        urlWhiteList:Array
+        modBlackList: Array,
+        urlBlock: Boolean,
+        urlWhiteList: Array,
     },
-    welcomeSettings:{
-        enable:Boolean,
+    welcomeSettings: {
+        enable: Boolean,
         welcomeDM: Boolean,
-        welcomeChannelMessage: String,
-        welcomeChannel: String,
-        welcomeMessage: String,
-        welcomeRoles: Array,
-    }
+        welcomeChannel: Boolean,
+        welcomeChannelID: String,
+        channelMessage: String,
+        dmMessage: String,
+        welcomeRoles: Array<String>,
+        CustomWelcomeBackground: String,
+    },
 });
 
 export const guildSettings = model("GuildSettings", guildSettingsSchema);

@@ -1,19 +1,20 @@
 import BaseCommand from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
-import { CommandInteraction, GuildMember, GuildMemberRoleManager } from "discord.js";
+import {
+    CommandInteraction,
+    GuildMember,
+    GuildMemberRoleManager,
+} from "discord.js";
 
 export default class UnmuteCommand extends BaseCommand {
     constructor() {
         super("mod unmute", "Unmutes a user");
     }
-    async run(client: DiscordClient, interaction: CommandInteraction) {
-        if(!interaction.guildId){
-            interaction.followUp({
-                content:"This command can only be used in guilds"
-            })
-            return
-        }
+    async run(
+        client: DiscordClient,
+        interaction: CommandInteraction<"cached">
+    ) {
         if (!(await CheckPermsBoth(interaction, "MODERATE_MEMBERS"))) {
             return;
         }

@@ -20,27 +20,18 @@ export default class ReportCommand extends BaseCommand {
                 content:
                     "You will get blacklisted if it's not a serious report",
             });
-            const type = interaction.options.getSubcommand(true);
             const author = interaction.user;
             const embed = new MessageEmbed()
-                .setTitle("Report Type: " + capFirstLetter(type))
+                .setTitle("New Report")
                 .setFields({
                     name: "Author",
                     value: `${author.tag} | ${author.id}`,
                 })
-                .setTimestamp();
-            if (type == "user") {
-                const user = interaction.options.getUser("target", true);
-                const reason = interaction.options.getString("reason", true);
-                embed.addFields(
-                    { name: "Target", value: `${user.tag} | ${user.id}` },
-                    { name: "Reason", value: clean(reason) }
-                );
-            } else {
-                embed.setDescription(
+                .setDescription(
                     clean(interaction.options.getString("description", true))
-                );
-            }
+                )
+                .setTimestamp();
+
             await webhook
                 .send({
                     content: `${interaction.guild?.name} | ${interaction.guild?.id}`,

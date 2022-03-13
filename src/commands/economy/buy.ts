@@ -22,7 +22,7 @@ export default class EconBuyCommand extends BaseCommand {
             });
             return;
         }
-        const user = interaction.member?.user.id!;
+        const user = interaction.user.id!;
         const waifu = await getUserWaifus(user);
         if (waifu.find((x) => x.characterId == ID.toString())) {
             interaction.followUp({

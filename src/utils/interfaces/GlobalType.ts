@@ -44,31 +44,27 @@ export interface AntispamSystemSettings {
 
 /**
  * # *Moderation Settings!*
- * @param modLogChannel Channel to log the moderation commands used by menhera.
  */
 export interface moderationSystemSettings {
     enable: boolean;
     modLogChannel?: string;
-    modBlackList:Array<string>,
-    urlBlock:boolean,
-    urlWhiteList:Array<string>
+    modBlackList: Array<string>;
+    urlBlock: boolean;
+    urlWhiteList: Array<string>;
 }
 
 /**
  * # Welcome System
- * @param welcomeDM Get a welcome message in dm or not
- * @param welcomeMessage Message that would be sent in dms
- * @param welcomeChannel Channel to welcome new users.
- * @param welcomeChannelMessage Message to send to the set channel when user join.
- * @param welcomeRoles Array of roles to give new users.
  */
 export interface welcomeSystemSettings {
     enable: boolean;
     welcomeDM: boolean;
-    welcomeMessage: string;
-    welcomeChannelMessage: string;
-    welcomeChannel: string;
+    welcomeChannel: boolean;
+    welcomeChannelID: string;
+    channelMessage: string;
+    dmMessage: string;
     welcomeRoles: Array<string>;
+    CustomWelcomeBackground: string;
 }
 
 /**
@@ -89,38 +85,40 @@ export interface GuildSettings {
 }
 
 //raw setting
+//having this giving errors when i chage something is tiresome
 export interface rawGuildSettings {
-    guild_id:string,
-    expSettings:{
-        enable:boolean,
-        increment:number,
-        timeDifference: number,
-        blacklistChannel: Array<string>,
-        expLogChannel: string
-    },
-    antiSpamSettings:{
-        enable:boolean,
-        messageCount: number,
-        timeDifference: number,
-        antispamChannel: Array<string>,
-        warnUser: boolean,
-        muteUser: boolean,
-        deleteMessage: boolean,
-    },
-    moderationSettings:{
-        enable:boolean,
-        modLogChannel: string,
-        modBlackList:Array<string>,
-        urlBlock:boolean,
-        urlWhiteList:Array<string>
-    },
-    welcomeSettings:{
-        enable:boolean,
-        welcomeDM: boolean,
-        welcomeChannel: boolean,
-        welcomeChannelID: string,
-        channelMessage: string,
-        dmMessage: string,
-        welcomeRoles: Array<string>
-    }
+    guild_id: string;
+    expSettings: {
+        enable: boolean;
+        increment: number;
+        timeDifference: number;
+        blacklistChannel: Array<string>;
+        expLogChannel: string;
+    };
+    antiSpamSettings: {
+        enable: boolean;
+        messageCount: number;
+        timeDifference: number;
+        antispamChannel: Array<string>;
+        warnUser: boolean;
+        muteUser: boolean;
+        deleteMessage: boolean;
+    };
+    moderationSettings: {
+        enable: boolean;
+        modLogChannel: string;
+        modBlackList: Array<string>;
+        urlBlock: boolean;
+        urlWhiteList: Array<string>;
+    };
+    welcomeSettings: {
+        enable: boolean;
+        welcomeDM: boolean;
+        welcomeChannel: boolean;
+        welcomeChannelID: string;
+        channelMessage: string;
+        dmMessage: string;
+        welcomeRoles: Array<string>;
+        CustomWelcomeBackground: string;
+    };
 }

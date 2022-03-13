@@ -13,7 +13,7 @@ export default class EconInvCommand extends BaseCommand {
         super("econ inventory", "Shows Collection of Waifus");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
-        const user = interaction.member?.user.id!;
+        const user = interaction.user.id!;
         const data = await getUserWaifus(user);
         if (data.length < 1) {
             interaction.followUp({
@@ -29,7 +29,7 @@ export default class EconInvCommand extends BaseCommand {
         const embeds: MessageEmbed[] = [];
         waifu.forEach(async (x) => {
             const embed = new CustomEmbed(interaction, false)
-                .setTitle(`${interaction.member?.user.username}'s Collection`)
+                .setTitle(`${interaction.user.username}'s Collection`)
                 .setDescription(
                     `**Name: ${x.name}**\nID: ${x.id}\nAnime: ${x.anime}\nPrice: ${x.cost}`
                 )

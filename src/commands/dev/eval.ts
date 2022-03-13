@@ -10,7 +10,7 @@ import {
     MessageButton,
 } from "discord.js";
 import config from "../../utils/config";
-import { CustomEmbed } from "../../utils/functions/Custom";
+import { clean, CustomEmbed } from "../../utils/functions/Custom";
 
 export default class EvalCommand extends BaseCommand {
     constructor() {
@@ -50,16 +50,16 @@ async function evaluate(
             .setColor("#00FF00")
             .setFooter({
                 text: `Time Taken: ${(stop[0] * 1e9 + stop[1]) / 1e6}ms`,
-                iconURL: client!.user!.displayAvatarURL()
+                iconURL: client!.user!.displayAvatarURL(),
             })
             .setTitle("Eval")
             .addField(
                 `**Output:**`,
-                `\`\`\`js\n${clean(inspect(evaled, { depth: 0 }))}\n\`\`\``
+                `\`\`\`js\n${EvalClean(inspect(evaled, { depth: 0 }))}\n\`\`\``
             )
             .addField(`**Type:**`, typeof evaled);
 
-        const response = clean(inspect(evaled, { depth: 0 }));
+        const response = EvalClean(inspect(evaled, { depth: 0 }));
         if (response.length <= 1024) {
             botmsg = (await interaction.followUp({
                 embeds: [evmbed],
@@ -81,11 +81,11 @@ async function evaluate(
         const errevmbed = new CustomEmbed(interaction, false)
             .setColor("#FF0000")
             .setTitle(`ERROR`)
-            .setDescription(`\`\`\`xl\n${clean(err.toString())}\n\`\`\``)
+            .setDescription(`\`\`\`xl\n${EvalClean(err.toString())}\n\`\`\``)
             .setTimestamp()
             .setFooter({
                 text: client!.user!.username,
-                iconURL: client!.user!.displayAvatarURL()
+                iconURL: client!.user!.displayAvatarURL(),
             });
         botmsg = (await interaction.followUp({
             embeds: [errevmbed],
@@ -103,16 +103,14 @@ async function evaluate(
             return;
         }
     });
-    function clean(text: string) {
-        text = text
-            .replace(/`/g, `\\\`${String.fromCharCode(8203)}`)
-            .replace(/@/g, `@${String.fromCharCode(8203)}`)
+    function EvalClean(text: string) {
+        text = clean(text)
             .replace(
                 new RegExp(client!.token!, "gi"),
                 `NrzaMyOTI4MnU1NT3oDA1rTk4.pPizb1g.hELpb6PAi1Pewp3wAwVseI72Eo`
             )
-            .replace(/^interaction.reply/g, "channel.send")
-            .replace(/^int/g, "interaction.");
+            .replace(/^int/g, "interaction")
+            .replace(/^interaction.reply/g, "channel.send");
         return text;
     }
 }

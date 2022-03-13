@@ -6,7 +6,10 @@ export default class UptimeCommand extends BaseCommand {
     constructor() {
         super("uptime", "Return bot's ready Date/timer");
     }
-    async run(client: DiscordClient, interaction: CommandInteraction) {
+    async run(
+        client: DiscordClient,
+        interaction: CommandInteraction<"cached">
+    ) {
         const time = (Date.now() - client.uptime!).toString();
         const embed = new MessageEmbed()
             .setColor((interaction.member as GuildMember).displayColor)

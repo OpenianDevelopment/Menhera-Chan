@@ -9,33 +9,27 @@ export async function welcomeMsg(
     guild: Guild,
     guildSet: welcomeSystemSettings
 ) {
-    let DM_WelcomeMsg = guildSet.welcomeMessage;
-    let CH_WelcomeMsg = guildSet.welcomeChannelMessage;
-    if (guildSet.welcomeDM) return;
-    if (DM_WelcomeMsg.includes("{member}"))
+    let DM_WelcomeMsg = guildSet.dmMessage;
+    let CH_WelcomeMsg = guildSet.channelMessage;
+    if (guildSet.welcomeDM) {
         DM_WelcomeMsg = DM_WelcomeMsg.replace(
             /{member}/g,
-            "<@!" + member.user.id + ">"
-        );
-    if (DM_WelcomeMsg.includes("{server}"))
-        DM_WelcomeMsg = DM_WelcomeMsg.replace(
-            /{server}/g,
-            "**" + clean(guild.name) + "**"
-        );
-    await member.send({ content: DM_WelcomeMsg }).catch((err: Error) => {});
+            `<@!${member.user.id}>`
+        )
+            .replace(/{server}/g, `**${clean(guild.name)}**`)
+            .replace(/\\new/gi, "\n");
+        await member.user.send({ content: DM_WelcomeMsg }).catch(console.error);
+    }
 
-    if (guildSet.welcomeChannel == null) return;
-    if (CH_WelcomeMsg.includes("{member}"))
+    if (guildSet.welcomeChannelID == null) return;
+    if (CH_WelcomeMsg) {
         CH_WelcomeMsg = CH_WelcomeMsg.replace(
             /{member}/g,
-            "<@!" + member.user.id + ">"
-        );
-
-    if (CH_WelcomeMsg.includes("{server}"))
-        CH_WelcomeMsg = CH_WelcomeMsg.replace(
-            /{server}/g,
-            "**" + clean(guild.name) + "**"
-        );
+            `<@!${member.user.id}>`
+        )
+            .replace(/{server}/g, `**${clean(guild.name)}**`)
+            .replace(/\\new/gi, "\n");
+    }
 
     const applyText = (canvas: TypeCanvas, text: string) => {
         const ctx = canvas.getContext("2d");
@@ -55,7 +49,12 @@ export async function welcomeMsg(
 
     const canvas = Canvas.createCanvas(845, 475);
     const ctx = canvas.getContext("2d");
-    const background = await Canvas.loadImage("./image/welcome.png");
+    let background;
+    if (guildSet.CustomWelcomeBackground) {
+        background = await Canvas.loadImage(guildSet.CustomWelcomeBackground);
+    } else {
+        background = await Canvas.loadImage("./././images/welcome.png");
+    }
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = "#74037b";
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
@@ -84,11 +83,11 @@ export async function welcomeMsg(
     );
 
     const channel = (await member.guild.channels.fetch(
-        guildSet.welcomeChannel
+        guildSet.welcomeChannelID
     )) as TextChannel;
     try {
-        channel?.send({ content: CH_WelcomeMsg, files: [attachment] });
-    } catch {
-        return;
+        return channel?.send({ content: CH_WelcomeMsg, files: [attachment] });
+    } catch (err) {
+        return console.error(err);
     }
 }
