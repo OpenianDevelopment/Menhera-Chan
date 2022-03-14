@@ -1,14 +1,4 @@
 /**
- * # Guild's Feature Settings
- * (idk wtf is with that title)
- * @param expModule {boolean}
- * @param antispamModule {boolean}
- * @param inviteModule {boolean}
- * @param welcomeModule {boolean}
- * @param newsModule {boolean}
- */
-
-/**
  * # Exp Settings
  * @param increment *I guess it's the "how much xp to add"?*
  * @param timeDifference Something like cooldown.
@@ -20,7 +10,7 @@ export interface ExpSystemSettings {
     increment: number;
     timeDifference: number;
     blacklistChannel: Array<string>;
-    expLogChannel?: string;
+    expLogChannel:string | null;
 }
 
 /**
@@ -44,10 +34,15 @@ export interface AntispamSystemSettings {
 
 /**
  * # *Moderation Settings!*
+ * @param enable enable/disable service
+ * @param modLogChannel channel for modlog
+ * @param modBlackList moderation blacklist channel
+ * @param urlBlock enable/disable url block
+ * @param urlWhiteList url whitelist
  */
 export interface moderationSystemSettings {
     enable: boolean;
-    modLogChannel?: string;
+    modLogChannel:string | null;
     modBlackList: Array<string>;
     urlBlock: boolean;
     urlWhiteList: Array<string>;
@@ -55,21 +50,28 @@ export interface moderationSystemSettings {
 
 /**
  * # Welcome System
+ * @param enable enable/disable service
+ * @param welcomeDM enable/disable dm
+ * @param welcomeChannel enable/disable channel message
+ * @param welcomeChannelID channel id
+ * @param channelMessage welcome message for channel
+ * @param dmMessage welcome message for dm
+ * @param welcomeRoles roles to give on join
+ * @param CustomWelcomeBackground background
  */
 export interface welcomeSystemSettings {
     enable: boolean;
     welcomeDM: boolean;
     welcomeChannel: boolean;
-    welcomeChannelID: string;
-    channelMessage: string;
-    dmMessage: string;
+    welcomeChannelID:string | null;
+    channelMessage:string | null;
+    dmMessage:string | null;
     welcomeRoles: Array<string>;
-    CustomWelcomeBackground: string;
+    CustomWelcomeBackground:string | null;
 }
 
 /**
  * # Guild Settings
- * @param modulesSettings The ***Guild's Feature Settings*** that i didn't like.
  * @param expSettings The super cool *one of the first features of menhera* xp (but that is it's settings).
  *
  * Uh i'm lazy to continue, You already know what are those from above, if you don't know then `Ctrl + click` on **GuildSettings**
@@ -83,42 +85,13 @@ export interface GuildSettings {
     moderationSettings: moderationSystemSettings;
     welcomeSettings: welcomeSystemSettings;
 }
-
-//raw setting
-//having this giving errors when i chage something is tiresome
+/**
+ * # Raw guild Settings
+ */
 export interface rawGuildSettings {
-    guild_id: string;
-    expSettings: {
-        enable: boolean;
-        increment: number;
-        timeDifference: number;
-        blacklistChannel: Array<string>;
-        expLogChannel: string;
-    };
-    antiSpamSettings: {
-        enable: boolean;
-        messageCount: number;
-        timeDifference: number;
-        antispamChannel: Array<string>;
-        warnUser: boolean;
-        muteUser: boolean;
-        deleteMessage: boolean;
-    };
-    moderationSettings: {
-        enable: boolean;
-        modLogChannel: string;
-        modBlackList: Array<string>;
-        urlBlock: boolean;
-        urlWhiteList: Array<string>;
-    };
-    welcomeSettings: {
-        enable: boolean;
-        welcomeDM: boolean;
-        welcomeChannel: boolean;
-        welcomeChannelID: string;
-        channelMessage: string;
-        dmMessage: string;
-        welcomeRoles: Array<string>;
-        CustomWelcomeBackground: string;
-    };
+    guild_id:string,
+    expSettings: ExpSystemSettings,
+    antispamSettings: AntispamSystemSettings,
+    moderationSettings: moderationSystemSettings,
+    welcomeSettings: welcomeSystemSettings,
 }

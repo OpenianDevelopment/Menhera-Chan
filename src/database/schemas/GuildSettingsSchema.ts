@@ -13,7 +13,7 @@ const guildSettingsSchema = new Schema({
         blacklistChannel: Array,
         expLogChannel: String,
     },
-    antiSpamSettings: {
+    antispamSettings: {
         enable: Boolean,
         messageCount: Number,
         timeDifference: Number,
@@ -36,7 +36,7 @@ const guildSettingsSchema = new Schema({
         welcomeChannelID: String,
         channelMessage: String,
         dmMessage: String,
-        welcomeRoles: Array<String>,
+        welcomeRoles: Array,
         CustomWelcomeBackground: String,
     },
 });

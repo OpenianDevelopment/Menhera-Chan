@@ -1,4 +1,3 @@
-import { updateCacheGuildSettings } from "../../utils/initialFunctions";
 import { rawGuildSettings } from "../../utils/interfaces/GlobalType";
 import { guildSettings } from "../schemas";
 function GuildScheme(guildID: string) {
@@ -9,7 +8,7 @@ function GuildScheme(guildID: string) {
             increment: 1,
             timeDifference: 8000,
             blacklistChannel: [],
-            expLogChannel: "",
+            expLogChannel: null,
         },
         antiSpamSettings: {
             enable: false,
@@ -22,7 +21,7 @@ function GuildScheme(guildID: string) {
         },
         moderationSettings: {
             enable: false,
-            modLogChannel: "",
+            modLogChannel: null,
             modBlackList: [],
             urlBlock: false,
             urlWhiteList: [],
@@ -31,11 +30,11 @@ function GuildScheme(guildID: string) {
             enable: false,
             welcomeDM: false,
             welcomeChannel: false,
-            welcomeChannelID: "",
+            welcomeChannelID: null,
             channelMessage: "Welcome {member} to {server}!",
             dmMessage: "Welcome {member} to {server}!",
             welcomeRoles: [],
-            CustomWelcomeBackground: "",
+            CustomWelcomeBackground:null,
         },
     });
 }
@@ -69,11 +68,11 @@ export async function UpdateWelcome(
         enable?: boolean;
         welcomeDM?: boolean;
         welcomeChannel?: boolean;
-        welcomeChannelID?: string;
-        channelMessage?: string;
-        dmMessage?: string;
+        welcomeChannelID?: string | null;
+        channelMessage?: string | null;
+        dmMessage?: string | null;
         welcomeRoles?: Array<string>;
-        CustomWelcomeBackground?: string;
+        CustomWelcomeBackground?: string | null;
     }
 ) {
     let guildData: rawGuildSettings | null = await guildSettings.findOne({
@@ -126,7 +125,7 @@ export async function UpdateAntispam(
         guild_id: guildID,
     });
     if (!guildData) return;
-    let Settings = guildData.antiSpamSettings;
+    let Settings = guildData.antispamSettings;
     if (data.enable == undefined) {
         data.enable = Settings.enable;
     }
@@ -158,7 +157,7 @@ export async function UpdateModeration(
     guildID: String,
     data: {
         enable?: boolean;
-        modLogChannel?: string;
+        modLogChannel?: string | null;
         modBlackList?: Array<string>;
         urlBlock?: boolean;
         urlWhiteList?: Array<string>;
@@ -197,7 +196,7 @@ export async function UpdateExp(
         increment?: number;
         timeDifference?: number;
         blacklistChannel?: Array<string>;
-        expLogChannel?: string;
+        expLogChannel?: string | null;
     }
 ) {
     let guildData: rawGuildSettings | null = await guildSettings.findOne({
