@@ -81,7 +81,7 @@ export interface welcomeSystemSettings {
  */
 export interface GuildSettings {
     expSettings: ExpSystemSettings;
-    antiSpamSettings: AntispamSystemSettings;
+    antispamSettings: AntispamSystemSettings;
     moderationSettings: moderationSystemSettings;
     welcomeSettings: welcomeSystemSettings;
 }
@@ -91,7 +91,7 @@ export interface GuildSettings {
 export interface rawGuildSettings {
     guild_id:string,
     expSettings: ExpSystemSettings,
-    antiSpamSettings: AntispamSystemSettings,
+    antispamSettings: AntispamSystemSettings,
     moderationSettings: moderationSystemSettings,
     welcomeSettings: welcomeSystemSettings,
 }

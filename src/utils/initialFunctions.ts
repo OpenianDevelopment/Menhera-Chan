@@ -61,7 +61,7 @@ export async function cacheGuildSettings(client: DiscordClient) {
         const guildSettings = await getGuildSettings(guild.id);
         client.guildSettings.set(guild.id, {
             expSettings: guildSettings.expSettings,
-            antiSpamSettings: guildSettings.antiSpamSettings,
+            antispamSettings: guildSettings.antispamSettings,
             moderationSettings: guildSettings.moderationSettings,
             welcomeSettings: guildSettings.welcomeSettings,
         });
@@ -72,7 +72,7 @@ export async function updateCacheGuildSettings(client:DiscordClient,guildID:stri
     let guildSettings = await getGuildSettings(guildID);
     client.guildSettings.set(guildID,{
         expSettings: guildSettings.expSettings,
-        antiSpamSettings: guildSettings.antiSpamSettings,
+        antispamSettings: guildSettings.antispamSettings,
         moderationSettings: guildSettings.moderationSettings,
         welcomeSettings: guildSettings.welcomeSettings,
     });

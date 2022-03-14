@@ -125,7 +125,7 @@ export async function UpdateAntispam(
         guild_id: guildID,
     });
     if (!guildData) return;
-    let Settings = guildData.antiSpamSettings;
+    let Settings = guildData.antispamSettings;
     if (data.enable == undefined) {
         data.enable = Settings.enable;
     }

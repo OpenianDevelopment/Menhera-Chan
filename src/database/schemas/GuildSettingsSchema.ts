@@ -13,7 +13,7 @@ const guildSettingsSchema = new Schema({
         blacklistChannel: Array,
         expLogChannel: String,
     },
-    antiSpamSettings: {
+    antispamSettings: {
         enable: Boolean,
         messageCount: Number,
         timeDifference: Number,
