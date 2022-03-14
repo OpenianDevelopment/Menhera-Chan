@@ -9,7 +9,8 @@ export default class EconDailycoinsCommand extends BaseCommand {
     constructor() {
         super("econ dailycoins", "get daility coins");
     }
-    async run(client: DiscordClient, interaction: CommandInteraction) {
+    async run(client: DiscordClient, interaction: CommandInteraction<"cached">) {
+        if(!client.guildSettings.get(interaction.guildId)?.misc.econ)return
         const DBL_TOKEN = process.env.DBL_TOKEN;
         if (DBL_TOKEN == ("" || undefined)) {
             interaction.followUp({

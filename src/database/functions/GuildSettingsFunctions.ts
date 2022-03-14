@@ -36,6 +36,9 @@ function GuildScheme(guildID: string) {
             welcomeRoles: [],
             CustomWelcomeBackground:null,
         },
+        misc:{
+            econ: true,
+        }
     });
 }
 

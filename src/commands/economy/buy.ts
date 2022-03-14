@@ -14,7 +14,8 @@ export default class EconBuyCommand extends BaseCommand {
     constructor() {
         super("econ buy", "To buy a charcters");
     }
-    async run(client: DiscordClient, interaction: CommandInteraction) {
+    async run(client: DiscordClient, interaction: CommandInteraction<"cached">) {
+        if(!client.guildSettings.get(interaction.guildId)?.misc.econ)return
         let ID = interaction.options.getInteger("id", true);
         if (ID < 0) {
             interaction.followUp({

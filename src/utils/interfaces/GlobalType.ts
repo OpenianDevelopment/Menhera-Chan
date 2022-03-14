@@ -71,6 +71,15 @@ export interface welcomeSystemSettings {
 }
 
 /**
+ * # misc
+ * @param econ enable/disable econ
+ */
+
+export interface misc{
+    econ: boolean
+}
+
+/**
  * # Guild Settings
  * @param expSettings The super cool *one of the first features of menhera* xp (but that is it's settings).
  *
@@ -78,12 +87,14 @@ export interface welcomeSystemSettings {
  * @param antispamSettings {AntispamSystemSettings}
  * @param moderationSettings {moderationSystemSettings}
  * @param welcomeSettings {welcomeSystemSettings}
+ * @param misc {misc}
  */
 export interface GuildSettings {
     expSettings: ExpSystemSettings;
     antispamSettings: AntispamSystemSettings;
     moderationSettings: moderationSystemSettings;
     welcomeSettings: welcomeSystemSettings;
+    misc: misc;
 }
 /**
  * # Raw guild Settings
@@ -94,4 +105,5 @@ export interface rawGuildSettings {
     antispamSettings: AntispamSystemSettings,
     moderationSettings: moderationSystemSettings,
     welcomeSettings: welcomeSystemSettings,
+    misc: misc
 }

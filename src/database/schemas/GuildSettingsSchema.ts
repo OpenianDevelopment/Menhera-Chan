@@ -39,6 +39,9 @@ const guildSettingsSchema = new Schema({
         welcomeRoles: Array,
         CustomWelcomeBackground: String,
     },
+    misc: {
+        econ:Boolean
+    }
 });
 
 export const guildSettings = model("GuildSettings", guildSettingsSchema);
