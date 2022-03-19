@@ -10,7 +10,10 @@ export default class EconBalanceCommand extends BaseCommand {
         super("econ balance", "Shows Balance");
     }
     async run(client: DiscordClient, interaction: CommandInteraction<"cached">) {
-        if(!client.guildSettings.get(interaction.guildId)?.misc.econ)return
+        if(!client.guildSettings.get(interaction.guildId)?.misc.econ){
+            interaction.followUp({content:"This command is disabled in this server"})
+            return
+        }
         const balance = await getBalance(interaction.user.id!);
         const embed = new CustomEmbed(interaction, false)
             .setTitle(`${interaction.user.username}'s Balance`)

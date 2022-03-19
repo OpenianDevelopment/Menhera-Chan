@@ -25,7 +25,10 @@ export default class EconBegCommand extends BaseCommand {
         super("econ beg", "Beg for money");
     }
     async run(client: DiscordClient, interaction: CommandInteraction<"cached">) {
-        if(!client.guildSettings.get(interaction.guildId)?.misc.econ)return
+        if(!client.guildSettings.get(interaction.guildId)?.misc.econ){
+            interaction.followUp({content:"This command is disabled in this server"})
+            return
+        }
         let user: any = interaction.user.id;
         let character: any = await getWaifuByID(
             (Math.floor(Math.random() * 43527) + 1).toString()

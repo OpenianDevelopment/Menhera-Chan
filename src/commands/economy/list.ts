@@ -9,7 +9,11 @@ export default class EconListCommand extends BaseCommand {
     constructor() {
         super("econ list", "List of wiafu/husbando");
     }
-    async run(client: DiscordClient, interaction: CommandInteraction) {
+    async run(client: DiscordClient, interaction: CommandInteraction<"cached">) {
+        if(!client.guildSettings.get(interaction.guildId)?.misc.econ){
+            interaction.followUp({content:"This command is disabled in this server"})
+            return
+        }
         const embed = new CustomEmbed(interaction, false)
             .setTitle(`Waifu/Husbando List`)
             .setDescription(
