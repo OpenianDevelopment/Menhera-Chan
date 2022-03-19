@@ -6,6 +6,6 @@ const antispamSchema = new mongoose.Schema({
     count: Number,
     mute: String,
     warn: String,
-    delete: String    
+    delete: String
 })
-module.exports = mongoose.model('antispam',antispamSchema)
+module.exports = mongoose.model('antispam', antispamSchema)

@@ -7,7 +7,7 @@ const userWarn = mongoose.Schema({
 
 })
 const warnSchema = mongoose.Schema({
-    
+
     guild: String,
     warning: [userWarn]
 })

@@ -4,4 +4,4 @@ const newsSchema = new mongoose.Schema({
     channels: Array
 })
 
-module.exports = mongoose.model('news',newsSchema);
+module.exports = mongoose.model('news', newsSchema);

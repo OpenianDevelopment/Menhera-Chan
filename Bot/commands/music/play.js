@@ -1,6 +1,6 @@
 const { play } = require("../../function/musicfunctions");
 const ytdl = require("ytdl-core");
-const yts = require( 'yt-search' )
+const yts = require('yt-search')
 const scdl = require("soundcloud-downloader");
 
 
@@ -11,38 +11,38 @@ module.exports = {
   aliases: ["p"],
   description: "Plays audio from YouTube or Soundcloud",
   category: "music",
-  run: async(client,message, args)=>{
+  run: async (client, message, args) => {
     const { channel } = message.member.voice;
 
     const serverQueue = message.client.queue.get(message.guild.id);
     if (!args.length) {
-        const embed = new MessageEmbed().setDescription('Sweety, You need to put something so i can play it!').setColor('RED');
-        return message.channel.send(embed);
+      const embed = new MessageEmbed().setDescription('Sweety, You need to put something so i can play it!').setColor('RED');
+      return message.channel.send(embed);
     }
 
     if (!channel) {
-        const embed = new MessageEmbed().setDescription('Aww! Did you forget to join the Voice Channel Sweety?').setColor('RED');
-        return message.channel.send(embed);
+      const embed = new MessageEmbed().setDescription('Aww! Did you forget to join the Voice Channel Sweety?').setColor('RED');
+      return message.channel.send(embed);
     }
-        
-    
-    if (serverQueue && channel !== message.guild.me.voice.channel){
-        const embed = new MessageEmbed().setDescription('Honey! You need to be in same channel as me').setColor('RED');
-        return message.channel.send(embed);
-    }
-     
 
-    
+
+    if (serverQueue && channel !== message.guild.me.voice.channel) {
+      const embed = new MessageEmbed().setDescription('Honey! You need to be in same channel as me').setColor('RED');
+      return message.channel.send(embed);
+    }
+
+
+
 
     const permissions = channel.permissionsFor(client.user);
-    if (!permissions.has("CONNECT")){
-        const embed = new MessageEmbed().setDescription('Dang it! I don\'t have permission to connect to the channel.').setColor('RED');
-        return message.channel.send(embed);
+    if (!permissions.has("CONNECT")) {
+      const embed = new MessageEmbed().setDescription('Dang it! I don\'t have permission to connect to the channel.').setColor('RED');
+      return message.channel.send(embed);
     }
-     
-    if (!permissions.has("SPEAK")){
-        const embed = new MessageEmbed().setDescription('Oh no! Sweety! I don\'t have permission to speak in the channel.').setColor('RED');
-        return message.channel.send(embed);
+
+    if (!permissions.has("SPEAK")) {
+      const embed = new MessageEmbed().setDescription('Oh no! Sweety! I don\'t have permission to speak in the channel.').setColor('RED');
+      return message.channel.send(embed);
     }
 
     const search = args.join(" ");
@@ -54,8 +54,8 @@ module.exports = {
 
     // Start the playlist if playlist url was provided
     if (!videoPattern.test(args[0]) && playlistPattern.test(args[0])) {
-      return client.commands.get("playlist").run(client,message, args);
-    } 
+      return client.commands.get("playlist").run(client, message, args);
+    }
     const queueConstruct = {
       textChannel: message.channel,
       channel,
@@ -96,9 +96,9 @@ module.exports = {
     } else {
       try {
         const results = await yts(search);
-        
-        
-        
+
+
+
         songInfo = await ytdl.getInfo(results.all[0].url);
         song = {
           title: songInfo.videoDetails.title,

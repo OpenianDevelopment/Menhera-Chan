@@ -6,11 +6,11 @@ const guildSchema = mongoose.Schema({
     welcomechannel: String,
     invitelog: String,
     xplog: String,
-    xpsystem: Number, 
+    xpsystem: Number,
     xp: Number,
     xpcooldown: Number,
     muterole: String,
     antispam: Number,
 });
 
-module.exports = mongoose.model('guildSettings',guildSchema);
+module.exports = mongoose.model('guildSettings', guildSchema);

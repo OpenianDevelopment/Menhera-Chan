@@ -1,8 +1,12 @@
 {
+    "owners": [],
     "prefix":"!",
     "token": "",
+    "mongo_uri": "",
     "youtube_api": "",
+    "DBL_TOKEN": "",
+    "GuildUpdates_Webhook": "",
     "MAX_PLAYLIST_SIZE": 10,
     "PRUNING": false,
-    "STAY_TIME": 30,
+    "STAY_TIME": 30
 }

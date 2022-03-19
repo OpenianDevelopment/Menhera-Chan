@@ -5,4 +5,4 @@ const RoleSchema = mongoose.Schema({
     roles: Array
 });
 
-module.exports = mongoose.model('autorole',RoleSchema);
+module.exports = mongoose.model('autorole', RoleSchema);

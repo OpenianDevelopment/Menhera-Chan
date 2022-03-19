@@ -12,29 +12,29 @@ module.exports = {
   aliases: ["pl"],
   description: "Play a playlist from youtube",
   category: "music",
-  run:async (client, message, args)=>{
+  run: async (client, message, args) => {
     const { channel } = message.member.voice;
     const serverQueue = message.client.queue.get(message.guild.id);
 
-    
-    if (!channel){
-        const embed = new MessageEmbed().setDescription('Aww! Did you forget to join the Voice Channel Sweety?').setColor('RED');
-        return message.channel.send(embed);
+
+    if (!channel) {
+      const embed = new MessageEmbed().setDescription('Aww! Did you forget to join the Voice Channel Sweety?').setColor('RED');
+      return message.channel.send(embed);
     }
 
     const permissions = channel.permissionsFor(message.client.user);
-    if (!permissions.has("CONNECT")){
-        const embed = new MessageEmbed().setDescription('Dang it! I don\'t have permission to connect to the channel.').setColor('RED');
-        return message.channel.send(embed);
+    if (!permissions.has("CONNECT")) {
+      const embed = new MessageEmbed().setDescription('Dang it! I don\'t have permission to connect to the channel.').setColor('RED');
+      return message.channel.send(embed);
     }
-     
-    if (!permissions.has("SPEAK")){
-        const embed = new MessageEmbed().setDescription('Oh no! Sweety! I don\'t have permission to speak in the channel.').setColor('RED');
-        return message.channel.send(embed);
+
+    if (!permissions.has("SPEAK")) {
+      const embed = new MessageEmbed().setDescription('Oh no! Sweety! I don\'t have permission to speak in the channel.').setColor('RED');
+      return message.channel.send(embed);
     }
-    if (serverQueue && channel !== message.guild.me.voice.channel){
-        const embed = new MessageEmbed().setDescription('Honey! You need to be in same channel as me').setColor('RED');
-        return message.channel.send(embed);
+    if (serverQueue && channel !== message.guild.me.voice.channel) {
+      const embed = new MessageEmbed().setDescription('Honey! You need to be in same channel as me').setColor('RED');
+      return message.channel.send(embed);
     }
     const search = args.join(" ");
     const pattern = /^.*(youtu.be\/|list=)([^#\&\?]*).*/gi;
@@ -57,8 +57,8 @@ module.exports = {
     if (urlValid) {
       try {
         playlist = await youtube.getPlaylist(url, { part: "snippet" });
-        var data = await globalFunc.bl(message.author.id,`dev`);
-        if(data) MAX_PLAYLIST_SIZE = 50;
+        var data = await globalFunc.bl(message.author.id, `dev`);
+        if (data) MAX_PLAYLIST_SIZE = 50;
         videos = await playlist.getVideos(MAX_PLAYLIST_SIZE || 10, { part: "snippet" });
       } catch (error) {
         console.error(error);
@@ -78,8 +78,8 @@ module.exports = {
       try {
         const results = await youtube.searchPlaylists(search, 1, { part: "snippet" });
         playlist = results[0];
-        var data = await globalFunc.bl(message.author.id,`dev`);
-        if(data) MAX_PLAYLIST_SIZE = 50;
+        var data = await globalFunc.bl(message.author.id, `dev`);
+        if (data) MAX_PLAYLIST_SIZE = 50;
         videos = await playlist.getVideos(MAX_PLAYLIST_SIZE || 10, { part: "snippet" });
       } catch (error) {
         console.error(error);

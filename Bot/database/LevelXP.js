@@ -4,7 +4,7 @@ const userSchema = mongoose.Schema({
     xp: Number,
     level: Number,
     minxp: Number,
-    maxxp: Number 
+    maxxp: Number
 })
 
 const xpSchema = mongoose.Schema({

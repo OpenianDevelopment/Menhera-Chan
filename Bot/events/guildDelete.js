@@ -1,12 +1,10 @@
-const {removeGuildSetting, removeXPBlacklist, removeGuildModerations, removeGuildWarns, removeGuildXP} = require('../function/dbfunctions')
+const { removeGuildSetting, removeXPBlacklist, removeGuildModerations, removeGuildWarns, removeGuildXP } = require('../function/dbfunctions')
 const { deleteWelcomeRole, deleteNews, deleteWelcome, deleteAntispam } = require('../function/dbfunctions(2)')
 const discordwh = require("discord-webhook-messages");
-const webhookURL = ""; /*the discord webhook url*/
-if(webhookURL) {
-    const webhook = new discordwh.Webhook(webhookURL);
-}
+const botconfig = require("../botconfig.json");
+const webhook = new discordwh.Webhook(botconfig.GuildUpdates_Webhook);
 
-module.exports = (client,guilds) => {
+module.exports = (client, guilds) => {
     removeGuildSetting(guilds.id);
     removeXPBlacklist(guilds.id);
     removeGuildModerations(guilds.id);
@@ -15,6 +13,7 @@ module.exports = (client,guilds) => {
     deleteWelcomeRole(guilds.id)
     deleteNews(guilds.id);
     deleteWelcome(guilds.id);
-    deleteAntispam(guilds.id);
-    webhookURL ? webhook.sendMessage(`**[REMOVE]** ${guilds.name}`) : null;
+    deleteAntispam(guilds.id)
+
+    webhook.sendMessage(`**[REMOVE]** ${guilds.name}`);
 }

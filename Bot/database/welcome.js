@@ -4,7 +4,7 @@ const welcomeSchema = mongoose.Schema({
     guild: String,
     msg: String,
     dm: String,
-    image:String,
+    image: String,
     welcomedm: Number,
     welcomemsg: Number,
     welcomeimage: Number

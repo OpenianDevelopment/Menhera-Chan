@@ -6,11 +6,11 @@ module.exports = {
   aliases: ["ly"],
   description: "Get lyrics for the currently playing song",
   category: "music",
-  run: async(client,message,args)=>{
+  run: async (client, message, args) => {
     const queue = message.client.queue.get(message.guild.id);
     if (!queue) {
-        const embed = new MessageEmbed().setDescription('Aww Sweety! There is nothing playing').setColor('RED')
-        return message.reply(embed).catch(console.error);
+      const embed = new MessageEmbed().setDescription('Aww Sweety! There is nothing playing').setColor('RED')
+      return message.reply(embed).catch(console.error);
     }
 
     let lyrics = null;

@@ -1,27 +1,53 @@
 //Requirements
-const {Client, Collection} = require('discord.js');
+const { Client, Collection } = require("discord.js");
+const mongoose = require("mongoose");
+const client = new Client({ partials: ["MESSAGE", "REACTION", "CHANNEL"] });
+const fs = require("fs");
+const { token, mongo_uri } = require("./botconfig.json");
+const mongoid = mongo_uri;
 
-const client = new Client();
-const fs = require('fs');
-const {token} = require('./botconfig.json')
-client.invite = new Map()
-client.queue = new Map()
+process
+    .on("uncaughtException", (err) => {
+        console.log("UNCAUGHT", err);
+    })
+    .on("uncaughtExceptionMonitor", (err) => {
+        console.log("UNCAUGHT MONITOR", err);
+    })
+    .on("unhandledRejection", (err) => {
+        console.log("UNHANDLED", err);
+    });
+
+
+mongoose.connect(
+    mongoid,
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+    },
+    (err) => {
+        if (err) throw err;
+        console.log("Connection Completed");
+    }
+);
+
+client.invite = new Map();
+
 //Commands handlers prerequisits
 client.commands = new Collection();
 client.SlashCommands = new Collection();
 client.aliases = new Collection();
-client.categories = fs.readdirSync('./commands/');
-client.cooldowns = new Map();
+client.categories = fs.readdirSync("./commands/");
+client.cooldowns = new Collection();
 //reading dir for handlers
-['slash','command','events'].forEach(handlers=>{
+["slash", "command", "events"].forEach((handlers) => {
     require(`./handlers/${handlers}`)(client); //getting handler code from handlers folder
 });
 
-
-client.login(token) //login
+client.login(token); //login
 
 /*
-Copyright (C) 2021  Major Senpai スレーブマスター#1091, Julio_#7057, and Noro#4477
+Copyright (C) 2022  Major Senpai スレーブマスター#7814, Julio_#7057, and Noro#4477
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

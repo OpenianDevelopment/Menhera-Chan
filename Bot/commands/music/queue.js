@@ -7,19 +7,19 @@ module.exports = {
   aliases: ["q"],
   description: "Show the music queue and now playing.",
   category: "music",
-  run:async (client,message,args)=> {
+  run: async (client, message, args) => {
     const permissions = message.channel.permissionsFor(message.client.user);
-    if (!permissions.has(["MANAGE_MESSAGES", "ADD_REACTIONS"])){
-		const embed = new MessageEmbed().setDescription('Queue command requires `MANAGE_MESSAGES` and `ADD_REACTIONS` permission. Kindly provide me Sugar Pie').setColor('RED')
-		message.reply(embed);
-	}
-      
+    if (!permissions.has(["MANAGE_MESSAGES", "ADD_REACTIONS"])) {
+      const embed = new MessageEmbed().setDescription('Queue command requires `MANAGE_MESSAGES` and `ADD_REACTIONS` permission. Kindly provide me Sugar Pie').setColor('RED')
+      message.reply(embed);
+    }
+
 
     const queue = message.client.queue.get(message.guild.id);
-    if (!queue){
-		const embed = new MessageEmbed().setDescription('Aww Sweety! There is nothing playing').setColor('RED')
-        return message.reply(embed).catch(console.error);
-	}
+    if (!queue) {
+      const embed = new MessageEmbed().setDescription('Aww Sweety! There is nothing playing').setColor('RED')
+      return message.reply(embed).catch(console.error);
+    }
 
     let currentPage = 0;
     const embeds = generateQueueEmbed(message, queue.songs);

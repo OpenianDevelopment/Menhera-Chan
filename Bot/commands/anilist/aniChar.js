@@ -1,15 +1,15 @@
 const Discord = require('discord.js');
 const fetch = require('cross-fetch');
-const {embedPage,anidata} = require('../../function/functions')
+
 module.exports = {
-    name: 'anichar',
-    description: 'to look up characters',
-    usage: '<character name>',
-    args: true,
-    category:'anilist',
-    run:async(client,message,args)=>{
-        let name = args.slice(0).join(' ');
-var query = `
+  name: 'anichar',
+  description: 'to look up characters',
+  usage: '<character name>',
+  args: true,
+  category: 'anilist',
+  run: async (client, message, args) => {
+    let name = args.slice(0).join(' ');
+    var query = `
 query ($id: Int,$search: String) {
   Character(id: $id, search: $search) {
     name {
@@ -37,47 +37,57 @@ query ($id: Int,$search: String) {
 }
 `;
 
-var variables = {
-    search: name,
-};
-
-var url = 'https://graphql.anilist.co',
-    options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-            query: query,
-            variables: variables
-        })
+    var variables = {
+      search: name,
     };
 
-var AnimeData = await anidata(url,options)
+    var url = 'https://graphql.anilist.co',
+      options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          query: query,
+          variables: variables
+        })
+      };
 
-    if(AnimeData == undefined) return message.channel.send(`Could not find anything`)
+    var AnimeData = await fetch(url, options)
+      .then(handleResponse)
+      .catch(handleError);
+
+    if (AnimeData == undefined) return message.channel.send(`Could not find anything`)
     var data = AnimeData.data.Character
     console.log(data)
     var anime = ""
     var manga = ""
     await data.anime.nodes.forEach(element => {
-        anime = element.title.romaji +` \n`+  anime
+      anime = element.title.romaji + ` \n` + anime
     });
     await data.manga.nodes.forEach(element => {
-        manga = element.title.romaji+` \n`+manga
+      manga = element.title.romaji + ` \n` + manga
     });
     const embed = new Discord.MessageEmbed()
-    .setTitle(data.name.full)
-    .setImage(data.image.large)
-    .addField("Anime",anime)
-    .addField("Manga",manga)
-    if(data.description.length < 2048){
-      embed.setDescription(data.description,{split: true})
+      .setTitle(data.name.full)
+      .setImage(data.image.large)
+      .addField("Anime", anime)
+      .addField("Manga", manga)
+    if (data.description.length < 2048) {
+      embed.setDescription(data.description, { split: true })
       message.channel.send(embed)
-    }else{
+    } else {
       message.channel.send(embed)
-      message.channel.send(data.description,{split: true})
+      message.channel.send(data.description, { split: true })
     }
-    }
+  }
+}
+function handleResponse(response) {
+  return response.json().then(function (json) {
+    return response.ok ? json : Promise.reject(json);
+  });
+}
+function handleError(error) {
+  console.error(error);
 }

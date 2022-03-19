@@ -6,11 +6,11 @@ module.exports = {
   aliases: ["r"],
   description: "Resume currently playing music",
   category: "music",
-  run:(client, message, args) => {
+  run: (client, message, args) => {
     const queue = message.client.queue.get(message.guild.id);
     if (!queue) {
-        const embed = new MessageEmbed().setDescription('Aww Sweety! There is nothing playing').setColor('RED')
-        return message.reply(embed).catch(console.error);
+      const embed = new MessageEmbed().setDescription('Aww Sweety! There is nothing playing').setColor('RED')
+      return message.reply(embed).catch(console.error);
     }
     if (!canModifyQueue(message.member)) return;
 
@@ -18,7 +18,7 @@ module.exports = {
       queue.playing = true;
       queue.connection.dispatcher.resume();
       const resumed = new MessageEmbed().setDescription(`${message.author} ▶ resumed the music!`).setColor('GREEN')
-            
+
       return queue.textChannel.send(resumed).catch(console.error);
     }
 

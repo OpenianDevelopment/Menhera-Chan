@@ -4,5 +4,5 @@ const economySchema = new mongoose.Schema({
     cooldown: Number
 })
 
-module.exports = mongoose.model('economySettings',economySchema)
+module.exports = mongoose.model('economySettings', economySchema)
 

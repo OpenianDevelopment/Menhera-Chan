@@ -8,4 +8,4 @@ const Waifu = new mongoose.Schema({
     cost: String,
     wish: Number
 })
-module.exports = mongoose.model('waifu',Waifu)
+module.exports = mongoose.model('waifu', Waifu)

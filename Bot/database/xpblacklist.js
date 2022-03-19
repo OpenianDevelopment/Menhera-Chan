@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const channelSchema = mongoose.Schema({
-    channel:String
+    channel: String
 })
 
 const guildBlackList = mongoose.Schema({
@@ -8,4 +8,4 @@ const guildBlackList = mongoose.Schema({
     channels: [channelSchema]
 })
 
-module.exports = mongoose.model('xpblacklist',guildBlackList);
+module.exports = mongoose.model('xpblacklist', guildBlackList);

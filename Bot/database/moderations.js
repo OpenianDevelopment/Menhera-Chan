@@ -6,7 +6,7 @@ const moderations = mongoose.Schema({
 
 })
 const ModSchema = mongoose.Schema({
-    
+
     guild: String,
     moderations: [moderations]
 })

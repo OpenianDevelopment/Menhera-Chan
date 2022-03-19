@@ -7,24 +7,32 @@ module.exports = {
     usage: "[command | alias]",
     args: true,
     run: async (client, message, args) => {
-            var embed1;
-            var text=args.join(" ")
-            const embed2 = new Discord.MessageEmbed()
+        var embed1;
+        var text = args.join(" ");
+        const embed2 = new Discord.MessageEmbed()
             .setDescription("RED")
             .setDescription(`No information found for command **${text.toLowerCase()}**`)
-            embed1 = getCMD(client, text)
-            if(embed1 == undefined)return message.channel.send(embed2)
-            return message.channel.send(embed1)
+        embed1 = await getCMD(client, text, message);
+        if (embed1 === undefined) return message.channel.send(embed2)
+        return message.channel.send(embed1)
     }
 }
-function getCMD(client, input) {
+async function getCMD(client, input, message) {
     const embed = new Discord.MessageEmbed()
 
     const cmd = client.commands.get(input.toLowerCase()) || client.commands.get(client.aliases.get(input.toLowerCase()));
-    
-    let info = `No information found for command **${input.toLowerCase()}**`;
 
-    if (!cmd)return
+    var info;
+    if (!cmd) {
+        info = `No information found for command **${input.toLowerCase()}**`;
+        return undefined;
+    }
+    const { bl } = require('../../function/dbfunctions');
+    const Adev = await bl(message.author.id, `dev`);
+    if (cmd.category === "dev" && !Adev) {
+        info = `No information found for command **${input.toLowerCase()}**`;
+        return undefined;
+    }
 
     if (cmd.name) info = `**Command name**: ${cmd.name}`;
     if (cmd.aliases) info += `\n**Aliases**: ${cmd.aliases.map(a => `\`${a}\``).join(", ")}`;
