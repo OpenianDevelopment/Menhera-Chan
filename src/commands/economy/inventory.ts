@@ -12,7 +12,11 @@ export default class EconInvCommand extends BaseCommand {
     constructor() {
         super("econ inventory", "Shows Collection of Waifus");
     }
-    async run(client: DiscordClient, interaction: CommandInteraction) {
+    async run(client: DiscordClient, interaction: CommandInteraction<"cached">) {
+        if(!client.guildSettings.get(interaction.guildId)?.misc.econ){
+            interaction.followUp({content:"This command is disabled in this server"})
+            return
+        }
         const user = interaction.user.id!;
         const data = await getUserWaifus(user);
         if (data.length < 1) {

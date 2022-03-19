@@ -12,7 +12,11 @@ export default class EconSellCommand extends BaseCommand {
     constructor() {
         super("econ sell", "Sell Waifu");
     }
-    async run(client: DiscordClient, interaction: CommandInteraction) {
+    async run(client: DiscordClient, interaction: CommandInteraction<"cached">) {
+        if(!client.guildSettings.get(interaction.guildId)?.misc.econ){
+            interaction.followUp({content:"This command is disabled in this server"})
+            return
+        }
         let ID = interaction.options.getInteger("id", true);
         if (ID < 0) {
             interaction.followUp({

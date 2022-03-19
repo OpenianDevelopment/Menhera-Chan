@@ -48,7 +48,7 @@ export default class interactionCreateEvent extends BaseEvent {
         const command = client.commands.get(cmd_name);
         if (!command) return;
         //econ stuff here
-        econ(interaction);
+        econ(interaction,client);
         //econ end here
         const ExtraAdsCommands: string[] = ["settings view", "mod"];
         try {

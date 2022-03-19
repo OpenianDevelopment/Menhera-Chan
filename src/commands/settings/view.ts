@@ -32,7 +32,7 @@ export default class viewCommand extends BaseCommand {
             true,
             false
         ).setDescription("**Experience settings**");
-        let antispam: AntispamSystemSettings = settings.antiSpamSettings;
+        let antispam: AntispamSystemSettings = settings.antispamSettings;
         const antispamEmbed = new CustomEmbed(
             interaction,
             false,

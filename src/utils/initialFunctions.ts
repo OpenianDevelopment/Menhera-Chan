@@ -64,6 +64,7 @@ export async function cacheGuildSettings(client: DiscordClient) {
             antispamSettings: guildSettings.antispamSettings,
             moderationSettings: guildSettings.moderationSettings,
             welcomeSettings: guildSettings.welcomeSettings,
+            misc: guildSettings.misc
         });
     }
 }
@@ -75,6 +76,7 @@ export async function updateCacheGuildSettings(client:DiscordClient,guildID:stri
         antispamSettings: guildSettings.antispamSettings,
         moderationSettings: guildSettings.moderationSettings,
         welcomeSettings: guildSettings.welcomeSettings,
+        misc: guildSettings.misc
     });
 }
 

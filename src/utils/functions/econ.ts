@@ -1,9 +1,12 @@
 import { Interaction } from "discord.js";
+import DiscordClient from "../../client/client";
 import { addBalance } from "../../database/functions/EconFunctions";
 const ecoMap = new Map();
 const cooldown = 15000;
 
-export function econ(data: Interaction) {
+export function econ(data: Interaction,client: DiscordClient) {
+    if(!data.guildId)return
+    if(!client.guildSettings.get(data.guildId)?.misc.econ)return
     const user = data.member?.user.id!;
     let balance = Math.floor(Math.random() * 9) + 1;
     if (balance > 1) {
