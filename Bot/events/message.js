@@ -17,7 +17,7 @@ module.exports = async (client, message) => {
     news(client, message);
     if (message.author.bot) return; //return if message is from bot
     message.guild.botSetting = await dbfunctions.getGuildSetting(message.guild.id);
-    if (message.guild.botSetting == undefined) return message.channel.send('Database not found please contact support');
+    if (message.guild.botSetting == undefined) return;
     prefix = message.guild.botSetting.prefix;
 
     if (message.guild.botSetting.antispam === 1) {

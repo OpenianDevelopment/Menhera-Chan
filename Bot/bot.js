@@ -1,7 +1,7 @@
 //Requirements
 const { Client, Collection } = require("discord.js");
 const mongoose = require("mongoose");
-const client = new Client({ partials: ["MESSAGE", "REACTION", "CHANNEL"] });
+const client = new Client({ partials: ["MESSAGE", "REACTION", "CHANNEL"], ws: { version: 7 } });
 const fs = require("fs");
 const { token, mongo_uri } = require("./botconfig.json");
 const mongoid = mongo_uri;

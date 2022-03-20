@@ -4,16 +4,16 @@ const discordwh = require("discord-webhook-messages");
 const botconfig = require("../botconfig.json");
 const webhook = new discordwh.Webhook(botconfig.GuildUpdates_Webhook);
 
-module.exports = (client, guilds) => {
-    removeGuildSetting(guilds.id);
-    removeXPBlacklist(guilds.id);
-    removeGuildModerations(guilds.id);
-    removeGuildWarns(guilds.id);
-    removeGuildXP(guilds.id);
-    deleteWelcomeRole(guilds.id)
-    deleteNews(guilds.id);
-    deleteWelcome(guilds.id);
-    deleteAntispam(guilds.id)
+module.exports = (client, guild) => {
+    removeGuildSetting(guild.id);
+    removeXPBlacklist(guild.id);
+    removeGuildModerations(guild.id);
+    removeGuildWarns(guild.id);
+    removeGuildXP(guild.id);
+    deleteWelcomeRole(guild.id)
+    deleteNews(guild.id);
+    deleteWelcome(guild.id);
+    deleteAntispam(guild.id)
 
-    webhook.sendMessage(`**[REMOVE]** ${guilds.name}`);
+    webhook.sendMessage(`**[REMOVE]** ${guild.name}`);
 }

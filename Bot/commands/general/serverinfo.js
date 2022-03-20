@@ -58,9 +58,7 @@ function checks(message, embed) {
   if (message.guild.features) {
     var features = message.guild.features.map(f => {
       var newf = f.toLowerCase()
-        .replace("_", " ")
-        .replace("_", " ")
-        .replace("_", " ");
+        .replace(/_/g, " ");
       var capedf = capitalizeFirstLetter(newf);
       return `**` + capedf + `**`
     }).join(",\n")
