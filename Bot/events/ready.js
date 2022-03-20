@@ -18,7 +18,7 @@ const botconfig = require("../botconfig.json");
 
 module.exports = (client) => {
 	const dbl = new DBL(
-		botconfig.DBL_token,
+		botconfig.DBL_TOKEN,
 		client
 	);
 
