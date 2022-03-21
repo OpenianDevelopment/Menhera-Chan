@@ -1,5 +1,5 @@
 //Waifu
-interface WaifuDB {
+export interface WaifuDB {
     id: number;
     name: string;
     image: string;
@@ -9,12 +9,12 @@ interface WaifuDB {
     wish: number;
 }
 //EconUser
-interface EconomyUserDB {
+export interface EconomyUserDB {
     user: string;
     balance: number;
     characters: [characterSchemaDB];
 }
-interface characterSchemaDB {
+export interface characterSchemaDB {
     characterId: string;
 }
 //something else

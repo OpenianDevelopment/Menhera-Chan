@@ -64,22 +64,30 @@ export async function cacheGuildSettings(client: DiscordClient) {
             antispamSettings: guildSettings.antispamSettings,
             moderationSettings: guildSettings.moderationSettings,
             welcomeSettings: guildSettings.welcomeSettings,
-            misc: guildSettings.misc
+            starboardSettings: guildSettings.starboardSettings,
+            misc: guildSettings.misc,
         });
     }
 }
 
-export async function updateCacheGuildSettings(client:DiscordClient,guildID:string) {
+export async function updateCacheGuildSettings(
+    client: DiscordClient,
+    guildID: string
+) {
     let guildSettings = await getGuildSettings(guildID);
-    client.guildSettings.set(guildID,{
+    client.guildSettings.set(guildID, {
         expSettings: guildSettings.expSettings,
         antispamSettings: guildSettings.antispamSettings,
         moderationSettings: guildSettings.moderationSettings,
         welcomeSettings: guildSettings.welcomeSettings,
-        misc: guildSettings.misc
+        starboardSettings: guildSettings.starboardSettings,
+        misc: guildSettings.misc,
     });
 }
 
-export async function removeCacheGuildSettings(client:DiscordClient,guildID:string) {
-    client.guildSettings.delete(guildID)    
+export async function removeCacheGuildSettings(
+    client: DiscordClient,
+    guildID: string
+) {
+    client.guildSettings.delete(guildID);
 }

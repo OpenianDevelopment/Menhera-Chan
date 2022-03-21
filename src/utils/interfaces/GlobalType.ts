@@ -10,7 +10,7 @@ export interface ExpSystemSettings {
     increment: number;
     timeDifference: number;
     blacklistChannel: Array<string>;
-    expLogChannel:string | null;
+    expLogChannel: string | null;
 }
 
 /**
@@ -42,7 +42,7 @@ export interface AntispamSystemSettings {
  */
 export interface moderationSystemSettings {
     enable: boolean;
-    modLogChannel:string | null;
+    modLogChannel: string | null;
     modBlackList: Array<string>;
     urlBlock: boolean;
     urlWhiteList: Array<string>;
@@ -63,11 +63,21 @@ export interface welcomeSystemSettings {
     enable: boolean;
     welcomeDM: boolean;
     welcomeChannel: boolean;
-    welcomeChannelID:string | null;
-    channelMessage:string | null;
-    dmMessage:string | null;
+    welcomeChannelID: string | null;
+    channelMessage: string | null;
+    dmMessage: string | null;
     welcomeRoles: Array<string>;
-    CustomWelcomeBackground:string | null;
+    CustomWelcomeBackground: string | null;
+}
+
+/**
+ * # StarBoard
+ * @param enable startboard is enabled or not
+ * @param channel starboard channel id
+ */
+export interface starboardSettings {
+    enable: boolean;
+    channel: string | null;
 }
 
 /**
@@ -75,8 +85,8 @@ export interface welcomeSystemSettings {
  * @param econ enable/disable econ
  */
 
-export interface misc{
-    econ: boolean
+export interface misc {
+    econ: boolean;
 }
 
 /**
@@ -94,16 +104,18 @@ export interface GuildSettings {
     antispamSettings: AntispamSystemSettings;
     moderationSettings: moderationSystemSettings;
     welcomeSettings: welcomeSystemSettings;
+    starboardSettings: starboardSettings;
     misc: misc;
 }
 /**
  * # Raw guild Settings
  */
 export interface rawGuildSettings {
-    guild_id:string,
-    expSettings: ExpSystemSettings,
-    antispamSettings: AntispamSystemSettings,
-    moderationSettings: moderationSystemSettings,
-    welcomeSettings: welcomeSystemSettings,
-    misc: misc
+    guild_id: string;
+    expSettings: ExpSystemSettings;
+    antispamSettings: AntispamSystemSettings;
+    moderationSettings: moderationSystemSettings;
+    welcomeSettings: welcomeSystemSettings;
+    starboardSettings: starboardSettings;
+    misc: misc;
 }

@@ -54,13 +54,13 @@ export default class interactionCreateEvent extends BaseEvent {
         try {
             await interaction.deferReply({ ephemeral: false });
             await command.run(client, interaction);
-            if (_ads.OnCooldown && ExtraAdsCommands.includes(cmd_name)) {
+            if (!_ads.OnCooldown && !ExtraAdsCommands.includes(cmd_name)) {
                 interaction.channel?.send({
                     embeds: [_ads.embed(interaction)],
                 });
-                _ads.OnCooldown = false;
+                _ads.OnCooldown = true;
                 setTimeout(function () {
-                    _ads.OnCooldown = true;
+                    _ads.OnCooldown = false;
                 }, 1000 * 60 * 60 * 6); // 6 hours
             }
             return;

@@ -13,7 +13,10 @@ const client = new DiscordClient({
         "GUILD_VOICE_STATES",
         "GUILD_MEMBERS",
         "GUILD_MESSAGES",
+        "GUILD_MESSAGE_REACTIONS",
     ],
+    partials: ["CHANNEL", "MESSAGE", "REACTION"],
+    allowedMentions: { parse: ["users"], repliedUser: true },
 });
 
 (async () => {

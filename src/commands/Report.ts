@@ -43,7 +43,7 @@ export default class ReportCommand extends BaseCommand {
         } catch {
             console.error;
             interaction.followUp({
-                content: "An error has occued while reporing.",
+                content: "An error has occurred while reporing.",
             });
         }
     }
