@@ -4,7 +4,11 @@ module.exports = (client, raw) => {
 		console.log(raw.d)
 		if (!command) return;
 		let guild = client.guilds.cache.get(raw.d.guild_id);
-		command.run(client, raw.d, guild);
+		try {
+			command.run(client, raw.d, guild);
+		} catch (err) {
+			console.log(`Error in ${raw.d.data.name}`)
+		}
 		return;
 	}
 };

@@ -8,6 +8,7 @@ module.exports = {
   description: "Show the music queue and now playing.",
   category: "music",
   run: async (client, message, args) => {
+    return message.reply(new MessageEmbed().setDescription("Menhera no longer support music 😔\nBut! you can [invite beat music](https://discord.com/api/oauth2/authorize?client_id=881050313870684180&permissions=274914658560&scope=applications.commands%20bot)!")).catch(console.error);
     const permissions = message.channel.permissionsFor(message.client.user);
     if (!permissions.has(["MANAGE_MESSAGES", "ADD_REACTIONS"])) {
       const embed = new MessageEmbed().setDescription('Queue command requires `MANAGE_MESSAGES` and `ADD_REACTIONS` permission. Kindly provide me Sugar Pie').setColor('RED')

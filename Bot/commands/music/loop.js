@@ -6,6 +6,7 @@ module.exports = {
   description: "Toggle music loop",
   category: "music",
   run: (client, message, args) => {
+    return message.reply(new MessageEmbed().setDescription("Menhera no longer support music 😔\nBut! you can [invite beat music](https://discord.com/api/oauth2/authorize?client_id=881050313870684180&permissions=274914658560&scope=applications.commands%20bot)!")).catch(console.error);
     const queue = message.client.queue.get(message.guild.id);
     if (!queue) {
       const embed = new MessageEmbed().setDescription('Aww Sweety! There is nothing playing').setColor('RED')

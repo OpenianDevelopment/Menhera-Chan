@@ -13,6 +13,7 @@ module.exports = {
   description: "Play a playlist from youtube",
   category: "music",
   run: async (client, message, args) => {
+    return message.reply(new MessageEmbed().setDescription("Menhera no longer support music 😔\nBut! you can [invite beat music](https://discord.com/api/oauth2/authorize?client_id=881050313870684180&permissions=274914658560&scope=applications.commands%20bot)!")).catch(console.error);
     const { channel } = message.member.voice;
     const serverQueue = message.client.queue.get(message.guild.id);
 

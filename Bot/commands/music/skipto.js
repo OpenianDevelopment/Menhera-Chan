@@ -6,6 +6,7 @@ module.exports = {
   description: "Skip to the selected queue number",
   category: "music",
   run: (client, message, args) => {
+    return message.reply(new MessageEmbed().setDescription("Menhera no longer support music 😔\nBut! you can [invite beat music](https://discord.com/api/oauth2/authorize?client_id=881050313870684180&permissions=274914658560&scope=applications.commands%20bot)!")).catch(console.error);
     if (!args.length || isNaN(args[0]))
       return message
         .reply(`Usage: ${module.exports.name} <Queue Number>`)
