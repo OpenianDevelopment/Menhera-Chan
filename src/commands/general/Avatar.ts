@@ -15,7 +15,11 @@ export default class AvatarCommand extends BaseCommand {
 
         const embed = new CustomEmbed(interaction)
             .setImage(
-                member.user.displayAvatarURL({ dynamic: true, size: 1024, format: "gif" })
+                member.user.displayAvatarURL({
+                    dynamic: true,
+                    size: 1024,
+                    format: "gif",
+                })
             )
             .setTimestamp();
         await interaction.followUp({ embeds: [embed] });

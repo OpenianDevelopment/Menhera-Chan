@@ -36,7 +36,7 @@ async function evaluate(
         new MessageButton()
             .setCustomId("delete-" + date)
             .setStyle("PRIMARY")
-            .setEmoji("❌")
+            .setEmoji(config.emojis.redCrossMark)
     );
     let botmsg: Message;
     try {

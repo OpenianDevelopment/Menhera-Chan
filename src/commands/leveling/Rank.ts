@@ -4,6 +4,7 @@ import { getLevel } from "../../database/functions/levelingOperation";
 import { RankCard } from "../../utils/leveling/rankCard";
 import { userXP } from "../../utils/interfaces/leveling";
 import BaseCommand from "../../structures/BaseCommand";
+import config from "../../utils/config";
 
 export default class RankCommand extends BaseCommand {
     constructor() {
@@ -35,7 +36,7 @@ export default class RankCommand extends BaseCommand {
             const embed = new MessageEmbed()
                 .setColor("RED")
                 .setDescription(
-                    `❌ I don't have any data for **${member.tag}**`
+                    `${config.emojis.redCrossMark} I don't have any data for **${member.tag}**`
                 );
             await interaction.followUp({
                 embeds: [embed],

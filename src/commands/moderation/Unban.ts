@@ -3,6 +3,7 @@ import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { clean, CustomEmbed } from "../../utils/functions/Custom";
+import config from "../../utils/config";
 
 export default class BanCommand extends BaseCommand {
     constructor() {
@@ -51,7 +52,9 @@ export default class BanCommand extends BaseCommand {
         });
 
         const ChannelEmbed = new MessageEmbed()
-            .setDescription(`✅ Unbanned **${user.tag}** `)
+            .setDescription(
+                `${config.emojis.whiteHeavyCheckMark} Unbanned **${user.tag}** `
+            )
             .setColor("GREEN");
         await interaction.followUp({ embeds: [ChannelEmbed] });
         await interaction.guild!.members.unban(user);

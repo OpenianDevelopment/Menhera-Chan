@@ -21,29 +21,37 @@ export default class MalUserCommand extends BaseCommand {
             .setURL(data.url)
             .setThumbnail(data.image_url)
             .addField(
-                `<:MenheraWave:738775873217495160> Anime`,
+                `${config.emojis.MenheraWave} Anime`,
                 data.anime_stats.total_entries.toString(),
                 true
             )
-            .addField(`👀 Watching`, data.anime_stats.watching.toString(), true)
             .addField(
-                `📊 Mean Score`,
+                `${config.emojis.eyes} Watching`,
+                data.anime_stats.watching.toString(),
+                true
+            )
+            .addField(
+                `${config.emojis.statistics} Mean Score`,
                 data.anime_stats.mean_score.toString(),
                 true
             )
             .addField(
-                `<:KomiBaka:743366396590948444> Manga`,
+                `${config.emojis.KomiBaka} Manga`,
                 data.manga_stats.total_entries.toString(),
                 true
             )
-            .addField(`👓 Reading`, data.manga_stats.reading.toString(), true)
             .addField(
-                `📊 Mean Score`,
+                `${config.emojis.glasses} Reading`,
+                data.manga_stats.reading.toString(),
+                true
+            )
+            .addField(
+                `${config.emojis.statistics} Mean Score`,
                 data.manga_stats.mean_score.toString(),
                 true
             )
             .addField(
-                `🍰 Birthday`,
+                `${config.emojis.cake} Birthday`,
                 new Date(data.birthday).toDateString(),
                 true
             )
