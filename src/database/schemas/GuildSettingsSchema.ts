@@ -39,9 +39,13 @@ const guildSettingsSchema = new Schema({
         welcomeRoles: Array,
         CustomWelcomeBackground: String,
     },
+    starboardSettings: {
+        enable: Boolean,
+        channel: String,
+    },
     misc: {
-        econ:Boolean
-    }
+        econ: Boolean,
+    },
 });
 
 export const guildSettings = model("GuildSettings", guildSettingsSchema);

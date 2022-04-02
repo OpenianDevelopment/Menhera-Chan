@@ -1,4 +1,8 @@
-import { rawGuildSettings } from "../../utils/interfaces/GlobalType";
+import { BooleanLiteral } from "typescript";
+import {
+    rawGuildSettings,
+    starboardSettings,
+} from "../../utils/interfaces/GlobalType";
 import { guildSettings } from "../schemas";
 function GuildScheme(guildID: string) {
     return new guildSettings({
@@ -34,11 +38,15 @@ function GuildScheme(guildID: string) {
             channelMessage: "Welcome {member} to {server}!",
             dmMessage: "Welcome {member} to {server}!",
             welcomeRoles: [],
-            CustomWelcomeBackground:null,
+            CustomWelcomeBackground: null,
         },
-        misc:{
+        starboardSettings: {
+            enable: false,
+            channel: null,
+        },
+        misc: {
             econ: true,
-        }
+        },
     });
 }
 
@@ -226,5 +234,16 @@ export async function UpdateExp(
     await guildSettings.findOneAndUpdate(
         { guild_id: guildID },
         { expSettings: data }
+    );
+}
+
+export async function UpdateStarboard(guildId: string, channelId?: string) {
+    const starData: starboardSettings = (await getGuildSettings(guildId))
+        .starboardSettings;
+    if (!starData) return;
+    if (!channelId) return starData;
+    return await guildSettings.findOneAndUpdate(
+        { guild_id: guildId },
+        { starboardSettings: { channel: channelId } }
     );
 }

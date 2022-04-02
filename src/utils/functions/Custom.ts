@@ -34,7 +34,7 @@ export function capFirstLetter(value: string) {
 }
 
 export const _ads = {
-    OnCooldown: true,
+    OnCooldown: false,
     embed: function (data: CommandInteraction | Message) {
         return new CustomEmbed(data).setDescription(
             `You can also **[vote for us on top.gg](https://top.gg/bot/${

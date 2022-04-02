@@ -12,8 +12,8 @@ export default class messageCreateEvent extends BaseEvent {
     async run(client: DiscordClient, message: Message) {
         if (message.channel.type == "DM") return;
         if (message.author.bot) return;
-        if(await UrlRemove(client,message))return
-        exp(client,message)
+        if (await UrlRemove(client, message)) return;
+        exp(client, message);
         const mentionRegex = new RegExp(`^<@(!|)${client.user!.id}>`, "ig");
         if (!mentionRegex.test(message.content)) {
             return;

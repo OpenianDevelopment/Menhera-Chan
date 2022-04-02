@@ -22,7 +22,7 @@ export async function welcomeMsg(
     }
 
     if (guildSet.welcomeChannelID == null) return;
-    if (guildSet.welcomeDM && CH_WelcomeMsg) {
+    if (guildSet.enable && CH_WelcomeMsg) {
         CH_WelcomeMsg = CH_WelcomeMsg.replace(
             /{member}/g,
             `<@!${member.user.id}>`

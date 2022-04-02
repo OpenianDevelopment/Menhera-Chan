@@ -70,45 +70,45 @@ export default class AniCharCommand extends BaseCommand {
             .then(handleResponse)
             .catch(console.error);
 
-        if (AnimeData == undefined) {
+        if (!AnimeData.data.Page.characters.length) {
             interaction.followUp({ content: `Could not find anything` });
             return;
         }
         const data = AnimeData.data.Page.characters;
         let page = 0;
         const embeds: MessageEmbed[] = [];
-        data.forEach((element1: any) => {
+        data.forEach((element: any) => {
             let anime = "";
             let manga = "";
-            element1.anime.nodes.forEach((Aelement: any) => {
+            element.anime.nodes.forEach((Aelement: any) => {
                 anime = Aelement.title.romaji + ` \n` + anime;
             });
-            element1.manga.nodes.forEach((Melement: any) => {
+            element.manga.nodes.forEach((Melement: any) => {
                 manga = Melement.title.romaji + ` \n` + manga;
             });
             const embed = new CustomEmbed(interaction, false)
-                .setTitle(element1.name.full)
-                .setImage(element1.image.large)
+                .setTitle(element.name.full)
+                .setImage(element.image.large)
                 .setDescription("No description available.")
                 .addField(
                     "Gender",
-                    element1.gender == null ? "Not available." : element1.gender
+                    element.gender == null ? "Not available." : element.gender
                 )
                 .addField(
                     "Age",
-                    element1.age == null ? "Not available." : element1.age
+                    element.age == null ? "Not available." : element.age
                 )
                 .addField("Anime", anime ? anime : "None")
                 .addField("Manga", manga ? manga : "None");
-            if (element1.description != null) {
-                if (element1.description.length < 2000) {
-                    embed.setDescription(element1.description.toString());
+            if (element.description != null) {
+                if (element.description.length < 2000) {
+                    embed.setDescription(element.description.toString());
                 } else {
                     embed.setDescription(
-                        (element1.description as string).slice(
-                            0,
-                            2000 - element1.description.length
-                        ) + "..."
+                        element.description
+                            .toString()
+                            .slice(0, 2000 - element.description.length) +
+                            "..."
                     );
                 }
             }
