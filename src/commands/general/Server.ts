@@ -2,6 +2,7 @@ import DiscordClient from "../../client/client";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import BaseCommand from "../../structures/BaseCommand";
 import { capFirstLetter } from "../../utils/functions/Custom";
+import config from "../../utils/config";
 
 export default class ServerCommand extends BaseCommand {
     constructor() {
@@ -16,7 +17,7 @@ export default class ServerCommand extends BaseCommand {
     ) {
         const GuildOwner =
             `<@${interaction.guild.ownerId}>` ||
-            "not in cache <:sorry:762202529756872704>";
+            `not in cache ${config.emojis.MenheraSorry}`;
         let createdAt = interaction.guild!.createdTimestamp.toString()!;
         createdAt =
             "<t:" + createdAt.substring(0, createdAt.length - 3) + ":d>";

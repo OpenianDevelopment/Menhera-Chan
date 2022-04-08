@@ -10,10 +10,15 @@ export default class EconSearchCommand extends BaseCommand {
     constructor() {
         super("econ search", "Search for Waifu");
     }
-    async run(client: DiscordClient, interaction: CommandInteraction<"cached">) {
-        if(!client.guildSettings.get(interaction.guildId)?.misc.econ){
-            interaction.followUp({content:"This command is disabled in this server"})
-            return
+    async run(
+        client: DiscordClient,
+        interaction: CommandInteraction<"cached">
+    ) {
+        if (!client.guildSettings.get(interaction.guildId)?.misc.econ) {
+            interaction.followUp({
+                content: "This command is disabled in this server",
+            });
+            return;
         }
         let name = interaction.options.getString("name", true);
         const data = await getWaifu(name);

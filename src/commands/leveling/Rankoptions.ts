@@ -8,6 +8,7 @@ import {
     updateUserTextColor,
 } from "../../database/functions/levelingOperation";
 import BaseCommand from "../../structures/BaseCommand";
+import config from "../../utils/config";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
 export default class RankOptionCommand extends BaseCommand {
@@ -31,7 +32,7 @@ export default class RankOptionCommand extends BaseCommand {
             embed
                 .setColor("RED")
                 .setDescription(
-                    "❌ I don't have any data for you at this moment. Kindly gain some XP first"
+                    `${config.emojis.redCrossMark} I don't have any data for you at this moment. Kindly gain some XP first`
                 );
             interaction.followUp({ embeds: [embed] });
             return;
