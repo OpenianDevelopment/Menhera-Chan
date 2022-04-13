@@ -120,7 +120,7 @@ const commands: ApplicationCommandData[] = [
             },
             {
                 name: "track",
-                description: "Sets the xp track color",
+                description: "Sets the xp bar color",
                 type: "STRING",
             },
             {
@@ -164,7 +164,7 @@ const commands: ApplicationCommandData[] = [
             },
             {
                 name: "user",
-                description: "Search a MyAnimeList user",
+                description: "Search for a MyAnimeList user",
                 type: "SUB_COMMAND",
                 options: [
                     {
@@ -242,13 +242,13 @@ const commands: ApplicationCommandData[] = [
         type: "CHAT_INPUT",
         options: [
             {
-                name: "balance",
+                name: "bal",
                 description: "Shows Balance",
                 type: "SUB_COMMAND",
             },
             {
                 name: "search",
-                description: "Search for Waifu",
+                description: "Search for a character",
                 type: "SUB_COMMAND",
                 options: [
                     {
@@ -261,12 +261,12 @@ const commands: ApplicationCommandData[] = [
             },
             {
                 name: "sell",
-                description: "Sell Waifu",
+                description: "Sell a character",
                 type: "SUB_COMMAND",
                 options: [
                     {
                         name: "id",
-                        description: "ID of Waifu",
+                        description: "ID of the character",
                         type: "INTEGER",
                         required: true,
                     },
@@ -274,12 +274,12 @@ const commands: ApplicationCommandData[] = [
             },
             {
                 name: "buy",
-                description: "Buy Waifu",
+                description: "Buy a character",
                 type: "SUB_COMMAND",
                 options: [
                     {
                         name: "id",
-                        description: "ID of Waifu",
+                        description: "ID of the character",
                         type: "INTEGER",
                         required: true,
                     },
@@ -287,12 +287,12 @@ const commands: ApplicationCommandData[] = [
             },
             {
                 name: "inventory",
-                description: "Shows Collection of Waifus",
+                description: "Shows your collection of characters",
                 type: "SUB_COMMAND",
             },
             {
                 name: "list",
-                description: "List of wiafu/husbando",
+                description: "List of characters",
                 type: "SUB_COMMAND",
             },
             {
@@ -339,7 +339,8 @@ const commands: ApplicationCommandData[] = [
                     },
                     {
                         name: "channel",
-                        description: "channel to purge",
+                        description:
+                            "channel to change slowmode in (if empty changes sm in current channel)",
                         type: "CHANNEL",
                         required: false,
                     },
@@ -352,7 +353,7 @@ const commands: ApplicationCommandData[] = [
                 options: [
                     {
                         name: "user",
-                        description: "user to kick",
+                        description: "user to mute",
                         type: "USER",
                         required: true,
                     },
@@ -364,7 +365,7 @@ const commands: ApplicationCommandData[] = [
                     },
                     {
                         name: "reason",
-                        description: "reason to kick user",
+                        description: "reason to mute user",
                         type: "STRING",
                         required: false,
                     },
@@ -377,7 +378,7 @@ const commands: ApplicationCommandData[] = [
                 options: [
                     {
                         name: "user",
-                        description: "user to kick",
+                        description: "user to unmute",
                         type: "USER",
                         required: true,
                     },
@@ -402,6 +403,51 @@ const commands: ApplicationCommandData[] = [
                     },
                 ],
             },
+            {
+                name: "warn",
+                description: "Warn a user",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "user",
+                        description: "User to warn",
+                        type: "USER",
+                        required: true,
+                    },
+                    {
+                        name: "reason",
+                        description: "Reason for the warn",
+                        type: "STRING",
+                        required: false,
+                    },
+                ],
+            },
+            {
+                name: "delwarn",
+                description: "Deletes a warn by id",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "warn-id",
+                        description: "Warn ID",
+                        type: "STRING",
+                        required: true,
+                    },
+                ],
+            },
+            {
+                name: "warnings",
+                description: "Get the warnings of a user",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "user",
+                        description: "The User",
+                        type: "USER",
+                        required: true,
+                    },
+                ],
+            },
         ],
     },
     {
@@ -416,12 +462,12 @@ const commands: ApplicationCommandData[] = [
             },
             {
                 name: "set",
-                description: "to enable/disable a service",
+                description: "to toggle a service",
                 type: "SUB_COMMAND",
                 options: [
                     {
                         name: "service",
-                        description: "service to enable/disable",
+                        description: "service to toggle",
                         type: "STRING",
                         required: true,
                         choices: [
@@ -430,10 +476,11 @@ const commands: ApplicationCommandData[] = [
                             { name: "mod-log", value: "mod-log" },
                             { name: "anti-spam", value: "anti-spam" },
                             { name: "experience", value: "experience" },
+                            { name: "starboard", value: "starboard" },
                         ],
                     },
                     {
-                        name: "enable",
+                        name: "toggle",
                         description: "enable (true) or disable (false)",
                         type: "BOOLEAN",
                         required: true,
@@ -481,12 +528,12 @@ const commands: ApplicationCommandData[] = [
                     },
                     {
                         name: "set",
-                        description: "to enable/disable a service",
+                        description: "to toggle a service",
                         type: "SUB_COMMAND",
                         options: [
                             {
                                 name: "service",
-                                description: "service to enable/disable",
+                                description: "service to toggle",
                                 type: "STRING",
                                 required: true,
                                 choices: [
@@ -498,12 +545,25 @@ const commands: ApplicationCommandData[] = [
                                 ],
                             },
                             {
-                                name: "enable",
+                                name: "toggle",
                                 description: "enable (true) or disable (false)",
                                 type: "BOOLEAN",
                                 required: true,
                             },
                         ],
+                    },
+                ],
+            },
+            {
+                name: "starboard",
+                description: "settings for the starboard feature",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "channel",
+                        description: "Change starboard channel",
+                        type: "CHANNEL",
+                        required: true,
                     },
                 ],
             },
@@ -531,19 +591,41 @@ const commands: ApplicationCommandData[] = [
             },
         ],
     },
+    {
+        name: "help",
+        description: "Search for a command",
+        options: [
+            {
+                type: "STRING",
+                name: "query",
+                description: "Search query",
+                required: true,
+            },
+        ],
+    },
 ];
 const deleteQ: boolean = false;
 
 client.on("ready", async () => {
+    console.log(`Logged in as ${client.user?.tag}\n`);
     try {
         let val = 0;
         if (deleteQ) {
             const cmds = await client.application!.commands.fetch();
             cmds.forEach(async (cmd) => {
-                const d = await cmd.delete();
-                console.log(
-                    "Deleted: " + d.name + " | " + d.id + " | " + d.guildId
-                );
+                try {
+                    const d = await cmd.delete();
+                    console.log(
+                        `✅ Deleted:\t${d.name}\t${d.id}\t|\t${d.guildId}`
+                    );
+                } catch {
+                    console.log(`❎ Failed:\t${cmd.name}`);
+                }
+                val++;
+                if (val >= cmds.size) {
+                    console.log("Finished Deleting\nExiting Now");
+                    process.exit(0);
+                }
             });
             return console.log("\x1b[32m%s\x1b[0m", "Started deleting...");
         }

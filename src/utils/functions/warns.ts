@@ -7,8 +7,10 @@ export function CreateWarnId(userId: string) {
         return (
             (num == 0 &&
                 numerals[Math.floor(Math.random() * numerals.length)]) ||
-            uid(Math.floor(num / b), b, numerals).replace(/ +/, numerals[0]) +
-                numerals[num % b]
+            uid(Math.floor(num / b), b, numerals).replace(
+                /\.| +/g,
+                numerals[Math.floor(Math.random() * numerals.length)]
+            ) + numerals[num % b]
         );
     };
     /** 36 is {@link uid}'s numerals length*/

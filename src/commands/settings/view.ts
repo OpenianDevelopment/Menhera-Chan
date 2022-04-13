@@ -3,12 +3,13 @@ import DiscordClient from "../../client/client";
 
 import { CommandInteraction } from "discord.js";
 import { getGuildSettings } from "../../database/functions/GuildSettingsFunctions";
-import { CheckPermsBoth } from "../../utils/functions/mod";
+import { CheckPerms } from "../../utils/functions/mod";
 import { clean, CustomEmbed } from "../../utils/functions/Custom";
 import {
     AntispamSystemSettings,
     ExpSystemSettings,
     moderationSystemSettings,
+    starboardSettings,
     welcomeSystemSettings,
 } from "../../utils/interfaces/GlobalType";
 
@@ -20,7 +21,7 @@ export default class viewCommand extends BaseCommand {
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
     ) {
-        if (!(await CheckPermsBoth(interaction, "ADMINISTRATOR"))) {
+        if (!(await CheckPerms(interaction, interaction.user.id, "ADMINISTRATOR"))) {
             return;
         }
         //make this in a more presentable format i don't care rn -julio
@@ -50,6 +51,12 @@ export default class viewCommand extends BaseCommand {
             false,
             false
         ).setDescription("**Welcome settings**");
+        let starboard: starboardSettings = settings.starboardSettings;
+        const StarEmbed = new CustomEmbed(
+            interaction,
+            false,
+            false
+        ).setDescription("**Starboard settings**");
         if (exp.enable) {
             expEmbed.addFields(
                 { name: "Enabled", value: "true" },
@@ -188,11 +195,30 @@ export default class viewCommand extends BaseCommand {
         } else {
             welcomeEmbed.addFields({ name: "Enabled", value: "false" });
         }
+        if (starboard.enable) {
+            StarEmbed.addFields(
+                { name: "Enabled", value: "true" },
+                {
+                    name: "Starboard Channel",
+                    value: starboard.channelId
+                        ? `<#${starboard.channelId}>`
+                        : "none",
+                }
+            );
+        } else {
+            StarEmbed.addFields({ name: "Enabled", value: "false" });
+        }
         interaction.followUp({
             content: `${interaction.guild?.name}${
                 interaction.guild!.name.endsWith("s") ? "'" : "'s"
             } Settings`,
-            embeds: [expEmbed, antispamEmbed, moderationEmbed, welcomeEmbed],
+            embeds: [
+                expEmbed,
+                antispamEmbed,
+                moderationEmbed,
+                welcomeEmbed,
+                StarEmbed,
+            ],
         });
     }
 }

@@ -5,7 +5,7 @@ import { warns } from "../schemas/index";
 export async function initGuildWarns(guildId: string): Promise<void> {
     const newData = new warns({
         guildId: guildId,
-        users: [],
+        warnings: [],
     });
     await newData.save().catch(console.error);
 }
@@ -13,21 +13,17 @@ export function delGuildWarns(guildId: string) {
     warns.findOneAndRemove({ guildId }).catch(console.error);
 }
 export async function getGuildWarnings(guildId: string) {
-    const data: guildWarnData = await warns.findOne({ guildId });
+    const data: guildWarnData | null = await warns.findOne({ guildId });
     return data;
 }
 export async function getUserWarnings(guildId: string, userId: string) {
     const data: WarnsData[] | undefined = (
         await getGuildWarnings(guildId)
-    ).warnings.filter((arr) => arr.userId == userId);
+    )?.warnings.filter((arr) => arr.userId == userId);
     return data;
 }
-export async function getSpecificWarn(
-    guildId: string,
-    userId: string,
-    warnId: string
-) {
-    const warnData = (await getUserWarnings(guildId, userId))?.find(
+export async function getSpecificWarn(guildId: string, warnId: string) {
+    const warnData = (await getGuildWarnings(guildId))?.warnings.find(
         (wAr) => wAr.id == warnId
     );
     return warnData;
@@ -38,6 +34,11 @@ export async function addWarn(
     authorId: string,
     reason: string
 ) {
+    const guildData = await getGuildWarnings(guildId);
+    if (!guildData) {
+        await initGuildWarns(guildId);
+        return;
+    }
     warns
         .updateOne(
             { guild: guildId },
@@ -56,12 +57,17 @@ export async function addWarn(
         )
         .catch((err) => console.error(err));
 }
-export function removeWarn(guildId: string, warnId: string) {
-    warns
-        .updateOne(
+export async function removeWarn(guildId: string, warnId: string) {
+    try {
+        const warn = await getSpecificWarn(guildId, warnId);
+        if (!warn) return false;
+        warns.updateOne(
             { guild: guildId },
             { $pull: { warnings: { id: warnId } } },
             { safe: true, multi: true }
-        )
-        .catch((err) => console.error(err));
+        );
+        return true;
+    } catch {
+        return false;
+    }
 }

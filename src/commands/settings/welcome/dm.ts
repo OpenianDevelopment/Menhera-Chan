@@ -3,7 +3,7 @@ import DiscordClient from "../../../client/client";
 import { UpdateWelcome } from "../../../database/functions/GuildSettingsFunctions";
 import BaseCommand from "../../../structures/BaseCommand";
 import { clean, CustomEmbed } from "../../../utils/functions/Custom";
-import { CheckPermsBoth } from "../../../utils/functions/mod";
+import { CheckPerms } from "../../../utils/functions/mod";
 import { updateCacheGuildSettings } from "../../../utils/initialFunctions";
 
 export default class dmMessageCommand extends BaseCommand {
@@ -14,7 +14,7 @@ export default class dmMessageCommand extends BaseCommand {
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
     ) {
-        if (!(await CheckPermsBoth(interaction, "ADMINISTRATOR"))) {
+        if (!(await CheckPerms(interaction, interaction.user.id, "ADMINISTRATOR"))) {
             return;
         }
         let message = interaction.options.getString("message", true);

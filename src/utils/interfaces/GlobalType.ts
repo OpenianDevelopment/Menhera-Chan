@@ -77,7 +77,7 @@ export interface welcomeSystemSettings {
  */
 export interface starboardSettings {
     enable: boolean;
-    channel: string | null;
+    channelId: string | null;
 }
 
 /**

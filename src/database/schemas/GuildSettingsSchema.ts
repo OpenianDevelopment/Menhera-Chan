@@ -41,7 +41,7 @@ const guildSettingsSchema = new Schema({
     },
     starboardSettings: {
         enable: Boolean,
-        channel: String,
+        channelId: String,
     },
     misc: {
         econ: Boolean,

@@ -7,7 +7,7 @@ import { CustomEmbed } from "../../utils/functions/Custom";
 
 export default class EconBalanceCommand extends BaseCommand {
     constructor() {
-        super("econ balance", "Shows Balance");
+        super("econ bal", "Shows Balance");
     }
     async run(
         client: DiscordClient,
