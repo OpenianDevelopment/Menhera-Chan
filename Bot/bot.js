@@ -12,7 +12,7 @@ process
     })
     .on("uncaughtExceptionMonitor", (err) => {
         console.log("UNCAUGHT MONITOR", err);
-    })
+   })
     .on("unhandledRejection", (err) => {
         console.log("UNHANDLED", err);
     });

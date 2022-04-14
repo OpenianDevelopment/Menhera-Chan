@@ -22,7 +22,7 @@ module.exports = (client) => {
 		client
 	);
 
-	vote(client)
+	//vote(client)
 
 	//connecting to the db when bot starts
 

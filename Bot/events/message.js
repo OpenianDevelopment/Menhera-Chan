@@ -10,7 +10,8 @@ let embed;
 
 
 module.exports = async (client, message) => {
-
+    if (!message) return;
+    if (message.channel.type === "unknown") return;
     if (message.channel.type === "dm") return; //if the message was sent in DMs
     //getting guild settings from db and saving it in db
 
@@ -35,7 +36,7 @@ module.exports = async (client, message) => {
 
     let command = client.commands.get(cmd) //get command from command folder
         || client.commands.get(client.aliases.get(cmd)); //get command if command's alias is used
-
+try {
     if (command) {
         economy(message)
         var permission
@@ -110,6 +111,9 @@ module.exports = async (client, message) => {
             client.counter.push({ name: command.name, count: 1 })
         }
     }
+} catch(err) {
+console.error(err)
+}
 }
 // remove element from array
 function rae(array, n) {
