@@ -30,3 +30,15 @@ export interface guildWarnData {
     guildId: string;
     warnings: WarnsData[];
 }
+
+//custom commands
+export interface Tags {
+    name: string;
+    content?: string;
+    embed?: string;
+    reply?: boolean;
+}
+export interface guildTags {
+    guildId: string;
+    tags: Tags[];
+}

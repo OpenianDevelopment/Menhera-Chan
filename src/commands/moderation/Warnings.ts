@@ -36,7 +36,9 @@ export default class WarningsCommand extends BaseCommand {
             });
             const WarnEmbed = new MessageEmbed()
                 .setAuthor({
-                    name: `${member.user.username} has ${warnings.length} warns logged`,
+                    name: `${member.user.username} has ${
+                        description ? warnings.length : "0"
+                    } warns logged`,
                     iconURL: member.user.displayAvatarURL(),
                 })
                 .setDescription(description || "No Warnings")

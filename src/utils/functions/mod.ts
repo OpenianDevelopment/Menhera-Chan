@@ -13,10 +13,16 @@ export async function CheckPerms(
     }
     let member = await interaction.guild?.members.fetch(userID);
     if (member == undefined || null) return false;
-    if (member?.permissions.has(perms)) {
-        return true;
+    if (!member?.permissions.has(perms)) {
+        interaction.followUp({
+            content: `You don't have permission to do this, you need:\n${clean(
+                perms,
+                { start: "**", end: "**" }
+            )}`,
+        });
+        return false;
     }
-    return false;
+    return true;
 }
 export async function CheckPermsBoth(
     interaction: CommandInteraction,
@@ -28,15 +34,18 @@ export async function CheckPermsBoth(
     );
     if (!member?.permissions.has(perms)) {
         interaction.followUp({
-            content: `You don't have permission to do this, you need:\
-            \n${clean(perms)}`,
+            content: `You don't have permission to do this, you need:\n${clean(
+                perms,
+                { start: "**", end: "**" }
+            )}`,
         });
         return false;
     }
     if (!bot?.permissions.has(perms)) {
         interaction.followUp({
             content: `I don't have the permission required to do this:\n${clean(
-                perms
+                perms,
+                { start: "**", end: "**" }
             )}`,
         });
         return false;

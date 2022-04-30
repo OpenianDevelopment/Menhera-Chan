@@ -36,7 +36,9 @@ export async function addWarn(
 ) {
     const guildData = await getGuildWarnings(guildId);
     if (!guildData) {
-        await initGuildWarns(guildId);
+        initGuildWarns(guildId).then(
+            async () => await addWarn(guildId, userId, authorId, reason)
+        );
         return;
     }
     warns

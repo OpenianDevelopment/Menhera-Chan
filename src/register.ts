@@ -1,4 +1,5 @@
 import { ApplicationCommandData, Client } from "discord.js";
+import config from "./utils/config";
 require("dotenv").config();
 const client = new Client({
     intents: [],
@@ -600,6 +601,86 @@ const commands: ApplicationCommandData[] = [
                 name: "query",
                 description: "Search query",
                 required: true,
+            },
+        ],
+    },
+    {
+        name: "tag",
+        description: "Create a tag for your server!",
+        options: [
+            {
+                name: "create",
+                description: "Create a custom tag!",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "name",
+                        description: "Tag name",
+                        type: "STRING",
+                        required: true,
+                    },
+                    {
+                        name: "reply",
+                        description:
+                            "Whether to reply to the message (true) or just send it (false)",
+                        type: "BOOLEAN",
+                        required: true,
+                    },
+                    {
+                        name: "content",
+                        description:
+                            `tag content, for more info visit ${config.links.website}/embed#htu`,
+                        type: "STRING",
+                        required: false,
+                    },
+                    {
+                        name: "embed",
+                        description:
+                            `Paste the object you copy from ${config.links.website}/embed`,
+                        type: "STRING",
+                        required: false,
+                    },
+                ],
+            },
+            {
+                name: "edit",
+                description: "Edits a tag!",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "name",
+                        description: "tag name",
+                        type: "STRING",
+                        required: true,
+                    },
+                    {
+                        name: "content",
+                        description:
+                            "tag text content",
+                        type: "STRING",
+                        required: false,
+                    },
+                    {
+                        name: "embed",
+                        description:
+                            `Paste the object you copy from ${config.links.website}/embed`,
+                        type: "STRING",
+                        required: false,
+                    },
+                ],
+            },
+            {
+                name: "delete",
+                description: "Deletes a tag!",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "name",
+                        description: "tag name",
+                        type: "STRING",
+                        required: true,
+                    },
+                ],
             },
         ],
     },

@@ -11,7 +11,7 @@ import { capFirstLetter, clean } from "../utils/functions/Custom";
 
 export default class ReportCommand extends BaseCommand {
     constructor() {
-        super("report", "Report a bug/user");
+        super("report", "Report a bug");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         try {
