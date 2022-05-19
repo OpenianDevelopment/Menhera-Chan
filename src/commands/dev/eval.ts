@@ -41,10 +41,7 @@ async function evaluate(
     let botmsg: Message;
     try {
         const start = process.hrtime();
-        let evaled = eval(code);
-        if (evaled instanceof Promise) {
-            evaled = await evaled;
-        }
+        let evaled = code.includes("await") ? await eval(`(async() {$code{}})()`) : eval(code);
         const stop = process.hrtime(start);
         const evmbed = new CustomEmbed(interaction, false)
             .setColor("#00FF00")
@@ -109,7 +106,6 @@ async function evaluate(
                 new RegExp(client!.token!, "gi"),
                 `NrzaMyOTI4MnU1NT3oDA1rTk4.pPizb1g.hELpb6PAi1Pewp3wAwVseI72Eo`
             )
-            .replace(/^int/g, "interaction")
             .replace(/^interaction.reply/g, "channel.send");
         return text;
     }
