@@ -41,7 +41,7 @@ async function evaluate(
     let botmsg: Message;
     try {
         const start = process.hrtime();
-        let evaled = code.includes("await") ? await eval(`(async() {$code{}})()`) : eval(code);
+        let evaled = code.includes("await") ? await eval(`(async() {${code}})()`) : eval(code);
         const stop = process.hrtime(start);
         const evmbed = new CustomEmbed(interaction, false)
             .setColor("#00FF00")
