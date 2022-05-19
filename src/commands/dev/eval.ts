@@ -43,6 +43,7 @@ async function evaluate(
         const start = process.hrtime();
         let evaled = code.includes("await") ? await eval(`(async() {${code}})()`) : eval(code);
         const stop = process.hrtime(start);
+        const response = EvalClean(inspect(evaled, { depth: 0 }));
         const evmbed = new CustomEmbed(interaction, false)
             .setColor("#00FF00")
             .setFooter({
@@ -52,11 +53,10 @@ async function evaluate(
             .setTitle("Eval")
             .addField(
                 `**Output:**`,
-                `\`\`\`js\n${EvalClean(inspect(evaled, { depth: 0 }))}\n\`\`\``
+                `\`\`\`js\n${response}\n\`\`\``
             )
             .addField(`**Type:**`, typeof evaled);
 
-        const response = EvalClean(inspect(evaled, { depth: 0 }));
         if (response.length <= 1024) {
             botmsg = (await interaction.followUp({
                 embeds: [evmbed],
