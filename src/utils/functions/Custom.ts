@@ -61,10 +61,6 @@ export function clean(
             : str
     )
         .replace(/`/g, `\\\`${String.fromCharCode(8203)}`)
-        .replace(/\*/g, `\\\*${String.fromCharCode(8203)}`)
-        .replace(/~/g, `\\\~${String.fromCharCode(8203)}`)
-        .replace(/_/g, `\\\_${String.fromCharCode(8203)}`)
-        .replace(/\|/g, `\\\|${String.fromCharCode(8203)}`)
         .replace(/@/g, `\\\@${String.fromCharCode(8203)}`);
 }
 
