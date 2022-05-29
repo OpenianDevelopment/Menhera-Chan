@@ -1,10 +1,10 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction } from "discord.js";
 import config from "../../utils/config";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class HelpCommand extends BaseCommand {
+export default class HelpCommand extends BaseInt {
     constructor() {
         super("help", "Search for a command");
     }

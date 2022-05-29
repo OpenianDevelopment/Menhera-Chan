@@ -1,4 +1,4 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
 import {
@@ -8,7 +8,7 @@ import {
     ThreadChannel,
 } from "discord.js";
 
-export default class SlowmodeCommand extends BaseCommand {
+export default class SlowmodeCommand extends BaseInt {
     constructor() {
         super(
             "mod slowmode",

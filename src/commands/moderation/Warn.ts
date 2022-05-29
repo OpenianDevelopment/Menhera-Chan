@@ -1,11 +1,11 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import config from "../../utils/config";
 import { addWarn } from "../../database/functions/WarnsFunctions";
 
-export default class WarnCommand extends BaseCommand {
+export default class WarnCommand extends BaseInt {
     constructor() {
         super("mod warn", "Warn a user");
     }

@@ -1,4 +1,4 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import {
     buyWaifu,
@@ -10,7 +10,7 @@ import {
 } from "../../database/functions/EconFunctions";
 import { CommandInteraction } from "discord.js";
 
-export default class EconBuyCommand extends BaseCommand {
+export default class EconBuyCommand extends BaseInt {
     constructor() {
         super("econ buy", "To buy a charcters");
     }

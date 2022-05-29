@@ -1,4 +1,4 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import {
     CommandInteraction,
@@ -7,7 +7,7 @@ import {
     MessageEmbed,
 } from "discord.js";
 
-export default class PingCommand extends BaseCommand {
+export default class PingCommand extends BaseInt {
     constructor() {
         super("ping", "Returns Ping");
     }
@@ -18,11 +18,11 @@ export default class PingCommand extends BaseCommand {
         const embed = new MessageEmbed()
             .setColor((interaction.member as GuildMember).displayColor)
             .setDescription(
-                `**Shard:** ${
-                    interaction.guild?.shardId
-                }\n**Socket:** ${client.ws.ping.toFixed(2)}ms\n**Latency:** ${(
+                `**Shard:** ${interaction.guild?.shardId}\n**Socket:** ${
+                    client.ws.ping
+                }ms\n**Latency:** ${
                     msg.createdTimestamp - interaction.createdTimestamp
-                ).toFixed(2)}ms`
+                }ms`
             )
             .setTimestamp();
         await msg.edit({

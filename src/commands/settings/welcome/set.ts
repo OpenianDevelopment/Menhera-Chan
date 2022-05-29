@@ -1,11 +1,11 @@
 import { CommandInteraction } from "discord.js";
 import DiscordClient from "../../../client/client";
 import { UpdateWelcome } from "../../../database/functions/GuildSettingsFunctions";
-import BaseCommand from "../../../structures/BaseCommand";
+import BaseInt from "../../../structures/BaseCommand";
 import { CheckPerms } from "../../../utils/functions/mod";
 import { updateCacheGuildSettings } from "../../../utils/initialFunctions";
 
-export default class SetCommand extends BaseCommand {
+export default class SetCommand extends BaseInt {
     constructor() {
         super("settings welcome set", "toggles a welcome feature");
     }

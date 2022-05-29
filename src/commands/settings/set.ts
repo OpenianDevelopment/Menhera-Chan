@@ -1,4 +1,4 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction } from "discord.js";
 import {
@@ -11,7 +11,7 @@ import {
 import { CheckPerms } from "../../utils/functions/mod";
 import { updateCacheGuildSettings } from "../../utils/initialFunctions";
 
-export default class enableDisableCommand extends BaseCommand {
+export default class enableDisableCommand extends BaseInt {
     constructor() {
         super("settings set", "toggles a feature");
     }

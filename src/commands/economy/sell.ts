@@ -6,9 +6,9 @@ import {
     getWaifuByID,
     sellWaifu,
 } from "../../database/functions/EconFunctions";
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 
-export default class EconSellCommand extends BaseCommand {
+export default class EconSellCommand extends BaseInt {
     constructor() {
         super("econ sell", "Sell Waifu");
     }

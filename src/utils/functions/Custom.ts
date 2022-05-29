@@ -151,14 +151,20 @@ export function rpTextCollection(author: User, member: GuildMember) {
 
 export function getSub(
     client: DiscordClient,
-    command: string,
+    commandName: string,
     subcmd: string | null,
     cmdgroup: string | null
 ): string {
-    if (!subcmd) return command;
+    if (!subcmd) return commandName;
     if (cmdgroup)
-        return client.commands.get(`${command} ${cmdgroup} ${subcmd}`)!.name;
-    return client.commands.get(`${command} ${subcmd}`)!.name;
+        return client.commands.get(`${commandName} ${cmdgroup} ${subcmd}`)!
+            .name;
+    const command = client.commands.get(`${commandName} ${subcmd}`);
+    if (!command) {
+        return commandName;
+    } else {
+        return command.name;
+    }
 }
 
 /* From https://github.com/zuritor/jikanjs/blob/6a11bcf1d07dfc046e56ddf3ed94adc5db6ac822/lib/util/Request.js */

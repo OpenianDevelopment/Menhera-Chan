@@ -1,11 +1,11 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 const DBL = require("dbl-api");
 
 import { CommandInteraction } from "discord.js";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class EconDailycoinsCommand extends BaseCommand {
+export default class EconDailycoinsCommand extends BaseInt {
     constructor() {
         super("econ dailycoins", "get daility coins");
     }

@@ -1,10 +1,10 @@
 import DiscordClient from "../../client/client";
 import { CommandInteraction, MessageEmbed } from "discord.js";
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import { capFirstLetter } from "../../utils/functions/Custom";
 import config from "../../utils/config";
 
-export default class ServerCommand extends BaseCommand {
+export default class ServerCommand extends BaseInt {
     constructor() {
         super(
             "serverinfo",

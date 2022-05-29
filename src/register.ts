@@ -1,5 +1,8 @@
 import { ApplicationCommandData, Client } from "discord.js";
 import config from "./utils/config";
+import readline from "node:readline";
+import { stdin as input, stdout as output } from "node:process";
+
 require("dotenv").config();
 const client = new Client({
     intents: [],
@@ -92,42 +95,50 @@ const commands: ApplicationCommandData[] = [
         type: "CHAT_INPUT",
         options: [
             {
-                name: "user",
-                description: "Show this user's rank card",
-                type: "USER",
+                name: "show",
+                description: "Show rank card",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "user",
+                        description: "Show this user's rank card",
+                        type: "USER",
+                    },
+                ],
             },
-        ],
-    },
-    {
-        name: "rank-options",
-        description: "Edit the rankcard's options",
-        type: "CHAT_INPUT",
-        options: [
             {
                 name: "help",
-                description: "How to use this!??",
+                description: "How to change card appearance!??",
                 type: "SUB_COMMAND",
             },
             {
-                name: "bg",
-                description:
-                    'The background image of the rankcard ("default" for default image)',
-                type: "STRING",
-            },
-            {
-                name: "opacity",
-                description: "Percentage of opacity (70 is the default)",
-                type: "INTEGER",
-            },
-            {
-                name: "track",
-                description: "Sets the xp bar color",
-                type: "STRING",
-            },
-            {
-                name: "text",
-                description: "Sets text color",
-                type: "STRING",
+                name: "set",
+                description: "Change rank card's appearance",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "bg",
+                        description:
+                            'The background image of the rankcard ("default" for default image)',
+                        type: "STRING",
+                    },
+                    {
+                        name: "opacity",
+                        description:
+                            "Percentage of opacity (70 is the default)",
+                        type: "INTEGER",
+                    },
+                    {
+                        name: "track",
+                        description: "Sets the xp bar color",
+                        type: "STRING",
+                    },
+                    {
+                        name: "text",
+                        description: "Sets text color",
+                        type: "STRING",
+                    },
+                ],
             },
         ],
     },
@@ -581,18 +592,6 @@ const commands: ApplicationCommandData[] = [
         type: "CHAT_INPUT",
     },
     {
-        name: "eval",
-        description: "Evaluate a peice of code",
-        options: [
-            {
-                type: "STRING",
-                name: "code",
-                description: 'The "peice of code"',
-                required: true,
-            },
-        ],
-    },
-    {
         name: "help",
         description: "Search for a command",
         options: [
@@ -628,15 +627,13 @@ const commands: ApplicationCommandData[] = [
                     },
                     {
                         name: "content",
-                        description:
-                            `tag content, for more info visit ${config.links.website}/embed#htu`,
+                        description: `tag content, for more info visit ${config.links.website}/embed#htu`,
                         type: "STRING",
                         required: false,
                     },
                     {
                         name: "embed",
-                        description:
-                            `Paste the object you copy from ${config.links.website}/embed`,
+                        description: `Paste the object you copy from ${config.links.website}/embed`,
                         type: "STRING",
                         required: false,
                     },
@@ -655,15 +652,13 @@ const commands: ApplicationCommandData[] = [
                     },
                     {
                         name: "content",
-                        description:
-                            "tag text content",
+                        description: "tag text content",
                         type: "STRING",
                         required: false,
                     },
                     {
                         name: "embed",
-                        description:
-                            `Paste the object you copy from ${config.links.website}/embed`,
+                        description: `Paste the object you copy from ${config.links.website}/embed`,
                         type: "STRING",
                         required: false,
                     },
@@ -685,47 +680,79 @@ const commands: ApplicationCommandData[] = [
         ],
     },
 ];
-const deleteQ: boolean = false;
-
-client.on("ready", async () => {
+client.on("ready", () => {
     console.log(`Logged in as ${client.user?.tag}\n`);
+    let val = 0;
     try {
-        let val = 0;
-        if (deleteQ) {
-            const cmds = await client.application!.commands.fetch();
-            cmds.forEach(async (cmd) => {
-                try {
-                    const d = await cmd.delete();
-                    console.log(
-                        `✅ Deleted:\t${d.name}\t${d.id}\t|\t${d.guildId}`
+        const rl = readline.createInterface({ input, output });
+        rl.question(
+            "Do you to [create] new commands or [delete] current ones? ",
+            async (reply) => {
+                if (reply.toLowerCase().startsWith("c")) {
+                    commands.forEach(async (command) => {
+                        try {
+                            const data =
+                                await client.application!.commands.create(
+                                    command
+                                );
+                            console.log(
+                                `✅ Created:\t${data.name}\t|\t${data.id}\t|\t${data.guildId}`
+                            );
+                        } catch (err) {
+                            console.log(
+                                "\x1b[31m%s\x1b[0m",
+                                `❎ Failed:\t${command.name}`
+                            );
+                            console.error(err);
+                        }
+                        val++;
+                        if (val >= commands.length) {
+                            console.log(
+                                "\x1b[36m%s\x1b[0m",
+                                "Completed Registering\nExiting Now"
+                            );
+                            process.exit(0);
+                        }
+                    });
+                    console.log("\x1b[32m%s\x1b[0m", "Started creating...");
+                } else if (reply.toLowerCase().startsWith("d")) {
+                    const cmds = await client.application!.commands.fetch();
+                    if (cmds.size < 1) {
+                        console.log("\x1b[31m%s\x1b[0m", `No command found...`);
+                        return rl.close();
+                    }
+                    cmds.forEach(async (cmd) => {
+                        try {
+                            const d = await cmd.delete();
+                            console.log(
+                                `✅ Deleted:\t${d.name}\t|\t${d.id}\t|\t${d.guildId}`
+                            );
+                        } catch (err) {
+                            console.log(
+                                "\x1b[31m%s\x1b[0m",
+                                `❎ Failed:\t${cmd.name}`
+                            );
+                            console.error(err);
+                        }
+                        val++;
+                        if (val >= cmds.size) {
+                            console.log(
+                                "\x1b[36m%s\x1b[0m",
+                                "Finished Deleting\nExiting Now"
+                            );
+                            process.exit(0);
+                        }
+                    });
+                    console.log("\x1b[31m%s\x1b[0m", "Started deleting...");
+                } else {
+                    console.error(
+                        "\nYou can only reply with (C)reate or (D)elete"
                     );
-                } catch {
-                    console.log(`❎ Failed:\t${cmd.name}`);
-                }
-                val++;
-                if (val >= cmds.size) {
-                    console.log("Finished Deleting\nExiting Now");
                     process.exit(0);
                 }
-            });
-            return console.log("\x1b[32m%s\x1b[0m", "Started deleting...");
-        }
-        commands.forEach(async (command) => {
-            try {
-                const data = await client.application!.commands.create(command);
-                console.log(
-                    `✅ Created:\t${data.name}\t|\t${data.id}\t|\t${data.guildId}`
-                );
-            } catch {
-                console.log(`❎ Failed:\t${command.name}`);
+                rl.close();
             }
-            val++;
-            if (val >= commands.length) {
-                console.log("Completed Registering\nExiting Now");
-                process.exit(0);
-            }
-        });
-        return console.log("\x1b[32m%s\x1b[0m", "Started creating...");
+        );
     } catch (err) {
         console.error("Error When Registering:", err);
     }

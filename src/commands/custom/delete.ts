@@ -1,10 +1,10 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction } from "discord.js";
 import { delGuildCommand } from "../../database/functions/TagsFunctions";
 import { CheckPerms } from "../../utils/functions/mod";
 
-export default class CCTDelCommand extends BaseCommand {
+export default class CCTDelCommand extends BaseInt {
     constructor() {
         super("tag delete", "Deletes a tag");
     }
@@ -16,7 +16,7 @@ export default class CCTDelCommand extends BaseCommand {
             !(await CheckPerms(
                 interaction,
                 interaction.user.id,
-                "ADMINISTRATOR"
+                "MANAGE_MESSAGES"
             ))
         ) {
             return;

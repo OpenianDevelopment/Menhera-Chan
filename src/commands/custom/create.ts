@@ -1,4 +1,4 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import {
     CommandInteraction,
@@ -11,7 +11,7 @@ import { addGuildTag } from "../../database/functions/TagsFunctions";
 import { CheckPerms } from "../../utils/functions/mod";
 import config from "../../utils/config";
 
-export default class CCTCreateCommand extends BaseCommand {
+export default class CCTCreateCommand extends BaseInt {
     constructor() {
         super("tag create", "Create a tag");
     }
@@ -23,19 +23,20 @@ export default class CCTCreateCommand extends BaseCommand {
             !(await CheckPerms(
                 interaction,
                 interaction.user.id,
-                "ADMINISTRATOR"
+                "MANAGE_MESSAGES"
             ))
         ) {
             return;
         }
-        const name = interaction.options.getString("name", true);
+        const longname = interaction.options.getString("name", true);
         const reply = interaction.options.getBoolean("reply", true);
         const content =
             interaction.options.getString("content", false) || undefined;
         const embed: MessageEmbedOptions | undefined =
             interaction.options.getString("embed", false)
                 ? JSON.parse(interaction.options.getString("embed", false)!)
-                : null;
+                : null;   
+        const name = longname.split(/ /g)[0]
         if (!content && !embed) {
             await interaction.followUp({
                 content: "You have to either add **content** or **embed**",

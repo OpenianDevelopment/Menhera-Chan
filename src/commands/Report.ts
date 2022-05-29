@@ -1,4 +1,4 @@
-import BaseCommand from "../structures/BaseCommand";
+import BaseInt from "../structures/BaseCommand";
 import DiscordClient from "../client/client";
 import {
     CommandInteraction,
@@ -9,7 +9,7 @@ import {
 } from "discord.js";
 import { capFirstLetter, clean } from "../utils/functions/Custom";
 
-export default class ReportCommand extends BaseCommand {
+export default class ReportCommand extends BaseInt {
     constructor() {
         super("report", "Report a bug");
     }

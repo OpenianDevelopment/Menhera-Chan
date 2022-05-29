@@ -1,4 +1,4 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import {
     CommandInteraction,
@@ -11,7 +11,7 @@ import { editGuildTag } from "../../database/functions/TagsFunctions";
 import { CheckPerms } from "../../utils/functions/mod";
 import config from "../../utils/config";
 
-export default class CCTEditCommand extends BaseCommand {
+export default class CCTEditCommand extends BaseInt {
     constructor() {
         super("tag edit", "Edits a tag");
     }
@@ -23,7 +23,7 @@ export default class CCTEditCommand extends BaseCommand {
             !(await CheckPerms(
                 interaction,
                 interaction.user.id,
-                "ADMINISTRATOR"
+                "MANAGE_MESSAGES"
             ))
         ) {
             return;

@@ -37,10 +37,10 @@ export class RankCard {
         };
         const familyName: string[] = ["Dela_Gothic_One", "GothicA1"];
         for (const family of familyName)
-            readdirSync(__dirname + `/fonts/${family}`)
+            readdirSync(`./././fonts/${family}`)
                 .filter((file) => file.endsWith(".ttf"))
                 .forEach((file) => {
-                    registerFont(__dirname + `/fonts/${family}/${file}`, {
+                    registerFont(`./././fonts/${family}/${file}`, {
                         family: `${family}`,
                     });
                 });

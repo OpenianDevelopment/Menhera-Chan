@@ -1,12 +1,12 @@
 import { CommandInteraction } from "discord.js";
 import DiscordClient from "../../../client/client";
 import { UpdateWelcome } from "../../../database/functions/GuildSettingsFunctions";
-import BaseCommand from "../../../structures/BaseCommand";
+import BaseInt from "../../../structures/BaseCommand";
 import { clean, CustomEmbed } from "../../../utils/functions/Custom";
 import { CheckPerms } from "../../../utils/functions/mod";
 import { updateCacheGuildSettings } from "../../../utils/initialFunctions";
 
-export default class dmMessageCommand extends BaseCommand {
+export default class dmMessageCommand extends BaseInt {
     constructor() {
         super("settings welcome dm", "dm message");
     }

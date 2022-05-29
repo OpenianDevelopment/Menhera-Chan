@@ -1,4 +1,4 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 
 import { CommandInteraction } from "discord.js";
@@ -13,7 +13,7 @@ import {
     welcomeSystemSettings,
 } from "../../utils/interfaces/GlobalType";
 
-export default class viewCommand extends BaseCommand {
+export default class viewCommand extends BaseInt {
     constructor() {
         super("settings view", "to view settings");
     }

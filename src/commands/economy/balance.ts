@@ -1,11 +1,11 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { getBalance } from "../../database/functions/EconFunctions";
 
 import { CommandInteraction } from "discord.js";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class EconBalanceCommand extends BaseCommand {
+export default class EconBalanceCommand extends BaseInt {
     constructor() {
         super("econ bal", "Shows Balance");
     }

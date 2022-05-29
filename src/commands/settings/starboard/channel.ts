@@ -1,4 +1,4 @@
-import BaseCommand from "../../../structures/BaseCommand";
+import BaseInt from "../../../structures/BaseCommand";
 import DiscordClient from "../../../client/client";
 import { CommandInteraction } from "discord.js";
 import { UpdateStarboard } from "../../../database/functions/GuildSettingsFunctions";
@@ -7,7 +7,7 @@ import config from "../../../utils/config";
 import { CustomEmbed } from "../../../utils/functions/Custom";
 import { updateCacheGuildSettings } from "../../../utils/initialFunctions";
 
-export default class enableDisableCommand extends BaseCommand {
+export default class enableDisableCommand extends BaseInt {
     constructor() {
         super("settings starboard", "toggles a feature");
     }

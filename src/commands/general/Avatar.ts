@@ -1,10 +1,10 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction, GuildMember } from "discord.js";
 import config from "../../utils/config";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class AvatarCommand extends BaseCommand {
+export default class AvatarCommand extends BaseInt {
     constructor() {
         super("avatar", "To get avatar");
     }
@@ -17,8 +17,7 @@ export default class AvatarCommand extends BaseCommand {
             .setImage(
                 member.user.displayAvatarURL({
                     dynamic: true,
-                    size: 1024,
-                    format: "gif",
+                    size: 512,
                 })
             )
             .setTimestamp();
