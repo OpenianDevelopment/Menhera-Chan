@@ -680,80 +680,78 @@ const commands: ApplicationCommandData[] = [
         ],
     },
 ];
-client.on("ready", () => {
+client.on("ready", async () => {
     console.log(`Logged in as ${client.user?.tag}\n`);
-    let val = 0;
     try {
-        const rl = readline.createInterface({ input, output });
-        rl.question(
-            "Do you to [create] new commands or [delete] current ones? ",
-            async (reply) => {
-                if (reply.toLowerCase().startsWith("c")) {
-                    commands.forEach(async (command) => {
-                        try {
-                            const data =
-                                await client.application!.commands.create(
-                                    command
-                                );
-                            console.log(
-                                `✅ Created:\t${data.name}\t|\t${data.id}\t|\t${data.guildId}`
-                            );
-                        } catch (err) {
-                            console.log(
-                                "\x1b[31m%s\x1b[0m",
-                                `❎ Failed:\t${command.name}`
-                            );
-                            console.error(err);
-                        }
-                        val++;
-                        if (val >= commands.length) {
-                            console.log(
-                                "\x1b[36m%s\x1b[0m",
-                                "Completed Registering\nExiting Now"
-                            );
-                            process.exit(0);
-                        }
-                    });
-                    console.log("\x1b[32m%s\x1b[0m", "Started creating...");
-                } else if (reply.toLowerCase().startsWith("d")) {
-                    const cmds = await client.application!.commands.fetch();
-                    if (cmds.size < 1) {
-                        console.log("\x1b[31m%s\x1b[0m", `No command found...`);
-                        return rl.close();
-                    }
-                    cmds.forEach(async (cmd) => {
-                        try {
-                            const d = await cmd.delete();
-                            console.log(
-                                `✅ Deleted:\t${d.name}\t|\t${d.id}\t|\t${d.guildId}`
-                            );
-                        } catch (err) {
-                            console.log(
-                                "\x1b[31m%s\x1b[0m",
-                                `❎ Failed:\t${cmd.name}`
-                            );
-                            console.error(err);
-                        }
-                        val++;
-                        if (val >= cmds.size) {
-                            console.log(
-                                "\x1b[36m%s\x1b[0m",
-                                "Finished Deleting\nExiting Now"
-                            );
-                            process.exit(0);
-                        }
-                    });
-                    console.log("\x1b[31m%s\x1b[0m", "Started deleting...");
-                } else {
-                    console.error(
-                        "\nYou can only reply with (C)reate or (D)elete"
-                    );
-                    process.exit(0);
+        const argv1 = process.argv.slice(2)[0];
+        if (!argv1) {
+            const rl = readline.createInterface({ input, output });
+            rl.question(
+                "Do you to [create] new commands or [delete] current ones? ",
+                async (reply) => {
+                    await CreateOrDelete(reply);
+                    rl.close();
                 }
-                rl.close();
-            }
-        );
+            );
+        } else {
+            await CreateOrDelete(argv1);
+        }
     } catch (err) {
         console.error("Error When Registering:", err);
     }
 });
+
+async function CreateOrDelete(reply: string) {
+    let val = 0;
+    if (reply.toLowerCase().startsWith("c")) {
+        commands.forEach(async (command) => {
+            try {
+                const data = await client.application!.commands.create(command);
+                console.log(
+                    `✅ Created:\t${data.name}\t|\t${data.id}\t|\t${data.guildId}`
+                );
+            } catch (err) {
+                console.log("\x1b[31m%s\x1b[0m", `❎ Failed:\t${command.name}`);
+                console.error(err);
+            }
+            val++;
+            if (val >= commands.length) {
+                console.log(
+                    "\x1b[36m%s\x1b[0m",
+                    "Completed Registering\nExiting Now"
+                );
+                process.exit(0);
+            }
+        });
+        console.log("\x1b[32m%s\x1b[0m", "Started creating...");
+    } else if (reply.toLowerCase().startsWith("d")) {
+        const cmds = await client.application!.commands.fetch();
+        if (cmds.size < 1) {
+            console.log("\x1b[31m%s\x1b[0m", `No command found...`);
+        } else {
+            cmds.forEach(async (cmd) => {
+                try {
+                    const d = await cmd.delete();
+                    console.log(
+                        `✅ Deleted:\t${d.name}\t|\t${d.id}\t|\t${d.guildId}`
+                    );
+                } catch (err) {
+                    console.log("\x1b[31m%s\x1b[0m", `❎ Failed:\t${cmd.name}`);
+                    console.error(err);
+                }
+                val++;
+                if (val >= cmds.size) {
+                    console.log(
+                        "\x1b[36m%s\x1b[0m",
+                        "Finished Deleting\nExiting Now"
+                    );
+                    process.exit(0);
+                }
+            });
+            console.log("\x1b[31m%s\x1b[0m", "Started deleting...");
+        }
+    } else {
+        console.error("\nYou can only use (C)reate or (D)elete");
+        process.exit(0);
+    }
+}
