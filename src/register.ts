@@ -687,7 +687,7 @@ client.on("ready", async () => {
         if (!argv1) {
             const rl = readline.createInterface({ input, output });
             rl.question(
-                "Do you to [create] new commands or [delete] current ones? ",
+                "Do you want to [create] new commands or [delete] current ones? ",
                 async (reply) => {
                     await CreateOrDelete(reply);
                     rl.close();
