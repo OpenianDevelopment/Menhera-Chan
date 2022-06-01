@@ -1,5 +1,6 @@
 export interface userXP {
     user: string;
+    id: string;
     xp: number;
     level: number;
     background: string;

@@ -42,3 +42,11 @@ export interface guildTags {
     guildId: string;
     tags: Tags[];
 }
+
+// user schema
+
+export interface userData {
+    id: string;
+    tag: string;
+    avatarHash: string;
+}

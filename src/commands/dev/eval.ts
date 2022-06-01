@@ -30,7 +30,11 @@ export default class EvalCommand extends BaseMsg {
             const start = process.hrtime();
             let evaled = code.includes("await")
                 ? eval(`(async () => { ${code} })()`)
-                : eval(code);
+                : eval(`(()=> { ${code} })()`);
+            if (evaled instanceof Promise) {
+                evaled = await evaled;
+            }
+            if (evaled === undefined) return;
             const stop = process.hrtime(start);
             const response = EvalClean(
                 inspect(evaled, { depth: 0 }),

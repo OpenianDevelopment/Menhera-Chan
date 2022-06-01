@@ -35,7 +35,7 @@ export default class messageCreateEvent extends BaseEvent {
         const Mentionconditions =
             message.content.startsWith(`<@${client?.user?.id}>`) ||
             message.content.startsWith(`<@!${client?.user?.id}>`);
-        const PrefixCondition = message.content.startsWith(client.prefix);
+        const PrefixCondition = message.content.toLowerCase().startsWith(client.prefix);
         if (PrefixCondition || Mentionconditions) {
             if (!config.root.includes(message.author.id))
                 return await and_yet_another_weird_reply();
@@ -46,11 +46,10 @@ export default class messageCreateEvent extends BaseEvent {
             )
                 return;
             const [cmdName, ...cmdArgs] = message.content
-                .toLowerCase()
                 .replace(MentionRegex, "")
                 .split(/ +/);
             //getting dev command
-            const command = client.dev.get(cmdName);
+            const command = client.dev.get(cmdName.toLowerCase());
             if (!command) return await and_yet_another_weird_reply();
             //checking if command requires extra args
             if (command.requireArgs && cmdArgs.length == null) {

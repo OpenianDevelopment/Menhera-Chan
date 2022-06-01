@@ -28,15 +28,17 @@ export default class CCTCreateCommand extends BaseInt {
         ) {
             return;
         }
-        const longname = interaction.options.getString("name", true);
+        const longname = interaction.options
+            .getString("name", true)
+            .toLowerCase();
         const reply = interaction.options.getBoolean("reply", true);
         const content =
             interaction.options.getString("content", false) || undefined;
         const embed: MessageEmbedOptions | undefined =
             interaction.options.getString("embed", false)
                 ? JSON.parse(interaction.options.getString("embed", false)!)
-                : null;   
-        const name = longname.split(/ /g)[0]
+                : null;
+        const name = longname.split(/ /g)[0];
         if (!content && !embed) {
             await interaction.followUp({
                 content: "You have to either add **content** or **embed**",

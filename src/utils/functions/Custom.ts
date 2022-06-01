@@ -5,10 +5,13 @@ import {
     User,
     CommandInteraction,
     Message,
+    WebhookClient,
+    Guild,
 } from "discord.js";
 import fetch from "cross-fetch";
 import DiscordClient from "../../client/client";
 import config from "../config";
+const webhook = new WebhookClient({ url: process.env.REPORT_WH! });
 
 declare global {
     type RpTypes =
@@ -234,4 +237,19 @@ export class CustomEmbed extends MessageEmbed {
             };
         }
     }
+}
+
+export async function ReportBug(desc: string, user: User, guild?: Guild) {
+    const embed = new MessageEmbed()
+        .setTitle("New Report")
+        .setFields({
+            name: "Author",
+            value: `${user.tag} | ${user.id}`,
+        })
+        .setDescription(desc)
+        .setTimestamp();
+    return await webhook.send({
+        content: guild ? `${guild.name} | ${guild.id}` : `Auto Error Detection`,
+        embeds: [embed],
+    });
 }
