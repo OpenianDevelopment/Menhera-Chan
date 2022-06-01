@@ -49,4 +49,5 @@ export interface userData {
     id: string;
     tag: string;
     avatarHash: string;
+    guilds: string[];
 }

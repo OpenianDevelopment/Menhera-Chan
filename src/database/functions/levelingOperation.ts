@@ -24,7 +24,8 @@ export async function getUserLevel(
             user.tag,
             user.avatar
                 ? user.avatar
-                : (parseInt(user.discriminator) % 5).toString()
+                : (parseInt(user.discriminator) % 5).toString(),
+            guildID
         );
         return await getUserLevel(guildID, user);
     }
@@ -158,7 +159,7 @@ export function updateUserTextColor(
         )
         .catch((err: Error) => console.log(err));
 }
-export async function initUserXP(user: User, guildID?: string) {
+export async function initUserXP(user: User, guildID: string) {
     const userData = await userSchema.findOne({ id: user.id });
     if (
         await initUserData(
@@ -166,7 +167,8 @@ export async function initUserXP(user: User, guildID?: string) {
             user.tag,
             user.avatar
                 ? user.avatar
-                : (parseInt(user.discriminator) % 5).toString()
+                : (parseInt(user.discriminator) % 5).toString(),
+                guildID
         )
     ) {
         await levelXp
