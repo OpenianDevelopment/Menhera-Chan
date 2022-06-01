@@ -1,8 +1,7 @@
-import BaseCommand from "../../structures/BaseCommand";
+import { BaseMsg } from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { inspect } from "util";
 import {
-    CommandInteraction,
     Interaction,
     Message,
     MessageActionRow,
@@ -12,105 +11,87 @@ import {
 import config from "../../utils/config";
 import { clean, CustomEmbed } from "../../utils/functions/Custom";
 
-export default class EvalCommand extends BaseCommand {
+export default class EvalCommand extends BaseMsg {
     constructor() {
-        super("eval", "dev");
+        super("eval", "dev", true);
     }
-    async run(client: DiscordClient, interaction: CommandInteraction) {
-        if (!config.root.includes(interaction.user.id)) {
-            interaction.followUp({ content: "No, thank you", ephemeral: true });
+    async run(client: DiscordClient, message: Message, args: string[]) {
+        if (!config.root.includes(message.author.id)) {
             return;
         }
-        await evaluate(client, interaction);
-    }
-}
-
-async function evaluate(
-    client: DiscordClient,
-    interaction: CommandInteraction
-) {
-    const date = Date.now();
-    const channel = interaction.channel;
-    const code = interaction.options.data[0].value!.toString();
-    const XBtn = new MessageActionRow().addComponents(
-        new MessageButton()
-            .setCustomId("delete-" + date)
-            .setStyle("PRIMARY")
-            .setEmoji(config.emojis.redCrossMark)
-    );
-    let botmsg: Message;
-    try {
-        const start = process.hrtime();
-        let evaled = eval(code);
-        if (evaled instanceof Promise) {
-            evaled = await evaled;
-        }
-        const stop = process.hrtime(start);
-        const evmbed = new CustomEmbed(interaction, false)
-            .setColor("#00FF00")
-            .setFooter({
-                text: `Time Taken: ${(stop[0] * 1e9 + stop[1]) / 1e6}ms`,
-                iconURL: client!.user!.displayAvatarURL(),
-            })
-            .setTitle("Eval")
-            .addField(
-                `**Output:**`,
-                `\`\`\`js\n${EvalClean(inspect(evaled, { depth: 0 }))}\n\`\`\``
-            )
-            .addField(`**Type:**`, typeof evaled);
-
-        const response = EvalClean(inspect(evaled, { depth: 0 }));
-        if (response.length <= 1024) {
-            botmsg = (await interaction.followUp({
-                embeds: [evmbed],
-                components: [XBtn],
-            })) as Message;
-        } else if (response.length <= 2048) {
-            botmsg = (await interaction.followUp({
-                content: "```js\n" + response + "\n```",
-                components: [XBtn],
-            })) as Message;
-        } else {
-            const output = new MessageAttachment(
-                Buffer.from(response),
-                "output.txt"
+        const CommandRegex = new RegExp(
+            `^(${client.prefix}|<@(!|)${client?.user?.id}>)( +|)`,
+            "i"
+        );
+        const tokenRegex = new RegExp(client.token!, "gi");
+        const code = args.join(" ").replace(CommandRegex, "");
+        let botmsg: Message;
+        try {
+            const start = process.hrtime();
+            let evaled = code.includes("await")
+                ? eval(`(async () => { ${code} })()`)
+                : eval(`(()=> { ${code} })()`);
+            if (evaled instanceof Promise) {
+                evaled = await evaled;
+            }
+            if (evaled === undefined) return;
+            const stop = process.hrtime(start);
+            const response = EvalClean(
+                inspect(evaled, { depth: 0 }),
+                tokenRegex
             );
-            await interaction.user!.send({ files: [output] });
-        }
-    } catch (err: any) {
-        const errevmbed = new CustomEmbed(interaction, false)
-            .setColor("#FF0000")
-            .setTitle(`ERROR`)
-            .setDescription(`\`\`\`xl\n${EvalClean(err.toString())}\n\`\`\``)
-            .setTimestamp()
-            .setFooter({
-                text: client!.user!.username,
-                iconURL: client!.user!.displayAvatarURL(),
-            });
-        botmsg = (await interaction.followUp({
-            embeds: [errevmbed],
-            components: [XBtn],
-        })) as Message;
-    }
+            const evmbed = new CustomEmbed(message, false)
+                .setColor("#00FF00")
+                .setTitle("Eval")
+                .addField(`**Output:**`, "```js\n" + response + "\n```")
+                .addField(`**Type:**`, typeof evaled)
+                .setFooter({
+                    text: `Time Taken: ${(stop[0] * 1e9 + stop[1]) / 1e6}ms`,
+                    iconURL: client.user!.displayAvatarURL(),
+                });
 
-    const filter = (m: Interaction) => interaction.user.id === m.user.id;
-    const collector = interaction.channel!.createMessageComponentCollector({
-        filter,
-    });
-    collector.on("collect", async (int) => {
-        if (int.customId === "delete-" + date) {
-            botmsg.delete();
-            return;
+            if (response.length <= 1024) {
+                botmsg = (await message.reply({
+                    embeds: [evmbed],
+                })) as Message;
+                return botmsg;
+            } else if (response.length <= 2048) {
+                botmsg = (await message.reply({
+                    content: "```js\n" + response + "\n```",
+                })) as Message;
+                return botmsg;
+            } else {
+                const output = new MessageAttachment(
+                    Buffer.from(response),
+                    "output.txt"
+                );
+                return await message.author.send({ files: [output] });
+            }
+        } catch (err: any) {
+            const errevmbed = new CustomEmbed(message, false)
+                .setColor("#FF0000")
+                .setTitle(`ERROR`)
+                .setDescription(
+                    `\`\`\`xl\n${EvalClean(err.toString(), tokenRegex)}\n\`\`\``
+                )
+                .setTimestamp()
+                .setFooter({
+                    text: client!.user!.username,
+                    iconURL: client!.user!.displayAvatarURL(),
+                });
+            botmsg = (await message.reply({
+                embeds: [errevmbed],
+            })) as Message;
+            setImmediate(() => {
+                return botmsg;
+            });
         }
-    });
-    function EvalClean(text: string) {
-        text = clean(text)
-            .replace(
-                new RegExp(client!.token!, "gi"),
+        function EvalClean(text: string, tokenRegex: RegExp) {
+            text = clean(text).replace(
+                tokenRegex,
                 `NrzaMyOTI4MnU1NT3oDA1rTk4.pPizb1g.hELpb6PAi1Pewp3wAwVseI72Eo`
-            )
-            .replace(/^int/g, "interaction")
-            .replace(/^interaction.reply/g, "channel.send");
-        return text;
+            );
+            return text;
+        }
     }
 }

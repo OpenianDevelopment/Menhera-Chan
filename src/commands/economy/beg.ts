@@ -1,4 +1,4 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import {
     addBalance,
@@ -20,7 +20,7 @@ let ResponsesArray: Array<string> = [
     "Sorry sweety",
 ];
 
-export default class EconBegCommand extends BaseCommand {
+export default class EconBegCommand extends BaseInt {
     constructor() {
         super("econ beg", "Beg for money");
     }

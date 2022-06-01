@@ -1,11 +1,11 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import fetch from "cross-fetch";
 import { embedMaker } from "../../utils/functions/embed";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class AniUsersCommand extends BaseCommand {
+export default class AniUsersCommand extends BaseInt {
     constructor() {
         super("ani users", "To look up anilist users");
     }

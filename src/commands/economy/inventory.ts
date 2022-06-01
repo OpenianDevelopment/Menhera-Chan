@@ -1,4 +1,4 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import {
     getUserWaifus,
@@ -8,7 +8,7 @@ import { CommandInteraction, MessageEmbed } from "discord.js";
 import { embedMaker } from "../../utils/functions/embed";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class EconInvCommand extends BaseCommand {
+export default class EconInvCommand extends BaseInt {
     constructor() {
         super("econ inventory", "Shows Collection of Waifus");
     }

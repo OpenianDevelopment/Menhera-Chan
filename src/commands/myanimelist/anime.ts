@@ -1,4 +1,4 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import {
     CommandInteraction,
@@ -8,7 +8,7 @@ import {
 import { CustomEmbed, MalRequest } from "../../utils/functions/Custom";
 import { embedMaker } from "../../utils/functions/embed";
 
-export default class MalAnimeCommand extends BaseCommand {
+export default class MalAnimeCommand extends BaseInt {
     constructor() {
         super("mal anime", "To search an anime on MyAnimeList");
     }

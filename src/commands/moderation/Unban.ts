@@ -1,11 +1,11 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { clean, CustomEmbed } from "../../utils/functions/Custom";
 import config from "../../utils/config";
 
-export default class BanCommand extends BaseCommand {
+export default class BanCommand extends BaseInt {
     constructor() {
         super("mod unban", "unbans a member");
     }

@@ -1,4 +1,4 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
 import {
@@ -8,7 +8,7 @@ import {
 } from "discord.js";
 import ms from "ms";
 
-export default class muteCommand extends BaseCommand {
+export default class muteCommand extends BaseInt {
     constructor() {
         super("mod mute", "mutes a user");
     }

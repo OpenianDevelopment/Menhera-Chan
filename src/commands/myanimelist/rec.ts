@@ -1,11 +1,11 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { embedMaker } from "../../utils/functions/embed";
 import config from "../../utils/config";
 import { CustomEmbed, MalRequest } from "../../utils/functions/Custom";
 
-export default class MalRecCommand extends BaseCommand {
+export default class MalRecCommand extends BaseInt {
     constructor() {
         super("mal rec", "To search an anime on MyAnimeList");
     }

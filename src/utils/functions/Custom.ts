@@ -5,10 +5,13 @@ import {
     User,
     CommandInteraction,
     Message,
+    WebhookClient,
+    Guild,
 } from "discord.js";
 import fetch from "cross-fetch";
 import DiscordClient from "../../client/client";
 import config from "../config";
+const webhook = new WebhookClient({ url: process.env.REPORT_WH! });
 
 declare global {
     type RpTypes =
@@ -61,10 +64,6 @@ export function clean(
             : str
     )
         .replace(/`/g, `\\\`${String.fromCharCode(8203)}`)
-        .replace(/\*/g, `\\\*${String.fromCharCode(8203)}`)
-        .replace(/~/g, `\\\~${String.fromCharCode(8203)}`)
-        .replace(/_/g, `\\\_${String.fromCharCode(8203)}`)
-        .replace(/\|/g, `\\\|${String.fromCharCode(8203)}`)
         .replace(/@/g, `\\\@${String.fromCharCode(8203)}`);
 }
 
@@ -155,14 +154,20 @@ export function rpTextCollection(author: User, member: GuildMember) {
 
 export function getSub(
     client: DiscordClient,
-    command: string,
+    commandName: string,
     subcmd: string | null,
     cmdgroup: string | null
 ): string {
-    if (!subcmd) return command;
+    if (!subcmd) return commandName;
     if (cmdgroup)
-        return client.commands.get(`${command} ${cmdgroup} ${subcmd}`)!.name;
-    return client.commands.get(`${command} ${subcmd}`)!.name;
+        return client.commands.get(`${commandName} ${cmdgroup} ${subcmd}`)!
+            .name;
+    const command = client.commands.get(`${commandName} ${subcmd}`);
+    if (!command) {
+        return commandName;
+    } else {
+        return command.name;
+    }
 }
 
 /* From https://github.com/zuritor/jikanjs/blob/6a11bcf1d07dfc046e56ddf3ed94adc5db6ac822/lib/util/Request.js */
@@ -232,4 +237,19 @@ export class CustomEmbed extends MessageEmbed {
             };
         }
     }
+}
+
+export async function ReportBug(desc: string, user: User, guild?: Guild) {
+    const embed = new MessageEmbed()
+        .setTitle("New Report")
+        .setFields({
+            name: "Author",
+            value: `${user.tag} | ${user.id}`,
+        })
+        .setDescription(desc)
+        .setTimestamp();
+    return await webhook.send({
+        content: guild ? `${guild.name} | ${guild.id}` : `Auto Error Detection`,
+        embeds: [embed],
+    });
 }

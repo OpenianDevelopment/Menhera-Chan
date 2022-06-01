@@ -17,4 +17,36 @@ export interface EconomyUserDB {
 export interface characterSchemaDB {
     characterId: string;
 }
-//something else
+
+//warnings schema
+export interface WarnsData {
+    id: string;
+    userId: string;
+    mod: string;
+    reason: string;
+    date: string;
+}
+export interface guildWarnData {
+    guildId: string;
+    warnings: WarnsData[];
+}
+
+//custom commands
+export interface Tags {
+    name: string;
+    content?: string;
+    embed?: string;
+    reply?: boolean;
+}
+export interface guildTags {
+    guildId: string;
+    tags: Tags[];
+}
+
+// user schema
+
+export interface userData {
+    id: string;
+    tag: string;
+    avatarHash: string;
+}

@@ -1,9 +1,9 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction } from "discord.js";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class FlipCommand extends BaseCommand {
+export default class FlipCommand extends BaseInt {
     constructor() {
         super("flip", "Flips a coin");
     }

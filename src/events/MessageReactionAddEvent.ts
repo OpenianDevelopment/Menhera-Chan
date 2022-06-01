@@ -16,7 +16,7 @@ export default class messageReactionAddEvent extends BaseEvent {
         if (!client.guildSettings.get(message.guild!.id)?.starboardSettings)
             return;
         const channel = client.guildSettings.get(message.guild.id)
-            ?.starboardSettings?.channel;
+            ?.starboardSettings?.channelId;
         if (!channel) return;
 
         if (

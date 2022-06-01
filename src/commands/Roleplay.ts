@@ -1,10 +1,10 @@
-import BaseCommand from "../structures/BaseCommand";
+import BaseInt from "../structures/BaseCommand";
 import DiscordClient from "../client/client";
 import { CommandInteraction, GuildMember } from "discord.js";
 import { getRolePlayGifs } from "../database/functions/RolePlayFunctions";
 import { CustomEmbed, rpTextCollection } from "../utils/functions/Custom";
 
-export default class RolePlayCommand extends BaseCommand {
+export default class RolePlayCommand extends BaseInt {
     constructor() {
         super("roleplay", " ");
     }

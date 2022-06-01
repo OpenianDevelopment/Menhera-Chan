@@ -237,13 +237,20 @@ export async function UpdateExp(
     );
 }
 
-export async function UpdateStarboard(guildId: string, channelId?: string) {
+export async function UpdateStarboard(
+    guildId: string,
+    options: { enable?: boolean; channelId?: string }
+) {
     const starData: starboardSettings = (await getGuildSettings(guildId))
         .starboardSettings;
     if (!starData) return;
-    if (!channelId) return starData;
     return await guildSettings.findOneAndUpdate(
         { guild_id: guildId },
-        { starboardSettings: { channel: channelId } }
+        {
+            starboardSettings: {
+                enable: options.enable || starData.enable,
+                channelId: options.channelId || starData.channelId,
+            },
+        }
     );
 }

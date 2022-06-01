@@ -1,8 +1,8 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction } from "discord.js";
 
-export default class PingCommand extends BaseCommand {
+export default class PingCommand extends BaseInt {
     constructor() {
         super("test", "test");
     }

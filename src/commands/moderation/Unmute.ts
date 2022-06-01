@@ -1,4 +1,4 @@
-import BaseCommand from "../../structures/BaseCommand";
+import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
 import {
@@ -7,7 +7,7 @@ import {
     GuildMemberRoleManager,
 } from "discord.js";
 
-export default class UnmuteCommand extends BaseCommand {
+export default class UnmuteCommand extends BaseInt {
     constructor() {
         super("mod unmute", "Unmutes a user");
     }

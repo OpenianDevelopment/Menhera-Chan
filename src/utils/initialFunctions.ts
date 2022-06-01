@@ -37,13 +37,34 @@ export async function registerCommands(
     const filePath = path.join(__dirname, dir);
     const files = await fs.readdir(filePath);
     for (const file of files) {
+        if (file === "dev") {
+            await registerDeveloperCommands(client, path.join(dir, file));
+        }
         const stat = await fs.lstat(path.join(filePath, file));
-        if (stat.isDirectory())
+        if (stat.isDirectory() && file !== "dev") {
             await registerCommands(client, path.join(dir, file));
+        }
         if (file.endsWith(".js") || file.endsWith(".ts")) {
             const { default: Command } = await import(path.join(dir, file));
             const command = new Command();
             client.commands.set(command.name, command);
+        }
+    }
+}
+export async function registerDeveloperCommands(
+    client: DiscordClient,
+    dir: string
+) {
+    const filePath = path.join(__dirname, dir);
+    const files = await fs.readdir(filePath);
+    for (const file of files) {
+        const stat = await fs.lstat(path.join(filePath, file));
+        if (stat.isDirectory())
+            await registerDeveloperCommands(client, path.join(dir, file));
+        if (file.endsWith(".js") || file.endsWith(".ts")) {
+            const { default: Command } = await import(path.join(dir, file));
+            const command = new Command();
+            client.dev.set(command.name, command);
         }
     }
 }
