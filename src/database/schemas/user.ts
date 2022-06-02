@@ -5,7 +5,7 @@ const UserData = new Schema({
     tag: String,
     avatarHash: String,
     guilds: [
-        { type: Schema.Types.ObjectId, unique: true, ref: "GuildSettings" },
+        { type: Schema.Types.ObjectId, ref: "GuildSettings" },
     ],
 });
 

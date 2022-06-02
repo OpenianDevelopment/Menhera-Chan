@@ -37,32 +37,29 @@ export async function updateUserData(
     guildId: string
 ) {
     const d: userData | null = await user.findOne({ id });
-    const guildData = await guildSettings.findOne({ id: guildId });
-    let updated = {
-        id: id,
-        tag: tag,
-        avatarHash: avatarHash,
-        guilds: [guildData._id],
-    };
+    const guildData = await guildSettings.findOne({ guild_id: guildId });
     if (d) {
-        if (d.guilds.find((d) => d == guildData._id)) {
-            updated["guilds"] = d.guilds;
-        } else {
-            updated["guilds"] = [...d.guilds, guildData._id];
+        const inc = d.guilds.includes(guildData._id);
+        if (!inc) {
+            d.guilds.push(guildData._id);
         }
-        if (d == updated) {
+        if (d["tag"] == tag && d["avatarHash"] == avatarHash && inc) {
             return true;
         } else {
-            await user.findOneAndUpdate({ id }, { updated });
+            await user.findOneAndUpdate(
+                { id },
+                {
+                    $set: {
+                        tag: tag,
+                        avatarHash: avatarHash,
+                        guilds: d.guilds,
+                    },
+                }
+            );
             return true;
         }
     } else {
-        return await initUserData(
-            updated["id"],
-            updated["tag"],
-            updated["avatarHash"],
-            guildId
-        );
+        return await initUserData(id, tag, avatarHash, guildId);
     }
 }
 
