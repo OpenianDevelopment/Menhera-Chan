@@ -1,5 +1,5 @@
-import { BaseMsg } from "../../structures/BaseCommand";
-import DiscordClient from "../../client/client";
+import { BaseMsg } from "../../../structures/BaseCommand";
+import DiscordClient from "../../../client/client";
 import { inspect } from "util";
 import {
     Interaction,
@@ -8,8 +8,8 @@ import {
     MessageAttachment,
     MessageButton,
 } from "discord.js";
-import config from "../../utils/config";
-import { clean, CustomEmbed } from "../../utils/functions/Custom";
+import config from "../../../utils/config";
+import { clean, CustomEmbed } from "../../../utils/functions/Custom";
 
 export default class EvalCommand extends BaseMsg {
     constructor() {

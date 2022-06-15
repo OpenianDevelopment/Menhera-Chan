@@ -35,10 +35,10 @@ export default class messageCreateEvent extends BaseEvent {
         const Mentionconditions =
             message.content.startsWith(`<@${client?.user?.id}>`) ||
             message.content.startsWith(`<@!${client?.user?.id}>`);
-        const PrefixCondition = message.content.toLowerCase().startsWith(client.prefix);
+        const PrefixCondition = message.content
+            .toLowerCase()
+            .startsWith(client.prefix);
         if (PrefixCondition || Mentionconditions) {
-            if (!config.root.includes(message.author.id))
-                return await and_yet_another_weird_reply();
             if (
                 !message.channel
                     .permissionsFor(client.user!.id)
@@ -49,16 +49,29 @@ export default class messageCreateEvent extends BaseEvent {
                 .replace(MentionRegex, "")
                 .split(/ +/);
             //getting dev command
-            const command = client.dev.get(cmdName.toLowerCase());
+            const command = client.msgCommands.find(
+                (data) =>
+                    data.name === cmdName.toLowerCase() ||
+                    (data.aliases != undefined
+                        ? data.aliases!.includes(cmdName.toLowerCase())
+                        : false)
+            );
             if (!command) return await and_yet_another_weird_reply();
+            if (
+                command.name != "roleplay" &&
+                !config.root.includes(message.author.id)
+            ) {
+                return await and_yet_another_weird_reply();
+            }
             //checking if command requires extra args
             if (command.requireArgs && cmdArgs.length == null) {
                 message.reply({ content: "This command requires extra args" });
                 return;
             }
             //running command and getting the reply.
-            const reply = await command.run(client, message, cmdArgs);
+            const reply = await command.run(client, message, cmdArgs, cmdName);
             if (!reply) return;
+            if (command.name === "roleplay") return;
             //date in ms.
             const date = Date.now();
             const customId = `delete-${date}`;
@@ -70,7 +83,7 @@ export default class messageCreateEvent extends BaseEvent {
                     .setEmoji(config.emojis.redCrossMark)
             );
             //editing the reply to add the x button
-            reply.edit({ components: [XBtn, ...reply.components] });
+            reply.edit({ components: [...reply.components, XBtn] });
             //filter so it only reacts to the author.
             const filter = (m: Interaction) => message.author.id === m.user.id;
             //creating the collector.
@@ -178,7 +191,7 @@ export default class messageCreateEvent extends BaseEvent {
         /**
          *  weird reply, idk why but i dont wanna delete it
          *
-         * p.s. i know its bad to define {@link weirdCuteEmoticons} and {@link qtEmbed} here but welp... kinda too lazy to fix (gotta give hackers a chance y'know ¯\_(ツ)_/¯)
+         * p.s. i know its bad to define {@link weirdCuteEmoticons} and {@link qtEmbed} here but welp... kinda too lazy to fix (gotta give hackers a chance y'know ¯\\\_(ツ)_/¯)
          */
         function and_yet_another_weird_reply() {
             const weirdCuteEmoticons = [

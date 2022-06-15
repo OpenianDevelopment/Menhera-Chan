@@ -6,7 +6,7 @@ import { CustomEmbed, rpTextCollection } from "../utils/functions/Custom";
 
 export default class RolePlayCommand extends BaseInt {
     constructor() {
-        super("roleplay", " ");
+        super("roleplay", "roleplay interactions");
     }
     async run(client: DiscordClient, interaction: CommandInteraction) {
         const author = interaction.user;
@@ -31,7 +31,7 @@ export default class RolePlayCommand extends BaseInt {
         // Defining the embed
         const embed = new CustomEmbed(interaction);
         // Getting the collection and array
-        const textarray = rpTextCollection(author, member).get(
+        const textarray = rpTextCollection(author.id, member.user.id).get(
             subcmd as RpTypes
         )!;
         // Choosing text

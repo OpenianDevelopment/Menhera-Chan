@@ -255,7 +255,7 @@ export class RankCard {
 
 function shorten(text: string, len: number) {
     if (text.length <= len) return text;
-    return text.substr(0, len).trim() + "...";
+    return text.substring(0, len).trim() + "...";
 }
 
 function roundRect(

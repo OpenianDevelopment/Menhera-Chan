@@ -26,7 +26,8 @@ export abstract class BaseMsg {
     constructor(
         private _name: string,
         private _description: string,
-        private _requireArgs: boolean
+        private _requireArgs: boolean,
+        private _aliases?: string[]
     ) {}
 
     get name(): string {
@@ -35,6 +36,10 @@ export abstract class BaseMsg {
 
     get description(): string {
         return this._description;
+    }
+
+    get aliases(): string[] | undefined {
+        return this._aliases;
     }
 
     get requireArgs(): boolean {
@@ -48,6 +53,7 @@ export abstract class BaseMsg {
     abstract run(
         client: DiscordClient,
         message: Message,
-        args?: string[]
+        args?: string[],
+        [K]?: any
     ): (void | Message) | Promise<Message | void>;
 }

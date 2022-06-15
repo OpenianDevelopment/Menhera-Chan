@@ -5,7 +5,7 @@ import { GuildSettings } from "../utils/interfaces/GlobalType";
 
 export default class DiscordClient extends Client {
     private _commands = new Collection<string, BaseInt>();
-    private _dev = new Collection<string, BaseMsg>();
+    private _msgCommands = new Collection<string, BaseMsg>();
     private _events = new Collection<string, BaseEvent>();
     private _guildSettings = new Collection<string, GuildSettings>();
     constructor(options: ClientOptions) {
@@ -19,10 +19,10 @@ export default class DiscordClient extends Client {
         return this._commands;
     }
     /**
-     * Get Developer commands
+     * Get Message commands
      */
-    get dev(): Collection<string, BaseMsg> {
-        return this._dev;
+    get msgCommands(): Collection<string, BaseMsg> {
+        return this._msgCommands;
     }
     get events(): Collection<string, BaseEvent> {
         return this._events;
