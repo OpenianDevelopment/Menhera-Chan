@@ -46,6 +46,7 @@ function GuildScheme(guildID: string) {
         },
         misc: {
             econ: true,
+            prefix: "mc!"
         },
     });
 }

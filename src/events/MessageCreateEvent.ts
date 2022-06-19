@@ -26,9 +26,11 @@ export default class messageCreateEvent extends BaseEvent {
         if (await UrlRemove(client, message)) return;
         exp(client, message);
         //bot prefix (for the commands)
+        const prefix =
+            client.guildSettings.get(message.guild.id)?.misc.prefix || "mc!";
         //regexp for replacing prefix/mention
         const MentionRegex = new RegExp(
-            `^(${client.prefix}|<@(!|)${client?.user?.id}>)( +|)`,
+            `^(${prefix}|<@(!|)${client?.user?.id}>)( +|)`,
             "i"
         );
         //commands area (if msg starts with prefix or mention)
@@ -37,7 +39,7 @@ export default class messageCreateEvent extends BaseEvent {
             message.content.startsWith(`<@!${client?.user?.id}>`);
         const PrefixCondition = message.content
             .toLowerCase()
-            .startsWith(client.prefix);
+            .startsWith(prefix);
         if (PrefixCondition || Mentionconditions) {
             if (
                 !message.channel

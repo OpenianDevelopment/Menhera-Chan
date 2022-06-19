@@ -21,9 +21,11 @@ export default class messageUpdateEvent extends BaseEvent {
         if (newMessage.createdTimestamp - 10 > oldMessage.createdTimestamp)
             return;
         //bot prefix (for the commands)
+        const prefix =
+            client.guildSettings.get(newMessage.guild.id)?.misc.prefix || "mc!";
         //regexp for replacing prefix/mention
         const MentionRegex = new RegExp(
-            `^(${client.prefix}|<@(!|)${client?.user?.id}>)( +|)`,
+            `^(${prefix}|<@(!|)${client?.user?.id}>)( +|)`,
             "i"
         );
         //commands area (if msg starts with prefix or mention)
@@ -32,7 +34,7 @@ export default class messageUpdateEvent extends BaseEvent {
             newMessage.content.startsWith(`<@!${client?.user?.id}>`);
         const PrefixCondition = newMessage.content
             .toLowerCase()
-            .startsWith(client.prefix);
+            .startsWith(prefix);
         if (PrefixCondition || Mentionconditions) {
             if (!config.root.includes(newMessage.author.id)) return;
             if (

@@ -87,6 +87,7 @@ export interface starboardSettings {
 
 export interface misc {
     econ: boolean;
+    prefix: string;
 }
 
 /**

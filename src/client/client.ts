@@ -12,9 +12,6 @@ export default class DiscordClient extends Client {
         super(options);
     }
 
-    get prefix(): string {
-        return "mc!";
-    }
     get commands(): Collection<string, BaseInt> {
         return this._commands;
     }

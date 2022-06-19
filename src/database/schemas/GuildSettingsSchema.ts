@@ -45,6 +45,7 @@ const guildSettingsSchema = new Schema({
     },
     misc: {
         econ: Boolean,
+        prefix: String,
     },
 });
 

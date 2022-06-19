@@ -1,11 +1,4 @@
-import {
-    BufferResolvable,
-    Message,
-    MessageAttachment,
-    MessageEmbed,
-    TextChannel,
-} from "discord.js";
-import { Stream } from "node:stream";
+import { Message, MessageEmbed, TextChannel } from "discord.js";
 
 export async function SendStarMessage(
     starChannel: TextChannel,
@@ -18,6 +11,14 @@ export async function SendStarMessage(
         if (message.attachments.size >= 1) {
             for (let i = 0; i <= message.attachments.size - 1; i++) {
                 attachments.push(message.attachments.at(i)!.url);
+            }
+        }
+        const ImageEmbeds = message.embeds.filter(
+            (embed) => embed.type === "image"
+        );
+        if (ImageEmbeds.length >= 1) {
+            for (let i = 0; i <= ImageEmbeds.length - 1; i++) {
+                attachments.push(ImageEmbeds[i].url!);
             }
         }
         const embed = new MessageEmbed()
@@ -55,7 +56,7 @@ export async function SendStarMessage(
 export function updateStars(starMsg: Message | null, newCount: number) {
     if (!starMsg) return;
     const channelId = starMsg.content.replace(/(<|>)/g, "").split("#")[1];
-    if (newCount < 5) return starMsg.delete();
+    if (newCount <= 0) return starMsg.delete();
     starMsg
         .edit({
             content: `**${SetStar(newCount)} ${newCount}** | <#${channelId}>`,
