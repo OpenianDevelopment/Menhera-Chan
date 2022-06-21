@@ -88,11 +88,6 @@ export default class RolePlayCommand extends BaseMsg {
     }
 }
 
-/**
- *  *"inspired"* by `@Lars_und_so#0666`
- * @param {Message} message
- * @returns Array of users
- */
 function getMentions(message: Message) {
     let mentions = [];
     if (message.mentions.repliedUser) {
