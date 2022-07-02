@@ -1,15 +1,13 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { clean, CustomEmbed } from "../../utils/functions/Custom";
 import config from "../../utils/config";
 
-export default class BanCommand extends BaseInt {
-    constructor() {
-        super("mod unban", "unbans a member");
-    }
-
+const ModUnban: CommandInt = {
+    name: "mod unban",
+    description: "unbans a member",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -59,5 +57,7 @@ export default class BanCommand extends BaseInt {
         await interaction.followUp({ embeds: [ChannelEmbed] });
         await interaction.guild!.members.unban(user);
         return;
-    }
-}
+    },
+};
+
+export default ModUnban;

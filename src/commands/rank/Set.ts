@@ -12,14 +12,12 @@ import {
     updateUserTrackColor,
     updateUserTextColor,
 } from "../../database/functions/levelingOperation";
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import config from "../../utils/config";
 
-export default class RankSetCommand extends BaseInt {
-    constructor() {
-        super("rank set", "Edit the rank card's data");
-    }
-
+const RankSet: CommandInt = {
+    name: "rank set",
+    description: "Edit the rank card's data",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -155,8 +153,8 @@ export default class RankSetCommand extends BaseInt {
             }
         });
         interaction.followUp({ content: content, embeds: embeds });
-    }
-}
+    },
+};
 
 function isColor(str: string) {
     const colors = [
@@ -197,3 +195,5 @@ function isColor(str: string) {
     if (/^#[A-F0-9]{6}$/i.test(str)) return true;
     return false;
 }
+
+export default RankSet;

@@ -48,9 +48,14 @@ export async function SendStarMessage(
                 files: attachments,
             })
             .then((m) => m.react("⭐"))
-            .catch((err) => {});
+            .catch(() => {});
     } else {
-        updateStars(starMsg, reactionCount);
+        updateStars(
+            starMsg,
+            reactionCount +
+                (starMsg.reactions.cache.get("⭐")?.count || 0) -
+                (message.channel.id === starChannel.id ? 1 : 0)
+        );
     }
 }
 export function updateStars(starMsg: Message | null, newCount: number) {
@@ -61,7 +66,7 @@ export function updateStars(starMsg: Message | null, newCount: number) {
         .edit({
             content: `**${SetStar(newCount)} ${newCount}** | <#${channelId}>`,
         })
-        .catch((err) => {});
+        .catch(() => {});
 }
 function SetStar(count: number) {
     if (count >= 20) return "💫";

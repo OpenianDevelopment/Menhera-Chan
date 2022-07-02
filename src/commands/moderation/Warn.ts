@@ -1,14 +1,13 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import config from "../../utils/config";
 import { addWarn } from "../../database/functions/WarnsFunctions";
 
-export default class WarnCommand extends BaseInt {
-    constructor() {
-        super("mod warn", "Warn a user");
-    }
+const ModWarn: CommandInt = {
+    name: "mod warn",
+    description: "Warn a user",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -20,7 +19,12 @@ export default class WarnCommand extends BaseInt {
         const reason =
             interaction.options.getString("reason", false) ||
             "No Reason Provided";
-        addWarn(interaction.guild.id, member.user.id, interaction.user.id, reason)
+        addWarn(
+            interaction.guild.id,
+            member.user.id,
+            interaction.user.id,
+            reason
+        );
         try {
             const message = await interaction.followUp({
                 embeds: [
@@ -45,5 +49,7 @@ export default class WarnCommand extends BaseInt {
             });
             return;
         }
-    }
-}
+    },
+};
+
+export default ModWarn;

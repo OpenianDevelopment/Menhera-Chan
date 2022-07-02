@@ -1,4 +1,4 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
 import {
@@ -8,13 +8,9 @@ import {
     ThreadChannel,
 } from "discord.js";
 
-export default class SlowmodeCommand extends BaseInt {
-    constructor() {
-        super(
-            "mod slowmode",
-            "To set the slowmode of the channel the command is written in"
-        );
-    }
+const ModSlowmode: CommandInt = {
+    name: "mod slowmode",
+    description: "To set the slowmode of the channel the command is written in",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -44,5 +40,6 @@ export default class SlowmodeCommand extends BaseInt {
             content: `${channel} is now in slowmode with ${seconds} seconds`,
         });
         return;
-    }
-}
+    },
+};
+export default ModSlowmode;

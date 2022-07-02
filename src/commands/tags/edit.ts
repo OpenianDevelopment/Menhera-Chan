@@ -1,21 +1,15 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import {
-    CommandInteraction,
-    MessageEmbed,
-    MessageEmbed as MessageEmbedClass,
-    WebhookClient,
-} from "discord.js";
+import { CommandInteraction } from "discord.js";
 import type { MessageEmbedOptions } from "discord.js";
 import { editGuildTag } from "../../database/functions/TagsFunctions";
 import { CheckPerms } from "../../utils/functions/mod";
 import config from "../../utils/config";
 import { ReportBug } from "../../utils/functions/Custom";
 
-export default class CCTEditCommand extends BaseInt {
-    constructor() {
-        super("tag edit", "Edits a tag");
-    }
+const TagEdit: CommandInt = {
+    name: "tag edit",
+    description: "Edits a tag",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -60,5 +54,7 @@ export default class CCTEditCommand extends BaseInt {
             );
             return;
         }
-    }
-}
+    },
+};
+
+export default TagEdit;

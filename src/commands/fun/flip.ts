@@ -1,12 +1,11 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction } from "discord.js";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class FlipCommand extends BaseInt {
-    constructor() {
-        super("flip", "Flips a coin");
-    }
+const Flip: CommandInt = {
+    name: "flip",
+    description: "Flips a coin",
     async run(client: DiscordClient, interaction: CommandInteraction) {
         let num: number | string = Math.floor(Math.random() * 3);
         if (num > 1) {
@@ -25,5 +24,7 @@ export default class FlipCommand extends BaseInt {
         interaction.followUp({
             embeds: [embed],
         });
-    }
-}
+    },
+};
+
+export default Flip;

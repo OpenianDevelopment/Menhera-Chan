@@ -1,13 +1,11 @@
 import { CommandInteraction, MessageEmbed, ColorResolvable } from "discord.js";
 import DiscordClient from "../../client/client";
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class RankHelpCommand extends BaseInt {
-    constructor() {
-        super("rank help", "Edit the rank card's data");
-    }
-
+const RankHelp: CommandInt = {
+    name: "rank help",
+    description: "Edit the rank card's data",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -16,8 +14,9 @@ export default class RankHelpCommand extends BaseInt {
             embeds: [HelpEmbed(interaction, client)],
         });
         return;
-    }
-}
+    },
+};
+
 /**
  * @HelpEmbed
  * a useless function that i keep to remember the usage
@@ -47,3 +46,5 @@ function HelpEmbed(int: CommandInteraction, client: DiscordClient) {
             `**Usage:** \`text: <Color>\`\n **Example:** \`text: #554b58\``
         );
 }
+
+export default RankHelp;

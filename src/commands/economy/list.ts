@@ -1,14 +1,13 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 
 import { CommandInteraction } from "discord.js";
 import config from "../../utils/config";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class EconListCommand extends BaseInt {
-    constructor() {
-        super("econ list", "List of wiafu/husbando");
-    }
+const EconList: CommandInt = {
+    name: "econ list",
+    description: "List of wiafu/husbando",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -27,5 +26,7 @@ export default class EconListCommand extends BaseInt {
         interaction.followUp({
             embeds: [embed],
         });
-    }
-}
+    },
+};
+
+export default EconList;

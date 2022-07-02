@@ -1,6 +1,6 @@
 import BaseEvent from "../structures/BaseEvent";
 import DiscordClient from "../client/client";
-import { Message, MessageReaction, TextChannel, User } from "discord.js";
+import { Message, MessageReaction, PermissionResolvable, TextChannel, User } from "discord.js";
 import { updateStars } from "../utils/functions/starboard";
 
 export default class messageReactionRemoveEvent extends BaseEvent {
@@ -10,7 +10,7 @@ export default class messageReactionRemoveEvent extends BaseEvent {
     async run(client: DiscordClient, reaction: MessageReaction, user: User) {
         if (reaction.emoji.name !== "⭐") return;
         if (user.bot) return;
-        await reaction.fetch().catch((err) => {});
+        await reaction.fetch().catch(() => {});
         const message = await reaction.message.fetch();
         if (!message.guild) return;
         if (!client.guildSettings.get(message.guild!.id)?.starboardSettings)
@@ -25,6 +25,29 @@ export default class messageReactionRemoveEvent extends BaseEvent {
             message.author.id !== client.user?.id
         )
             return;
+        // client's permission in the channel
+        const myPerms = (message.channel as TextChannel).permissionsFor(
+            client.user!.id
+        );
+        const neededPerms: PermissionResolvable[] = [
+            "MANAGE_MESSAGES",
+            "ADD_REACTIONS",
+            "READ_MESSAGE_HISTORY",
+            "EMBED_LINKS",
+            "ATTACH_FILES",
+        ];
+        if (!myPerms?.has(neededPerms)) {
+            if (myPerms?.has("SEND_MESSAGES")) {
+                message.channel.send({
+                    content: `Make sure i have **${neededPerms
+                        .slice(0, neededPerms.length - 2)
+                        .map((perm) => `\`${perm.toString()}\``)
+                        .join(", ")} and ${neededPerms[
+                        neededPerms.length - 1
+                    ].toString()}**`,
+                });
+            }
+        }
         if (
             Date.now() / 1000 - reaction.message.createdTimestamp >
             1000 * 60 * 60 * 24 * 7
@@ -101,7 +124,7 @@ export default class messageReactionRemoveEvent extends BaseEvent {
                 (sourceMsgStarCount && sourceMsgStarCount > 0
                     ? sourceMsgStarCount
                     : 0) -
-                (message.channelId === channel ? 1 : 3)
+                (message.channelId === channel ? 1 : 2)
         );
     }
 }

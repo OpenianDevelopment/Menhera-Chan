@@ -1,14 +1,13 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import config from "../../utils/config";
 import { removeWarn } from "../../database/functions/WarnsFunctions";
 
-export default class WarnCommand extends BaseInt {
-    constructor() {
-        super("mod delwarn", "Deletes a warn by id");
-    }
+const ModDeleteWarn: CommandInt = {
+    name: "mod delwarn",
+    description: "Deletes a warn by id",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -39,5 +38,7 @@ export default class WarnCommand extends BaseInt {
             });
             return;
         }
-    }
-}
+    },
+};
+
+export default ModDeleteWarn;

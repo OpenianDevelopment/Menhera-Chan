@@ -1,14 +1,12 @@
-import BaseInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction, MessageEmbed, TextChannel } from "discord.js";
 import fetch from "cross-fetch";
 import { embedMaker } from "../../utils/functions/embed";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class AniAnimeCommand extends BaseInt {
-    constructor() {
-        super("ani anime", "Search for anime in anilist's database");
-    }
+export default {
+    name: "ani anime",
+    description: "Search for anime in anilist's database",
     async run(client: DiscordClient, interaction: CommandInteraction) {
         let name = interaction.options.getString("name", true);
         const query = `query ($id: Int, $page: Int, $perPage: Int, $search: String) {
@@ -177,9 +175,8 @@ export default class AniAnimeCommand extends BaseInt {
             embeds.push(embed);
         });
         await embedMaker(interaction, embeds, page);
-    }
-}
-
+    },
+};
 async function handleResponse(response: Response) {
     const json = await response.json();
     return response.ok ? json : Promise.reject(json);

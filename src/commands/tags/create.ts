@@ -1,21 +1,15 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import {
-    CommandInteraction,
-    MessageEmbed,
-    MessageEmbed as MessageEmbedClass,
-    WebhookClient,
-} from "discord.js";
+import { CommandInteraction } from "discord.js";
 import type { MessageEmbedOptions } from "discord.js";
 import { addGuildTag } from "../../database/functions/TagsFunctions";
 import { CheckPerms } from "../../utils/functions/mod";
 import config from "../../utils/config";
 import { ReportBug } from "../../utils/functions/Custom";
 
-export default class CCTCreateCommand extends BaseInt {
-    constructor() {
-        super("tag create", "Create a tag");
-    }
+const TagCreate: CommandInt = {
+    name: "tag create",
+    description: "Create a tag",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -74,5 +68,7 @@ export default class CCTCreateCommand extends BaseInt {
             );
             return;
         }
-    }
-}
+    },
+};
+
+export default TagCreate;

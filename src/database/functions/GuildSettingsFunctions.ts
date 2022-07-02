@@ -1,5 +1,6 @@
-import { BooleanLiteral } from "typescript";
 import {
+    inviteLogSettings,
+    misc,
     rawGuildSettings,
     starboardSettings,
 } from "../../utils/interfaces/GlobalType";
@@ -27,8 +28,6 @@ function GuildScheme(guildID: string) {
             enable: false,
             modLogChannel: null,
             modBlackList: [],
-            urlBlock: false,
-            urlWhiteList: [],
         },
         welcomeSettings: {
             enable: false,
@@ -42,11 +41,16 @@ function GuildScheme(guildID: string) {
         },
         starboardSettings: {
             enable: false,
-            channel: null,
+            channelId: null,
+        },
+        inviteLogSettings: {
+            enable: false,
+            channelId: null,
         },
         misc: {
             econ: true,
-            prefix: "mc!"
+            prefix: "mc!",
+            lang: "en",
         },
     });
 }
@@ -189,12 +193,6 @@ export async function UpdateModeration(
     if (data.modBlackList == undefined) {
         data.modBlackList = Settings.modBlackList;
     }
-    if (data.urlBlock == undefined) {
-        data.urlBlock = Settings.urlBlock;
-    }
-    if (data.urlWhiteList == undefined) {
-        data.urlWhiteList = Settings.urlWhiteList;
-    }
 
     await guildSettings.findOneAndUpdate(
         { guild_id: guildID },
@@ -251,6 +249,42 @@ export async function UpdateStarboard(
             starboardSettings: {
                 enable: options.enable || starData.enable,
                 channelId: options.channelId || starData.channelId,
+            },
+        }
+    );
+}
+
+export async function UpdateInviteLog(
+    guildId: string,
+    options: { enable?: boolean; channelId?: string }
+) {
+    const data: inviteLogSettings = (await getGuildSettings(guildId))
+        .inviteLogSettings;
+    if (!data) return;
+    return await guildSettings.findOneAndUpdate(
+        { guild_id: guildId },
+        {
+            starboardSettings: {
+                enable: options.enable || data.enable,
+                channelId: options.channelId || data.channelId,
+            },
+        }
+    );
+}
+
+export async function UpdateMisc(
+    guildId: string,
+    options: { econ?: boolean; prefix?: string; lang?: string }
+) {
+    const data: misc = (await getGuildSettings(guildId)).misc;
+    if (!data) return;
+    return await guildSettings.findOneAndUpdate(
+        { guild_id: guildId },
+        {
+            misc: {
+                econ: options.econ || data.econ,
+                prefix: options.prefix || data.prefix,
+                lang: options.lang || data.lang,
             },
         }
     );

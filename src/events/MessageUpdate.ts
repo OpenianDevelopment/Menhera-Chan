@@ -6,7 +6,6 @@ import {
     MessageActionRow,
     MessageButton,
 } from "discord.js";
-import { UrlRemove } from "../utils/functions/UrlRemove";
 import config from "../utils/config";
 
 export default class messageUpdateEvent extends BaseEvent {
@@ -17,7 +16,6 @@ export default class messageUpdateEvent extends BaseEvent {
         if (newMessage.channel.type == "DM") return;
         if (!newMessage.guild) return;
         if (newMessage.author.bot) return;
-        if (await UrlRemove(client, newMessage)) return;
         if (newMessage.createdTimestamp - 10 > oldMessage.createdTimestamp)
             return;
         //bot prefix (for the commands)

@@ -10,7 +10,6 @@ import {
 import type { MessageEmbedOptions } from "discord.js";
 import { CustomEmbed, _ads } from "../utils/functions/Custom";
 import { exp } from "../utils/functions/exp";
-import { UrlRemove } from "../utils/functions/UrlRemove";
 import { getGuildTags } from "../database/functions/TagsFunctions";
 import { guildTags } from "../utils/interfaces/Database";
 import config from "../utils/config";
@@ -20,15 +19,24 @@ export default class messageCreateEvent extends BaseEvent {
         super("messageCreate");
     }
     async run(client: DiscordClient, message: Message) {
-        if (message.channel.type == "DM") return;
-        if (!message.guild) return;
-        if (message.author.bot) return;
-        if (await UrlRemove(client, message)) return;
+        /**
+         * checking if
+         * 1. channel is dm
+         * 2. there is no guild
+         * 3. author is bot
+         * if any of the above is true, return void;
+         */
+        if (
+            message.channel.type == "DM" ||
+            !message.guild ||
+            message.author.bot
+        )
+            return;
         exp(client, message);
-        //bot prefix (for the commands)
+        // bot prefix (for the commands)
         const prefix =
             client.guildSettings.get(message.guild.id)?.misc.prefix || "mc!";
-        //regexp for replacing prefix/mention
+        // regexp for replacing prefix/mention
         const MentionRegex = new RegExp(
             `^(${prefix}|<@(!|)${client?.user?.id}>)( +|)`,
             "i"
@@ -66,17 +74,17 @@ export default class messageCreateEvent extends BaseEvent {
                 return await and_yet_another_weird_reply();
             }
             //checking if command requires extra args
-            if (command.requireArgs && cmdArgs.length == null) {
+            if (command.requireArgs && !cmdArgs.length) {
                 message.reply({ content: "This command requires extra args" });
                 return;
             }
             //running command and getting the reply.
             const reply = await command.run(client, message, cmdArgs, cmdName);
             if (!reply) return;
-            if (command.name === "roleplay") return;
+            if (command.name == "roleplay") return;
             //date in ms.
             const date = Date.now();
-            const customId = `delete-${date}`;
+            const customId = `delete-${date}-${command.name}-${message.author.id}`;
             //x button.
             const XBtn = new MessageActionRow().addComponents(
                 new MessageButton()
@@ -91,7 +99,7 @@ export default class messageCreateEvent extends BaseEvent {
             //creating the collector.
             const collector = message.channel.createMessageComponentCollector({
                 filter,
-                time: 15 * 1000,
+                time: 120 * 1000,
             });
             //on collect event obv
             collector.on("collect", async (int) => {
@@ -188,7 +196,6 @@ export default class messageCreateEvent extends BaseEvent {
                 });
                 return;
             }
-            //else just give em something cute
         }
         /**
          *  weird reply, idk why but i dont wanna delete it

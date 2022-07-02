@@ -1,17 +1,23 @@
 import type { Canvas as TypeCanvas } from "canvas";
 import Canvas from "canvas";
-import { Guild, GuildMember, MessageAttachment, TextChannel } from "discord.js";
+import {
+    Guild,
+    GuildMember,
+    MessageAttachment,
+    MessageEmbed,
+    TextChannel,
+} from "discord.js";
 import { welcomeSystemSettings } from "../interfaces/GlobalType";
 import { clean } from "./Custom";
 
 export async function welcomeMsg(
     member: GuildMember,
     guild: Guild,
-    guildSet: welcomeSystemSettings
+    welcomeSettings: welcomeSystemSettings
 ) {
-    let DM_WelcomeMsg = guildSet.dmMessage;
-    let CH_WelcomeMsg = guildSet.channelMessage;
-    if (guildSet.welcomeDM && DM_WelcomeMsg) {
+    let DM_WelcomeMsg = welcomeSettings.dmMessage;
+    let CH_WelcomeMsg = welcomeSettings.channelMessage;
+    if (welcomeSettings.welcomeDM && DM_WelcomeMsg) {
         DM_WelcomeMsg = DM_WelcomeMsg.replace(
             /{member}/g,
             `<@!${member.user.id}>`
@@ -21,8 +27,8 @@ export async function welcomeMsg(
         await member.user.send({ content: DM_WelcomeMsg }).catch(console.error);
     }
 
-    if (guildSet.welcomeChannelID == null) return;
-    if (guildSet.enable && CH_WelcomeMsg) {
+    if (welcomeSettings.welcomeChannelID == null) return;
+    if (welcomeSettings.enable && CH_WelcomeMsg) {
         CH_WelcomeMsg = CH_WelcomeMsg.replace(
             /{member}/g,
             `<@!${member.user.id}>`
@@ -50,8 +56,10 @@ export async function welcomeMsg(
     const canvas = Canvas.createCanvas(845, 475);
     const ctx = canvas.getContext("2d");
     let background;
-    if (guildSet.CustomWelcomeBackground) {
-        background = await Canvas.loadImage(guildSet.CustomWelcomeBackground);
+    if (welcomeSettings.CustomWelcomeBackground) {
+        background = await Canvas.loadImage(
+            welcomeSettings.CustomWelcomeBackground
+        );
     } else {
         background = await Canvas.loadImage("./././images/welcome.png");
     }
@@ -83,11 +91,37 @@ export async function welcomeMsg(
     );
 
     const channel = (await member.guild.channels.fetch(
-        guildSet.welcomeChannelID
+        welcomeSettings.welcomeChannelID
     )) as TextChannel;
     try {
         return channel?.send({ content: CH_WelcomeMsg, files: [attachment] });
     } catch (err) {
         return console.error(err);
     }
+}
+
+export function welcomeRoles(
+    clientId: string,
+    member: GuildMember,
+    welcomeSettings: welcomeSystemSettings
+) {
+    const welcomeRoles = welcomeSettings.welcomeRoles;
+    if (!welcomeRoles) return;
+    welcomeRoles.forEach(async (r) => {
+        member.roles.add(r).catch(async (e) => {
+            if (welcomeSettings.welcomeChannelID === null) return;
+            const channel = (await member.guild.channels.fetch(
+                welcomeSettings.welcomeChannelID
+            )) as TextChannel;
+            if (!channel?.permissionsFor(clientId)?.has(`SEND_MESSAGES`))
+                return;
+            const embed = new MessageEmbed()
+                .setDescription(
+                    `Oh no! Something went wrong while assigning role <@&${r}>. /
+                        Make sure i have MANAGE ROLES permission and My role is higher. Thanks in advance honey`
+                )
+                .setColor("RED");
+            channel.send({ embeds: [embed] }).catch(() => {});
+        });
+    });
 }

@@ -1,29 +1,49 @@
-import { BaseMsg } from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import { Message, GuildMember, User } from "discord.js";
+import { Message, User } from "discord.js";
 import { getRolePlayGifs } from "../../database/functions/RolePlayFunctions";
 import { CustomEmbed, rpTextCollection } from "../../utils/functions/Custom";
 
-export default class RolePlayCommand extends BaseMsg {
-    constructor() {
-        super("roleplay", "roleplay message interactions", true, [
-            "bully",
-            "bite",
-            "cry",
-            "cuddle",
-            "greet",
-            "highfive",
-            "kill",
-            "kiss",
-            "pat",
-            "tickle",
-            "tsundere",
-            "yeet",
-            "smile",
-            "punch",
-            "lick",
-        ]);
-    }
+const RolePlay: CommandInt = {
+    name: "roleplay",
+    description: "roleplay message interactions",
+    requireArgs: true,
+    usage: "<action> [user(s)]",
+    example: [
+        "bully @Noro#4477",
+        "bite @Noro#4477",
+        "cry @Noro#4477 @Julio_#7057",
+        "cuddle @Noro#4477",
+        "greet @Major Senpai スレーブマスター#7814",
+        "highfive @Major Senpai スレーブマスター#7814",
+        "kill @Noro#4477",
+        "kiss @Julio_#7057 @Noro#4477 @Major Senpai スレーブマスター#7814",
+        "pat @Julio_#7057",
+        "tickle @Noro#4477",
+        "tsundere",
+        "tsundere @Julio_#7057",
+        "yeet @Noro#4477",
+        "smile @Major Senpai スレーブマスター#7814",
+        "punch @Noro#4477",
+        "lick @Major Senpai スレーブマスター#7814",
+    ],
+    aliases: [
+        "bully",
+        "bite",
+        "cry",
+        "cuddle",
+        "greet",
+        "highfive",
+        "kill",
+        "kiss",
+        "pat",
+        "tickle",
+        "tsundere",
+        "yeet",
+        "smile",
+        "punch",
+        "lick",
+    ],
     async run(
         client: DiscordClient,
         message: Message,
@@ -76,7 +96,7 @@ export default class RolePlayCommand extends BaseMsg {
             let data = (await getRolePlayGifs(cmdName))?.get("images");
             if (data == null || undefined) {
                 return await message.reply({
-                    content: "This interation is currently not working",
+                    content: "This command is currently not working",
                 });
             }
             embed
@@ -85,8 +105,8 @@ export default class RolePlayCommand extends BaseMsg {
         }
 
         return await message.reply({ embeds: [embed] });
-    }
-}
+    },
+};
 
 function getMentions(message: Message) {
     let mentions = [];
@@ -102,3 +122,5 @@ function getMentions(message: Message) {
 function getText(message: Message, lastMention: User) {
     return message.content.split(lastMention.id + ">")[1];
 }
+
+export default RolePlay;

@@ -44,8 +44,6 @@ export interface moderationSystemSettings {
     enable: boolean;
     modLogChannel: string | null;
     modBlackList: Array<string>;
-    urlBlock: boolean;
-    urlWhiteList: Array<string>;
 }
 
 /**
@@ -81,6 +79,16 @@ export interface starboardSettings {
 }
 
 /**
+ * # StarBoard
+ * @param enable log invites or not
+ * @param channel log channel id
+ */
+export interface inviteLogSettings {
+    enable: boolean;
+    channelId: string | null;
+}
+
+/**
  * # misc
  * @param econ enable/disable econ
  */
@@ -88,6 +96,7 @@ export interface starboardSettings {
 export interface misc {
     econ: boolean;
     prefix: string;
+    lang: string;
 }
 
 /**
@@ -106,6 +115,7 @@ export interface GuildSettings {
     moderationSettings: moderationSystemSettings;
     welcomeSettings: welcomeSystemSettings;
     starboardSettings: starboardSettings;
+    inviteLogSettings: inviteLogSettings;
     misc: misc;
 }
 /**
@@ -118,5 +128,6 @@ export interface rawGuildSettings {
     moderationSettings: moderationSystemSettings;
     welcomeSettings: welcomeSystemSettings;
     starboardSettings: starboardSettings;
+    inviteLogSettings: inviteLogSettings;
     misc: misc;
 }

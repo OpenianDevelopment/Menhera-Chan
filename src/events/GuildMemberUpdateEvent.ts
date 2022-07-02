@@ -1,8 +1,8 @@
 import BaseEvent from "../structures/BaseEvent";
 import DiscordClient from "../client/client";
-import { GuildMember, MessageEmbed, TextChannel } from "discord.js";
-import { getGuildSettings } from "../database/functions/GuildSettingsFunctions";
-import { welcomeMsg } from "../utils/functions/welcome";
+import { GuildMember } from "discord.js";
+import { welcomeMsg, welcomeRoles } from "../utils/functions/welcome";
+import { sendLog } from "../utils/functions/invites";
 
 export default class GuildMemberAddEvent extends BaseEvent {
     constructor() {
@@ -13,36 +13,22 @@ export default class GuildMemberAddEvent extends BaseEvent {
         Oldmember: GuildMember,
         newMember: GuildMember
     ) {
+        // if member is bot, ignore
         if (Oldmember.user.bot) return;
+        // if member was pending and now is not
         if (Oldmember.pending && !newMember.pending) {
-            const guildSet = (await getGuildSettings(newMember.guild.id))
-                .welcomeSettings;
-            if (!guildSet.enable) return;
-            welcomeMsg(newMember, newMember.guild, guildSet);
-
-            const welcomeRoles = guildSet.welcomeRoles;
-            if (!welcomeRoles) return;
-            welcomeRoles.forEach(async (r) => {
-                newMember.roles.add(r).catch(async (e) => {
-                    if (guildSet.welcomeChannelID === null) return;
-                    const channel = (await newMember.guild.channels.fetch(
-                        guildSet.welcomeChannelID
-                    )) as TextChannel;
-                    if (
-                        !channel
-                            ?.permissionsFor(client.user!.id)
-                            ?.has(`SEND_MESSAGES`)
-                    )
-                        return;
-                    const embed = new MessageEmbed()
-                        .setDescription(
-                            `Oh no! Something went wrong while assigning role <@&${r}>. /
-                        Make sure i have MANAGE ROLES permission and My role is higher. Thanks in advance honey`
-                        )
-                        .setColor("RED");
-                    channel.send({ embeds: [embed] }).catch((err) => {});
-                });
-            });
+            const { welcomeSettings, inviteLogSettings } =
+                client.guildSettings.get(newMember.guild.id)!;
+            //invite log function
+            await sendLog(client, inviteLogSettings.channelId, newMember);
+            // welcome part
+            // check if welcome is enabled 
+            if (!welcomeSettings.enable) return;
+            // send welcome message
+            await welcomeMsg(newMember, newMember.guild, welcomeSettings);
+            // give welcome roles
+            welcomeRoles(client.user!.id, newMember, welcomeSettings);
+            return;
         }
     }
 }

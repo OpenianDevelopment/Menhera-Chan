@@ -1,8 +1,7 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import {
     addBalance,
-    getBalance,
     getWaifuByID,
 } from "../../database/functions/EconFunctions";
 
@@ -20,10 +19,9 @@ let ResponsesArray: Array<string> = [
     "Sorry sweety",
 ];
 
-export default class EconBegCommand extends BaseInt {
-    constructor() {
-        super("econ beg", "Beg for money");
-    }
+const EconBeg: CommandInt = {
+    name: "econ beg",
+    description: "Beg for money",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -54,5 +52,7 @@ export default class EconBegCommand extends BaseInt {
         interaction.followUp({
             content: `**${character.name}**: ${ResponsesArray[math]}`,
         });
-    }
-}
+    },
+};
+
+export default EconBeg;

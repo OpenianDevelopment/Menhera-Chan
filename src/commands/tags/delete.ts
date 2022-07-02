@@ -1,13 +1,12 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction } from "discord.js";
 import { delGuildCommand } from "../../database/functions/TagsFunctions";
 import { CheckPerms } from "../../utils/functions/mod";
 
-export default class CCTDelCommand extends BaseInt {
-    constructor() {
-        super("tag delete", "Deletes a tag");
-    }
+const TagDelete: CommandInt = {
+    name: "tag delete",
+    description: "Deletes a tag",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -33,5 +32,7 @@ export default class CCTDelCommand extends BaseInt {
             });
             return;
         }
-    }
-}
+    },
+};
+
+export default TagDelete;

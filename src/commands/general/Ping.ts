@@ -1,4 +1,4 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import {
     CommandInteraction,
@@ -7,10 +7,9 @@ import {
     MessageEmbed,
 } from "discord.js";
 
-export default class PingCommand extends BaseInt {
-    constructor() {
-        super("ping", "Returns Ping");
-    }
+const Ping: CommandInt = {
+    name: "ping",
+    description: "Returns Ping",
     async run(client: DiscordClient, interaction: CommandInteraction) {
         const msg = (await interaction.followUp({
             content: `Ponging...`,
@@ -30,5 +29,7 @@ export default class PingCommand extends BaseInt {
             embeds: [embed],
         });
         return;
-    }
-}
+    },
+};
+
+export default Ping;

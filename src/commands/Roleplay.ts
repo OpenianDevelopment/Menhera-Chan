@@ -1,13 +1,12 @@
-import BaseInt from "../structures/BaseCommand";
+import CommandInt from "../structures/BaseCommand";
 import DiscordClient from "../client/client";
 import { CommandInteraction, GuildMember } from "discord.js";
 import { getRolePlayGifs } from "../database/functions/RolePlayFunctions";
 import { CustomEmbed, rpTextCollection } from "../utils/functions/Custom";
 
-export default class RolePlayCommand extends BaseInt {
-    constructor() {
-        super("roleplay", "roleplay interactions");
-    }
+const RolePlay: CommandInt = {
+    name: "roleplay",
+    description: "roleplay interactions",
     async run(client: DiscordClient, interaction: CommandInteraction) {
         const author = interaction.user;
         const member = interaction.options.getMember(
@@ -54,5 +53,7 @@ export default class RolePlayCommand extends BaseInt {
         }
 
         await interaction.followUp({ embeds: [embed] });
-    }
-}
+    },
+};
+
+export default RolePlay;

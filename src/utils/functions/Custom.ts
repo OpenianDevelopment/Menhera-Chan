@@ -31,17 +31,20 @@ declare global {
         | "lick";
 }
 
-export function capFirstLetter(value: string) {
-    return value.charAt(0).toUpperCase() + value.slice(1);
+export function capFirstLetters(value: string) {
+    return value
+        .split(/ +/g)
+        .map((v) => v.charAt(0).toUpperCase() + v.slice(1))
+        .join(" ");
 }
 
 export const _ads = {
     OnCooldown: false,
     embed: function (data: CommandInteraction | Message) {
         return new CustomEmbed(data).setDescription(
-            `You can also **[vote for us on top.gg](https://top.gg/bot/${
-                data.guild!.client.user!.id
-            }/vote)** to support the bot's growth!`
+            `You can also **[vote for me on top.gg](https://top.gg/bot/${
+                data.guild?.client.user?.id
+            }/vote)**!`
         );
     },
 };
@@ -117,11 +120,11 @@ export function rpTextCollection(authorId: string, memberId: string) {
             `God, You are so stupid`,
             `You better be grateful!!`,
             `*Gives a meal* I just happened to make some extra`,
-            `it's not like i like doing this with you, I only have you around for entertainment purposes only`,
+            `It's not like i like doing this with you, I only have you around for entertainment purposes only`,
             `Fine be that way, I didn't want you here anyway`,
-            `i-its not like I like you or anything! B-baka!`,
+            `I-It's not like I like you or anything! B-baka!`,
         ])
-        .set("yeet", [`<@!${authorId}> yeets <@!${memberId}>`]);
+        .set("yeet", [`<@!${authorId}> *yeets* <@!${memberId}>`]);
 }
 
 export function getSub(
@@ -142,7 +145,6 @@ export function getSub(
     }
 }
 
-/* From https://github.com/zuritor/jikanjs/blob/6a11bcf1d07dfc046e56ddf3ed94adc5db6ac822/lib/util/Request.js */
 export class MalRequest {
     /**
      * sends a request with the given list of URL parts and the optional list of query parameter

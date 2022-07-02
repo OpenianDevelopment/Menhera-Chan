@@ -1,20 +1,25 @@
 import { CommandInteraction } from "discord.js";
 import DiscordClient from "../../../client/client";
 import { UpdateWelcome } from "../../../database/functions/GuildSettingsFunctions";
-import BaseInt from "../../../structures/BaseCommand";
+import CommandInt from "../../../structures/BaseCommand";
 import { clean, CustomEmbed } from "../../../utils/functions/Custom";
 import { CheckPerms } from "../../../utils/functions/mod";
 import { updateCacheGuildSettings } from "../../../utils/initialFunctions";
 
-export default class welcomeChannelCommand extends BaseInt {
-    constructor() {
-        super("settings welcome channel", "channel message");
-    }
+const SettingsWelcomeChannel: CommandInt = {
+    name: "settings welcome channel",
+    description: "channel message",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
     ) {
-        if (!(await CheckPerms(interaction, interaction.user.id, "ADMINISTRATOR"))) {
+        if (
+            !(await CheckPerms(
+                interaction,
+                interaction.user.id,
+                "ADMINISTRATOR"
+            ))
+        ) {
             return;
         }
         let channel = interaction.options.getChannel("channel", true);
@@ -37,5 +42,7 @@ export default class welcomeChannelCommand extends BaseInt {
         interaction.followUp({
             embeds: [embed],
         });
-    }
-}
+    },
+};
+
+export default SettingsWelcomeChannel;

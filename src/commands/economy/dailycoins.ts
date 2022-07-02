@@ -1,14 +1,13 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 const DBL = require("dbl-api");
 
 import { CommandInteraction } from "discord.js";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class EconDailycoinsCommand extends BaseInt {
-    constructor() {
-        super("econ dailycoins", "get daility coins");
-    }
+const EconDailyCoins: CommandInt = {
+    name: "econ dailycoins",
+    description: "get daility coins",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -49,5 +48,7 @@ export default class EconDailycoinsCommand extends BaseInt {
                 return;
             }
         });
-    }
-}
+    },
+};
+
+export default EconDailyCoins;

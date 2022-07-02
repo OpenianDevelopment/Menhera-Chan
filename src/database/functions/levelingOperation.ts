@@ -168,7 +168,7 @@ export async function initUserXP(user: User, guildID: string) {
             user.avatar
                 ? user.avatar
                 : (parseInt(user.discriminator) % 5).toString(),
-                guildID
+            guildID
         )
     ) {
         await levelXp
@@ -200,10 +200,19 @@ export async function initUserXP(user: User, guildID: string) {
     }
 }
 
-export async function initXP(guild?: string) {
+export async function initXP(guild: string) {
     const newGuild = new levelXp({
         guild: guild,
         users: [],
     });
     await newGuild.save().catch(console.error);
+}
+
+export async function delXP(guild: string) {
+    try {
+        await levelXp.findOneAndDelete({ guild: guild });
+        return true;
+    } catch (err) {
+        return false;
+    }
 }

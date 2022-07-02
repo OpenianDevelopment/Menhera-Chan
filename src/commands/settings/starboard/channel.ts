@@ -1,4 +1,4 @@
-import BaseInt from "../../../structures/BaseCommand";
+import CommandInt from "../../../structures/BaseCommand";
 import DiscordClient from "../../../client/client";
 import { CommandInteraction } from "discord.js";
 import { UpdateStarboard } from "../../../database/functions/GuildSettingsFunctions";
@@ -7,10 +7,9 @@ import config from "../../../utils/config";
 import { CustomEmbed } from "../../../utils/functions/Custom";
 import { updateCacheGuildSettings } from "../../../utils/initialFunctions";
 
-export default class enableDisableCommand extends BaseInt {
-    constructor() {
-        super("settings starboard", "toggles a feature");
-    }
+const SettingsStarBoardChannel: CommandInt = {
+    name: "settings starboard",
+    description: "toggles a feature",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -88,5 +87,7 @@ export default class enableDisableCommand extends BaseInt {
             });
             return;
         }
-    }
-}
+    },
+};
+
+export default SettingsStarBoardChannel;

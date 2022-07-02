@@ -587,9 +587,28 @@ const commands: ApplicationCommandData[] = [
         type: "CHAT_INPUT",
     },
     {
-        name: "test",
-        description: "test",
+        name: "rps",
+        description: "play an rps game with a friend! or with me",
         type: "CHAT_INPUT",
+        options: [
+            {
+                name: "choice",
+                description: "choose rock, paper or scissors!",
+                type: "STRING",
+                choices: [
+                    { name: "🪨", value: "rock" },
+                    { name: "📃", value: "paper" },
+                    { name: "✂️", value: "scissors" },
+                ],
+                required: true,
+            },
+            {
+                name: "user",
+                description: "friend to play rps with",
+                type: "USER",
+                required: false,
+            },
+        ],
     },
     {
         name: "help",

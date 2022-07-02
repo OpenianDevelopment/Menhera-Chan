@@ -1,40 +1,37 @@
-import { BaseMsg } from "../../../structures/BaseCommand";
+import CommandInt from "../../../structures/BaseCommand";
 import DiscordClient from "../../../client/client";
 import { inspect } from "util";
-import {
-    Interaction,
-    Message,
-    MessageActionRow,
-    MessageAttachment,
-    MessageButton,
-} from "discord.js";
+import { Message, MessageAttachment } from "discord.js";
 import config from "../../../utils/config";
 import { clean, CustomEmbed } from "../../../utils/functions/Custom";
 
-export default class EvalCommand extends BaseMsg {
-    constructor() {
-        super("eval", "dev", true);
-    }
+const Eval: CommandInt = {
+    name: "eval",
+    description: "dev",
+    requireArgs: true,
+    usage: "eval <code>",
+    example: ["eval client"],
     async run(client: DiscordClient, message: Message, args: string[]) {
         if (!config.root.includes(message.author.id)) {
             return;
         }
-        const CommandRegex = new RegExp(
-            `^(${client.prefix}|<@(!|)${client?.user?.id}>)( +|)`,
-            "i"
-        );
         const tokenRegex = new RegExp(client.token!, "gi");
-        const code = args.join(" ").replace(CommandRegex, "");
+        const code = args.join(" ");
         let botmsg: Message;
         try {
             const start = process.hrtime();
             let evaled = code.includes("await")
                 ? eval(`(async () => { ${code} })()`)
-                : eval(`(()=> { ${code} })()`);
+                : code.includes("return")
+                ? eval(`(()=> { ${code} })()`)
+                : eval(code);
             if (evaled instanceof Promise) {
                 evaled = await evaled;
             }
-            if (evaled === undefined) return;
+            if (evaled == undefined)
+                throw Error(
+                    `There is something wrong with your code\n\nIf you are using "await" try using "return" with it`
+                );
             const stop = process.hrtime(start);
             const response = EvalClean(
                 inspect(evaled, { depth: 0 }),
@@ -51,14 +48,14 @@ export default class EvalCommand extends BaseMsg {
                 });
 
             if (response.length <= 1024) {
-                botmsg = (await message.reply({
+                botmsg = await message.reply({
                     embeds: [evmbed],
-                })) as Message;
+                });
                 return botmsg;
             } else if (response.length <= 2048) {
-                botmsg = (await message.reply({
+                botmsg = await message.reply({
                     content: "```js\n" + response + "\n```",
-                })) as Message;
+                });
                 return botmsg;
             } else {
                 const output = new MessageAttachment(
@@ -82,9 +79,7 @@ export default class EvalCommand extends BaseMsg {
             botmsg = (await message.reply({
                 embeds: [errevmbed],
             })) as Message;
-            setImmediate(() => {
-                return botmsg;
-            });
+            return botmsg;
         }
         function EvalClean(text: string, tokenRegex: RegExp) {
             text = clean(text).replace(
@@ -93,5 +88,7 @@ export default class EvalCommand extends BaseMsg {
             );
             return text;
         }
-    }
-}
+    },
+};
+
+export default Eval;

@@ -3,6 +3,7 @@ import path from "path";
 import { promises as fs } from "fs";
 import mongoose from "mongoose";
 import { getGuildSettings } from "../database/functions/GuildSettingsFunctions";
+import CommandInt from "../structures/BaseCommand";
 
 /**
  * Registering Events in Client#events
@@ -46,8 +47,7 @@ export async function registerCommands(
         }
         if (file.endsWith(".js") || file.endsWith(".ts")) {
             const { default: Command } = await import(path.join(dir, file));
-            const command = new Command();
-            client.commands.set(command.name, command);
+            client.commands.set(Command.name, Command);
         }
     }
 }
@@ -63,8 +63,7 @@ export async function registerDeveloperCommands(
             await registerDeveloperCommands(client, path.join(dir, file));
         if (file.endsWith(".js") || file.endsWith(".ts")) {
             const { default: Command } = await import(path.join(dir, file));
-            const command = new Command();
-            client.msgCommands.set(command.name, command);
+            client.msgCommands.set(Command.name, Command);
         }
     }
 }
@@ -86,8 +85,18 @@ export async function cacheGuildSettings(client: DiscordClient) {
             moderationSettings: guildSettings.moderationSettings,
             welcomeSettings: guildSettings.welcomeSettings,
             starboardSettings: guildSettings.starboardSettings,
+            inviteLogSettings: guildSettings.inviteLogSettings,
             misc: guildSettings.misc,
         });
+        const invites = await guild.invites
+            .fetch({ cache: false })
+            .catch(() => {});
+        if (invites) {
+            client.invites.set(
+                guild.id,
+                invites.map((inv) => inv)
+            );
+        }
     }
 }
 
@@ -102,6 +111,7 @@ export async function updateCacheGuildSettings(
         moderationSettings: guildSettings.moderationSettings,
         welcomeSettings: guildSettings.welcomeSettings,
         starboardSettings: guildSettings.starboardSettings,
+        inviteLogSettings: guildSettings.inviteLogSettings,
         misc: guildSettings.misc,
     });
 }
@@ -111,4 +121,5 @@ export async function removeCacheGuildSettings(
     guildID: string
 ) {
     client.guildSettings.delete(guildID);
+    client.invites.delete(guildID);
 }

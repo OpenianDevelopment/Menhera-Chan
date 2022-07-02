@@ -1,4 +1,4 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction } from "discord.js";
 import {
@@ -11,15 +11,20 @@ import {
 import { CheckPerms } from "../../utils/functions/mod";
 import { updateCacheGuildSettings } from "../../utils/initialFunctions";
 
-export default class enableDisableCommand extends BaseInt {
-    constructor() {
-        super("settings set", "toggles a feature");
-    }
+const SettingsSet: CommandInt = {
+    name: "settings set",
+    description: "toggles a feature",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
     ) {
-        if (!(await CheckPerms(interaction, interaction.user.id, "ADMINISTRATOR"))) {
+        if (
+            !(await CheckPerms(
+                interaction,
+                interaction.user.id,
+                "ADMINISTRATOR"
+            ))
+        ) {
             return;
         }
         let service = interaction.options.getString("service", true);
@@ -55,5 +60,12 @@ export default class enableDisableCommand extends BaseInt {
         interaction.followUp({
             content: `${service} has been ${ed}`,
         });
-    }
-}
+        if (service == "starboard") {
+            interaction.followUp({
+                content: `*Note: to put the message on the starboard, the message needs at least 5 ⭐ reactions\nAuthor's reaction is not counted*`,
+            });
+        }
+    },
+};
+
+export default SettingsSet;

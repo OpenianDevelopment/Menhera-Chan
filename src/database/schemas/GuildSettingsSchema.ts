@@ -26,8 +26,6 @@ const guildSettingsSchema = new Schema({
         enable: Boolean,
         modLogChannel: String,
         modBlackList: Array,
-        urlBlock: Boolean,
-        urlWhiteList: Array,
     },
     welcomeSettings: {
         enable: Boolean,
@@ -43,9 +41,14 @@ const guildSettingsSchema = new Schema({
         enable: Boolean,
         channelId: String,
     },
+    inviteLogSettings: {
+        enable: Boolean,
+        channelId: String,
+    },
     misc: {
         econ: Boolean,
         prefix: String,
+        lang: String,
     },
 });
 

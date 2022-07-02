@@ -1,6 +1,12 @@
 import BaseEvent from "../structures/BaseEvent";
 import DiscordClient from "../client/client";
-import { Message, MessageReaction, TextChannel, User } from "discord.js";
+import {
+    Message,
+    MessageReaction,
+    PermissionResolvable,
+    TextChannel,
+    User,
+} from "discord.js";
 import { SendStarMessage } from "../utils/functions/starboard";
 
 export default class messageReactionAddEvent extends BaseEvent {
@@ -8,23 +14,51 @@ export default class messageReactionAddEvent extends BaseEvent {
         super("messageReactionAdd");
     }
     async run(client: DiscordClient, reaction: MessageReaction, user: User) {
+        // starboard stuff
         if (reaction.emoji.name !== "⭐") return;
         if (user.bot) return;
-        await reaction.fetch().catch((err) => {});
+        // fetch reaction info
+        await reaction.fetch().catch(() => {});
+        // fetch reaction message
         const message = await reaction.message.fetch();
+        // ignore if no/unavailable guild
         if (!message.guild) return;
+        // ignore if no guild settings data
         if (!client.guildSettings.get(message.guild!.id)?.starboardSettings)
             return;
         const channel = client.guildSettings.get(message.guild.id)
             ?.starboardSettings?.channelId;
         if (!channel) return;
-        const minCount = 5
+        const minCount = 5;
 
         if (
             message.channelId === channel &&
             message.author.id !== client.user?.id
         )
             return;
+        // client's permission in the channel
+        const myPerms = (message.channel as TextChannel).permissionsFor(
+            client.user!.id
+        );
+        const neededPerms: PermissionResolvable[] = [
+            "MANAGE_MESSAGES",
+            "ADD_REACTIONS",
+            "READ_MESSAGE_HISTORY",
+            "EMBED_LINKS",
+            "ATTACH_FILES",
+        ];
+        if (!myPerms?.has(neededPerms)) {
+            if (myPerms?.has("SEND_MESSAGES")) {
+                message.channel.send({
+                    content: `Make sure i have **${neededPerms
+                        .slice(0, neededPerms.length - 2)
+                        .map((perm) => `\`${perm.toString()}\``)
+                        .join(", ")} and ${neededPerms[
+                        neededPerms.length - 1
+                    ].toString()}**`,
+                });
+            }
+        }
         if (
             Date.now() / 1000 - reaction.message.createdTimestamp >
             1000 * 60 * 60 * 24 * 7
@@ -32,7 +66,7 @@ export default class messageReactionAddEvent extends BaseEvent {
             //message is not sent within the last 7 days (too old)
             return;
         if (message.author.id === user.id) {
-            reaction.users.remove(user).catch((err) => {});
+            reaction.users.remove(user).catch(() => {});
             return;
         }
         if (
@@ -99,7 +133,7 @@ export default class messageReactionAddEvent extends BaseEvent {
             fetchReactionUsers?.has(user.id) ||
             sourceMsg.author.id === user.id
         ) {
-            reaction.users.remove(user).catch((err) => {});
+            reaction.users.remove(user).catch(() => {});
             return;
         }
         return await SendStarMessage(

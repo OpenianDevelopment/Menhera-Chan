@@ -4,6 +4,8 @@ import {
     registerCommands,
     registerEvents,
 } from "./utils/initialFunctions";
+import SocketServer from "./utils/socket";
+
 require("dotenv").config();
 const client = new DiscordClient({
     intents: [
@@ -23,5 +25,6 @@ const client = new DiscordClient({
     await registerEvents(client);
     await registerCommands(client);
     await connectDB();
+    await SocketServer(client);
     await client.login(process.env.TOKEN);
 })();
