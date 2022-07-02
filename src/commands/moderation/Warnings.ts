@@ -1,14 +1,13 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import config from "../../utils/config";
 import { getUserWarnings } from "../../database/functions/WarnsFunctions";
 
-export default class WarningsCommand extends BaseInt {
-    constructor() {
-        super("mod warnings", "Get warnings of a user");
-    }
+const ModWarnings: CommandInt = {
+    name: "mod warnings",
+    description: "Get warnings of a user",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -52,5 +51,7 @@ export default class WarningsCommand extends BaseInt {
             });
             return;
         }
-    }
-}
+    },
+};
+
+export default ModWarnings;

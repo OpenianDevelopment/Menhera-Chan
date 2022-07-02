@@ -1,11 +1,11 @@
-import BaseInt from "../structures/BaseCommand";
+import CommandInt from "../structures/BaseCommand";
 import DiscordClient from "../client/client";
 import { CommandInteraction, Message } from "discord.js";
 import { clean, ReportBug } from "../utils/functions/Custom";
-export default class ReportCommand extends BaseInt {
-    constructor() {
-        super("report", "Report a bug");
-    }
+
+const Report: CommandInt = {
+    name: "report",
+    description: "Report a bug",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -22,11 +22,13 @@ export default class ReportCommand extends BaseInt {
             ReportBug(desc, author, interaction.guild).then((e) =>
                 (wm as Message).edit({ content: `Thanks for Reporting.` })
             );
-        } catch {
-            console.error;
+        } catch (err) {
+            console.error(err);
             interaction.followUp({
                 content: "An error has occurred while reporing.",
             });
         }
-    }
-}
+    },
+};
+
+export default Report;

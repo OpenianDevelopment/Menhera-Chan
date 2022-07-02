@@ -1,14 +1,13 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { getBalance } from "../../database/functions/EconFunctions";
 
 import { CommandInteraction } from "discord.js";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class EconBalanceCommand extends BaseInt {
-    constructor() {
-        super("econ bal", "Shows Balance");
-    }
+const EconBal: CommandInt = {
+    name: "econ bal",
+    description: "Shows Balance",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -25,5 +24,7 @@ export default class EconBalanceCommand extends BaseInt {
             .setDescription(`Coins:\n${balance}`);
 
         await interaction.followUp({ embeds: [embed] });
-    }
-}
+    },
+};
+
+export default EconBal;

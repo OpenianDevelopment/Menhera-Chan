@@ -38,7 +38,8 @@ export async function exp(client: DiscordClient, message: Message) {
             message.author.tag,
             message.author.avatar
                 ? message.author.avatar
-                : (parseInt(message.author.discriminator) % 5).toString()
+                : (parseInt(message.author.discriminator) % 5).toString(),
+            message.guild!.id
         )
     ) {
         updateUserXP(message.author.id, newXP, level, message.guildId);

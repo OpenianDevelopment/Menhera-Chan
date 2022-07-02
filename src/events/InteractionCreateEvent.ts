@@ -4,9 +4,10 @@ import { CommandInteraction, Interaction } from "discord.js";
 import chalk from "chalk";
 import {
     _ads,
-    capFirstLetter,
+    capFirstLetters,
     getSub,
     CustomEmbed,
+    ReportBug,
 } from "../utils/functions/Custom";
 import { econ } from "../utils/functions/econ";
 import config from "../utils/config";
@@ -36,40 +37,47 @@ export default class interactionCreateEvent extends BaseEvent {
         // Filtering the command type
         if (!interaction.isCommand()) return;
 
-        /**
-         * Getting commands and executing it.
-         */
+        // Getting command name
         const cmd_name = getSub(
             client,
             interaction.commandName,
             interaction.options.getSubcommand(false),
             interaction.options.getSubcommandGroup(false)
         );
+        // Getting command
         const command = client.commands.get(cmd_name);
+        // check if command exists
         if (!command) return;
         //econ stuff here
         econ(interaction, client);
         //econ end here
-        const ExtraAdsCommands: string[] = ["settings view", "mod"];
         try {
+            // defer interaction reply and run command
             await interaction.deferReply({ ephemeral: false });
             await command.run(client, interaction);
-            setImmediate(() => {
-                if (!_ads.OnCooldown && !ExtraAdsCommands.includes(cmd_name)) {
-                    interaction.channel?.send({
-                        embeds: [_ads.embed(interaction)],
-                    });
-                    _ads.OnCooldown = true;
-                    setTimeout(function () {
-                        _ads.OnCooldown = false;
-                    }, 1000 * 60 * 60 * 6); // 6 hours
-                }
-            });
+            // runs last
+            if (!config.root.includes(interaction.user.id)) {
+                setImmediate(() => {
+                    // check if ads are not on cd and command is not a mod command
+                    if (!_ads.OnCooldown && cmd_name.includes("mod")) {
+                        interaction.channel?.send({
+                            embeds: [_ads.embed(interaction)],
+                        });
+                        _ads.OnCooldown = true;
+                        setTimeout(function () {
+                            _ads.OnCooldown = false;
+                        }, 1000 * 60 * 60 * 6); // 6 hours
+                    }
+                });
+            }
             return;
         } catch (err) {
+            /**
+             * logging errors to console (Can be changed to {@link ReportBug})
+             */
             console.error(
                 `Error in ${chalk.redBright(
-                    capFirstLetter(command.name)
+                    capFirstLetters(command.name)
                 )} Command`,
                 err
             );

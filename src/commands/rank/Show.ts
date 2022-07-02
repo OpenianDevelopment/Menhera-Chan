@@ -3,14 +3,12 @@ import DiscordClient from "../../client/client";
 import { getLevel } from "../../database/functions/levelingOperation";
 import { RankCard } from "../../utils/leveling/rankCard";
 import { userXP } from "../../utils/interfaces/leveling";
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import config from "../../utils/config";
 
-export default class RankShowCommand extends BaseInt {
-    constructor() {
-        super("rank show", "Get user Rank Card");
-    }
-
+const RankShow: CommandInt = {
+    name: "rank show",
+    description: "Get user Rank Card",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -65,5 +63,7 @@ export default class RankShowCommand extends BaseInt {
             files: [rank_card],
         });
         return;
-    }
-}
+    },
+};
+
+export default RankShow;

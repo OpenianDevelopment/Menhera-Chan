@@ -1,20 +1,25 @@
 import { CommandInteraction } from "discord.js";
 import DiscordClient from "../../../client/client";
 import { UpdateWelcome } from "../../../database/functions/GuildSettingsFunctions";
-import BaseInt from "../../../structures/BaseCommand";
+import CommandInt from "../../../structures/BaseCommand";
 import { clean, CustomEmbed } from "../../../utils/functions/Custom";
 import { CheckPerms } from "../../../utils/functions/mod";
 import { updateCacheGuildSettings } from "../../../utils/initialFunctions";
 
-export default class dmMessageCommand extends BaseInt {
-    constructor() {
-        super("settings welcome dm", "dm message");
-    }
+const SettingsWelcomeDM: CommandInt = {
+    name: "settings welcome dm",
+    description: "dm message",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
     ) {
-        if (!(await CheckPerms(interaction, interaction.user.id, "ADMINISTRATOR"))) {
+        if (
+            !(await CheckPerms(
+                interaction,
+                interaction.user.id,
+                "ADMINISTRATOR"
+            ))
+        ) {
             return;
         }
         let message = interaction.options.getString("message", true);
@@ -30,5 +35,7 @@ export default class dmMessageCommand extends BaseInt {
         interaction.followUp({
             embeds: [embed],
         });
-    }
-}
+    },
+};
+
+export default SettingsWelcomeDM;

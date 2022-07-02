@@ -1,19 +1,24 @@
 import { CommandInteraction } from "discord.js";
 import DiscordClient from "../../../client/client";
 import { UpdateWelcome } from "../../../database/functions/GuildSettingsFunctions";
-import BaseInt from "../../../structures/BaseCommand";
+import CommandInt from "../../../structures/BaseCommand";
 import { CheckPerms } from "../../../utils/functions/mod";
 import { updateCacheGuildSettings } from "../../../utils/initialFunctions";
 
-export default class SetCommand extends BaseInt {
-    constructor() {
-        super("settings welcome set", "toggles a welcome feature");
-    }
+const SettingsWelcomeSet: CommandInt = {
+    name: "settings welcome set",
+    description: "toggles a welcome feature",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
     ) {
-        if (!(await CheckPerms(interaction, interaction.user.id, "ADMINISTRATOR"))) {
+        if (
+            !(await CheckPerms(
+                interaction,
+                interaction.user.id,
+                "ADMINISTRATOR"
+            ))
+        ) {
             return;
         }
         let option = interaction.options.getBoolean("toggle", true);
@@ -37,5 +42,7 @@ export default class SetCommand extends BaseInt {
         interaction.followUp({
             content: `${service} has been ${ed}`,
         });
-    }
-}
+    },
+};
+
+export default SettingsWelcomeSet;

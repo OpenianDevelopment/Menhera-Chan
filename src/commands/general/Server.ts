@@ -1,16 +1,12 @@
 import DiscordClient from "../../client/client";
 import { CommandInteraction, MessageEmbed } from "discord.js";
-import BaseInt from "../../structures/BaseCommand";
-import { capFirstLetter } from "../../utils/functions/Custom";
+import CommandInt from "../../structures/BaseCommand";
+import { capFirstLetters } from "../../utils/functions/Custom";
 import config from "../../utils/config";
 
-export default class ServerCommand extends BaseInt {
-    constructor() {
-        super(
-            "serverinfo",
-            "Shows the info of the server where the command is writen in"
-        );
-    }
+const ServerInfo: CommandInt = {
+    name: "serverinfo",
+    description: "Shows the info of the server where the command is writen in",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -61,8 +57,8 @@ export default class ServerCommand extends BaseInt {
         checks(interaction, embed);
         await interaction.followUp({ embeds: [embed] });
         return;
-    }
-}
+    },
+};
 function checks(interaction: CommandInteraction, embed: MessageEmbed) {
     if (!interaction.guild) return;
     if (interaction.guild.premiumSubscriptionCount) {
@@ -74,7 +70,7 @@ function checks(interaction: CommandInteraction, embed: MessageEmbed) {
             },
             {
                 name: `Boosting Level`,
-                value: capFirstLetter(
+                value: capFirstLetters(
                     interaction.guild.premiumTier
                         .toLowerCase()
                         .replace("_", " ")
@@ -112,7 +108,7 @@ function checks(interaction: CommandInteraction, embed: MessageEmbed) {
     if (interaction.guild.features) {
         const features = interaction.guild.features
             .map((f) => {
-                const capedf = capFirstLetter(
+                const capedf = capFirstLetters(
                     f.toString().toLowerCase().replace(/_/g, " ")
                 );
                 return `**` + capedf + `**`;
@@ -125,3 +121,4 @@ function checks(interaction: CommandInteraction, embed: MessageEmbed) {
         embed.setImage(interaction.guild.bannerURL({ format: "png" })!);
     }
 }
+export default ServerInfo;

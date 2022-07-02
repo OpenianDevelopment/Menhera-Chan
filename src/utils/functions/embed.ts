@@ -13,34 +13,36 @@ export async function embedMaker(
     page: number
 ) {
     const date = Date.now();
+    const prev = `previous-${interaction.user.id}-${date}`;
+    const next = `next-${interaction.user.id}-${date}`;
     const navbtns = new MessageActionRow().addComponents(
         new MessageButton()
-            .setCustomId("previous-" + date)
+            .setCustomId(prev)
             .setEmoji(config.emojis.arrowLeft)
             .setStyle("PRIMARY"),
         new MessageButton()
-            .setCustomId("next-" + date)
+            .setCustomId(next)
             .setEmoji(config.emojis.arrowRight)
             .setStyle("PRIMARY")
     );
     const navbtn_next = new MessageActionRow().addComponents(
         new MessageButton()
-            .setCustomId("previous-" + date)
+            .setCustomId(prev)
             .setEmoji(config.emojis.arrowLeft)
             .setStyle("PRIMARY")
             .setDisabled(true),
         new MessageButton()
-            .setCustomId("next-" + date)
+            .setCustomId(next)
             .setEmoji(config.emojis.arrowRight)
             .setStyle("PRIMARY")
     );
     const navbtn_prev = new MessageActionRow().addComponents(
         new MessageButton()
-            .setCustomId("previous-" + date)
+            .setCustomId(prev)
             .setEmoji(config.emojis.arrowLeft)
             .setStyle("PRIMARY"),
         new MessageButton()
-            .setCustomId("next-" + date)
+            .setCustomId(next)
             .setEmoji(config.emojis.arrowRight)
             .setStyle("PRIMARY")
             .setDisabled(true)
@@ -56,8 +58,7 @@ export async function embedMaker(
         components: [navbtn_next],
     })) as Message;
     const filter = (int: any) =>
-        (int.customId == "next-" + date ||
-            int.customId == "previous-" + date) &&
+        (int.customId == next || int.customId == prev) &&
         int.user.id == interaction.user.id;
     const collector = botmsg.createMessageComponentCollector({
         filter,
@@ -65,7 +66,7 @@ export async function embedMaker(
     });
     collector.on("collect", async (int: ButtonInteraction) => {
         await int.deferUpdate({});
-        if (int.customId == `previous-${date}`) {
+        if (int.customId == prev) {
             if (page != 0) {
                 page--;
                 embeds[page].setFooter({
@@ -88,7 +89,7 @@ export async function embedMaker(
                 }
             }
         }
-        if (int.customId == `next-${date}`) {
+        if (int.customId == next) {
             if (page < embeds.length - 1) {
                 page++;
                 embeds[page].setFooter({

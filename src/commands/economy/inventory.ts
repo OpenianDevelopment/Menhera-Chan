@@ -1,4 +1,4 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import {
     getUserWaifus,
@@ -8,10 +8,9 @@ import { CommandInteraction, MessageEmbed } from "discord.js";
 import { embedMaker } from "../../utils/functions/embed";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class EconInvCommand extends BaseInt {
-    constructor() {
-        super("econ inventory", "Shows Collection of Waifus");
-    }
+const EconInventory: CommandInt = {
+    name: "econ inventory",
+    description: "Shows Collection of Waifus",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -46,5 +45,7 @@ export default class EconInvCommand extends BaseInt {
             await embeds.push(embed);
         });
         embedMaker(interaction, embeds, 0);
-    }
-}
+    },
+};
+
+export default EconInventory;

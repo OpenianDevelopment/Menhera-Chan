@@ -1,17 +1,12 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
-import {
-    CommandInteraction,
-    MessageEmbed,
-    TextChannel,
-} from "discord.js";
+import { CommandInteraction, MessageEmbed, TextChannel } from "discord.js";
 import { CustomEmbed, MalRequest } from "../../utils/functions/Custom";
 import { embedMaker } from "../../utils/functions/embed";
 
-export default class MalAnimeCommand extends BaseInt {
-    constructor() {
-        super("mal anime", "To search an anime on MyAnimeList");
-    }
+const MALAnime: CommandInt = {
+    name: "mal anime",
+    description: "To search an anime on MyAnimeList",
     async run(client: DiscordClient, interaction: CommandInteraction) {
         const name = interaction.options.getString("name", true);
         let data = await new MalRequest().send(["search", "anime"], {
@@ -52,5 +47,7 @@ export default class MalAnimeCommand extends BaseInt {
             embeds.push(embed);
         });
         embedMaker(interaction, embeds, page);
-    }
-}
+    },
+};
+
+export default MALAnime;

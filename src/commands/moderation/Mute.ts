@@ -1,4 +1,4 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
 import {
@@ -8,10 +8,9 @@ import {
 } from "discord.js";
 import ms from "ms";
 
-export default class muteCommand extends BaseInt {
-    constructor() {
-        super("mod mute", "mutes a user");
-    }
+const ModMute: CommandInt = {
+    name: "mod mute",
+    description: "mutes a user",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -62,5 +61,7 @@ export default class muteCommand extends BaseInt {
             content: `${member} was muted`,
         });
         return;
-    }
-}
+    },
+};
+
+export default ModMute;

@@ -10,7 +10,6 @@ import {
 import type { MessageEmbedOptions } from "discord.js";
 import { CustomEmbed, _ads } from "../utils/functions/Custom";
 import { exp } from "../utils/functions/exp";
-import { UrlRemove } from "../utils/functions/UrlRemove";
 import { getGuildTags } from "../database/functions/TagsFunctions";
 import { guildTags } from "../utils/interfaces/Database";
 import config from "../utils/config";
@@ -20,25 +19,36 @@ export default class messageCreateEvent extends BaseEvent {
         super("messageCreate");
     }
     async run(client: DiscordClient, message: Message) {
-        if (message.channel.type == "DM") return;
-        if (!message.guild) return;
-        if (message.author.bot) return;
-        if (await UrlRemove(client, message)) return;
+        /**
+         * checking if
+         * 1. channel is dm
+         * 2. there is no guild
+         * 3. author is bot
+         * if any of the above is true, return void;
+         */
+        if (
+            message.channel.type == "DM" ||
+            !message.guild ||
+            message.author.bot
+        )
+            return;
         exp(client, message);
-        //bot prefix (for the commands)
-        //regexp for replacing prefix/mention
+        // bot prefix (for the commands)
+        const prefix =
+            client.guildSettings.get(message.guild.id)?.misc.prefix || "mc!";
+        // regexp for replacing prefix/mention
         const MentionRegex = new RegExp(
-            `^(${client.prefix}|<@(!|)${client?.user?.id}>)( +|)`,
+            `^(${prefix}|<@(!|)${client?.user?.id}>)( +|)`,
             "i"
         );
         //commands area (if msg starts with prefix or mention)
         const Mentionconditions =
             message.content.startsWith(`<@${client?.user?.id}>`) ||
             message.content.startsWith(`<@!${client?.user?.id}>`);
-        const PrefixCondition = message.content.toLowerCase().startsWith(client.prefix);
+        const PrefixCondition = message.content
+            .toLowerCase()
+            .startsWith(prefix);
         if (PrefixCondition || Mentionconditions) {
-            if (!config.root.includes(message.author.id))
-                return await and_yet_another_weird_reply();
             if (
                 !message.channel
                     .permissionsFor(client.user!.id)
@@ -49,19 +59,32 @@ export default class messageCreateEvent extends BaseEvent {
                 .replace(MentionRegex, "")
                 .split(/ +/);
             //getting dev command
-            const command = client.dev.get(cmdName.toLowerCase());
+            const command = client.msgCommands.find(
+                (data) =>
+                    data.name === cmdName.toLowerCase() ||
+                    (data.aliases != undefined
+                        ? data.aliases!.includes(cmdName.toLowerCase())
+                        : false)
+            );
             if (!command) return await and_yet_another_weird_reply();
+            if (
+                command.name != "roleplay" &&
+                !config.root.includes(message.author.id)
+            ) {
+                return await and_yet_another_weird_reply();
+            }
             //checking if command requires extra args
-            if (command.requireArgs && cmdArgs.length == null) {
+            if (command.requireArgs && !cmdArgs.length) {
                 message.reply({ content: "This command requires extra args" });
                 return;
             }
             //running command and getting the reply.
-            const reply = await command.run(client, message, cmdArgs);
+            const reply = await command.run(client, message, cmdArgs, cmdName);
             if (!reply) return;
+            if (command.name == "roleplay") return;
             //date in ms.
             const date = Date.now();
-            const customId = `delete-${date}`;
+            const customId = `delete-${date}-${command.name}-${message.author.id}`;
             //x button.
             const XBtn = new MessageActionRow().addComponents(
                 new MessageButton()
@@ -70,13 +93,13 @@ export default class messageCreateEvent extends BaseEvent {
                     .setEmoji(config.emojis.redCrossMark)
             );
             //editing the reply to add the x button
-            reply.edit({ components: [XBtn, ...reply.components] });
+            reply.edit({ components: [...reply.components, XBtn] });
             //filter so it only reacts to the author.
             const filter = (m: Interaction) => message.author.id === m.user.id;
             //creating the collector.
             const collector = message.channel.createMessageComponentCollector({
                 filter,
-                time: 15 * 1000,
+                time: 120 * 1000,
             });
             //on collect event obv
             collector.on("collect", async (int) => {
@@ -173,12 +196,11 @@ export default class messageCreateEvent extends BaseEvent {
                 });
                 return;
             }
-            //else just give em something cute
         }
         /**
          *  weird reply, idk why but i dont wanna delete it
          *
-         * p.s. i know its bad to define {@link weirdCuteEmoticons} and {@link qtEmbed} here but welp... kinda too lazy to fix (gotta give hackers a chance y'know ¯\_(ツ)_/¯)
+         * p.s. i know its bad to define {@link weirdCuteEmoticons} and {@link qtEmbed} here but welp... kinda too lazy to fix (gotta give hackers a chance y'know ¯\\\_(ツ)_/¯)
          */
         function and_yet_another_weird_reply() {
             const weirdCuteEmoticons = [

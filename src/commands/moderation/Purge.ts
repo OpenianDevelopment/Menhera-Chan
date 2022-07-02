@@ -1,4 +1,4 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
 import {
@@ -8,10 +8,9 @@ import {
     ThreadChannel,
 } from "discord.js";
 
-export default class PurgeCommand extends BaseInt {
-    constructor() {
-        super("mod purge", "Remove chat messages");
-    }
+const ModPurge: CommandInt = {
+    name: "mod purge",
+    description: "Remove chat messages",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -42,5 +41,7 @@ export default class PurgeCommand extends BaseInt {
             content: `Purged ${amount} messages in ${channel}`,
         });
         return;
-    }
-}
+    },
+};
+
+export default ModPurge;

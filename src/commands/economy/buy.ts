@@ -1,4 +1,4 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import {
     buyWaifu,
@@ -6,14 +6,12 @@ import {
     getUserWaifus,
     getWaifuByID,
     removeBalance,
-    updateBalance,
 } from "../../database/functions/EconFunctions";
 import { CommandInteraction } from "discord.js";
 
-export default class EconBuyCommand extends BaseInt {
-    constructor() {
-        super("econ buy", "To buy a charcters");
-    }
+const EconBuy: CommandInt = {
+    name: "econ buy",
+    description: "To buy a charcters",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -60,5 +58,7 @@ export default class EconBuyCommand extends BaseInt {
         interaction.followUp({
             content: `**${waifuData.name}** was Bought for **${waifuData.cost}**`,
         });
-    }
-}
+    },
+};
+
+export default EconBuy;

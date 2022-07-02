@@ -1,6 +1,6 @@
 import BaseEvent from "../structures/BaseEvent";
 import DiscordClient from "../client/client";
-import { Message, MessageReaction, TextChannel, User } from "discord.js";
+import { Message, MessageReaction, PermissionResolvable, TextChannel, User } from "discord.js";
 import { updateStars } from "../utils/functions/starboard";
 
 export default class messageReactionRemoveEvent extends BaseEvent {
@@ -10,7 +10,7 @@ export default class messageReactionRemoveEvent extends BaseEvent {
     async run(client: DiscordClient, reaction: MessageReaction, user: User) {
         if (reaction.emoji.name !== "⭐") return;
         if (user.bot) return;
-        reaction.fetch().catch((err) => {});
+        await reaction.fetch().catch(() => {});
         const message = await reaction.message.fetch();
         if (!message.guild) return;
         if (!client.guildSettings.get(message.guild!.id)?.starboardSettings)
@@ -18,14 +18,38 @@ export default class messageReactionRemoveEvent extends BaseEvent {
         const channel = client.guildSettings.get(message.guild.id)
             ?.starboardSettings?.channelId;
         if (!channel) return;
+        const minCount = 5;
 
         if (
             message.channelId === channel &&
             message.author.id !== client.user?.id
         )
             return;
+        // client's permission in the channel
+        const myPerms = (message.channel as TextChannel).permissionsFor(
+            client.user!.id
+        );
+        const neededPerms: PermissionResolvable[] = [
+            "MANAGE_MESSAGES",
+            "ADD_REACTIONS",
+            "READ_MESSAGE_HISTORY",
+            "EMBED_LINKS",
+            "ATTACH_FILES",
+        ];
+        if (!myPerms?.has(neededPerms)) {
+            if (myPerms?.has("SEND_MESSAGES")) {
+                message.channel.send({
+                    content: `Make sure i have **${neededPerms
+                        .slice(0, neededPerms.length - 2)
+                        .map((perm) => `\`${perm.toString()}\``)
+                        .join(", ")} and ${neededPerms[
+                        neededPerms.length - 1
+                    ].toString()}**`,
+                });
+            }
+        }
         if (
-            new Date().getTime() - reaction.message.createdTimestamp >
+            Date.now() / 1000 - reaction.message.createdTimestamp >
             1000 * 60 * 60 * 24 * 7
         )
             //message is not sent within the last 7 days (too old)
@@ -36,7 +60,7 @@ export default class messageReactionRemoveEvent extends BaseEvent {
         if (
             message.channelId !== channel &&
             message.author.id !== client.user?.id &&
-            reaction.count > 5
+            reaction.count > minCount
         )
             return;
         let starChannel = await client.channels.fetch(channel);
@@ -69,7 +93,7 @@ export default class messageReactionRemoveEvent extends BaseEvent {
             (m) =>
                 m.author.id === client.user!.id &&
                 m.embeds[0] &&
-                m.embeds[0].footer!.text.includes(wannabeStarMsgId)
+                (m.embeds[0].footer?.text?.includes(wannabeStarMsgId) || false)
         ) as Message | null;
         // getting the channel id of the message if the message in starboard was starred
         const starboardMsgChannel = starboardMessage?.content
@@ -92,11 +116,15 @@ export default class messageReactionRemoveEvent extends BaseEvent {
         ) {
             return;
         }
+        const sourceMsgStarCount = (await sourceMsgStarReaction?.fetch())
+            ?.count;
         return updateStars(
             starboardMessage,
             reaction.count +
-                ((await sourceMsgStarReaction?.fetch())?.count || 0) -
-                1
+                (sourceMsgStarCount && sourceMsgStarCount > 0
+                    ? sourceMsgStarCount
+                    : 0) -
+                (message.channelId === channel ? 1 : 2)
         );
     }
 }

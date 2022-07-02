@@ -1,4 +1,4 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CheckPermsBoth } from "../../utils/functions/mod";
 import {
@@ -7,10 +7,9 @@ import {
     GuildMemberRoleManager,
 } from "discord.js";
 
-export default class UnmuteCommand extends BaseInt {
-    constructor() {
-        super("mod unmute", "Unmutes a user");
-    }
+const ModUnmute: CommandInt = {
+    name: "mod unmute",
+    description: "Unmutes a user",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -54,5 +53,7 @@ export default class UnmuteCommand extends BaseInt {
             content: `${member} was unmuted`,
         });
         return;
-    }
-}
+    },
+};
+
+export default ModUnmute;

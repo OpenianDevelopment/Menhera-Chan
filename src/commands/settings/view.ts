@@ -1,4 +1,4 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 
 import { CommandInteraction } from "discord.js";
@@ -13,15 +13,20 @@ import {
     welcomeSystemSettings,
 } from "../../utils/interfaces/GlobalType";
 
-export default class viewCommand extends BaseInt {
-    constructor() {
-        super("settings view", "to view settings");
-    }
+const SettingsView: CommandInt = {
+    name: "settings view",
+    description: "to view settings",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
     ) {
-        if (!(await CheckPerms(interaction, interaction.user.id, "ADMINISTRATOR"))) {
+        if (
+            !(await CheckPerms(
+                interaction,
+                interaction.user.id,
+                "ADMINISTRATOR"
+            ))
+        ) {
             return;
         }
         //make this in a more presentable format i don't care rn -julio
@@ -142,15 +147,8 @@ export default class viewCommand extends BaseInt {
                             { start: "<#", end: ">" },
                             true
                         ) || "No Blacklisted Channels",
-                },
-                { name: "Block Urls", value: moderation.urlBlock?.toString() }
+                }
             );
-            if (moderation.urlBlock) {
-                moderationEmbed.addField(
-                    "Whitelisted URLs",
-                    clean(moderation.urlWhiteList) || "No Whitelisted URLs"
-                );
-            }
         } else {
             moderationEmbed.addFields({ name: "Enabled", value: "false" });
         }
@@ -220,5 +218,7 @@ export default class viewCommand extends BaseInt {
                 StarEmbed,
             ],
         });
-    }
-}
+    },
+};
+
+export default SettingsView;

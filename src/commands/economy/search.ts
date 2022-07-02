@@ -1,4 +1,4 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { embedMaker } from "../../utils/functions/embed";
 import { getWaifu } from "../../database/functions/EconFunctions";
@@ -6,10 +6,9 @@ import { getWaifu } from "../../database/functions/EconFunctions";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class EconSearchCommand extends BaseInt {
-    constructor() {
-        super("econ search", "Search for Waifu");
-    }
+const EconSearch: CommandInt = {
+    name: "econ search",
+    description: "Search for Waifu",
     async run(
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
@@ -39,5 +38,7 @@ export default class EconSearchCommand extends BaseInt {
             embeds.push(embed);
         });
         await embedMaker(interaction, embeds, 0);
-    }
-}
+    },
+};
+
+export default EconSearch;

@@ -1,18 +1,17 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction } from "discord.js";
 import config from "../../utils/config";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class HelpCommand extends BaseInt {
-    constructor() {
-        super("help", "Search for a command");
-    }
+const Help: CommandInt = {
+    name: "help",
+    description: "Search for a command",
     async run(client: DiscordClient, interaction: CommandInteraction) {
         const query = interaction.options.getString("query", true);
         if (query.length <= 2) {
             await interaction.followUp({
-                content: `${config.emojis.redCrossMark} \`query\` has to be 2+ characters`,
+                content: `${config.emojis.redCrossMark} \`query\` has to be 3 characters or more`,
             });
             return;
         }
@@ -35,5 +34,7 @@ export default class HelpCommand extends BaseInt {
             .setTimestamp();
         await interaction.followUp({ embeds: [embed] });
         return;
-    }
-}
+    },
+};
+
+export default Help;

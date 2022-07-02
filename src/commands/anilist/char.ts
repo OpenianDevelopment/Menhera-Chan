@@ -1,14 +1,13 @@
-import BaseInt from "../../structures/BaseCommand";
+import CommandInt from "../../structures/BaseCommand";
 import DiscordClient from "../../client/client";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import fetch from "cross-fetch";
 import { embedMaker } from "../../utils/functions/embed";
 import { CustomEmbed } from "../../utils/functions/Custom";
 
-export default class AniCharCommand extends BaseInt {
-    constructor() {
-        super("ani char", "Search for a character in anilist's database");
-    }
+const AniChar: CommandInt = {
+    name: "ani char",
+    description: "Search for a character in anilist's database",
     async run(client: DiscordClient, interaction: CommandInteraction) {
         let name = interaction.options.getString("name", true);
         const query = `query ($id: Int, $page: Int, $perPage: Int, $search: String) {
@@ -107,18 +106,19 @@ export default class AniCharCommand extends BaseInt {
                     embed.setDescription(
                         element.description
                             .toString()
-                            .slice(0, 2000 - element.description.length) +
-                            "..."
+                            .slice(0, 2000 - element.description.length) + "..."
                     );
                 }
             }
             embeds.push(embed);
         });
         await embedMaker(interaction, embeds, page);
-    }
-}
+    },
+};
 
 async function handleResponse(response: Response) {
     const json = await response.json();
     return response.ok ? json : Promise.reject(json);
 }
+
+export default AniChar;
