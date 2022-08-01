@@ -14,7 +14,7 @@ module.exports = {
                 return
             }
             if (num > 100) return message.channel.send(`"${args}" Is too large of a Number \n The biggest roll you can do is 100`)
-            if (num < 3) return message.channel.send(`"${args}" Is too small of a Number \n The smallest roll you can do is 3`)
+            if (num < 2) return message.channel.send(`"${args}" Is too small of a Number \n The smallest roll you can do is 2`)
         }
 
         const embed = new Discord.MessageEmbed()
