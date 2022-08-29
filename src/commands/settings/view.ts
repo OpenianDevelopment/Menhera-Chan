@@ -11,7 +11,7 @@ import {
     moderationSystemSettings,
     starboardSettings,
     welcomeSystemSettings,
-} from "../../utils/interfaces/GlobalType";
+} from "../../utils/interfaces/SettingsTypes";
 
 const SettingsView: CommandInt = {
     name: "settings view",
@@ -206,7 +206,7 @@ const SettingsView: CommandInt = {
         } else {
             StarEmbed.addFields({ name: "Enabled", value: "false" });
         }
-        interaction.followUp({
+        interaction.reply({
             content: `${interaction.guild?.name}${
                 interaction.guild!.name.endsWith("s") ? "'" : "'s"
             } Settings`,

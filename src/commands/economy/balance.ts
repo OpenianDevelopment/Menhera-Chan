@@ -13,7 +13,7 @@ const EconBal: CommandInt = {
         interaction: CommandInteraction<"cached">
     ) {
         if (!client.guildSettings.get(interaction.guildId)?.misc.econ) {
-            interaction.followUp({
+            interaction.reply({
                 content: "This command is disabled in this server",
             });
             return;
@@ -23,7 +23,8 @@ const EconBal: CommandInt = {
             .setTitle(`${interaction.user.username}'s Balance`)
             .setDescription(`Coins:\n${balance}`);
 
-        await interaction.followUp({ embeds: [embed] });
+        await interaction.reply({ embeds: [embed] });
+        return;
     },
 };
 

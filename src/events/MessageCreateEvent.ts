@@ -32,7 +32,7 @@ export default class messageCreateEvent extends BaseEvent {
             message.author.bot
         )
             return;
-        exp(client, message);
+        await exp(client, message);
         // bot prefix (for the commands)
         const prefix =
             client.guildSettings.get(message.guild.id)?.misc.prefix || "mc!";

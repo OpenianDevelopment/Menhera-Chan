@@ -39,7 +39,7 @@ const SettingsWelcomeSet: CommandInt = {
         } else {
             ed = "Disabled";
         }
-        interaction.followUp({
+        interaction.reply({
             content: `${service} has been ${ed}`,
         });
     },

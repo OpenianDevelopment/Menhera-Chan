@@ -11,6 +11,7 @@ export interface ExpSystemSettings {
     timeDifference: number;
     blacklistChannel: Array<string>;
     expLogChannel: string | null;
+    multipliers?: { type: "role" | "channel"; id: string; increment: number }[];
 }
 
 /**
@@ -37,8 +38,6 @@ export interface AntispamSystemSettings {
  * @param enable enable/disable service
  * @param modLogChannel channel for modlog
  * @param modBlackList moderation blacklist channel
- * @param urlBlock enable/disable url block
- * @param urlWhiteList url whitelist
  */
 export interface moderationSystemSettings {
     enable: boolean;
@@ -76,6 +75,7 @@ export interface welcomeSystemSettings {
 export interface starboardSettings {
     enable: boolean;
     channelId: string | null;
+    minStars: number;
 }
 
 /**
@@ -101,7 +101,7 @@ export interface misc {
 
 /**
  * # Guild Settings
- * @param expSettings The super cool *one of the first features of menhera* xp (but that is it's settings).
+ * @param expSettings The super cool *one of the first features of menhera* xp (but this is it's settings).
  *
  * Uh i'm lazy to continue, You already know what are those from above, if you don't know then `Ctrl + click` on **GuildSettings**
  * @param antispamSettings {AntispamSystemSettings}
@@ -121,13 +121,4 @@ export interface GuildSettings {
 /**
  * # Raw guild Settings
  */
-export interface rawGuildSettings {
-    guild_id: string;
-    expSettings: ExpSystemSettings;
-    antispamSettings: AntispamSystemSettings;
-    moderationSettings: moderationSystemSettings;
-    welcomeSettings: welcomeSystemSettings;
-    starboardSettings: starboardSettings;
-    inviteLogSettings: inviteLogSettings;
-    misc: misc;
-}
+export interface rawGuildSettings extends GuildSettings {}

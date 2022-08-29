@@ -24,7 +24,7 @@ const RolePlay: CommandInt = {
             const embed = new CustomEmbed(interaction, false).setDescription(
                 "You need to provide another user not yourself!"
             );
-            await interaction.followUp({ embeds: [embed], ephemeral: true });
+            await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
         }
         // Defining the embed
@@ -43,8 +43,9 @@ const RolePlay: CommandInt = {
             // Getting an img from mongodb
             let data = (await getRolePlayGifs(subcmd))?.get("images");
             if (data == null || undefined) {
-                interaction.followUp({
+                interaction.reply({
                     content: "This interation is not working currently",
+                    ephemeral: true,
                 });
                 return;
             }
@@ -52,7 +53,7 @@ const RolePlay: CommandInt = {
             embed.setImage(data).setDescription(`**${rtxt}** ${user_msg}`);
         }
 
-        await interaction.followUp({ embeds: [embed] });
+        await interaction.reply({ embeds: [embed] });
     },
 };
 

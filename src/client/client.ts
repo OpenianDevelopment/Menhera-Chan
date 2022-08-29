@@ -1,7 +1,7 @@
 import { Client, ClientOptions, Collection, Invite } from "discord.js";
 import CommandInt from "../structures/BaseCommand";
 import BaseEvent from "../structures/BaseEvent";
-import { GuildSettings } from "../utils/interfaces/GlobalType";
+import { GuildSettings } from "../utils/interfaces/SettingsTypes";
 
 export default class DiscordClient extends Client {
     private _commands = new Collection<string, CommandInt>();

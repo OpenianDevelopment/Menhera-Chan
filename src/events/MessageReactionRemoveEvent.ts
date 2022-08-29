@@ -1,6 +1,12 @@
 import BaseEvent from "../structures/BaseEvent";
 import DiscordClient from "../client/client";
-import { Message, MessageReaction, PermissionResolvable, TextChannel, User } from "discord.js";
+import {
+    Message,
+    MessageReaction,
+    PermissionResolvable,
+    TextChannel,
+    User,
+} from "discord.js";
 import { updateStars } from "../utils/functions/starboard";
 
 export default class messageReactionRemoveEvent extends BaseEvent {
@@ -15,16 +21,25 @@ export default class messageReactionRemoveEvent extends BaseEvent {
         if (!message.guild) return;
         if (!client.guildSettings.get(message.guild!.id)?.starboardSettings)
             return;
-        const channel = client.guildSettings.get(message.guild.id)
-            ?.starboardSettings?.channelId;
+        const settings = client.guildSettings.get(message.guild.id)!
+            .starboardSettings!;
+        const channel = settings.channelId;
         if (!channel) return;
-        const minCount = 5;
+        const minCount = settings.minStars;
 
         if (
-            message.channelId === channel &&
-            message.author.id !== client.user?.id
+            message.author.id === user.id ||
+            message.channelId === channel ||
+            message.author.id === client.user?.id
         )
             return;
+        //message is not sent within the last 7 days (too old)
+        if (
+            Date.now() / 1000 - reaction.message.createdTimestamp >
+            1000 * 60 * 60 * 24 * 7
+        )
+            return;
+
         // client's permission in the channel
         const myPerms = (message.channel as TextChannel).permissionsFor(
             client.user!.id
@@ -48,21 +63,7 @@ export default class messageReactionRemoveEvent extends BaseEvent {
                 });
             }
         }
-        if (
-            Date.now() / 1000 - reaction.message.createdTimestamp >
-            1000 * 60 * 60 * 24 * 7
-        )
-            //message is not sent within the last 7 days (too old)
-            return;
-        if (message.author.id === user.id) {
-            return;
-        }
-        if (
-            message.channelId !== channel &&
-            message.author.id !== client.user?.id &&
-            reaction.count > minCount
-        )
-            return;
+
         let starChannel = await client.channels.fetch(channel);
         if (
             !starChannel ||
@@ -95,36 +96,6 @@ export default class messageReactionRemoveEvent extends BaseEvent {
                 m.embeds[0] &&
                 (m.embeds[0].footer?.text?.includes(wannabeStarMsgId) || false)
         ) as Message | null;
-        // getting the channel id of the message if the message in starboard was starred
-        const starboardMsgChannel = starboardMessage?.content
-            .replace(/(<|>)/g, "")
-            .split("#")[1];
-        if (
-            starboardMsgChannel !== message.channelId &&
-            message.author.id !== client.user?.id
-        ) {
-            return updateStars(starboardMessage, reaction.count - 1);
-        }
-        if (!starboardMsgChannel) return;
-        const sourceMsg = await (
-            (await client.channels.fetch(starboardMsgChannel)) as TextChannel
-        )?.messages.fetch(wannabeStarMsgId);
-        const sourceMsgStarReaction = sourceMsg.reactions.cache.get("⭐");
-        if (
-            (await sourceMsgStarReaction?.users.fetch())?.has(user.id) ||
-            sourceMsg.author.id === user.id
-        ) {
-            return;
-        }
-        const sourceMsgStarCount = (await sourceMsgStarReaction?.fetch())
-            ?.count;
-        return updateStars(
-            starboardMessage,
-            reaction.count +
-                (sourceMsgStarCount && sourceMsgStarCount > 0
-                    ? sourceMsgStarCount
-                    : 0) -
-                (message.channelId === channel ? 1 : 2)
-        );
+        return await updateStars(starboardMessage, reaction.count, minCount);
     }
 }

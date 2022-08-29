@@ -40,6 +40,7 @@ const guildSettingsSchema = new Schema({
     starboardSettings: {
         enable: Boolean,
         channelId: String,
+        minStars: Number,
     },
     inviteLogSettings: {
         enable: Boolean,

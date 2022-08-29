@@ -14,7 +14,7 @@ export async function CheckPerms(
     let member = await interaction.guild?.members.fetch(userID);
     if (member == undefined || null) return false;
     if (!member?.permissions.has(perms)) {
-        interaction.followUp({
+        interaction.reply({
             content: `You don't have permission to do this, you need:\n${clean(
                 perms,
                 { start: "**", end: "**" }
@@ -33,7 +33,7 @@ export async function CheckPermsBoth(
         interaction.client.user!.id
     );
     if (!member?.permissions.has(perms)) {
-        interaction.followUp({
+        interaction.reply({
             content: `You don't have permission to do this, you need:\n${clean(
                 perms,
                 { start: "**", end: "**" }
@@ -42,7 +42,7 @@ export async function CheckPermsBoth(
         return false;
     }
     if (!bot?.permissions.has(perms)) {
-        interaction.followUp({
+        interaction.reply({
             content: `I don't have the permission required to do this:\n${clean(
                 perms,
                 { start: "**", end: "**" }

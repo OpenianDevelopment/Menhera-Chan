@@ -36,7 +36,7 @@ const RPS: CommandInt = {
             const embed = new MessageEmbed().setDescription(
                 `Since you were so lonely I played with you\n\n${winnerText}`
             );
-            interaction.followUp({
+            interaction.reply({
                 content:
                     winner == 0
                         ? "**Draw**, No one won"
@@ -60,10 +60,11 @@ const RPS: CommandInt = {
         //p2's choice
         let p2;
         //sending the message
-        const msg = (await interaction.followUp({
+        const msg = (await interaction.reply({
             content: `<@${user2.id}>`,
             embeds: [embed],
             components: [component],
+            fetchReply: true,
         })) as Message;
         //collector stuff
         const filter = (int: any) =>

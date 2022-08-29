@@ -18,13 +18,14 @@ const ModDeleteWarn: CommandInt = {
         const id = interaction.options.getString("warn-id", true);
         const result = await removeWarn(interaction.guild.id, id);
         if (!result) {
-            await interaction.followUp({
+            await interaction.reply({
                 content: `${config.emojis.redCrossMark} Warn id doesn't exist!`,
+                ephemeral: true
             });
             return;
         }
         try {
-            await interaction.followUp({
+            await interaction.reply({
                 embeds: [
                     new MessageEmbed().setDescription(
                         `${config.emojis.whiteHeavyCheckMark} Warn id **${id}** was deleted`
@@ -33,8 +34,9 @@ const ModDeleteWarn: CommandInt = {
             });
             return;
         } catch {
-            await interaction.followUp({
+            await interaction.reply({
                 content: `${config.emojis.redCrossMark} Command errored out`,
+                ephemeral: true
             });
             return;
         }

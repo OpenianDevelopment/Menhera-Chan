@@ -19,15 +19,17 @@ const ModUnmute: CommandInt = {
         }
         let data = interaction.options.getMember("user", true) as GuildMember;
         if (data.id == client.user?.id) {
-            await interaction.followUp({
+            await interaction.reply({
                 content: "I can't moderate myself",
+                ephemeral: true,
             });
             return;
         }
         let member = await interaction.guild?.members.fetch(data.id);
         if (member == null) {
-            await interaction.followUp({
+            await interaction.reply({
                 content: "Cannot find user",
+                ephemeral: true,
             });
             return;
         }
@@ -37,19 +39,21 @@ const ModUnmute: CommandInt = {
                 (interaction.member?.roles as GuildMemberRoleManager).highest
                     .position
         ) {
-            await interaction.followUp({
+            await interaction.reply({
                 content: "Cannot moderate user",
+                ephemeral: true,
             });
             return;
         }
         try {
             await member.timeout(0, `Unmuted by ${interaction.user.tag}`);
         } catch {
-            await interaction.followUp({
+            await interaction.reply({
                 content: `Failed to unmute member ${member}`,
+                ephemeral: true,
             });
         }
-        await interaction.followUp({
+        await interaction.reply({
             content: `${member} was unmuted`,
         });
         return;

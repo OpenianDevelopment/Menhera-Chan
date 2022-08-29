@@ -36,12 +36,13 @@ const TagEdit: CommandInt = {
             embed ? JSON.stringify(embed) : undefined
         );
         if (result) {
-            interaction.followUp({
+            interaction.reply({
                 content: `Tag was updated successfully,\nTo try the tag use \`t.${name}\``,
             });
         } else {
-            interaction.followUp({
+            interaction.reply({
                 content: `There was an error while updating the tag,\nIf this had happened more than once, Please contact the developers at ${config.links.server}`,
+                ephemeral: true
             });
             await ReportBug(
                 `Couldn't edit a tag in guildId: **${

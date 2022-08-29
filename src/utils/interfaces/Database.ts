@@ -51,3 +51,13 @@ export interface userData {
     avatarHash: string;
     guilds: string[];
 }
+
+export interface devMiscInt {
+    id: "0";
+    economy: { earning: number; cooldown: number };
+    blacklists: {
+        user: userData;
+        blacklistedAt: { unix: Number; string: String };
+        reason: String;
+    }[];
+}

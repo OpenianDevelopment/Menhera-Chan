@@ -16,7 +16,7 @@ const Uptime: CommandInt = {
                 `**Shard Id:** ${interaction.guild?.shardId}\n**Online Since:** <t:${time}> (<t:${time}:R>)`
             )
             .setTimestamp();
-        await interaction.followUp({
+        await interaction.reply({
             embeds: [embed],
         });
         return;

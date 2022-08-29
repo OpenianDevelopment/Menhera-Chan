@@ -16,15 +16,16 @@ const EconInventory: CommandInt = {
         interaction: CommandInteraction<"cached">
     ) {
         if (!client.guildSettings.get(interaction.guildId)?.misc.econ) {
-            interaction.followUp({
+            interaction.reply({
                 content: "This command is disabled in this server",
+                ephemeral: true
             });
             return;
         }
         const user = interaction.user.id!;
         const data = await getUserWaifus(user);
         if (data.length < 1) {
-            interaction.followUp({
+            interaction.reply({
                 content: "You don't have anything in your inventory.",
             });
             return;
@@ -42,7 +43,7 @@ const EconInventory: CommandInt = {
                     `**Name: ${x.name}**\nID: ${x.id}\nAnime: ${x.anime}\nPrice: ${x.cost}`
                 )
                 .setImage(x.image);
-            await embeds.push(embed);
+            embeds.push(embed);
         });
         embedMaker(interaction, embeds, 0);
     },

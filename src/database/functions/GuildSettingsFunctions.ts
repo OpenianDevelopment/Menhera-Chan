@@ -3,7 +3,7 @@ import {
     misc,
     rawGuildSettings,
     starboardSettings,
-} from "../../utils/interfaces/GlobalType";
+} from "../../utils/interfaces/SettingsTypes";
 import { guildSettings } from "../schemas";
 function GuildScheme(guildID: string) {
     return new guildSettings({
@@ -42,6 +42,7 @@ function GuildScheme(guildID: string) {
         starboardSettings: {
             enable: false,
             channelId: null,
+            minStars: 3,
         },
         inviteLogSettings: {
             enable: false,
@@ -238,7 +239,7 @@ export async function UpdateExp(
 
 export async function UpdateStarboard(
     guildId: string,
-    options: { enable?: boolean; channelId?: string }
+    options: { enable?: boolean; channelId?: string; minStars?: number }
 ) {
     const starData: starboardSettings = (await getGuildSettings(guildId))
         .starboardSettings;
@@ -249,7 +250,8 @@ export async function UpdateStarboard(
             starboardSettings: {
                 enable: options.enable || starData.enable,
                 channelId: options.channelId || starData.channelId,
-            },
+                minStars: options.minStars || 3,
+            },  
         }
     );
 }

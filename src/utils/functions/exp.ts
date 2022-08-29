@@ -15,7 +15,7 @@ export async function exp(client: DiscordClient, message: Message) {
         message.guildId
     )?.expSettings;
     if (!guildSettings?.enable) return;
-    if (guildSettings.blacklistChannel.find((e) => e == message.channelId))
+    if (guildSettings.blacklistChannel.find((str) => str == message.channelId))
         return;
     if (userMap.has(message.author.id)) {
         const userData = userMap.get(message.author.id);
@@ -30,24 +30,33 @@ export async function exp(client: DiscordClient, message: Message) {
     }
     const userxp = await getUserLevel(message.guildId, message.author);
     if (userxp.level == 1500) return;
-    const newXP = userxp.xp + guildSettings.increment;
+    const multi = guildSettings.multipliers?.filter(
+        (elm) =>
+            elm.id == message.channelId ||
+            message.member?.roles.cache.has(elm.id)
+    );
+    const newXP =
+        userxp.xp +
+        (multi && multi.length >= 1
+            ? multi.map((d) => d.increment)?.reduce((a, b) => (a || 0) + b)
+            : guildSettings.increment);
     const level = Math.floor(Math.sqrt(newXP) * 0.1);
     if (
         await updateUserData(
             message.author.id,
             message.author.tag,
-            message.author.avatar
-                ? message.author.avatar
-                : (parseInt(message.author.discriminator) % 5).toString(),
+            message.author.avatar ||
+                (parseInt(message.author.discriminator) % 5).toString(),
             message.guild!.id
         )
     ) {
         updateUserXP(message.author.id, newXP, level, message.guildId);
     } else {
-        return ReportBug(
-            "Cannot save UserData to the db (user didn't get exp)\n\n*Check console for details*",
+        ReportBug(
+            "Couldn't save UserXP info to the database\n\n*Check console for details*",
             client.user!
         );
+        return;
     }
     if (level == 0) return;
     if (level != userxp.level) {
@@ -60,16 +69,11 @@ export async function exp(client: DiscordClient, message: Message) {
                 embeds: [levelup],
                 content: `${message.author}, Congratulations! \nYou Leveled up!`,
             });
-        } else if (guildSettings.expLogChannel) {
+        } else {
             const log = message.guild?.channels.cache.find(
                 (channel) => channel.id === guildSettings.expLogChannel
             ) as TextChannel;
             log.send({
-                embeds: [levelup],
-                content: `${message.author}, Congratulations! \nYou Leveled up!`,
-            });
-        } else {
-            message.channel.send({
                 embeds: [levelup],
                 content: `${message.author}, Congratulations! \nYou Leveled up!`,
             });

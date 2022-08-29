@@ -20,14 +20,16 @@ const ModUnban: CommandInt = {
             interaction.options.getString("reason", false) ||
             "No Reason Provided";
         if (user.id == client.user?.id) {
-            await interaction.followUp({
+            await interaction.reply({
                 content: "I can't moderate myself",
+                ephemeral: true
             });
             return;
         }
         if (!(await interaction.guild?.bans.fetch(user))) {
-            await interaction.followUp({
+            await interaction.reply({
                 content: "Cannot Unban user. User is not banned",
+                ephemeral: true
             });
             return;
         }
@@ -44,8 +46,9 @@ const ModUnban: CommandInt = {
         user.send({
             embeds: [MemberEmbed],
         }).catch((err) => {
-            interaction.followUp({
+            interaction.reply({
                 content: "Cannot send messages to this user",
+                ephemeral: true
             });
         });
 
@@ -54,7 +57,7 @@ const ModUnban: CommandInt = {
                 `${config.emojis.whiteHeavyCheckMark} Unbanned **${user.tag}** `
             )
             .setColor("GREEN");
-        await interaction.followUp({ embeds: [ChannelEmbed] });
+        await interaction.reply({ embeds: [ChannelEmbed] });
         await interaction.guild!.members.unban(user);
         return;
     },

@@ -68,18 +68,18 @@ const AniUsers: CommandInt = {
             .then(handleResponse)
             .catch(console.error);
         if (animedata == undefined) {
-            interaction.followUp({
+            interaction.reply({
                 content: "```If you see this message contact devs```",
             });
             return;
         }
         const data = animedata.data.Page.users;
         if (data == undefined) {
-            interaction.followUp({ content: `Search Error` });
+            interaction.reply({ content: `Search Error` });
             return;
         }
         if (data.length == 0) {
-            interaction.followUp({ content: `Could not find anything` });
+            interaction.reply({ content: `Could not find anything` });
             return;
         }
         let page = 0;

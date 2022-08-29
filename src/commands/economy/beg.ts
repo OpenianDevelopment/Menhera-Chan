@@ -27,8 +27,9 @@ const EconBeg: CommandInt = {
         interaction: CommandInteraction<"cached">
     ) {
         if (!client.guildSettings.get(interaction.guildId)?.misc.econ) {
-            interaction.followUp({
+            interaction.reply({
                 content: "This command is disabled in this server",
+                ephemeral: true
             });
             return;
         }
@@ -44,14 +45,15 @@ const EconBeg: CommandInt = {
         if (math > ResponsesArray.length) {
             let TheCoins = Math.floor(Math.random() * 150) + 2;
             addBalance(user, TheCoins);
-            interaction.followUp({
+            interaction.reply({
                 content: `**${character.name}** gave you ${TheCoins} coins! Remember to say thanks!`,
             });
             return;
         }
-        interaction.followUp({
+        interaction.reply({
             content: `**${character.name}**: ${ResponsesArray[math]}`,
         });
+        return;
     },
 };
 

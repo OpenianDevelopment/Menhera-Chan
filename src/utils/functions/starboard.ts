@@ -4,7 +4,8 @@ export async function SendStarMessage(
     starChannel: TextChannel,
     starMsg: Message | null,
     reactionCount: number,
-    message: Message
+    message: Message,
+    minStars: number
 ) {
     if (!starMsg) {
         const attachments: string[] = [];
@@ -47,21 +48,20 @@ export async function SendStarMessage(
                 embeds: [embed],
                 files: attachments,
             })
-            .then((m) => m.react("⭐"))
             .catch(() => {});
     } else {
-        updateStars(
-            starMsg,
-            reactionCount +
-                (starMsg.reactions.cache.get("⭐")?.count || 0) -
-                (message.channel.id === starChannel.id ? 1 : 0)
-        );
+        updateStars(starMsg, reactionCount, minStars);
     }
+    return;
 }
-export function updateStars(starMsg: Message | null, newCount: number) {
+export function updateStars(
+    starMsg: Message | null,
+    newCount: number,
+    minStars: number
+) {
     if (!starMsg) return;
     const channelId = starMsg.content.replace(/(<|>)/g, "").split("#")[1];
-    if (newCount <= 0) return starMsg.delete();
+    if (newCount < minStars) return starMsg.delete();
     starMsg
         .edit({
             content: `**${SetStar(newCount)} ${newCount}** | <#${channelId}>`,

@@ -7,7 +7,7 @@ import {
     MessageEmbed,
     TextChannel,
 } from "discord.js";
-import { welcomeSystemSettings } from "../interfaces/GlobalType";
+import { welcomeSystemSettings } from "../interfaces/SettingsTypes";
 import { clean } from "./Custom";
 
 export async function welcomeMsg(
