@@ -49,11 +49,9 @@ export default class interactionCreateEvent extends BaseEvent {
         // check if command exists
         if (!command) return;
         //econ stuff here
-        econ(interaction, client);
+        await econ(interaction, client);
         //econ end here
         try {
-            // defer interaction reply and run command
-            await interaction.deferReply({ ephemeral: false });
             await command.run(client, interaction);
             // runs last
             if (!config.root.includes(interaction.user.id)) {

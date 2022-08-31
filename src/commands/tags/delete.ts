@@ -22,13 +22,14 @@ const TagDelete: CommandInt = {
         }
         const name = interaction.options.getString("name", true);
         if (delGuildCommand(interaction.guildId, name)) {
-            interaction.followUp({
+            interaction.reply({
                 content: `Command **${name}** was deleted.`,
             });
             return;
         } else {
-            interaction.followUp({
+            interaction.reply({
                 content: `There is no command with the name: **${name}**`,
+                ephemeral: true
             });
             return;
         }

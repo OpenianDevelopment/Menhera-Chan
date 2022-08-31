@@ -11,8 +11,9 @@ const Ping: CommandInt = {
     name: "ping",
     description: "Returns Ping",
     async run(client: DiscordClient, interaction: CommandInteraction) {
-        const msg = (await interaction.followUp({
+        const msg = (await interaction.reply({
             content: `Ponging...`,
+            fetchReply: true,
         })) as Message;
         const embed = new MessageEmbed()
             .setColor((interaction.member as GuildMember).displayColor)

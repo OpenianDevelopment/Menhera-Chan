@@ -18,7 +18,10 @@ const MAlRecommendations: CommandInt = {
         ]);
 
         if (!data || data.length == 0) {
-            interaction.followUp({ content: `Could not find anything` });
+            interaction.reply({
+                content: `Could not find anything`,
+                ephemeral: true,
+            });
             return;
         }
 

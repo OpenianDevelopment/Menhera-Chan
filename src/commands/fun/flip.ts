@@ -21,7 +21,7 @@ const Flip: CommandInt = {
             .setDescription(`You flpped a coin`)
             .addField(`It landed on:`, `${num}`);
 
-        interaction.followUp({
+        interaction.reply({
             embeds: [embed],
         });
     },

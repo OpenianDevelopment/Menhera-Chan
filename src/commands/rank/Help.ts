@@ -10,8 +10,9 @@ const RankHelp: CommandInt = {
         client: DiscordClient,
         interaction: CommandInteraction<"cached">
     ) {
-        interaction.followUp({
+        interaction.reply({
             embeds: [HelpEmbed(interaction, client)],
+            ephemeral: true,
         });
         return;
     },

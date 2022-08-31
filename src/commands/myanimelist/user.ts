@@ -12,7 +12,10 @@ const MALUser: CommandInt = {
         const data = await new MalRequest().send(["user", name]);
 
         if (!data) {
-            interaction.followUp({ content: `Could not find anything` });
+            interaction.reply({
+                content: `Could not find anything`,
+                ephemeral: true,
+            });
             return;
         }
         const profile = new CustomEmbed(interaction, false)
@@ -58,7 +61,7 @@ const MALUser: CommandInt = {
             .setFooter({
                 text: "Menhera Chan is Kawaii |" + config.links.website,
             });
-        interaction.followUp({ embeds: [profile] });
+        interaction.reply({ embeds: [profile] });
         return;
     },
 };

@@ -21,7 +21,10 @@ const ModWarnings: CommandInt = {
             member.user.id
         );
         if (!warnings) {
-            await interaction.followUp({ content: "User has no warns!" });
+            await interaction.reply({
+                content: "User has no warns!",
+                ephemeral: true,
+            });
             return;
         }
         try {
@@ -43,11 +46,12 @@ const ModWarnings: CommandInt = {
                 .setDescription(description || "No Warnings")
                 .setColor(member.displayColor)
                 .setTimestamp();
-            interaction.followUp({ embeds: [WarnEmbed] });
+            interaction.reply({ embeds: [WarnEmbed] });
             return;
         } catch {
-            await interaction.followUp({
+            await interaction.reply({
                 content: `${config.emojis.redCrossMark} Command errored out`,
+                ephemeral: true,
             });
             return;
         }

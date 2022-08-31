@@ -2,6 +2,7 @@ import BaseEvent from "../structures/BaseEvent";
 import DiscordClient from "../client/client";
 import chalk from "chalk";
 import { cacheGuildSettings } from "../utils/initialFunctions";
+import Socket from "../utils/socket";
 
 export default class ReadyEvent extends BaseEvent {
     constructor() {
@@ -14,6 +15,8 @@ export default class ReadyEvent extends BaseEvent {
             name: `${client.guilds.cache.size} Servers`,
             type: "WATCHING",
         });
+        //! WebSocket Is Not Finished Yet
+        //Socket(client, 4200);
         setInterval(() => {
             client.user!.setActivity({
                 name: `${client.guilds.cache.size} Servers`,

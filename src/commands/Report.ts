@@ -11,20 +11,23 @@ const Report: CommandInt = {
         interaction: CommandInteraction<"cached">
     ) {
         try {
-            const wm = await interaction.followUp({
+            const wm = await interaction.reply({
                 content:
                     "You will get blacklisted if it's not a serious report",
+                fetchReply: true,
             });
             const author = interaction.user;
             const desc = clean(
                 interaction.options.getString("description", true)
             );
             ReportBug(desc, author, interaction.guild).then((e) =>
-                (wm as Message).edit({ content: `Thanks for Reporting.` })
+                setTimeout(() => {
+                    wm.edit({ content: `Thanks for Reporting.` });
+                }, 10 * 1000)
             );
         } catch (err) {
             console.error(err);
-            interaction.followUp({
+            interaction.reply({
                 content: "An error has occurred while reporing.",
             });
         }

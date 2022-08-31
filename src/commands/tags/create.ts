@@ -35,8 +35,9 @@ const TagCreate: CommandInt = {
                 : null;
         const name = longname.split(/ /g)[0];
         if (!content && !embed) {
-            await interaction.followUp({
+            await interaction.reply({
                 content: "You have to either add **content** or **embed**",
+                ephemeral: true
             });
             return;
         }
@@ -49,13 +50,14 @@ const TagCreate: CommandInt = {
                 embed ? JSON.stringify(embed) : undefined
             )
         ) {
-            interaction.followUp({
+            interaction.reply({
                 content: `Tag was created successfully,\nTo try the tag use t.${name}`,
             });
             return;
         } else {
-            interaction.followUp({
+            interaction.reply({
                 content: `There was an error while creating the tag,\nIf this had happened more than once, Please contact the developers at ${config.links.server}`,
+                ephemeral: true
             });
             await ReportBug(
                 `Couldn't create a tag in guildId: **${

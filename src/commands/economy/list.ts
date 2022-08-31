@@ -13,8 +13,9 @@ const EconList: CommandInt = {
         interaction: CommandInteraction<"cached">
     ) {
         if (!client.guildSettings.get(interaction.guildId)?.misc.econ) {
-            interaction.followUp({
+            interaction.reply({
                 content: "This command is disabled in this server",
+                ephemeral: true
             });
             return;
         }
@@ -23,9 +24,10 @@ const EconList: CommandInt = {
             .setDescription(
                 `[Click Here](${config.links.website}/characters/)`
             );
-        interaction.followUp({
+        interaction.reply({
             embeds: [embed],
         });
+        return;
     },
 };
 

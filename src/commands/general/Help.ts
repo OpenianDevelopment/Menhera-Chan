@@ -10,8 +10,9 @@ const Help: CommandInt = {
     async run(client: DiscordClient, interaction: CommandInteraction) {
         const query = interaction.options.getString("query", true);
         if (query.length <= 2) {
-            await interaction.followUp({
+            await interaction.reply({
                 content: `${config.emojis.redCrossMark} \`query\` has to be 3 characters or more`,
+                ephemeral: true
             });
             return;
         }
@@ -32,7 +33,7 @@ const Help: CommandInt = {
                     : "No Command Found"
             )
             .setTimestamp();
-        await interaction.followUp({ embeds: [embed] });
+        await interaction.reply({ embeds: [embed] });
         return;
     },
 };

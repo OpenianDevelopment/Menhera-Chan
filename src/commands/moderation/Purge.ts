@@ -21,13 +21,14 @@ const ModPurge: CommandInt = {
         let amount = interaction.options.getInteger("amount", true);
         let SChannel = interaction.options.getChannel("channel", false);
         if (amount < 1 || amount > 100) {
-            await interaction.followUp({
+            await interaction.reply({
                 content:
-                    "Invaild Amount\n Please Provide a number Between 1 to 100",
-            });
+                    "Invaild Amount\nPlease Provide a number Between 1 to 100",
+                    ephemeral: true
+                });
             return;
         }
-        let channel;
+        let channel: TextChannel | NewsChannel | ThreadChannel;
         if (!SChannel) {
             channel = interaction.channel as
                 | TextChannel
@@ -36,10 +37,16 @@ const ModPurge: CommandInt = {
         } else {
             channel = SChannel as TextChannel | NewsChannel | ThreadChannel;
         }
-        await channel.bulkDelete(amount);
-        await interaction.followUp({
+        await interaction.reply({
             content: `Purged ${amount} messages in ${channel}`,
+            ephemeral: true,
         });
+        if (!(await channel.bulkDelete(amount))) {
+            interaction.editReply({
+                content:
+                    "There was an error, please check that i have the correct permissions.\nThank you.",
+            });
+        }
         return;
     },
 };

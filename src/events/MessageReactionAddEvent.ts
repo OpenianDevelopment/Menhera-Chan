@@ -26,16 +26,13 @@ export default class messageReactionAddEvent extends BaseEvent {
         // ignore if no guild settings data
         if (!client.guildSettings.get(message.guild!.id)?.starboardSettings)
             return;
-        const channel = client.guildSettings.get(message.guild.id)
-            ?.starboardSettings?.channelId;
+        const settings = client.guildSettings.get(message.guild.id)!
+            .starboardSettings!;
+        const channel = settings.channelId;
         if (!channel) return;
-        const minCount = 5;
+        const minCount = settings.minStars;
 
-        if (
-            message.channelId === channel &&
-            message.author.id !== client.user?.id
-        )
-            return;
+        if (message.channelId === channel) return;
         // client's permission in the channel
         const myPerms = (message.channel as TextChannel).permissionsFor(
             client.user!.id
@@ -69,12 +66,7 @@ export default class messageReactionAddEvent extends BaseEvent {
             reaction.users.remove(user).catch(() => {});
             return;
         }
-        if (
-            message.channelId !== channel &&
-            message.author.id !== client.user?.id &&
-            reaction.count < minCount
-        )
-            return;
+        if (message.channelId !== channel && reaction.count < minCount) return;
         let starChannel = await client.channels.fetch(channel);
         if (
             !starChannel ||
@@ -108,39 +100,18 @@ export default class messageReactionAddEvent extends BaseEvent {
                 (m.embeds[0].footer?.text?.includes(wannabeStarMsgId) || false)
         ) as Message | null;
         // getting the channel id of the message if the message in starboard was starred
-        const starboardMsgChannel = starboardMessage?.content
-            .replace(/(<|>)/g, "")
-            .split("#")[1];
         if (
             message.channelId !== channel &&
-            starboardMsgChannel !== message.channelId &&
             message.author.id !== client.user?.id
         ) {
             return await SendStarMessage(
                 starChannel,
                 starboardMessage,
                 reaction.count,
-                message
+                message,
+                minCount
             );
         }
-        if (!starboardMsgChannel) return;
-        const sourceMsg = await (
-            (await client.channels.fetch(starboardMsgChannel)) as TextChannel
-        )?.messages.fetch(wannabeStarMsgId);
-        const sourceMsgStarReaction = sourceMsg.reactions.cache.get("⭐");
-        const fetchReactionUsers = await sourceMsgStarReaction?.users.fetch();
-        if (
-            fetchReactionUsers?.has(user.id) ||
-            sourceMsg.author.id === user.id
-        ) {
-            reaction.users.remove(user).catch(() => {});
-            return;
-        }
-        return await SendStarMessage(
-            starChannel,
-            starboardMessage,
-            reaction.count + (sourceMsgStarReaction?.count || 0) - 1,
-            sourceMsg
-        );
+        return;
     }
 }

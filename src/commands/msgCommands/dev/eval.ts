@@ -22,16 +22,12 @@ const Eval: CommandInt = {
             const start = process.hrtime();
             let evaled = code.includes("await")
                 ? eval(`(async () => { ${code} })()`)
-                : code.includes("return")
-                ? eval(`(()=> { ${code} })()`)
                 : eval(code);
             if (evaled instanceof Promise) {
                 evaled = await evaled;
             }
             if (evaled == undefined)
-                throw Error(
-                    `There is something wrong with your code\n\nIf you are using "await" try using "return" with it`
-                );
+                throw EvalError(`Cannot evaluate the requested code`);
             const stop = process.hrtime(start);
             const response = EvalClean(
                 inspect(evaled, { depth: 0 }),

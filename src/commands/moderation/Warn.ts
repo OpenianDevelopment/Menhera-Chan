@@ -26,12 +26,13 @@ const ModWarn: CommandInt = {
             reason
         );
         try {
-            const message = await interaction.followUp({
+            const message = await interaction.reply({
                 embeds: [
                     new MessageEmbed().setDescription(
                         `${config.emojis.whiteHeavyCheckMark} Warned **${member.user.tag}**\nReason: ${reason}`
                     ),
                 ],
+                fetchReply: true,
             });
             member
                 .send({
@@ -44,8 +45,9 @@ const ModWarn: CommandInt = {
                 });
             return;
         } catch {
-            await interaction.followUp({
+            await interaction.reply({
                 content: `${config.emojis.redCrossMark} Command errored out`,
+                ephemeral: true,
             });
             return;
         }

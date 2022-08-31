@@ -55,7 +55,7 @@ const ServerInfo: CommandInt = {
                 iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
             });
         checks(interaction, embed);
-        await interaction.followUp({ embeds: [embed] });
+        await interaction.reply({ embeds: [embed] });
         return;
     },
 };

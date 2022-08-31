@@ -22,15 +22,17 @@ const ModMute: CommandInt = {
         const time = ms(interaction.options.getString("time", true));
         const reason = interaction.options.getString("reason", false);
         if (data.id == client.user?.id) {
-            await interaction.followUp({
+            await interaction.reply({
                 content: "I can't moderate myself",
+                ephemeral: true
             });
             return;
         }
         let member = await interaction.guild?.members.fetch(data.id);
         if (member == null) {
-            await interaction.followUp({
+            await interaction.reply({
                 content: "Cannot find user",
+                ephemeral: true
             });
             return;
         }
@@ -40,8 +42,9 @@ const ModMute: CommandInt = {
                 (interaction.member?.roles as GuildMemberRoleManager).highest
                     .position
         ) {
-            await interaction.followUp({
+            await interaction.reply({
                 content: "Cannot moderate user",
+                ephemeral: true
             });
             return;
         }
@@ -53,11 +56,12 @@ const ModMute: CommandInt = {
                 }`
             );
         } catch {
-            await interaction.followUp({
+            await interaction.reply({
                 content: `Failed to mute member ${member}`,
+                ephemeral: true
             });
         }
-        await interaction.followUp({
+        await interaction.reply({
             content: `${member} was muted`,
         });
         return;

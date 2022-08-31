@@ -70,7 +70,7 @@ const AniChar: CommandInt = {
             .catch(console.error);
 
         if (!AnimeData.data.Page.characters.length) {
-            interaction.followUp({ content: `Could not find anything` });
+            interaction.reply({ content: `Could not find anything` });
             return;
         }
         const data = AnimeData.data.Page.characters;

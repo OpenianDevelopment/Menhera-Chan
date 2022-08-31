@@ -26,7 +26,7 @@ const Avatar: CommandInt = {
                 })
             )
             .setTimestamp();
-        await interaction.followUp({ embeds: [embed] });
+        await interaction.reply({ embeds: [embed] });
     },
 };
 

@@ -32,7 +32,7 @@ const SettingsWelcomeDM: CommandInt = {
         const embed = new CustomEmbed(interaction)
             .setDescription("**Welcome Dm Settings Updated**")
             .addFields({ name: "Message Demo", value: `\` ${test} \`` });
-        interaction.followUp({
+        interaction.reply({
             embeds: [embed],
         });
     },

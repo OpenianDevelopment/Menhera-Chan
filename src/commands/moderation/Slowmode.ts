@@ -21,8 +21,9 @@ const ModSlowmode: CommandInt = {
         let seconds = interaction.options.getInteger("seconds", true);
         let SChannel = interaction.options.getChannel("channel", false);
         if (seconds > 100 || seconds < 0) {
-            interaction.followUp({
+            interaction.reply({
                 content: "Invalid Time\nTime should be between 0 and 100",
+                ephemeral: true
             });
             return;
         }
@@ -36,7 +37,7 @@ const ModSlowmode: CommandInt = {
             channel = SChannel as TextChannel | NewsChannel | ThreadChannel;
         }
         channel.edit({ rateLimitPerUser: seconds });
-        await interaction.followUp({
+        await interaction.reply({
             content: `${channel} is now in slowmode with ${seconds} seconds`,
         });
         return;

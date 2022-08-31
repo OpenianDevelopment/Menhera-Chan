@@ -16,8 +16,9 @@ const RankShow: CommandInt = {
         if (
             !client.guildSettings.get(interaction.guildId!)?.expSettings?.enable
         ) {
-            interaction.followUp({
+            interaction.reply({
                 content: "Rank is not enabled on this server",
+                ephemeral: true
             });
             return;
         }
@@ -27,8 +28,8 @@ const RankShow: CommandInt = {
         const usersXP = GuildUsersXP.users.sort(
             (a: userXP, b: userXP) => b.xp - a.xp
         );
-        const userIndex = usersXP.findIndex((e: any) => {
-            return e.user === member.id;
+        const userIndex = usersXP.findIndex((e: userXP) => {
+            return e.id === member.id;
         });
         if (userIndex < 0) {
             const embed = new MessageEmbed()
@@ -36,8 +37,9 @@ const RankShow: CommandInt = {
                 .setDescription(
                     `${config.emojis.redCrossMark} I don't have any data for **${member.tag}**`
                 );
-            await interaction.followUp({
+            await interaction.reply({
                 embeds: [embed],
+                ephemeral: true
             });
             return;
         }
@@ -59,7 +61,7 @@ const RankShow: CommandInt = {
             .setRank(userIndex + 1);
 
         const rank_card = await rank_card_Data.build();
-        await interaction.followUp({
+        await interaction.reply({
             files: [rank_card],
         });
         return;

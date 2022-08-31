@@ -14,8 +14,9 @@ const EconSearch: CommandInt = {
         interaction: CommandInteraction<"cached">
     ) {
         if (!client.guildSettings.get(interaction.guildId)?.misc.econ) {
-            interaction.followUp({
+            interaction.reply({
                 content: "This command is disabled in this server",
+                ephemeral: true
             });
             return;
         }
@@ -23,8 +24,9 @@ const EconSearch: CommandInt = {
         const data = await getWaifu(name);
         const embeds: MessageEmbed[] = [];
         if (data.length < 1) {
-            interaction.followUp({
+            interaction.reply({
                 content: "Not Found",
+                ephemeral: true
             });
             return;
         }

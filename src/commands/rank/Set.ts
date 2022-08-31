@@ -26,7 +26,7 @@ const RankSet: CommandInt = {
         const UserID = interaction.user.id;
         const GX = await getLevel(interaction.guild?.id);
         const UI = GX.users.findIndex((d: any) => {
-            return d.user === UserID;
+            return d.id === UserID;
         });
         if (UI < 0) {
             const embed = new MessageEmbed()
@@ -34,7 +34,7 @@ const RankSet: CommandInt = {
                 .setDescription(
                     `${config.emojis.redCrossMark} I don't have any data for you at this moment. Kindly gain some XP first`
                 );
-            interaction.followUp({ embeds: [embed] });
+            interaction.reply({ embeds: [embed] });
             return;
         }
         let embeds: MessageEmbed[] = [];
@@ -152,7 +152,7 @@ const RankSet: CommandInt = {
                     return;
             }
         });
-        interaction.followUp({ content: content, embeds: embeds });
+        interaction.reply({ content: content, embeds: embeds });
     },
 };
 

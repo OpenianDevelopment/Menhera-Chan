@@ -14,7 +14,10 @@ const MALAnime: CommandInt = {
         });
 
         if (!data) {
-            interaction.followUp({ content: `Could not find anything` });
+            interaction.reply({
+                content: `Could not find anything`,
+                ephemeral: true,
+            });
             return;
         }
         data = data.results;

@@ -17,22 +17,24 @@ const EconBuy: CommandInt = {
         interaction: CommandInteraction<"cached">
     ) {
         if (!client.guildSettings.get(interaction.guildId)?.misc.econ) {
-            interaction.followUp({
+            interaction.reply({
                 content: "This command is disabled in this server",
+                ephemeral: true
             });
             return;
         }
         let ID = interaction.options.getInteger("id", true);
         if (ID < 0) {
-            interaction.followUp({
+            interaction.reply({
                 content: "Invalid ID",
+                ephemeral: true
             });
             return;
         }
         const user = interaction.user.id!;
         const waifu = await getUserWaifus(user);
         if (waifu.find((x) => x.characterId == ID.toString())) {
-            interaction.followUp({
+            interaction.reply({
                 content: `You already have Waifu ID: **${ID}**`,
                 ephemeral: true,
             });
@@ -40,24 +42,28 @@ const EconBuy: CommandInt = {
         }
         const waifuData = await getWaifuByID(ID.toString());
         if (waifuData == null) {
-            interaction.followUp({
+            interaction.reply({
                 content: "Invalid ID",
+                ephemeral: true
             });
             return;
         }
         const bal = await getBalance(user);
         if (bal < parseInt(waifuData.cost)) {
-            interaction.followUp({
+            interaction.reply({
                 content: `You don't have enought to purchase ${
                     waifuData.name
                 }\nyou need ${parseInt(waifuData.cost) - bal}`,
+                ephemeral: true
             });
+            return;
         }
         removeBalance(user, parseInt(waifuData.cost));
         buyWaifu(user, waifuData.id.toString());
-        interaction.followUp({
+        interaction.reply({
             content: `**${waifuData.name}** was Bought for **${waifuData.cost}**`,
         });
+        return;
     },
 };
 

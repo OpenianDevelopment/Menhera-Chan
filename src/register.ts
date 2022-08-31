@@ -483,12 +483,20 @@ const commands: ApplicationCommandData[] = [
                         type: "STRING",
                         required: true,
                         choices: [
-                            { name: "welcome messages", value: "welcome" },
-                            { name: "urls block", value: "url-block" },
-                            { name: "mod-log", value: "mod-log" },
-                            { name: "anti-spam", value: "anti-spam" },
-                            { name: "experience", value: "experience" },
-                            { name: "starboard", value: "starboard" },
+                            { name: "welcome feature", value: "welcome" },
+                            //! Their Commands Are Not Finished Yet
+                            //{ name: "mod-log feature", value: "mod-log" },
+                            //{ name: "anti-spam feature", value: "anti-spam" },
+                            {
+                                name: "experience points feature",
+                                value: "experience",
+                            },
+                            { name: "starboard feature", value: "starboard" },
+                            { name: "invite-log feature", value: "invite-log" },
+                            {
+                                name: "economy feature (global)",
+                                value: "economy",
+                            },
                         ],
                     },
                     {
@@ -520,7 +528,7 @@ const commands: ApplicationCommandData[] = [
                                 description:
                                     "message for channel, use `{server} {member}` (\\new for a new line)",
                                 type: "STRING",
-                                required: true,
+                                required: false,
                             },
                         ],
                     },
@@ -575,7 +583,65 @@ const commands: ApplicationCommandData[] = [
                         name: "channel",
                         description: "Change starboard channel",
                         type: "CHANNEL",
+                        required: false,
+                    },
+                    {
+                        name: "min-stars",
+                        description:
+                            "Change the minimum stars requirement to star a message",
+                        type: "INTEGER",
+                        required: false,
+                    },
+                ],
+            },
+            {
+                name: "invitelog",
+                description: "settings for the invitelog feature",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "channel",
+                        description: "Change the invitelog channel",
+                        type: "CHANNEL",
                         required: true,
+                    },
+                ],
+            },
+            {
+                name: "exp",
+                description: "Change Exp Settings",
+                type: "SUB_COMMAND",
+                options: [
+                    {
+                        name: "increment",
+                        description:
+                            "Change exp given per messages (per cooldown)",
+                        type: "INTEGER",
+                        required: false,
+                    },
+                    {
+                        name: "exp-cooldown",
+                        description: "Change the exp cooldown between messages",
+                        type: "INTEGER",
+                        required: false,
+                    },
+                    {
+                        name: "log-channel",
+                        description: "Set exp log channel",
+                        type: "CHANNEL",
+                        required: false,
+                    },
+                    {
+                        name: "add-blacklist-channel",
+                        description: "Add channel to exp blacklist",
+                        type: "CHANNEL",
+                        required: false,
+                    },
+                    {
+                        name: "remove-blacklist-channel",
+                        description: "Remove a channel from exp blacklist",
+                        type: "CHANNEL",
+                        required: false,
                     },
                 ],
             },
@@ -591,17 +657,6 @@ const commands: ApplicationCommandData[] = [
         description: "play an rps game with a friend! or with me",
         type: "CHAT_INPUT",
         options: [
-            {
-                name: "choice",
-                description: "choose rock, paper or scissors!",
-                type: "STRING",
-                choices: [
-                    { name: "🪨", value: "rock" },
-                    { name: "📃", value: "paper" },
-                    { name: "✂️", value: "scissors" },
-                ],
-                required: true,
-            },
             {
                 name: "user",
                 description: "friend to play rps with",
