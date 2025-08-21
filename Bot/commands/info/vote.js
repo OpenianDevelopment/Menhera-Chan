@@ -1,6 +1,5 @@
-const Discord = require('discord.js');;
+const { EmbedBuilder } = require('discord.js');
 const globalFunc = require('../../function/dbfunctions');
-const DBL = require("dblapi.js");
 
 module.exports = {
     name: 'vote',
@@ -8,9 +7,9 @@ module.exports = {
     category:'general',
     args: false,
     run:async(client,message,args)=>{
-        const embed = new Discord.MessageEmbed()
-        .setAuthor(client.user.username, client.user.displayAvatarURL(), 'https://menhera-chan.in/')
+        const embed = new EmbedBuilder()
+        .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL(), url: 'https://menhera-chan.in/' })
         .setDescription('You can vote every 12 hours at https://top.gg/bot/731143954032230453')
-        return message.reply(embed)
+        return message.reply({ embeds: [embed] })
     }
 }

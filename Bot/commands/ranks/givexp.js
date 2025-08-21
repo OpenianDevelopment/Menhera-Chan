@@ -41,12 +41,12 @@ module.exports = {
         const levelup = new EmbedBuilder()
             .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
             .setColor('#7289DA')
-            .addFields({ name: 'Congratulations', `You have reached Level ${level}`)
+            .addFields({ name: 'Congratulations', value: `You have reached Level ${level}` })
             .setFooter({ text: `${message.guild.name} | https://menhera-chan.tk ` })
 
         if (message.guild.botSetting.xplog === null) {
             message.channel.send(`${member}, Congratulations!`);
-            message.channel.send(levelup)
+            message.channel.send({ embeds: [levelup] })
             return;
         }
         var log = message.guild.channels.cache.find(channel => channel.id === message.guild.botSetting.xplog);
