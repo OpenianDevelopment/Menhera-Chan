@@ -1,0 +1,4 @@
+{
+  "token": "test-token",
+  "mongo_uri": "mongodb://localhost:27017/menhera-test"
+}
