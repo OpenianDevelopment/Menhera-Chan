@@ -12,16 +12,11 @@ const {
 	initNews,
 	initAntispam,
 } = require("../function/dbfunctions(2)");
-const vote = require("../modules/vote");
-const DBL = require("dblapi.js");
-const botconfig = require("../botconfig.json");
+const { ActivityType } = require("discord.js");
+// Removed deprecated DBL library
+// const vote = require("../modules/vote");
 
 module.exports = (client) => {
-	const dbl = new DBL(
-		botconfig.DBL_TOKEN,
-		client
-	);
-
 	//vote(client)
 
 	//connecting to the db when bot starts
@@ -44,15 +39,9 @@ module.exports = (client) => {
 
 	//for the counter
 	client.counter = [];
-	setInterval(async () => {
-		//when sharding
-		//const guildsShard = await client.shard.fetchClientValues("guilds.cache.size");
-		//const size = guildsShard.reduce((acc, guildCount) => acc + guildCount, 0);
-		const size = client.guilds.cache.size
-		dbl.postStats(size, null, null);
-	}, 1800000);
+	// Removed DBL stats posting since dblapi.js is deprecated
 	console.log(`${client.user.username} has logged in`);
 
-	client.user.setStatus("Online");
-	client.user.setActivity("mc!help", { type: "PLAYING" });
+	client.user.setStatus("online");
+	client.user.setActivity("mc!help", { type: ActivityType.Playing });
 };

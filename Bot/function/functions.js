@@ -1,5 +1,5 @@
 const Canvas = require('canvas');
-const Discord = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const ssn = require('short-string-number');
 const { getModeration, getGuildSetting, removeModeration } = require('./dbfunctions');
 const { getWelcome, getStarboard, addDBStarMessage, deleteDBStarMessage, editStarCount } = require('./dbfunctions(2)')
@@ -140,32 +140,32 @@ module.exports = {
     sendModLogAuto: async function (guild, channels, embed, client) {
         if (channels === null) return
         var channel = await guild.channels.cache.find(channel => channel.id === channels);
-        if (!channel.permissionsFor(client.user.id).has(`SEND_MESSAGES`)) return
-        channel.send(embed).catch(err => { console.log(err) });
+        if (!channel.permissionsFor(client.user.id).has(`SendMessages`)) return
+        channel.send({ embeds: [embed] }).catch(err => { console.log(err) });
     },
     sendModLog: async function (message, channels, cmd, channelID, member, reason, mod, client) {
         if (channels === null) return
-        const ModEmbed = new Discord.MessageEmbed()
+        const ModEmbed = new EmbedBuilder()
             .setTitle(`Mod logs`)
-            .setColor('RED')
-            .addField('User:', message.author, true)
-            .addField('Used:', cmd, true)
+            .setColor('Red')
+            .addFields({ name: 'User:', value: message.author.toString(), inline: true })
+            .addFields({ name: 'Used:', value: cmd, inline: true })
 
         if (member != null) {
-            ModEmbed.addField('On User:', `${member}`)
+            ModEmbed.addFields({ name: 'On User:', value: `${member}` })
         }
         if (channelID != null) {
-            ModEmbed.addField('On channel:', `<#${channelID}>`)
+            ModEmbed.addFields({ name: 'On channel:', value: `<#${channelID}>` })
         }
         if (reason != null && reason != ``) {
-            ModEmbed.addField('Reason:', `${reason}`)
+            ModEmbed.addFields({ name: 'Reason:', value: `${reason}` })
         }
         if (mod != null && mod != ``) {
-            ModEmbed.addField('Mod:', `${mod}`)
+            ModEmbed.addFields({ name: 'Mod:', value: `${mod}` })
         }
         var channel = await message.guild.channels.cache.find(channel => channel.id === channels);
-        if (!channel.permissionsFor(client.user.id).has(`SEND_MESSAGES`)) return
-        channel.send(ModEmbed).catch(err => { console.log(err) });
+        if (!channel.permissionsFor(client.user.id).has(`SendMessages`)) return
+        channel.send({ embeds: [ModEmbed] }).catch(err => { console.log(err) });
     },
     getTime: function (ms) {
         var seconds = ms / 1000;
@@ -186,40 +186,40 @@ module.exports = {
         mod.moderations.forEach(async mod => {
             var time = mod.time - Date.now();
             if (mod.modtype === 'mute') {
-                if (!guild.me.hasPermission(`MANAGE_ROLES`)) return removeModeration(guild.id, mod.user, mod.modtype)
+                if (!guild.members.me.permissions.has(`ManageRoles`)) return removeModeration(guild.id, mod.user, mod.modtype)
                 var member = await guild.members.fetch(mod.user)
                 if (!member) return removeModeration(guild.id, mod.user, mod.modtype);
                 setTimeout(async function () {
                     member.roles.remove(muterole)
-                    const embed = new Discord.MessageEmbed()
-                        .setTitle(`Unmuted`,)
+                    const embed = new EmbedBuilder()
+                        .setTitle(`Unmuted`)
                         .setColor('#7851a9')
                         .setDescription(`${member.user.username} have been Unmuted`)
-                        .addField('Unmuted by', `<@!731143954032230453>`, true)
+                        .addFields({ name: 'Unmuted by', value: `<@!731143954032230453>`, inline: true })
                     removeModeration(guild.id, mod.user, mod.modtype)
                     if (mod_log === null) return
                     var channel = await guild.channels.cache.find(channel => channel.id === mod_log);
-                    if (!channel.permissionsFor(client.user.id).has(`SEND_MESSAGES`)) return
-                    channel.send(embed).catch(err => { console.log(err) });
+                    if (!channel.permissionsFor(client.user.id).has(`SendMessages`)) return
+                    channel.send({ embeds: [embed] }).catch(err => { console.log(err) });
                 }, time)
             }
             if (mod.modtype === 'ban') {
-                if (!guild.me.hasPermission(`BAN_MEMBERS`)) return removeModeration(guild.id, mod.user, mod.modtype)
-                var ban = await guild.fetchBans();
-                var member = await ban.get(mod.user);
+                if (!guild.members.me.permissions.has(`BanMembers`)) return removeModeration(guild.id, mod.user, mod.modtype)
+                var ban = await guild.bans.fetch();
+                var member = ban.get(mod.user);
                 if (!member) return removeModeration(guild.id, mod.user, mod.modtype)
                 setTimeout(async function () {
                     guild.members.unban(member.user.id)
-                    const embed = new Discord.MessageEmbed()
-                        .setTitle(`Unbanned`,)
+                    const embed = new EmbedBuilder()
+                        .setTitle(`Unbanned`)
                         .setColor('#7851a9')
                         .setDescription(`${member.user.username} have been Unbanned`)
-                        .addField('Unbanned by', `<@!731143954032230453>`, true)
+                        .addFields({ name: 'Unbanned by', value: `<@!731143954032230453>`, inline: true })
                     removeModeration(guild.id, mod.user, mod.modtype)
                     if (mod_log === null) return
                     var channel = await guild.channels.cache.find(channel => channel.id === mod_log);
-                    if (!channel.permissionsFor(client.user.id).has(`SEND_MESSAGES`)) return
-                    channel.send(embed).catch(err => { console.log(err) });
+                    if (!channel.permissionsFor(client.user.id).has(`SendMessages`)) return
+                    channel.send({ embeds: [embed] }).catch(err => { console.log(err) });
                 }, time)
 
             }
@@ -256,12 +256,12 @@ module.exports = {
     addStarMessage: async function (client, message, stars) {
         const starData = await getStarboard(message.guild.id);
         if (!starData) return;
-        const embed = new Discord.MessageEmbed()
-            .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }), `https://discord.com/channels/${message.guild.id}/${message.channel.id}/${message.id}`)
+        const embed = new EmbedBuilder()
+            .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }), url: `https://discord.com/channels/${message.guild.id}/${message.channel.id}/${message.id}` })
             .setDescription(message.content)
-            .setFooter('https://menhera-chan.in/', client.user.displayAvatarURL())
+            .setFooter({ text: 'https://menhera-chan.in/', iconURL: client.user.displayAvatarURL() })
         message.attachments.first() ? embed.setImage(message.attachments.first().url) : null;
-        let TheMsg = await client.guilds.cache.get(starData.guild).channels.cache.get(starData.channel).send(`**${stars} ⭐**`, embed);
+        let TheMsg = await client.guilds.cache.get(starData.guild).channels.cache.get(starData.channel).send({ content: `**${stars} ⭐**`, embeds: [embed] });
         /*TheMsg.react('⭐').then(
             TheMsg.react('801787425156235275')
         )*/
