@@ -1,10 +1,28 @@
 //Requirements
-const { Client, Collection } = require("discord.js");
+const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
 const mongoose = require("mongoose");
-const client = new Client({ partials: ["MESSAGE", "REACTION", "CHANNEL"], ws: { version: 7 } });
 const fs = require("fs");
 const { token, mongo_uri } = require("./botconfig.json");
-const mongoid = mongo_uri;
+
+// Initialize Discord client with Discord.js v14 syntax
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.GuildInvites
+    ],
+    partials: [
+        Partials.Message,
+        Partials.Reaction,
+        Partials.Channel,
+        Partials.User
+    ]
+});
 
 process
     .on("uncaughtException", (err) => {
@@ -17,19 +35,14 @@ process
         console.log("UNHANDLED", err);
     });
 
-
-mongoose.connect(
-    mongoid,
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false,
-    },
-    (err) => {
-        if (err) throw err;
-        console.log("Connection Completed");
-    }
-);
+// Update mongoose connection for newer versions
+mongoose.connect(mongo_uri)
+    .then(() => {
+        console.log("MongoDB Connection Completed");
+    })
+    .catch((err) => {
+        console.error("MongoDB Connection Error:", err);
+    });
 
 client.invite = new Map();
 

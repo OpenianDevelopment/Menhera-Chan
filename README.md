@@ -11,8 +11,6 @@
  
 </p>
 
-
-
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary>Table of Contents</summary>
@@ -30,77 +28,134 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    
-    
+    <li><a href="#changes-in-v2">Changes in v2.0</a></li>
   </ol>
 </details>
-
-
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+[Menhera Chan](https://menhera-chan.in) is a multi-purpose Discord bot with tons of features. We built Menhera Chan because we wanted to replace multiple bots with just one bot. We think we were somewhat successful!
 
-
-[Menhera Chan](https://menhera-chan.in) is a multi-purpose discord bot with tons of feature. We build Menhera Chan because we wanted to replace multiple bots with just one bot. We think we were somewhat successful
-
-Feature:
-* Moderation
-* Roleplay
-* Music
-* MyAnimeList and Anilist
-* Economy
-
-
+Features:
+* **Moderation** - Advanced moderation tools with logging
+* **Roleplay** - Fun roleplay commands
+* **Music** - High-quality music playback
+* **MyAnimeList and Anilist** - Anime and manga integration
+* **Economy** - Virtual economy system
+* **Leveling** - XP and ranking system
+* **Welcome System** - Customizable welcome messages
+* **And much more!**
 
 ### Built With
 
-
-* [JavaScript](https://www.javascript.com/)
-* [DiscordJS](https://discord.js.org)
+* [Node.js](https://nodejs.org/) (v18+ required)
+* [Discord.js v14](https://discord.js.org)
 * [MongoDB](https://www.mongodb.com/)
-* [NodeJS](https://nodejs.org/)
+* [Canvas](https://www.npmjs.com/package/canvas) - For image generation
 
-
-
-<!-- GETTING STARTED -->
 ## Getting Started
-
-
 
 ### Prerequisites
 
-
-* npm
+* **Node.js 18.0.0 or higher**
   ```sh
-  npm install npm@latest -g
+  node --version
   ```
+* **MongoDB** - Either local installation or MongoDB Atlas
+* **Discord Bot Token** - Create a bot at [Discord Developer Portal](https://discord.com/developers/applications)
 
 ### Installation
 
-
-1. Clone the repo
+1. **Clone the repository**
    ```sh
-   git clone https://github.com/OpenianDevelopement/Menhera-Chan.git
+   git clone https://github.com/OpenianDevelopment/Menhera-Chan.git
+   cd Menhera-Chan
    ```
-2. Install NPM packages
+
+2. **Install dependencies**
    ```sh
    npm install
    ```
-3. Enter your Bot Token in `botconfig.json` and `.env`
 
-4. Run all the servers
-
+3. **Configure the bot**
    
+   Edit `Bot/botconfig.json` with your credentials:
+   ```json
+   {
+     "owners": ["YOUR_USER_ID"],
+     "prefix": "mc!",
+     "token": "YOUR_BOT_TOKEN",
+     "mongo_uri": "YOUR_MONGODB_CONNECTION_STRING",
+     "youtube_api": "YOUR_YOUTUBE_API_KEY",
+     "DBL_TOKEN": "",
+     "GuildUpdates_Webhook": "",
+     "MAX_PLAYLIST_SIZE": 10,
+     "PRUNING": false,
+     "STAY_TIME": 30
+   }
+   ```
 
+4. **Start the bot**
+   ```sh
+   npm start
+   ```
+   
+   Or for development:
+   ```sh
+   npm run dev
+   ```
 
+### Required Bot Permissions
 
+Make sure your bot has these permissions in your Discord server:
+- **Send Messages**
+- **Embed Links**
+- **Attach Files**
+- **Read Message History**
+- **Add Reactions**
+- **Connect** (for music)
+- **Speak** (for music)
+- **Manage Roles** (for moderation)
+- **Ban Members** (for moderation)
+- **Kick Members** (for moderation)
 
+## Changes in v2.0
+
+This version includes major updates and improvements:
+
+### ✅ **Updated Dependencies**
+- **Discord.js v12 → v14** - Latest version with improved performance
+- **MongoDB driver** - Updated to latest version
+- **Security fixes** - All vulnerable dependencies updated
+
+### ✅ **Breaking Changes Fixed**
+- Updated all deprecated Discord.js methods
+- Fixed permission system (`hasPermission` → `permissions.has`)
+- Updated embed system (`MessageEmbed` → `EmbedBuilder`)
+- Fixed voice state properties (`channelID` → `channelId`)
+- Updated guild properties (`ownerID` → `ownerId`)
+
+### ✅ **Improved Code Quality**
+- Removed deprecated libraries (dblapi.js)
+- Fixed async/await patterns
+- Updated event handling
+- Better error handling
+
+### ✅ **Performance Improvements**
+- Optimized database connections
+- Updated mongoose configuration
+- Better memory management
+
+### 🔄 **In Progress**
+- Music system overhaul (Discord.js v14 voice changes)
+- Slash commands implementation
+- Additional command updates
 
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -110,23 +165,20 @@ Contributions are what make the open source community such an amazing place to b
 
 <!-- LICENSE -->
 ## LICENSE
-Important!
-by downloading the following program you agree to the following LICENSE in the LICENSE file.
-
-
-
+**Important!** By downloading the following program you agree to the LICENSE terms in the LICENSE file.
 
 <!-- CONTACT -->
 ## Contact
 
-[Rohan Kumar](https://github.com/rohank05) - rohan@openian.dev<br>
-[Julio](https://github.com/july12123) - julio@openian.dev<br>
-[Noro](https://github.com/NORO3618) - noro@openian.dev
+**Developers:**
+- [Rohan Kumar](https://github.com/rohank05) - rohan@openian.dev
+- [Julio](https://github.com/july12123) - julio@openian.dev  
+- [Noro](https://github.com/NORO3618) - noro@openian.dev
 
-<br><br>
-[Support Server](https://discord.com/invite/a4zkCjg)
+**Support:**
+- [Discord Support Server](https://discord.com/invite/a4zkCjg)
+- [Project Repository](https://github.com/OpenianDevelopment/Menhera-Chan)
 
-Project Link: [https://github.com/OpenianDevelopement/Menhera-Chan](https://github.com/OpenianDevelopement/Menhera-Chan)
+---
 
-
-
+*This bot is continuously updated and maintained. Please report any issues in our Discord server or GitHub issues.*
