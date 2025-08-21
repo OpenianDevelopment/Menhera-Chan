@@ -29,6 +29,7 @@
     "connect-mongo": "^5.1.0",
     "cross-fetch": "^4.0.0",
     "crypto-js": "^4.2.0",
+    "discord-webhook-messages": "^1.0.1",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.0",
     "ejs": "^3.1.9",

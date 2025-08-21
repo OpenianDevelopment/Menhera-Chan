@@ -1,6 +1,5 @@
-const Discord = require('discord.js');;
+const { EmbedBuilder } = require('discord.js');
 const globalFunc = require('../../function/dbfunctions');
-const DBL = require("dblapi.js");
 
 module.exports = {
     name: 'dailycoins',
