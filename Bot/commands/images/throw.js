@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Canvas = require("canvas");
 const moment = require("moment");
 require("moment-duration-format");

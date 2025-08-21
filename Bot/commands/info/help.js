@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 
 module.exports = {
@@ -6,11 +6,13 @@ module.exports = {
     category: "info",
     description: "Help Command",
     run: async (client, message, args) => {
-        const embed = new Discord.MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(`Server: ${message.guild.name}`)
-            .addField(`Dashboard (*BETA*)`, `[Click Here](https://dashboard.menhera-chan.in/)`)
-            .addField(`Command List`, `[Click Here](https://www.menhera-chan.in/commands)`)
-            .addField(`Support`, `[Click Here](https://www.menhera-chan.in/support)`)
-        message.channel.send(embed);
+            .addFields(
+                { name: `Dashboard (*BETA*)`, value: `[Click Here](https://dashboard.menhera-chan.in/)`, inline: false },
+                { name: `Command List`, value: `[Click Here](https://www.menhera-chan.in/commands)`, inline: false },
+                { name: `Support`, value: `[Click Here](https://www.menhera-chan.in/support)`, inline: false }
+            )
+        message.channel.send({ embeds: [embed] });
     }
 }

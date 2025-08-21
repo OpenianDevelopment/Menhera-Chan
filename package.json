@@ -46,6 +46,7 @@
     "opusscript": "^0.1.1",
     "passport": "^0.7.0",
     "passport-discord": "^0.1.4",
+    "pc-stats": "^0.0.7",
     "random-puppy": "^1.1.0",
     "reddit-image-fetcher": "^2.0.12",
     "short-string-number": "^1.0.1",

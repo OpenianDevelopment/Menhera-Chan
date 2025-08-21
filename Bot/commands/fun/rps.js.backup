@@ -7,7 +7,7 @@ module.exports = {
   usage: '<user / "rock", "paper", "scissors">',
   run: async (client, message, args) => {
     const member = message.mentions.members.first(); //the member (only works by mention)
-    const rpsembed = new EmbedBuilder()
+    const rpsembed = new Discord.MessageEmbed()
       .setAuthor("New RPS game", client.user.displayAvatarURL(), "https://menhera-chan.in");
     //da best and first embed in this command
 
@@ -74,7 +74,7 @@ module.exports = {
       const thismsg = await message.channel.send(rpsembed);
       //sending the msg in "msg.channel" ofc
       var dummy;
-      const dummyembed = new EmbedBuilder()
+      const dummyembed = new Discord.MessageEmbed()
         .setAuthor("NOT New RPS game", client.user.displayAvatarURL(), "https://menhera-chan.in/")
 
       member.send(`Loading...`).catch(err => {
@@ -150,7 +150,7 @@ module.exports = {
         //if none chose yet
         return;
       } else {
-        const newrpsembedvsmv2 = new EmbedBuilder()
+        const newrpsembedvsmv2 = new Discord.MessageEmbed()
           .setAuthor("New RPS game", client.user.displayAvatarURL(), "https://menhera-chan.in/")
           .setDescription(getWinner())
           .addFields(
@@ -181,7 +181,7 @@ module.exports = {
     }
 
     function RPSEmbed() {
-      const embed = new EmbedBuilder()
+      const embed = new Discord.MessageEmbed()
         .setTitle("RPS")
         .setDescription("Reply with one of the followings\n`rock`\n`paper`\n`scissors`\nyou have 30 seconds to answer");
       return embed;

@@ -21,19 +21,19 @@ module.exports = {
         maxxp = ((level + 1) * (level + 1)) / 0.01;
 
         await addXP(message.guild.id, member.user.id, xp, level, xp, maxxp);
-        const givenLevel = new Discord.MessageEmbed()
+        const givenLevel = new EmbedBuilder()
             .setDescription(`${level} level has been set for ${member}`)
-        message.channel.send(givenLevel)
+        message.channel.send({ embeds: [givenLevel] })
 
-        const levelup = new Discord.MessageEmbed()
+        const levelup = new EmbedBuilder()
             .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
             .setColor('#7289DA')
-            .addField('Congratulations', `You have reached Level ${level}`)
-            .setFooter(`${message.guild.name} | https://menhera-chan.tk `)
+            .addFields({ name: 'Congratulations', value: `You have reached Level ${level}` })
+            .setFooter({ text: `${message.guild.name} | https://menhera-chan.tk ` })
 
         if (message.guild.botSetting.xplog === null) {
             message.channel.send(`${member}, Congratulations!`);
-            message.channel.send(levelup)
+            message.channel.send({ embeds: [levelup] })
             return;
         }
         var log = message.guild.channels.cache.find(channel => channel.id === message.guild.botSetting.xplog);

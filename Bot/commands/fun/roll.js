@@ -17,13 +17,13 @@ module.exports = {
             if (num < 2) return message.channel.send(`"${args}" Is too small of a Number \n The smallest roll you can do is 2`)
         }
 
-        const embed = new Discord.MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle('🎲Die Roll🎲')
             .setThumbnail("https://cdn.discordapp.com/attachments/715192953957515346/731653756835463178/ElatedImpartialArmadillo-max-1mb.gif")
             .setDescription(`You rolled a ${num} sided die`)
-            .addField(`You got:`, `${(Math.floor(Math.random() * num) + 1)}`)
-            .setFooter(`You can roll any number just put a number at the end of roll`)
-        message.channel.send(embed);
+            .addFields({ name: `You got:`, value: `${(Math.floor(Math.random() * num) + 1)}` })
+            .setFooter({ text: `You can roll any number just put a number at the end of roll` })
+        message.channel.send({ embeds: [embed] });
 
     }
 }

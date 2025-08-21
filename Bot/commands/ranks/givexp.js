@@ -33,16 +33,16 @@ module.exports = {
         maxxp = ((level + 1) * (level + 1)) / 0.01;
 
         await addXP(message.guild.id, member.user.id, xp, level, minxp, maxxp);
-        const givenXP = new Discord.MessageEmbed()
+        const givenXP = new EmbedBuilder()
             .setDescription(`${xp} XP has been set for ${member}`)
         message.channel.send(givenXP)
         if (level === userXP.users[0].level) return;
 
-        const levelup = new Discord.MessageEmbed()
+        const levelup = new EmbedBuilder()
             .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
             .setColor('#7289DA')
-            .addField('Congratulations', `You have reached Level ${level}`)
-            .setFooter(`${message.guild.name} | https://menhera-chan.tk `)
+            .addFields({ name: 'Congratulations', `You have reached Level ${level}`)
+            .setFooter({ text: `${message.guild.name} | https://menhera-chan.tk ` })
 
         if (message.guild.botSetting.xplog === null) {
             message.channel.send(`${member}, Congratulations!`);
